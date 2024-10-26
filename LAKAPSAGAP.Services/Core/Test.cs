@@ -1,6 +1,4 @@
-﻿using LAKAPSAGAP.Services.Repositories;
-
-namespace LAKAPSAGAP.Services.Core
+﻿namespace LAKAPSAGAP.Services.Core
 {
     public class Test : ITest
     {

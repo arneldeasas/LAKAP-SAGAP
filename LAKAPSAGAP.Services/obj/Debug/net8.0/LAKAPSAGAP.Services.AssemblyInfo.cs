@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LAKAPSAGAP.Services")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd04053da476c0d0dab4b9f74ad30dc9bc847554")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+457ef51be1e31c0c729f30dfc9dd7097a7de6acc")]
 [assembly: System.Reflection.AssemblyProductAttribute("LAKAPSAGAP.Services")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LAKAPSAGAP.Services")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

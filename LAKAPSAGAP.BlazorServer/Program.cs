@@ -1,4 +1,6 @@
 using LAKAPSAGAP.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -7,7 +9,8 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddRadzenComponents();
 builder.Services.AddServices();
-
+builder.Services.AddDbContext<MyDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

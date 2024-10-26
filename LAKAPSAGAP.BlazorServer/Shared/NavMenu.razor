@@ -1,30 +1,99 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">LAKAPSAGAP.BlazorServer</a>
-    </div>
-</div>
+﻿<RadzenStack Style="max-width: 1920px; margin-left: 4rem; margin-right: 4rem; " Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" 
+JustifyContent="JustifyContent.SpaceBetween" Wrap="FlexWrap.NoWrap" Gap="8rem">
+    
+    @* Website Logo *@
+   
+    <a href="/Dashboard" Style="width: 18rem; ">
+        <RadzenImage Path="images/long.png" Style="width: 14rem; " AlternateText="LakapSagap"/>
+    </a>
+    
+    @* Navigation Links *@
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
+    <RadzenStack Style="" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" 
+             JustifyContent="JustifyContent.Center" Wrap="FlexWrap.NoWrap" Gap="1rem">
+        <a href="/Dashboard" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link-active rz-border-radius-6">
+            <i class='bx bxs-home fs-5'></i>
+            <span class="fs-7 fw-bold text-center">Dashboard</span>
+        </a>
+        <a href="/Request" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6">
+            <i class='bx bx-transfer-alt fs-5'></i>
+            <span class="fs-6 fw-bold text-center">Request</span>
+        </a>
+        <div @ref="warehouseButton" @onclick="@(args => {warehousePopup.ToggleAsync(warehouseButton); ToggleVisibility();})" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6">
+            <i class='bx bxs-business fs-5'></i>
+            <span class="fs-6 fw-bold text-center">Warehouse</span>
+            <i class="@($"bx {(_isVisible ? "bx-caret-up" : "bx-caret-down")} fs-6 ms-1")"></i>
         </div>
+        @* <a href="/Warehouse" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6">
+            <i class='bx bxs-business fs-5'></i>
+            <span class="fs-6 fw-bold text-center">Warehouse</span>
+        </a> *@
+        <a href="/Users" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6">
+            <i class='bx bxs-user fs-5'></i>
+            <span class="fs-6 fw-bold text-center">Users</span>
+        </a>
+        <a href="/Reports" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6">
+            <i class='bx bxs-report fs-5' ></i>
+            <span class="fs-6 fw-bold text-center">Reports</span>
+        </a>
+        <a href="/History" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6">
+            <i class='bx bx-history fs-5' ></i>
+            <span class="fs-6 fw-bold text-center">History</span>
+        </a>
+    </RadzenStack>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
+    @* User *@
+
+    <RadzenStack Style="width: 18rem;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" 
+             JustifyContent="JustifyContent.End" Wrap="FlexWrap.NoWrap" Gap="4rem">
+        <RadzenButton Icon="notifications" ButtonStyle="ButtonStyle.Base" Style="border-radius: var(--rz-border-radius-6);" />
+        <div>
+
         </div>
+    </RadzenStack>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-    </nav>
-</div>
+</RadzenStack>
 
+<Popup @ref=warehousePopup Lazy=true class="popup">
+    <RadzenStack Style="width: 8rem;" Orientation="Orientation.Vertical" AlignItems="AlignItems.Start" 
+             JustifyContent="JustifyContent.Start" Wrap="FlexWrap.NoWrap" Gap="0.25rem">
+        <a style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);" 
+             class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link"
+             href="/Stocks">
+            <i class='bx bxs-package fs-5' ></i>
+            <span class="fs-6 fw-bold text-center">Stocks</span>
+        </a>
+        <a style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"  
+           class="d-flex flex-row gap-2 px-4 py-2 justify-content-start align-items-center link"
+           href="/Kits">
+            <i class='bx bxs-shopping-bag-alt fs-5' ></i>
+            <span class="fs-6 fw-bold text-center">Kits</span>
+        </a>
+    </RadzenStack>
+</Popup>
+
+@code {
+    ElementReference warehouseButton;
+    Popup warehousePopup;
+    bool _isVisible = false;
+
+    private bool ToggleVisibility()
+    {
+        return _isVisible = !_isVisible;
+    }
+}
+
+<style type="text/css">
+    .popup {
+        margin-left: 0.5rem;
+        margin-top: 0.5rem;
+        display: none;
+        position: absolute;
+        overflow: hidden;
+        padding: 0.75rem 0.5rem 0.5rem 0.75rem;
+        border: 1px solid var(--rz-base-200);
+        background-color: var(--rz-white);
+        box-shadow: var(--rz-panel-shadow);
+        border-radius: var(--rz-border-radius)
+    }
+ </style>

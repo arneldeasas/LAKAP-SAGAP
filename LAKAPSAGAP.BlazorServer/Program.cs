@@ -1,10 +1,12 @@
-using LAKAPSAGAP.BlazorServer.Shared;
+using LAKAPSAGAP.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddServices();
 
 var app = builder.Build();
 

@@ -1,4 +1,4 @@
-using LAKAPSAGAP.BlazorServer.Components;
+using LAKAPSAGAP.BlazorServer.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -19,4 +19,8 @@
     <ProjectReference Include="..\LAKAPSAGAP.Services\LAKAPSAGAP.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\attachments\" />
+  </ItemGroup>
+
 </Project>

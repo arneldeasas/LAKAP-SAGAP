@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 
-namespace LAKAPSAGAP.Models.Models
+namespace LAKAPSAGAP.Services.Repositories
 {
-
-    public class UserAuth : IdentityUser
+    public interface IAuthRepository
     {
-    
-     
+        public Task Authenticate(LoginViewModel login);
     }
 }

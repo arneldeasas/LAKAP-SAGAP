@@ -1,0 +1,74 @@
+﻿@layout MainLayout
+
+@page "/Users"
+
+<PageTitle>Users</PageTitle>
+
+<MacroContainer>
+
+
+    <div style="width: 100%;" class="d-flex justify-content-between align-items-center">
+        <MacroBreadcrumbs Breadcrumbs="Breadcrumbs" />
+        <div class="btn-group">
+            <RadzenButton Style="border-radius: var(--rz-border-radius-3); text-transform:capitalize;"
+                          Icon="add" Text="Add User" ButtonStyle="ButtonStyle.Primary" 
+                          Click="@ShowUsersCreateDialog" />
+        </div>
+    </div>
+
+    <RadzenDataGrid AllowFiltering="true" AllowColumnResize="false" AllowAlternatingRows="false" FilterMode="FilterMode.Simple"
+                    AllowSorting="true" PageSize="5" AllowPaging="false" PagerHorizontalAlign="HorizontalAlign.Left"
+                    ShowPagingSummary="true" Data=@_userInfoList TItem="UserInfoViewModel.UserInfo" LogicalFilterOperator="LogicalFilterOperator.Or"
+                    Style="border-radius: var(--rz-border-radius-3);">
+        <EmptyTemplate>
+            <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+        </EmptyTemplate>
+        <Columns>
+            <RadzenDataGridColumn TItem="UserInfoViewModel.UserInfo" Property="Id" Title="Id" Width="80px" />
+            <RadzenDataGridColumn TItem="UserInfoViewModel.UserInfo" Title="Full Name" Width="250px">
+                <Template Context="data">
+                    @($"{data.FirstName} {data.MiddleName} {data.LastName}")
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="UserInfoViewModel.UserInfo" Title="Organization" Width="250px">
+                <Template Context="data">
+                    @($"{data.Barangay} {data.UserRole}")
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="UserInfoViewModel.UserInfo" Property="Email" Title="Email" Width="160px" />
+            <RadzenDataGridColumn TItem="UserInfoViewModel.UserInfo" Property="Phone" Title="Phone Number" Width="150px" />
+            <RadzenDataGridColumn TItem="UserInfoViewModel.UserInfo" Property="UserRole" Title="Designation" Width="150px" />
+            <RadzenDataGridColumn TItem="UserInfoViewModel.UserInfo" Title="Actions" Width="80px">
+                <Template Context="data">
+                    <RadzenButton Style="border-radius: var(--rz-border-radius-3);"
+                                  Icon="add" Shade="Shade.Light" ButtonStyle="ButtonStyle.Primary"/>
+                    <RadzenButton Style="border-radius: var(--rz-border-radius-3);"
+                                  Icon="delete" ButtonStyle="ButtonStyle.Danger" />
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+
+
+</MacroContainer>
+
+
+
+@code {
+
+    [Inject] DialogService _dialogService { get; set; }
+
+    private List<BreadcrumbViewModel> Breadcrumbs = new()
+    {
+        new BreadcrumbViewModel { Path = "/Users", Text = "User Management" },
+    };
+
+    private List<UserInfoViewModel.UserInfo> _userInfoList = new();
+
+    async Task ShowUsersCreateDialog()
+    {
+        var result = await _dialogService.OpenAsync("Add User", ds => @<UsersCreate />);
+    }
+
+
+}

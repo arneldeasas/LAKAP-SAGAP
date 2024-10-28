@@ -52,8 +52,6 @@
 
 </MacroContainer>
 
-
-
 @code {
 
     [Inject] DialogService _dialogService { get; set; }
@@ -67,8 +65,12 @@
 
     async Task ShowUsersCreateDialog()
     {
-        var result = await _dialogService.OpenAsync("Add User", ds => @<UsersCreate />);
+        var result = await _dialogService.OpenAsync("Add User", ds => @<UsersCreate dialogService="ds" />,
+            new DialogOptions()
+            {
+                CssClass = "rz-w-fit-content",
+                ShowTitle = false,
+            });
     }
-
 
 }

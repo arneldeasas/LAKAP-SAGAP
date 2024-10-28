@@ -8,8 +8,14 @@ namespace LAKAPSAGAP.Models.ViewModels
 {
     public class UserInfoViewModel
     {
-        
-        public class UserInfo
+        public static List<string> UserRoles { get; set; } = new()
+        {
+            "Representative",
+            "Office Head",
+            "Admin Staff"
+        };
+
+		public class UserInfo
         {
             public int Id { get; set; }
             public string UserRole { get; set; }

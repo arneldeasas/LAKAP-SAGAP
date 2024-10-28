@@ -1,5 +1,107 @@
-﻿<MacroContainer>
-    <form>
-
-    </form>
+﻿<MacroContainer Style="width: 100dvw; max-width: 900px; padding: 0.25rem">
+	<RadzenText class="fw-bold text-primary" TextStyle="TextStyle.DisplayH5" Text="Add New User" />
+	<form style="width: 100%;" class="d-grid gap-3">
+		<div class="row w-100">
+			<div class="col w-full">
+				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
+					<span class="fw-bold text-uppercase">Designation</span>
+					@* <RadzenTextBox Style="width: 100%;" Placeholder="Select Option" /> *@
+					<RadzenDropDown TValue="string" Data=@UserInfoViewModel.UserRoles Style="width: 100%;" Placeholder="Select option" />
+				</div>
+			</div>
+			<div class="col w-full">
+				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
+					<span class="fw-bold text-uppercase">Barangay</span>
+					<RadzenTextBox Style="width: 100%;" Placeholder="Karuhatan" />
+				</div>
+			</div>
+		</div>
+		<div class="row w-100">
+			<div class="col w-full">
+				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
+					<span class="fw-bold text-uppercase">First Name</span>
+					<RadzenTextBox Style="width: 100%;" Placeholder="Juan" />
+				</div>
+			</div>
+			<div class="col w-full">
+				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
+					<span class="fw-bold text-uppercase">Middle Name</span>
+					<RadzenTextBox Style="width: 100%;" Placeholder="Alfonso" />
+				</div>
+			</div>
+			<div class="col w-full">
+				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
+					<span class="fw-bold text-uppercase">Last Name</span>
+					<RadzenTextBox Style="width: 100%;" Placeholder="Dela Cruz" />
+				</div>
+			</div>
+		</div>
+		<hr />
+		<h5 class="row w-100 fs-6 text-danger fw-bold text-uppercase">Set Account and Password</h5>
+		<div class="row w-100">
+			<div class="col w-full">
+				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
+					<span class="fw-bold text-uppercase">Username / ID</span>
+					<RadzenTextBox Style="width: 100%;" Placeholder="CSWD-01" />
+				</div>
+			</div>
+			<div class="col w-full">
+				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
+					<span class="fw-bold text-uppercase">Password</span>
+					<RadzenPassword Style="width: 100%;" Placeholder="Enter Password Here" />
+				</div>
+			</div>
+		</div>
+		<div class="row w-100">
+			<div class="col w-full">
+				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
+					<span class="fw-bold text-uppercase">Email</span>
+					<RadzenTextBox Style="width: 100%;" Placeholder="cswd@email.com" />
+				</div>
+			</div>
+			<div class="col w-full">
+				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
+					<span class="fw-bold text-uppercase">Phone Number</span>
+					<RadzenTextBox Style="width: 100%;" Placeholder="0912 3456 789" />
+				</div>
+			</div>
+		</div>
+		<div class="row w-100 d-flex flex-column gap-2">
+			<RadzenCard Variant="Variant.Flat">
+				<span class="fw-bold text-uppercase">Upload Valid ID/s</span>
+				<RadzenUpload Multiple="true" Change=@OnClientChange Style="width: 100%; padding; height:64px;"
+							  InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})" />
+			</RadzenCard>
+		</div>
+		<div class="d-flex align-items-center justify-content-end mt-3 gap-2">
+			<RadzenButton Style="width: fit-content;" Text="Cancel" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Danger" />
+			<RadzenButton Style="width: fit-content;" Text="Add User" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Primary" />
+		</div>
+	</form>
 </MacroContainer>
+
+@code {
+
+	[Parameter]
+	public DialogService dialogService { get; set; } = default!;
+
+	void OnClientChange(UploadChangeEventArgs args)
+	{
+
+		foreach (var file in args.Files)
+		{
+
+			try
+			{
+				long maxFileSize = 10 * 1024 * 1024;
+				// read file
+				var stream = file.OpenReadStream(maxFileSize);
+				stream.Close();
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+	}
+}

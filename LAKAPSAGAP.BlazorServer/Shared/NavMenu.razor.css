@@ -16,6 +16,16 @@
     text-decoration: none !important;
 }
 
+.text
+{
+    font-size: 0.25rem
+}
+
+.icon
+{
+    font-size: 0.35rem
+}
+
 .link:is(:hover) {
     background: var(--rz-base-600);
     border: 1px solid var(--rz-base-200);

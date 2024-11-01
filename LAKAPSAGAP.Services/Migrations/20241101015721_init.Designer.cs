@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAKAPSAGAP.Services.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20241027074835_init")]
+    [Migration("20241101015721_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -24,6 +24,160 @@ namespace LAKAPSAGAP.Services.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.ReliefReceived", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DriverName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReceivedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReceivedFrom")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReliefType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TruckPlateNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WarehouseId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("ReliefReceived");
+                });
+
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.StockCategory", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("StockCategory");
+                });
+
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.StockDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BatchNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Floor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Rack")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UnitOfMeasure")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BatchNumber");
+
+                    b.ToTable("StockDetail");
+                });
+
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.StockItem", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StockCategoryId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("StockTypeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StockCategoryId");
+
+                    b.HasIndex("StockTypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("StockItem");
+                });
+
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.StockType", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("StockType");
+                });
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.UserAuth", b =>
                 {
@@ -73,9 +227,6 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -89,8 +240,6 @@ namespace LAKAPSAGAP.Services.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -127,6 +276,10 @@ namespace LAKAPSAGAP.Services.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserAuthId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserRole")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -156,6 +309,24 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Attachment");
+                });
+
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.Warehouse", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Warehouse");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -291,15 +462,83 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("LAKAPSAGAP.Models.Models.UserAuth", b =>
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.ReliefReceived", b =>
                 {
-                    b.HasOne("LAKAPSAGAP.Models.Models.UserInfo", "User")
+                    b.HasOne("LAKAPSAGAP.Models.Models.UserInfo", "AddedBy")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.HasOne("LAKAPSAGAP.Models.Models.Warehouse", "Warehouse")
+                        .WithMany("ReliefReceivedList")
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AddedBy");
+
+                    b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.StockCategory", b =>
+                {
+                    b.HasOne("LAKAPSAGAP.Models.Models.UserInfo", "AddedBy")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("AddedBy");
+                });
+
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.StockDetail", b =>
+                {
+                    b.HasOne("LAKAPSAGAP.Models.Models.ReliefReceived", "BatchDetail")
+                        .WithMany("StockDetailList")
+                        .HasForeignKey("BatchNumber")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BatchDetail");
+                });
+
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.StockItem", b =>
+                {
+                    b.HasOne("LAKAPSAGAP.Models.Models.StockCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("StockCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LAKAPSAGAP.Models.Models.StockType", "Type")
+                        .WithMany()
+                        .HasForeignKey("StockTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LAKAPSAGAP.Models.Models.UserInfo", "AddedBy")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("AddedBy");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.StockType", b =>
+                {
+                    b.HasOne("LAKAPSAGAP.Models.Models.UserInfo", "AddedBy")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("AddedBy");
                 });
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.UserInfo+Attachment", b =>
@@ -364,9 +603,19 @@ namespace LAKAPSAGAP.Services.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.ReliefReceived", b =>
+                {
+                    b.Navigation("StockDetailList");
+                });
+
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.UserInfo", b =>
                 {
                     b.Navigation("AttachmentList");
+                });
+
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.Warehouse", b =>
+                {
+                    b.Navigation("ReliefReceivedList");
                 });
 #pragma warning restore 612, 618
         }

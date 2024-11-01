@@ -9,11 +9,11 @@ namespace LAKAPSAGAP.Services
         {
 
             services.AddTransient<ITest, Test>();
-
+          
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+          
             return services;
         }
 

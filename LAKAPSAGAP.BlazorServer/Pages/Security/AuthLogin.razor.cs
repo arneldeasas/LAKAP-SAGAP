@@ -10,12 +10,13 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Security
         [Inject] IAuthRepository authRepository { get; set; }
         LoginViewModel loginViewModel = new();
         string loginError = string.Empty;
+        
         async Task Login()
         {
             try
             {
             
-                 await authRepository.Authenticate(loginViewModel,HttpContextAccessor);
+                 await authRepository.Authenticate(loginViewModel);
 				
 			}
             catch (Exception e)

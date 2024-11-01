@@ -1,18 +1,19 @@
-﻿@page "/testlogin"
+﻿@page "/Account/testlogin"
 @using LAKAPSAGAP.Models.ViewModels
 @using Microsoft.AspNetCore.Identity
+@layout EmptyLayout
 
-@inject SignInManager<IdentityUser> SignInManager
 
 
 @using System.ComponentModel.DataAnnotations
 
 <h3>Login</h3>
 
-<EditForm Model="@loginModel" OnValidSubmit="Login">
+<EditForm FormName="LoginForm" Model="@loginModel" method="POST" OnValidSubmit="Login">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
+    @* Add the antiforgery token *@
+    <input type="hidden" name="@Antiforgery.GetTokens(HttpContext).RequestToken" />
     <div>
         <label for="username">Username:</label>
         <InputText id="username" @bind-Value="loginModel.Username" />

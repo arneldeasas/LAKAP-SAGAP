@@ -1,26 +1,35 @@
 
+using Microsoft.AspNetCore.Antiforgery;
+
 namespace LAKAPSAGAP.BlazorServer.Pages
 {
     public partial class TestLogin
     {
         string? errorMessage = string.Empty;
-        [Inject] NavigationManager navManager { get; set; }
+        [CascadingParameter]
+        private HttpContext HttpContext { get; set; }
+		[Inject] NavigationManager navManager { get; set; }
         [Inject] IAuthRepository authService { get; set; }
+        [Inject] IAntiforgery Antiforgery { get; set; }
 
-        [SupplyParameterFromForm]
+		[SupplyParameterFromForm]
         LoginViewModel loginModel { get; set; } = new();
 
+      
         async Task Login()
         {
+
             try
             {
-               // await authService.Authenticate(loginModel);
-                navManager.NavigateTo("/");
-            }
-            catch (Exception e)
+				await authService.Authenticate(loginModel);
+
+			}
+			catch (Exception)
             {
-                errorMessage = e.Message;
+
+                throw;
             }
+             
         }
     }
 }

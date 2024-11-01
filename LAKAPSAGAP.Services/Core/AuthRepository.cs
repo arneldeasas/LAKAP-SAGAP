@@ -10,22 +10,22 @@ namespace LAKAPSAGAP.Services.Core
 {
     public class AuthRepository : IAuthRepository
     {
-        [Inject] NavigationManager NavigationManager { get; set; }
+        private readonly NavigationManager _navigationManager;
 		private readonly MyDbContext _context;
         private readonly UserManager<UserAuth> _userManager;
+        private readonly SignInManager<UserAuth> _signInManager;
 
-
-		public AuthRepository(MyDbContext context,UserManager<UserAuth> userManager, SignInManager<UserAuth> signInManager
-            )
+		public AuthRepository(MyDbContext context,UserManager<UserAuth> userManager, SignInManager<UserAuth> signInManager, NavigationManager navigationManager)
         {
             _context = context;
 			_userManager = userManager;
+			_signInManager = signInManager;
+            _navigationManager = navigationManager;
 		}
 
-        public async Task Authenticate(LoginViewModel login,IHttpContextAccessor httpContext)
+        public async Task Authenticate(LoginViewModel login)
 		{
-			try
-            {
+		
 				UserAuth userAuth = await GetAuthUser(login.Username);
 
 
@@ -36,29 +36,16 @@ namespace LAKAPSAGAP.Services.Core
 				{
 					throw new Exception("User not found.");
 				}
-				var result = await _userManager.CheckPasswordAsync(user, login.Password);
-				if (!result) throw new Exception("Invalid password.");
-
-				var claims = new List<Claim> {
-							 new Claim(ClaimTypes.Name, userAuth.UserName)
-
-				};
-				foreach (var role in userRoles)
-				{
-					claims.Add(new Claim(ClaimTypes.Role, role));
+                var result = await _signInManager.PasswordSignInAsync(login.Username, login.Password, true, false);
+               
+                Console.WriteLine(result);
+                if (result.Succeeded)
+                {
+                    _navigationManager.NavigateTo("/users");
+					throw new InvalidOperationException("can only be used during static rendering.");
 				}
-				var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-				var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-				await httpContext.HttpContext.SignInAsync( claimsPrincipal);
 
-				//NavigationManager.NavigateTo("/Users");
-			}	
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
-            }
         }
 
         public async Task<UserAuth> GetAuthUser(string username)

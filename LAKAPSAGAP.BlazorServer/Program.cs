@@ -1,78 +1,103 @@
 using LAKAPSAGAP.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Configuration;
 using Microsoft.AspNetCore.Identity;
-
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
+
 // Add services to the container.
-
-
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+	.AddInteractiveServerComponents();
 
 builder.Services.AddRadzenComponents();
-builder.Services.AddServices();
+builder.Services.AddCascadingAuthenticationState();
+
+builder.Services.AddDbContext<MyDbContext>(options =>
+	options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddAuthentication(o =>
+{
+	o.DefaultScheme = IdentityConstants.ApplicationScheme;
+	o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+});
+
 
 builder.Services.AddIdentity<UserAuth, IdentityRole>(options =>
 {
-	options.Password.RequireNonAlphanumeric = false;
+	// Password settings.
 	options.Password.RequireDigit = false;
+	options.Password.RequireLowercase = false;
+	options.Password.RequireNonAlphanumeric = false;
 	options.Password.RequireUppercase = false;
 	options.Password.RequiredLength = 1;
-	options.Password.RequireLowercase = false;
+	options.Password.RequiredUniqueChars = 0;
+
+	// Lockout settings.
+	options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+	options.Lockout.MaxFailedAccessAttempts = 5;
+	options.Lockout.AllowedForNewUsers = true;
+
+	// User settings.
+	options.User.AllowedUserNameCharacters =
+	"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+	options.User.RequireUniqueEmail = false;
 })
-			.AddEntityFrameworkStores<MyDbContext>()
-			.AddDefaultTokenProviders();
+.AddEntityFrameworkStores<MyDbContext>()
+.AddUserManager<UserManager<UserAuth>>()
+.AddDefaultTokenProviders();
 
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-	.AddCookie(options =>
-	{
-		options.LoginPath = "/login";
-		options.LogoutPath = "/logout";
-		options.Cookie.MaxAge = TimeSpan.FromMinutes(10);
-		options.AccessDeniedPath = "/not-authorized";
-	});
 
-builder.Services.AddAuthorization();
-builder.Services.AddCascadingAuthenticationState();
-builder.Services.AddDbContext<MyDbContext>(options =>
-			options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+	// Cookie settings
+	options.Cookie.HttpOnly = true;
+	options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+
+	options.LoginPath = "/Login";
+	options.AccessDeniedPath = "/AccessDenied";
+	options.SlidingExpiration = true;
+});
+builder.Services.AddServices();
+
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+	app.UseExceptionHandler("/Error");
+	app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
+app.UseRouting();
 app.UseAntiforgery();
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+//app.UseAuthentication(); // Ensure authentication middleware is used
+//app.UseAuthorization(); // Ensure authorization middleware is used
+
 
 
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<RoleManager<IdentityRole>>();
+	var services = scope.ServiceProvider;
+	var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-    var roles = new[] { "REPRESENTATIVE", "OFFICE HEAD", "ADMIN" };
-    foreach (var role in roles)
-    {
-        if (!context.Roles.Any(x => x.Name == role))
-        {
-            await context.CreateAsync(new IdentityRole(role));
-        }
-    }
+	var roles = new[] { "REPRESENTATIVE", "OFFICE HEAD", "ADMIN" };
+	foreach (var role in roles)
+	{
+		if (!await roleManager.RoleExistsAsync(role)) // Check if the role exists
+		{
+			await roleManager.CreateAsync(new IdentityRole(role)); // Create the role if it doesn't exist
+		}
+	}
 }
-app.Run();
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
+
+app.Run(); // Ensure the application runs asynchronously

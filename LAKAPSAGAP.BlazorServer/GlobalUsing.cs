@@ -8,3 +8,4 @@ global using Microsoft.AspNetCore.Components;
 global using LAKAPSAGAP.Models.ViewModels;
 global using Microsoft.AspNetCore.Components.Forms;
 global using LAKAPSAGAP.Models.Models;
+global using System.Security.Claims;

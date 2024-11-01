@@ -3,7 +3,7 @@
 
     @* Website Logo *@
 
-    <div href="/Dashboard" Style="width: 18rem; "
+    <div href="/Dashboard" Style="width: 100%; "
          @onclick="@(() =>_navManager.NavigateTo("Dashboard", true))">
         <RadzenImage Path="images/long.png" Style="width: 14rem; " AlternateText="LakapSagap" />
     </div>
@@ -12,35 +12,36 @@
 
     <RadzenStack Style="" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
                  JustifyContent="JustifyContent.Center" Wrap="FlexWrap.NoWrap" Gap="1rem">
-        <div class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link-active rz-border-radius-6"
+        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Dashboard") ? "link-active" : "link")}")"
              @onclick="@(() =>_navManager.NavigateTo("Dashboard", true))">
-            <i class='bx bxs-home fs-5'></i>
-            <span class="fs-7 fw-bold text-center">Dashboard</span>
+            <i class='bx bxs-home' style="font-size: 0.8rem"></i>
+            <span class="text fw-bold text-center" style="font-size: 0.75rem">Dashboard</span>
         </div>
-        <div class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6"
+        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Request") ? "link-active" : "link")}")"
              @onclick="@(() =>_navManager.NavigateTo("Request", true))">
-            <i class='bx bx-transfer-alt fs-5'></i>
-            <span class="fs-6 fw-bold text-center">Request</span>
+            <i class='bx bx-transfer-alt' style="font-size: 0.8rem"></i>
+            <span class="fw-bold text-center" style="font-size: 0.75rem">Request</span>
         </div>
-        <div @ref="warehouseButton" @onclick="@(args => {warehousePopup.ToggleAsync(warehouseButton); ToggleVisibility();})" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6">
-            <i class='bx bxs-business fs-5'></i>
-            <span class="fs-6 fw-bold text-center">Warehouse</span>
-            <i class="@($"bx {(_isVisible ? "bx-caret-up" : "bx-caret-down")} fs-6 ms-1")"></i>
+        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Warehouse") ? "link-active" : "link")}")"
+            @ref="warehouseButton" @onclick="@(args => {warehousePopup.ToggleAsync(warehouseButton); ToggleVisibility();})" >
+            <i class='bx bxs-business' style="font-size: 0.8rem"></i>
+            <span class="fw-bold text-center" style="font-size: 0.75rem">Warehouse</span>
+            <i class="@($"bx {(_isVisible ? "bx-caret-up" : "bx-caret-down")} ms-1")"></i>
         </div>
-        <div class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6"
+        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Users") ? "link-active" : "link")}")"
              @onclick="@(() =>_navManager.NavigateTo("Users", true))">
-            <i class='bx bxs-user fs-5'></i>
-            <span class="fs-6 fw-bold text-center">Users</span>
+            <i class='bx bxs-user' style="font-size: 0.8rem"></i>
+            <span class="fw-bold text-center" style="font-size: 0.75rem">Users</span>
         </div>
-        <div class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6"
+        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Reports") ? "link-active" : "link")}")"
              @onclick="@(() =>_navManager.NavigateTo("Reports", true))">
-            <i class='bx bxs-report fs-5'></i>
-            <span class="fs-6 fw-bold text-center">Reports</span>
+            <i class='bx bxs-report' style="font-size: 0.8rem"></i>
+            <span class="fw-bold text-center" style="font-size: 0.75rem">Reports</span>
         </div>
-        <div class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6"
+        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("History") ? "link-active" : "link")}")"
              @onclick="@(() =>_navManager.NavigateTo("History", true))">
-            <i class='bx bx-history fs-5'></i>
-            <span class="fs-6 fw-bold text-center">History</span>
+            <i class='bx bx-history' style="font-size: 0.8rem"></i>
+            <span class="fw-bold text-center" style="font-size: 0.75rem">History</span>
         </div>
     </RadzenStack>
 
@@ -60,14 +61,14 @@
                  JustifyContent="JustifyContent.Start" Wrap="FlexWrap.NoWrap" Gap="0.25rem">
         <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
              class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link"
-             @onclick="@(() =>_navManager.NavigateTo("Users", true))">
-            <i class='bx bxs-package fs-5'></i>
+             @onclick="@(() =>_navManager.NavigateTo("Warehouse/Stocks", true))">
+            <i class='bx bxs-package' style="font-size: 0.8rem"></i>
             <span class="fs-6 fw-bold text-center">Stocks</span>
         </div>
         <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
              class="d-flex flex-row gap-2 px-4 py-2 justify-content-start align-items-center link"
-             @onclick="@(() =>_navManager.NavigateTo("Users", true))">
-            <i class='bx bxs-shopping-bag-alt fs-5'></i>
+             @onclick="@(() =>_navManager.NavigateTo("Warehouse/Kits", true))">
+            <i class='bx bxs-shopping-bag-alt' style="font-size: 0.8rem"></i>
             <span class="fs-6 fw-bold text-center">Kits</span>
         </div>
     </RadzenStack>
@@ -79,11 +80,27 @@
     ElementReference warehouseButton;
     Popup warehousePopup;
     bool _isVisible = false;
+    string uri = String.Empty;
 
     private bool ToggleVisibility()
     {
         return _isVisible = !_isVisible;
     }
+
+    // protected override void OnAfterRender(bool firstRender)
+    // {
+    //     if (firstRender)
+    //     {
+    //         uri = _navManager.Uri;
+    //     }
+    // }
+
+    private bool UriHas(string keyword)
+    {
+        uri = _navManager.Uri;
+        return uri.Contains(keyword, StringComparison.OrdinalIgnoreCase);
+    }
+
 }
 
 <style type="text/css">

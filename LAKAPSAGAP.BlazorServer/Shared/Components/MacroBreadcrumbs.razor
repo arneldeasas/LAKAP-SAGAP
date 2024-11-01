@@ -1,4 +1,4 @@
-﻿<RadzenStack Orientation="Orientation.Horizontal" Gap="1rem"
+﻿<RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem"
              JustifyContent="JustifyContent.Start" AlignItems="AlignItems.Center">
 
     @{
@@ -10,11 +10,11 @@
     {
         @if (index < total - 1)
         {
-            <RadzenStack Style="cursor: pointer;" Orientation="Orientation.Horizontal" Gap="1rem"
+            <RadzenStack Style="cursor: pointer;" Orientation="Orientation.Horizontal" Gap="0.5rem"
                          JustifyContent="JustifyContent.Start" AlignItems="AlignItems.Center"
                          @onclick="(() => _navManger.NavigateTo(breadcrumb.Path, true))">
-                <RadzenText Style="font-weight: 500; color: var(--rz-base-700);" TextStyle="TextStyle.H5" Text="@breadcrumb.Text" />
-                <RadzenText Style="color: var(--rz-base-500);" TextStyle="TextStyle.H4" Text="/" />
+                <RadzenText Style="font-weight: 500; color: var(--rz-base-700);" TextStyle="TextStyle.H6" Text="@breadcrumb.Text" />
+                <RadzenText Style="color: var(--rz-base-500);" TextStyle="TextStyle.H6" Text="/" />
             </RadzenStack>
         }
         else
@@ -22,7 +22,7 @@
             <RadzenStack Style="cursor: pointer;" Orientation="Orientation.Horizontal" Gap="0.5rem"
                          JustifyContent="JustifyContent.Start" AlignItems="AlignItems.Center"
                          @onclick="(() => _navManger.NavigateTo(breadcrumb.Path, true))">
-                <RadzenText Style="font-weight: 700; color: var(--rz-danger);" TextStyle="TextStyle.H4" Text="@breadcrumb.Text" />
+                <RadzenText Style="font-weight: 700; color: var(--rz-danger);" TextStyle="TextStyle.H6" Text="@breadcrumb.Text" />
             </RadzenStack>
         }
 

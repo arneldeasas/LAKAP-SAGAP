@@ -2,7 +2,7 @@
              AlignItems="@AlignItems"
              JustifyContent="@JustifyContent"
              Gap="@Gap"
-             Style="@CombinedStyle"
+             Style="@($"{CombinedStyle} width: 100%; height: 100%")"
              @attributes="AdditionalAttributes">
 
     @ChildContent
@@ -23,7 +23,7 @@
 
     private string CombinedStyle =>
     string.IsNullOrWhiteSpace(Style) || !Style.Contains("padding")
-        ? $"padding: 1rem 8rem 1rem 8rem; {Style}"
+        ? $"padding: 1rem; {Style}"
         : Style;
 
 }

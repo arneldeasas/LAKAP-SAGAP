@@ -7,12 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Radzen.Blazor" Version="5.3.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LAKAPSAGAP.Models\LAKAPSAGAP.Models.csproj" />
     <ProjectReference Include="..\LAKAPSAGAP.Services\LAKAPSAGAP.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\attachments\" />
   </ItemGroup>
 
 </Project>

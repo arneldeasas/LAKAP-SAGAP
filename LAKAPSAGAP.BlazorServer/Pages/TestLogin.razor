@@ -1,0 +1,30 @@
+﻿@page "/testlogin"
+@using LAKAPSAGAP.Models.ViewModels
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+
+
+@using System.ComponentModel.DataAnnotations
+
+<h3>Login</h3>
+
+<EditForm Model="@loginModel" OnValidSubmit="Login">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label for="username">Username:</label>
+        <InputText id="username" @bind-Value="loginModel.Username" />
+        <ValidationMessage For="@(() => loginModel.Username)" />
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <InputText id="password" type="password" @bind-Value="loginModel.Password" />
+        <ValidationMessage For="@(() => loginModel.Password)" />
+    </div>
+    <button type="submit">Login</button>
+</EditForm>
+<h3>TestLogin</h3>
+
+

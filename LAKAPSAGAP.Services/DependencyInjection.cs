@@ -8,6 +8,8 @@
 
             services.AddTransient<ITest, Test>();
 
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
 

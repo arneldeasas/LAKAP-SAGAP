@@ -7,38 +7,39 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
-builder.Services.AddDbContext<MyDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
-builder.Services.AddIdentity<UserAuth, IdentityRole>(options =>
-{
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireDigit = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequiredLength = 1;
-    options.Password.RequireLowercase = false;
-})
-            .AddEntityFrameworkStores<MyDbContext>()
-            .AddDefaultTokenProviders();
-
-
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/testlogin";
-        options.LogoutPath = "/logout";
-        options.Cookie.Name = "auth_token";
-        options.Cookie.MaxAge = TimeSpan.FromMinutes(60);
-        options.AccessDeniedPath = "/not-authorized";
-    });
-builder.Services.AddAuthorization();
-builder.Services.AddCascadingAuthenticationState();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddRadzenComponents();
 builder.Services.AddServices();
+
+builder.Services.AddIdentity<UserAuth, IdentityRole>(options =>
+{
+	options.Password.RequireNonAlphanumeric = false;
+	options.Password.RequireDigit = false;
+	options.Password.RequireUppercase = false;
+	options.Password.RequiredLength = 1;
+	options.Password.RequireLowercase = false;
+})
+			.AddEntityFrameworkStores<MyDbContext>()
+			.AddDefaultTokenProviders();
+
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	.AddCookie(options =>
+	{
+		options.LoginPath = "/login";
+		options.LogoutPath = "/logout";
+		options.Cookie.MaxAge = TimeSpan.FromMinutes(10);
+		options.AccessDeniedPath = "/not-authorized";
+	});
+
+builder.Services.AddAuthorization();
+builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddDbContext<MyDbContext>(options =>
+			options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 var app = builder.Build();
 
@@ -54,7 +55,8 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 

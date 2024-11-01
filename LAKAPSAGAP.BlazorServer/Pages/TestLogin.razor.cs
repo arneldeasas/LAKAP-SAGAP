@@ -14,7 +14,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages
         {
             try
             {
-                await authService.Authenticate(loginModel);
+               // await authService.Authenticate(loginModel);
                 navManager.NavigateTo("/");
             }
             catch (Exception e)

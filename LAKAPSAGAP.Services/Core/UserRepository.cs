@@ -64,7 +64,7 @@ namespace LAKAPSAGAP.Services.Core
                         UserRole = account.UserRole
                     };
                     _context.UserInfo.Add(userInfo);
-                    _context.SaveChanges();
+                    _context.SaveChanges(); // need to save changes for the userInfo.Id to be available
                     
                     //Makes metadata for files
                     var fileMetadataList = account.fileList.Select(x => new FileMetadata(x, userInfo.Id)).ToArray();

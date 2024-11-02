@@ -1,4 +1,5 @@
-﻿@using static LAKAPSAGAP.Models.ViewModels.ReliefReceivedViewModel
+﻿@using LAKAPSAGAP.Models.ViewModel
+@using static LAKAPSAGAP.Models.ViewModel.ReliefReceivedViewModel
 
 <div class="w-100 d-flex flex-column gap-2 justify-content-between align-items-end text-success">
 	<MacroSearch Placeholder="Search Received Stocks ... " />
@@ -7,15 +8,15 @@
 						Data="@_tableData" PageSize="10"
 						Style="border-radius: var(--rz-border-radius-2);">
 			<Columns>
-				<RadzenDataGridColumn Property="@nameof(ReliefReceived.Id)" Title="Batch ID"
+				<RadzenDataGridColumn Property="@nameof(ReliefReceivedViewModel.Id)" Title="Batch ID"
 									  TextAlign="TextAlign.Left" Width="60px" />
-				<RadzenDataGridColumn Property="@nameof(ReliefReceived.ReliefType)" Title="Receive Type"
+				<RadzenDataGridColumn Property="@nameof(ReliefReceivedViewModel.ReliefType)" Title="Receive Type"
 									  TextAlign="TextAlign.Left" Width="80px" />
-				<RadzenDataGridColumn Property="@nameof(ReliefReceived.ReceivedFrom)" Title="Supplier"
+				<RadzenDataGridColumn Property="@nameof(ReliefReceivedViewModel.ReceivedFrom)" Title="Supplier"
 									  TextAlign="TextAlign.Left" Width="90px" />
-				<RadzenDataGridColumn Property="@nameof(ReliefReceived.ReceivedDate)" Title="Date Received"
+				<RadzenDataGridColumn Property="@nameof(ReliefReceivedViewModel.ReceivedDate)" Title="Date Received"
 									  TextAlign="TextAlign.Left" Width="90px" />
-				<RadzenDataGridColumn Property="@nameof(ReliefReceived.Warehouse)" Title="Location"
+				<RadzenDataGridColumn Property="@nameof(ReliefReceivedViewModel.Warehouse)" Title="Location"
 									  TextAlign="TextAlign.Left" Width="90px" />
 				<RadzenDataGridColumn Title="Actions" TextAlign="TextAlign.Left" Width="60px">
 					<Template Context="data">
@@ -30,13 +31,13 @@
 								Data="@data.StockDetailList" PageSize="10"
 								Style="border-radius: var(--rz-border-radius-2);">
 					<Columns>
-						<RadzenDataGridColumn Property="@nameof(StockDetail.Id)" Title="Batch ID"
+						<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Id)" Title="Batch ID"
 											  TextAlign="TextAlign.Left" Width="60px" />
-						<RadzenDataGridColumn Property="@nameof(StockDetail.ItemName)" Title="Receive Type"
+						<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.ItemName)" Title="Receive Type"
 											  TextAlign="TextAlign.Left" Width="80px" />
-						<RadzenDataGridColumn Property="@nameof(StockDetail.Category)" Title="Date Received"
+						<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Category)" Title="Date Received"
 											  TextAlign="TextAlign.Left" Width="90px" />
-						<RadzenDataGridColumn Property="@nameof(StockDetail.Quantity)" Title="Supplier"
+						<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Quantity)" Title="Supplier"
 											  TextAlign="TextAlign.Left" Width="90px" />
 					</Columns>
 					<EmptyTemplate>

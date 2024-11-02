@@ -1,4 +1,5 @@
-﻿using static LAKAPSAGAP.Models.ViewModels.ReliefReceivedViewModel;
+﻿
+using static LAKAPSAGAP.Models.ViewModel.ReliefReceivedViewModel;
 
 namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 {
@@ -7,7 +8,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 		//
 		// On Initialized Async Adapt the Data Service Model into _tableData
 		//
-		private List<StockDetail> StockDetailList { get; set; } = new();
-		private List<StockDetail> _tableData { get; set; } = new();
+		private List<StockDetailViewModel> StockDetailList { get; set; } = new();
+		private List<StockDetailViewModel> _tableData { get; set; } = new();
 	}
 }

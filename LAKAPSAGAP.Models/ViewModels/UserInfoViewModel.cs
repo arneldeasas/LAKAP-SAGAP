@@ -4,29 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LAKAPSAGAP.Models.ViewModels
+namespace LAKAPSAGAP.Models.ViewModel
 {
     public class UserInfoViewModel
     {
-        public static List<string> UserRoles { get; set; } = new()
+		public int Id { get; set; }
+		public string UserRole { get; set; }
+		public string FirstName { get; set; }
+		public string MiddleName { get; set; }
+		public string LastName { get; set; }
+		public string Barangay { get; set; }
+		public string Email { get; set; }
+		public string Phone { get; set; }
+		public ICollection<Attachment> Attachments { get; set; }
+
+		public static List<string> UserRoles { get; set; } = new()
         {
             "Representative",
             "Office Head",
             "Admin Staff"
         };
-
-		public class UserInfo
-        {
-            public int Id { get; set; }
-            public string UserRole { get; set; }
-            public string FirstName { get; set; }
-            public string MiddleName { get; set; }
-            public string LastName { get; set; }
-            public string Barangay { get; set; }
-            public string Email { get; set; }
-            public string Phone { get; set; }
-            public ICollection<Attachment> Attachments { get; set; }
-        }
 
         public class Attachment
         {

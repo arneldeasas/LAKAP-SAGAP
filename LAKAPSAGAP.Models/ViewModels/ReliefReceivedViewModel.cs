@@ -1,12 +1,26 @@
 ﻿using LAKAPSAGAP.Models.Models;
-using static LAKAPSAGAP.Models.ViewModels.WarehouseViewModel;
-using static LAKAPSAGAP.Models.ViewModels.UserInfoViewModel;
+using static LAKAPSAGAP.Models.ViewModel.WarehouseViewModel;
+using static LAKAPSAGAP.Models.ViewModel.UserInfoViewModel;
 
-namespace LAKAPSAGAP.Models.ViewModels
+namespace LAKAPSAGAP.Models.ViewModel
 {
     public class ReliefReceivedViewModel
     {
-        public class StockDetail
+
+		public string Id { get; set; }
+		public string WarehouseId { get; set; }
+		public Warehouse Warehouse { get; set; }
+		public string ReliefType { get; set; }
+		public string ReceivedBy { get; set; }
+		public string ReceivedFrom { get; set; }
+		public string? TruckPlateNumber { get; set; }
+		public string? DriverName { get; set; }
+		public DateTime ReceivedDate { get; set; }
+		public int UserId { get; set; }
+		public UserInfoViewModel AddedBy { get; set; }
+		public ICollection<StockDetailViewModel> StockDetailList { get; set; }
+
+		public class StockDetailViewModel
         {
             public string Id { get; set; }
             public string BatchNumber { get; set; }
@@ -18,23 +32,8 @@ namespace LAKAPSAGAP.Models.ViewModels
             public string Floor { get; set; }
             public string Rack { get; set; }
             public DateTime? ExpiryDate { get; set; }
-            public ReliefReceived BatchDetail { get; set; }
+            public ReliefReceivedViewModel BatchDetail { get; set; }
         }
 
-        public class ReliefReceived
-        {
-            public string Id { get; set; }
-            public string WarehouseId { get; set; }
-            public Warehouse Warehouse { get; set; }
-            public string ReliefType { get; set; }
-            public string ReceivedBy { get; set; }
-            public string ReceivedFrom { get; set; }
-            public string? TruckPlateNumber { get; set; }
-            public string? DriverName { get; set; }
-            public DateTime ReceivedDate { get; set; }
-            public int UserId { get; set; }
-            public UserInfo AddedBy { get; set; }
-            public ICollection<StockDetail> StockDetailList { get; set; }
-        }
     }
 }

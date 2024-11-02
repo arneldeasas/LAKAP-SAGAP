@@ -1,0 +1,17 @@
+﻿<div class="@($"{Class} card p-3")"
+            @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+
+    [Parameter] public RenderFragment ChildContent { get; set; } = default!;
+    [Parameter] public string? Style { get; set; }
+    private string Class { get; set; } = String.Empty;
+
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; } = new();
+
+
+}

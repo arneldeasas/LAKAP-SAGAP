@@ -1,16 +1,16 @@
-﻿<RadzenStack Style="max-width: 1920px; margin-left: 4rem; margin-right: 4rem; " Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
+﻿<RadzenStack Style="max-width: 1920px; margin-left: 1rem; margin-right: 1rem; " Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
              JustifyContent="JustifyContent.SpaceBetween" Wrap="FlexWrap.NoWrap" Gap="8rem">
 
     @* Website Logo *@
 
-    <div href="/Dashboard" Style="width: 100%; "
+    <div href="/Dashboard" Style="width: fit-content; "
          @onclick="@(() =>_navManager.NavigateTo("Dashboard", true))">
         <RadzenImage Path="images/long.png" Style="width: 14rem; " AlternateText="LakapSagap" />
     </div>
 
     @* Navigation Links *@
 
-    <RadzenStack Style="" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
+    <RadzenStack Style="width: 100%; flex-grow:1;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
                  JustifyContent="JustifyContent.Center" Wrap="FlexWrap.NoWrap" Gap="1rem">
         <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Dashboard") ? "link-active" : "link")}")"
              @onclick="@(() =>_navManager.NavigateTo("Dashboard", true))">

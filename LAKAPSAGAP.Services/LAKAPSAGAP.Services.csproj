@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Core\NewFolder\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

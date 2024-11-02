@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LAKAPSAGAP.Services.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class adjustmentcommonmodel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,11 +51,66 @@ namespace LAKAPSAGAP.Services.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StockCategory",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    isArchived = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StockCategory", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StockItem",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StockTypeId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StockCategoryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    isArchived = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StockItem", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StockType",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    isArchived = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StockType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserInfo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserAuthId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserRole = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -63,7 +118,13 @@ namespace LAKAPSAGAP.Services.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Barangay = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    isArchived = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,7 +137,13 @@ namespace LAKAPSAGAP.Services.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    isArchived = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -193,10 +260,15 @@ namespace LAKAPSAGAP.Services.Migrations
                 name: "Attachment",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    isArchived = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -210,42 +282,6 @@ namespace LAKAPSAGAP.Services.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StockCategory",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StockCategory", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StockCategory_UserInfo_UserId",
-                        column: x => x.UserId,
-                        principalTable: "UserInfo",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StockType",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StockType", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StockType_UserInfo_UserId",
-                        column: x => x.UserId,
-                        principalTable: "UserInfo",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ReliefReceived",
                 columns: table => new
                 {
@@ -256,55 +292,22 @@ namespace LAKAPSAGAP.Services.Migrations
                     ReceivedFrom = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TruckPlateNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DriverName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    isArchived = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ReliefReceived", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ReliefReceived_UserInfo_UserId",
-                        column: x => x.UserId,
-                        principalTable: "UserInfo",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ReliefReceived_Warehouse_WarehouseId",
                         column: x => x.WarehouseId,
                         principalTable: "Warehouse",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StockItem",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StockTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StockCategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StockItem", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StockItem_StockCategory_StockCategoryId",
-                        column: x => x.StockCategoryId,
-                        principalTable: "StockCategory",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StockItem_StockType_StockTypeId",
-                        column: x => x.StockTypeId,
-                        principalTable: "StockType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StockItem_UserInfo_UserId",
-                        column: x => x.UserId,
-                        principalTable: "UserInfo",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -320,7 +323,13 @@ namespace LAKAPSAGAP.Services.Migrations
                     UnitOfMeasure = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Floor = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rack = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    isArchived = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -378,44 +387,14 @@ namespace LAKAPSAGAP.Services.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReliefReceived_UserId",
-                table: "ReliefReceived",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ReliefReceived_WarehouseId",
                 table: "ReliefReceived",
                 column: "WarehouseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StockCategory_UserId",
-                table: "StockCategory",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_StockDetail_BatchNumber",
                 table: "StockDetail",
                 column: "BatchNumber");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StockItem_StockCategoryId",
-                table: "StockItem",
-                column: "StockCategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StockItem_StockTypeId",
-                table: "StockItem",
-                column: "StockTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StockItem_UserId",
-                table: "StockItem",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StockType_UserId",
-                table: "StockType",
-                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -440,10 +419,16 @@ namespace LAKAPSAGAP.Services.Migrations
                 name: "Attachment");
 
             migrationBuilder.DropTable(
+                name: "StockCategory");
+
+            migrationBuilder.DropTable(
                 name: "StockDetail");
 
             migrationBuilder.DropTable(
                 name: "StockItem");
+
+            migrationBuilder.DropTable(
+                name: "StockType");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -452,19 +437,13 @@ namespace LAKAPSAGAP.Services.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
+                name: "UserInfo");
+
+            migrationBuilder.DropTable(
                 name: "ReliefReceived");
 
             migrationBuilder.DropTable(
-                name: "StockCategory");
-
-            migrationBuilder.DropTable(
-                name: "StockType");
-
-            migrationBuilder.DropTable(
                 name: "Warehouse");
-
-            migrationBuilder.DropTable(
-                name: "UserInfo");
         }
     }
 }

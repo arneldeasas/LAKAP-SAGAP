@@ -13,7 +13,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddRadzenComponents();
 builder.Services.AddCascadingAuthenticationState();
-
+builder.Services.AddServices();
 builder.Services.AddDbContext<MyDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -62,7 +62,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 	options.AccessDeniedPath = "/AccessDenied";
 	options.SlidingExpiration = true;
 });
-builder.Services.AddServices();
+
 
 
 var app = builder.Build();

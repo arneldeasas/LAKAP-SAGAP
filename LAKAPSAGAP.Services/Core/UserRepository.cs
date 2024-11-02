@@ -1,4 +1,6 @@
 ﻿
+
+
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 
@@ -7,22 +9,40 @@ using Microsoft.Extensions.Configuration;
 
 namespace LAKAPSAGAP.Services.Core
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : CommonRepository<UserInfo>, IUserRepository
     {
-        private readonly MyDbContext _context;
+
         private readonly UserManager<UserAuth> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-
-        public static readonly string _uploadPath = Path.Combine("wwwroot", "attachments");
-        public static readonly int maxFileSize = 1024 * 1024 * 5;
-        public UserRepository(MyDbContext context, UserManager<UserAuth> userManager, RoleManager<IdentityRole> roleManager)
+        private readonly AuthRepository _authRepository;
+        private readonly UserAttachmentRepository _userAttachmentRepository;
+        public static string UserIdPrefix = "ACC_";
+        public UserRepository(MyDbContext context, 
+            UserManager<UserAuth> userManager, 
+            RoleManager<IdentityRole> roleManager, 
+            AuthRepository authRepository, 
+            UserAttachmentRepository userAttachmentRepository) : base(context)
         {
-            _context = context;
+
             _userManager = userManager;
             _roleManager = roleManager;
-
+            _authRepository = authRepository;
+            _userAttachmentRepository = userAttachmentRepository;
         }
 
+        public async Task<string> GenerateUserId()
+        {
+            try
+            {
+              
+                var userCount = await _context.UserInfo.CountAsync();
+                return UserIdPrefix + userCount.ToString("D3");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task CreateUser(CreateAccountViewModel account)
         {
 
@@ -52,8 +72,12 @@ namespace LAKAPSAGAP.Services.Core
                     if (!result.Succeeded) throw new Exception("Failed to create account");
 
                     await _userManager.AddToRoleAsync(userAuth, role);
+
+                   // var addedBy = _authRepository.GetAuthenticatedUser();
+
                     UserInfo userInfo = new UserInfo
                     {
+                        Id = await GenerateUserId(),
                         UserAuthId = userAuth.Id,
                         FirstName = account.FirstName,
                         MiddleName = account.MiddleName,
@@ -61,27 +85,14 @@ namespace LAKAPSAGAP.Services.Core
                         Barangay = account.Barangay,
                         Email = account.Email,
                         Phone = account.Phone,
-                        UserRole = account.UserRole
+                        UserRole = account.UserRole,
+                        LastModifiedById = "" //addedBy.LastModifiedById
+
                     };
-                    _context.UserInfo.Add(userInfo);
-                    _context.SaveChanges(); // need to save changes for the userInfo.Id to be available
-                    
-                    //Makes metadata for files
-                    var fileMetadataList = account.fileList.Select(x => new FileMetadata(x, userInfo.Id)).ToArray();
+                    await Create(userInfo);
 
-                    var attachmentUrlList = await UploadAttachments(fileMetadataList);
+                    await _userAttachmentRepository.UploadAttachments(account.fileList, userInfo.Id);
 
-                    foreach (var attachmentUrl in attachmentUrlList)
-                    {
-                        var attachment = new UserInfo.Attachment
-                        {
-                            UserId = userInfo.Id,
-                            Url = attachmentUrl
-                        };
-                        _context.Attachment.Add(attachment);
-                    }
-                
-                    _context.SaveChanges();
                     transaction.Commit();
                 }
                 catch (Exception e)
@@ -90,61 +101,45 @@ namespace LAKAPSAGAP.Services.Core
                     transaction.Rollback();
                     throw;
                 }
-                
+
             }
         }
 
-        public async Task<List<string>> UploadAttachments(FileMetadata[] fileMetadataList)
-        {
-            if (fileMetadataList.Any(x => x.File.Size > maxFileSize))
-            {
-                throw new Exception("File size too large. Try uploading files lower than 5 mb.");
-            }
-
-          
-            var uploadTasks = fileMetadataList.Select(file => UploadFileAsync(file)
-            ).ToList();
-
-            await Task.WhenAll(uploadTasks);
-
-            return fileMetadataList.Select(x => x.FilePath).ToList();
-        }
-
-        private async Task<string> UploadFileAsync(FileMetadata file)
+        public async Task<UserInfo> DeleteUser(string Id)
         {
             try
             {
-                using (var fileStream = new FileStream(file.FilePath, FileMode.Create))
-                {
-                    
-                    await file.File.OpenReadStream(maxFileSize).CopyToAsync(fileStream);
-                }
-                return file.FilePath; 
+                var userInfo = _context.UserInfo.First(x=>x.IsDeleted);
+                if (userInfo is not null) throw new Exception("User already deleted.");
+                userInfo.IsDeleted = true;
+                await Update(userInfo);
+                return userInfo;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine($"Failed to upload {file.File.Name}: {e.Message}");
-                throw; 
+
+                throw;
             }
         }
-        public async Task<UserInfo> GetUser(int id)
+
+        public async Task<UserInfo> ArchiveUser(string Id)
         {
-            return await _context.UserInfo.FirstOrDefaultAsync(x => x.Id == id) ?? throw new Exception("No user found.");
+            try
+            {
+                var userInfo = _context.UserInfo.First(x=> x.isArchived);
+                if (userInfo is not null) throw new Exception("User already archived.");
+
+                userInfo.isArchived = true;
+                await Update(userInfo);
+                return userInfo;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
+
     }
 }
 
-public class FileMetadata
-{
-    public IBrowserFile File { get; set; }
-    public int UserId { get; set; }
-    private readonly string _filePath;
-    public string FilePath => _filePath;
-
-    public FileMetadata(IBrowserFile file, int userId)
-    {
-        File = file;
-        UserId = userId;
-        _filePath = Path.Combine(UserRepository._uploadPath, $"{UserId}_{file.Name}");
-    }
-}

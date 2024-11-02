@@ -4,7 +4,7 @@ namespace LAKAPSAGAP.Models.Models
     [Table("ReliefReceived")]
     public class ReliefReceived : CommonModel
     {
-      
+       
         public string WarehouseId { get; set; }
         [ForeignKey(nameof(WarehouseId))]
         public Warehouse Warehouse { get; set; }
@@ -14,13 +14,13 @@ namespace LAKAPSAGAP.Models.Models
         public string? TruckPlateNumber { get; set; }
         public string? DriverName { get; set; }
         DateTime ReceivedDate { get; set; }
-        public ICollection<StockDetail> StockDetailList { get; set; }
+        public List<StockDetail> StockDetailList { get; set; }
     }
 
     [Table("StockDetail")]
     public class StockDetail : CommonModel
     {
-
+      
         public string BatchNumber { get; set; }
         public string Type { get; set; } //Item Type
         public string ItemName { get; set; }
@@ -38,16 +38,15 @@ namespace LAKAPSAGAP.Models.Models
     [Table("StockType")]
     public class StockType : CommonModel
     {
-
+        
         public string Name { get; set; }
-        public int UserId { get; set; } //userid of the user who added the stock type
-
+        
     }
 
     [Table("StockCategory")]
     public class StockCategory : CommonModel
     {
-
+        
         public string Name { get; set; }
 
     }
@@ -55,27 +54,30 @@ namespace LAKAPSAGAP.Models.Models
     [Table("StockItem")]
     public class StockItem : CommonModel 
     {
-
+      
         public string StockTypeId { get; set; }
-        public string StockCategoryId { get; set; }
-        public string Name { get; set; }
         [ForeignKey(nameof(StockTypeId))]
-        public StockType Type { get; set; }
+        public StockType StockType { get; set; }
+       
+        public string StockCategoryId { get; set; }
         [ForeignKey(nameof(StockCategoryId))]
-        public StockCategory Category { get; set; }
+        public StockCategory StockCategory { get; set; }
+        public string Name { get; set; }
+
 
     }
 
     public class Floor : CommonModel 
     {
-
+      
         public string Name { get; set; }
-        public ICollection<Rack> Racks {get; set;}
+        public List<Rack> Racks {get; set;}
 
     }
 
     public class Rack : CommonModel
     {
+    
         string Name { get; set; }
         string FloorId { get; set; }
         [ForeignKey(nameof(FloorId))]

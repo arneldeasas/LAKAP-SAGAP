@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAKAPSAGAP.Services.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20241101015721_init")]
-    partial class init
+    [Migration("20241102204936_adjustment-commonmodel")]
+    partial class adjustmentcommonmodel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,12 +25,65 @@ namespace LAKAPSAGAP.Services.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.Attachment", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AddedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("isArchived")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Attachment");
+                });
+
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.ReliefReceived", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("AddedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("DriverName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedById")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReceivedBy")
@@ -48,16 +101,14 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.Property<string>("TruckPlateNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("WarehouseId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.Property<bool>("isArchived")
+                        .HasColumnType("bit");
 
-                    b.HasIndex("UserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("WarehouseId");
 
@@ -69,16 +120,29 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("AddedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedById")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<bool>("isArchived")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("StockCategory");
                 });
@@ -88,6 +152,9 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("AddedById")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("BatchNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -96,6 +163,12 @@ namespace LAKAPSAGAP.Services.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("ExpiryDate")
                         .HasColumnType("datetime2");
 
@@ -103,8 +176,14 @@ namespace LAKAPSAGAP.Services.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ItemName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastModifiedById")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
@@ -122,6 +201,9 @@ namespace LAKAPSAGAP.Services.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("isArchived")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BatchNumber");
@@ -134,28 +216,37 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("AddedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedById")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StockCategoryId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StockTypeId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<bool>("isArchived")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("StockCategoryId");
-
-                    b.HasIndex("StockTypeId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("StockItem");
                 });
@@ -165,16 +256,29 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("AddedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedById")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<bool>("isArchived")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("StockType");
                 });
@@ -246,15 +350,21 @@ namespace LAKAPSAGAP.Services.Migrations
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.UserInfo", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("AddedById")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Barangay")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -262,6 +372,12 @@ namespace LAKAPSAGAP.Services.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedById")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -284,37 +400,33 @@ namespace LAKAPSAGAP.Services.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("isArchived")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("UserInfo");
-                });
-
-            modelBuilder.Entity("LAKAPSAGAP.Models.Models.UserInfo+Attachment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Attachment");
                 });
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.Warehouse", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AddedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedById")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -323,6 +435,9 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isArchived")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -462,34 +577,26 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("LAKAPSAGAP.Models.Models.ReliefReceived", b =>
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.Attachment", b =>
                 {
-                    b.HasOne("LAKAPSAGAP.Models.Models.UserInfo", "AddedBy")
-                        .WithMany()
+                    b.HasOne("LAKAPSAGAP.Models.Models.UserInfo", "User")
+                        .WithMany("Attachments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LAKAPSAGAP.Models.Models.ReliefReceived", b =>
+                {
                     b.HasOne("LAKAPSAGAP.Models.Models.Warehouse", "Warehouse")
                         .WithMany("ReliefReceivedList")
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AddedBy");
-
                     b.Navigation("Warehouse");
-                });
-
-            modelBuilder.Entity("LAKAPSAGAP.Models.Models.StockCategory", b =>
-                {
-                    b.HasOne("LAKAPSAGAP.Models.Models.UserInfo", "AddedBy")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("AddedBy");
                 });
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.StockDetail", b =>
@@ -501,55 +608,6 @@ namespace LAKAPSAGAP.Services.Migrations
                         .IsRequired();
 
                     b.Navigation("BatchDetail");
-                });
-
-            modelBuilder.Entity("LAKAPSAGAP.Models.Models.StockItem", b =>
-                {
-                    b.HasOne("LAKAPSAGAP.Models.Models.StockCategory", "Category")
-                        .WithMany()
-                        .HasForeignKey("StockCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LAKAPSAGAP.Models.Models.StockType", "Type")
-                        .WithMany()
-                        .HasForeignKey("StockTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LAKAPSAGAP.Models.Models.UserInfo", "AddedBy")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("AddedBy");
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Type");
-                });
-
-            modelBuilder.Entity("LAKAPSAGAP.Models.Models.StockType", b =>
-                {
-                    b.HasOne("LAKAPSAGAP.Models.Models.UserInfo", "AddedBy")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("AddedBy");
-                });
-
-            modelBuilder.Entity("LAKAPSAGAP.Models.Models.UserInfo+Attachment", b =>
-                {
-                    b.HasOne("LAKAPSAGAP.Models.Models.UserInfo", "User")
-                        .WithMany("AttachmentList")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -610,7 +668,7 @@ namespace LAKAPSAGAP.Services.Migrations
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.UserInfo", b =>
                 {
-                    b.Navigation("AttachmentList");
+                    b.Navigation("Attachments");
                 });
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.Warehouse", b =>

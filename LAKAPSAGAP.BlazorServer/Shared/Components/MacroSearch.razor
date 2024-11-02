@@ -1,8 +1,8 @@
-﻿<div class="d-flex justify-items-start align-items-center gap-2 mt-1">
+﻿<div class="w-100 d-flex justify-content-end align-items-center gap-2 mt-1">
 	<label class="rz-color-base-800 fw-bold">Search</label>
 	<input type="text" 
 		   class="px-2 py-1 rz-border-radius-1 m-0 search" 
-		   style="max-width: 300px;" 
+		   style="width: 100%; max-width: 300px;" 
 		   placeholder="@Placeholder" 
 		   @onchange="OnChange" 
 		   @oninput="OnInput" />
@@ -18,7 +18,7 @@
 
 <style>
 
-.custom-input {
+.search {
     outline: none;
     border: 2px solid var(--rz-base-dark);
     padding: 8px;
@@ -26,22 +26,22 @@
     background: var(--rz-base-50);
     transition: border-color 0.3s, outline 0.3s;
 }
-    .custom-input:focus {
+    .search:focus {
         outline: none;
         border: 2px solid var(--rz-primary);
     }
 
-    .custom-input:hover {
+    .search:hover {
         outline: none;
         border: 2px solid var(--rz-primary);
     }
 
-    .custom-input:active {
+    .search:active {
         outline: none;
         border: 2px solid var(--rz-primary);
     }
 
-    .custom-input:disabled {
+    .search:disabled {
         outline: none;
         border: 2px solid var(--rz-primary);
         cursor: not-allowed;

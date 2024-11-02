@@ -8,26 +8,21 @@ namespace LAKAPSAGAP.Models.ViewModels
 {
     public class UserInfoViewModel
     {
+        public int Id { get; set; }
+        public string UserRole { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public string Barangay { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public ICollection<Attachment> Attachments { get; set; }
         public static List<string> UserRoles { get; set; } = new()
         {
             "Representative",
             "Office Head",
             "Admin Staff"
         };
-
-		public class UserInfo
-        {
-            public int Id { get; set; }
-            public string UserRole { get; set; }
-            public string FirstName { get; set; }
-            public string MiddleName { get; set; }
-            public string LastName { get; set; }
-            public string Barangay { get; set; }
-            public string Email { get; set; }
-            public string Phone { get; set; }
-            public ICollection<Attachment> Attachments { get; set; }
-        }
-
         public class Attachment
         {
             public int Id { get; set; }

@@ -2,10 +2,9 @@
 namespace LAKAPSAGAP.Models.Models
 {
     [Table("ReliefReceived")]
-    public class ReliefReceived
+    public class ReliefReceived : CommonModel
     {
-        [Key]
-        public string Id { get; set; }//Batch Number
+      
         public string WarehouseId { get; set; }
         [ForeignKey(nameof(WarehouseId))]
         public Warehouse Warehouse { get; set; }
@@ -15,17 +14,13 @@ namespace LAKAPSAGAP.Models.Models
         public string? TruckPlateNumber { get; set; }
         public string? DriverName { get; set; }
         DateTime ReceivedDate { get; set; }
-        public int UserId { get; set; } //userid of the user who added the relief
-        [ForeignKey(nameof(UserId))]
-        public UserInfo AddedBy { get; set; } 
         public ICollection<StockDetail> StockDetailList { get; set; }
     }
 
     [Table("StockDetail")]
-    public class StockDetail
+    public class StockDetail : CommonModel
     {
-        [Key]
-        public string Id { get; set; } //Item Code
+
         public string BatchNumber { get; set; }
         public string Type { get; set; } //Item Type
         public string ItemName { get; set; }
@@ -41,32 +36,26 @@ namespace LAKAPSAGAP.Models.Models
     }
 
     [Table("StockType")]
-    public class StockType
+    public class StockType : CommonModel
     {
-        [Key]
-        public string Id { get; set; }
+
         public string Name { get; set; }
         public int UserId { get; set; } //userid of the user who added the stock type
-        [ForeignKey(nameof(UserId))]
-        public UserInfo AddedBy { get; set; }
+
     }
 
     [Table("StockCategory")]
-    public class StockCategory
+    public class StockCategory : CommonModel
     {
-        [Key]
-        public string Id { get; set; }
+
         public string Name { get; set; }
-        public int UserId { get; set; } //userid of the user who added the stock category
-        [ForeignKey(nameof(UserId))]
-        public UserInfo AddedBy { get; set; }
+
     }
 
     [Table("StockItem")]
-    public class StockItem
+    public class StockItem : CommonModel 
     {
-        [Key]
-        public string Id { get; set; }
+
         public string StockTypeId { get; set; }
         public string StockCategoryId { get; set; }
         public string Name { get; set; }
@@ -74,30 +63,23 @@ namespace LAKAPSAGAP.Models.Models
         public StockType Type { get; set; }
         [ForeignKey(nameof(StockCategoryId))]
         public StockCategory Category { get; set; }
-        public int UserId { get; set; } //userid of the user who added the stock item
-        [ForeignKey(nameof(UserId))]
-        public UserInfo AddedBy { get; set; }
+
     }
 
-    public class Floor
+    public class Floor : CommonModel 
     {
-        public string Id { get; set; }
+
         public string Name { get; set; }
         public ICollection<Rack> Racks {get; set;}
-        public int UserId { get; set; } //userid of the user who added the Floor
-        [ForeignKey(nameof(UserId))]
-        public UserInfo AddedBy { get; set; }
+
     }
 
-    public class Rack
+    public class Rack : CommonModel
     {
-        string Id { get; set; }
         string Name { get; set; }
         string FloorId { get; set; }
         [ForeignKey(nameof(FloorId))]
         public Floor Floor { get; set; }
-        public int UserId { get; set; } //userid of the user who added the Rack
-        [ForeignKey(nameof(UserId))]
-        public UserInfo AddedBy { get; set; }
+
     }
 }

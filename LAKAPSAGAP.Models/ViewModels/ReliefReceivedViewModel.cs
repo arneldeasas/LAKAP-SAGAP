@@ -6,7 +6,7 @@ namespace LAKAPSAGAP.Models.ViewModels
 {
     public class ReliefReceivedViewModel
     {
-        public class StockDetail
+        public class StockDetailViewModel
         {
             public string Id { get; set; }
             public string BatchNumber { get; set; }
@@ -21,20 +21,17 @@ namespace LAKAPSAGAP.Models.ViewModels
             public ReliefReceived BatchDetail { get; set; }
         }
 
-        public class ReliefReceived
-        {
-            public string Id { get; set; }
-            public string WarehouseId { get; set; }
-            public Warehouse Warehouse { get; set; }
-            public string ReliefType { get; set; }
-            public string ReceivedBy { get; set; }
-            public string ReceivedFrom { get; set; }
-            public string? TruckPlateNumber { get; set; }
-            public string? DriverName { get; set; }
-            public DateTime ReceivedDate { get; set; }
-            public int UserId { get; set; }
-            public UserInfo AddedBy { get; set; }
-            public ICollection<StockDetail> StockDetailList { get; set; }
-        }
+        public string Id { get; set; }
+        public string WarehouseId { get; set; }
+
+        public string ReliefType { get; set; }
+        public string ReceivedBy { get; set; }
+        public string ReceivedFrom { get; set; }
+        public string? TruckPlateNumber { get; set; }
+        public string? DriverName { get; set; }
+        public DateTime ReceivedDate { get; set; }
+        public int UserId { get; set; }
+
+        public ICollection<StockDetail> StockDetailList { get; set; }
     }
 }

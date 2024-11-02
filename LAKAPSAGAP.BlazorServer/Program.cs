@@ -1,7 +1,11 @@
 using LAKAPSAGAP.Services;
+using Vite.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
+
+builder.Services.AddViteServices();
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
@@ -27,3 +31,13 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+
+if (app.Environment.IsDevelopment())
+{
+    if (bool.Parse(builder.Configuration["Vite:Server:Enabled"] ?? string.Empty)) 
+    {
+        // Proxies requests for css and js to 
+        // the Vite development server for HMR.
+        app.UseViteDevelopmentServer(true);
+    }
+}

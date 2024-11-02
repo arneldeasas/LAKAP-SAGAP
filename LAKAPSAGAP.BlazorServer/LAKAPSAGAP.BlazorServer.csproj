@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Radzen.Blazor" Version="5.3.5" />
+    <PackageReference Include="Vite.AspNetCore" Version="2.1.2" />
   </ItemGroup>
 
   <ItemGroup>

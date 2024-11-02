@@ -1,0 +1,40 @@
+﻿using LAKAPSAGAP.Models.Models;
+using static LAKAPSAGAP.Models.ViewModels.WarehouseViewModel;
+using static LAKAPSAGAP.Models.ViewModels.UserInfoViewModel;
+
+namespace LAKAPSAGAP.Models.ViewModels
+{
+    public class ReliefReceivedViewModel
+    {
+        public class StockDetail
+        {
+            public string Id { get; set; }
+            public string BatchNumber { get; set; }
+            public string Type { get; set; }
+            public string ItemName { get; set; }
+            public string Category { get; set; }
+            public int Quantity { get; set; }
+            public string UnitOfMeasure { get; set; }
+            public string Floor { get; set; }
+            public string Rack { get; set; }
+            public DateTime? ExpiryDate { get; set; }
+            public ReliefReceived BatchDetail { get; set; }
+        }
+
+        public class ReliefReceived
+        {
+            public string Id { get; set; }
+            public string WarehouseId { get; set; }
+            public Warehouse Warehouse { get; set; }
+            public string ReliefType { get; set; }
+            public string ReceivedBy { get; set; }
+            public string ReceivedFrom { get; set; }
+            public string? TruckPlateNumber { get; set; }
+            public string? DriverName { get; set; }
+            public DateTime ReceivedDate { get; set; }
+            public int UserId { get; set; }
+            public UserInfo AddedBy { get; set; }
+            public ICollection<StockDetail> StockDetailList { get; set; }
+        }
+    }
+}

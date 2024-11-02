@@ -1,4 +1,4 @@
-﻿@using static LAKAPSAGAP.Models.ViewModels.ReliefReceivedViewModel
+﻿@using static LAKAPSAGAP.Models.ViewModel.ReliefReceivedViewModel
 <MacroContainer Style="width: 100dvw; max-width: 75dvw; padding: 0.25rem">
 	<RadzenText class="fw-bold" Style="color: var(--rz-success);" TextStyle="TextStyle.DisplayH5" Text="Receive Stock" />
 	<form style="width: 100%;" class="d-grid gap-2">
@@ -111,22 +111,22 @@
 							Data="@_tableData" PageSize="5"
 							Style="border-radius: var(--rz-border-radius-2);">
 				<Columns>
-					<RadzenDataGridColumn Property="@nameof(StockDetail.Id)" Title="Item Code"
+					<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Id)" Title="Item Code"
 										  TextAlign="TextAlign.Left" Width="80px" />
-					<RadzenDataGridColumn Property="@nameof(StockDetail.ItemName)" Title="Item Name"
+					<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.ItemName)" Title="Item Name"
 										  TextAlign="TextAlign.Left" Width="150px" />
-					<RadzenDataGridColumn Property="@nameof(StockDetail.Type)" Title="Type"
+					<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Type)" Title="Type"
 										  TextAlign="TextAlign.Left" Width="90px" />
-					<RadzenDataGridColumn Property="@nameof(StockDetail.Quantity)" Title="Quantity"
+					<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Quantity)" Title="Quantity"
 										  TextAlign="TextAlign.Left" Width="90px" />
-					<RadzenDataGridColumn Property="@nameof(StockDetail.UnitOfMeasure)" Title="UoM"
+					<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.UnitOfMeasure)" Title="UoM"
 										  TextAlign="TextAlign.Left" Width="90px" />
 					<RadzenDataGridColumn Title="Location" TextAlign="TextAlign.Left" Width="90px">
 						<Template Context="data">
 							@data.Floor - @data.Rack
 						</Template>
 					</RadzenDataGridColumn>
-					<RadzenDataGridColumn Property="@nameof(StockDetail.ExpiryDate)" Title="Expiration Date" FormatString="{0:MMM dd, yyyy}"
+					<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.ExpiryDate)" Title="Expiration Date" FormatString="{0:MMM dd, yyyy}"
 										  TextAlign="TextAlign.Left" Width="90px" />
 					<RadzenDataGridColumn Title="Actions" TextAlign="TextAlign.Left" Width="60px">
 						<Template Context="data">

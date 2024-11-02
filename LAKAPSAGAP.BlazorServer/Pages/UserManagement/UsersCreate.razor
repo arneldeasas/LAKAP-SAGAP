@@ -1,12 +1,12 @@
-﻿<MacroContainer Style="width: 100dvw; max-width: 900px; padding: 0.25rem">
+﻿@using LAKAPSAGAP.Models.ViewModel
+<MacroContainer Style="width: 100dvw; max-width: 900px; padding: 0.25rem">
 	<RadzenText class="fw-bold text-primary" TextStyle="TextStyle.DisplayH5" Text="Add New User" />
 	<form style="width: 100%;" class="d-grid gap-3">
 		<div class="row w-100">
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Designation</span>
-					@* <RadzenTextBox Style="width: 100%;" Placeholder="Select Option" /> *@
-					<RadzenDropDown TValue="string" Style="width: 100%;" Placeholder="Select option" />
+					<RadzenDropDown TValue="string" Data=@UserInfoViewModel.UserRoles Style="width: 100%;" Placeholder="Select option" />
 				</div>
 			</div>
 			<div class="col w-full">

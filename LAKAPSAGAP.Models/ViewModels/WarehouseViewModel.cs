@@ -1,13 +1,15 @@
-﻿using LAKAPSAGAP.Models.Models;
-using static LAKAPSAGAP.Models.ViewModels.ReliefReceivedViewModel;
+﻿using static LAKAPSAGAP.Models.ViewModel.ReliefReceivedViewModel;
 
-namespace LAKAPSAGAP.Models.ViewModels
+namespace LAKAPSAGAP.Models.ViewModel
 {
     public class WarehouseViewModel
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Location { get; set; }
-        public ICollection<ReliefReceived> ReliefReceivedList { get; set; }
+        public class Warehouse
+        {
+            public string Id { get; set; }
+            public string Name { get; set; }
+            public string Location { get; set; }
+            public ICollection<ReliefReceivedViewModel> ReliefReceivedList { get; set; }
+        }
     }
 }

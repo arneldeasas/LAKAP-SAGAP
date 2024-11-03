@@ -31,7 +31,7 @@ namespace LAKAPSAGAP.Services
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-         
+
 
 
 
@@ -76,20 +76,28 @@ namespace LAKAPSAGAP.Services
         {
             foreach (var entry in ChangeTracker.Entries())
             {
-                string? actionUserId = _contextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                
-                if (entry.State == EntityState.Added)
+                bool hasDateCreated = entry.Properties.Any(p => p.Metadata.Name == "DateCreated");
+                bool hasDateUpdated = entry.Properties.Any(p => p.Metadata.Name == "DateUpdated");
+                bool hasAddedById = entry.Properties.Any(p => p.Metadata.Name == "AddedById");
+                bool hasModifiedById = entry.Properties.Any(p => p.Metadata.Name == "LastModifiedById");
+                if (hasDateCreated && hasDateUpdated && hasAddedById && hasModifiedById)
                 {
-                    entry.Property("DateCreated").CurrentValue = DateTime.UtcNow;
-                    entry.Property("DateUpdated").CurrentValue = DateTime.UtcNow;
-                    entry.Property("AddedById").CurrentValue = actionUserId;
-                }
-                if (entry.State == EntityState.Modified)
-                {
+                    string? actionUserId = _contextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    if (entry.State == EntityState.Added)
+                    {
+                        entry.Property("DateCreated").CurrentValue = DateTime.UtcNow;
+                        entry.Property("DateUpdated").CurrentValue = DateTime.UtcNow;
+                        entry.Property("AddedById").CurrentValue = actionUserId;
+                    }
+                    if (entry.State == EntityState.Modified)
+                    {
 
-                    entry.Property("LastModifiedById").CurrentValue = actionUserId;
-                    entry.Property("DateUpdated").CurrentValue = DateTime.UtcNow;
+                        entry.Property("LastModifiedById").CurrentValue = actionUserId;
+                        entry.Property("DateUpdated").CurrentValue = DateTime.UtcNow;
+                    }
                 }
+
+
             }
             return await base.SaveChangesAsync(cancellationToken);
         }

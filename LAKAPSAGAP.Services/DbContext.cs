@@ -5,15 +5,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System.Reflection.Emit;
+using System.Security.Claims;
 
 namespace LAKAPSAGAP.Services
 {
     public class MyDbContext : IdentityDbContext<UserAuth>
     {
-
-        public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
+        private HttpContextAccessor _contextAccessor;
+        public MyDbContext(DbContextOptions<MyDbContext> options, HttpContextAccessor contextAccessor) : base(options)
         {
-
+            _contextAccessor = contextAccessor;
         }
 
         public DbSet<UserAuth> UserAuth { get; set; }
@@ -71,23 +72,26 @@ namespace LAKAPSAGAP.Services
                 .HasForeignKey(a => a.LastModifiedById)
                 .OnDelete(DeleteBehavior.NoAction);
         }
-        public override int SaveChanges()
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             foreach (var entry in ChangeTracker.Entries())
             {
+                string? actionUserId = _contextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                
                 if (entry.State == EntityState.Added)
                 {
                     entry.Property("DateCreated").CurrentValue = DateTime.UtcNow;
                     entry.Property("DateUpdated").CurrentValue = DateTime.UtcNow;
+                    entry.Property("AddedById").CurrentValue = actionUserId;
                 }
                 if (entry.State == EntityState.Modified)
                 {
 
-
+                    entry.Property("LastModifiedById").CurrentValue = actionUserId;
                     entry.Property("DateUpdated").CurrentValue = DateTime.UtcNow;
                 }
             }
-            return base.SaveChanges();
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 
 
+using LAKAPSAGAP.Services.Core.Helpers;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 
@@ -30,19 +31,7 @@ namespace LAKAPSAGAP.Services.Core
             _userAttachmentRepository = userAttachmentRepository;
         }
 
-        public async Task<string> GenerateUserId()
-        {
-            try
-            {
-              
-                var userCount = await _context.UserInfo.CountAsync();
-                return UserIdPrefix + userCount.ToString("D3");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+       
         public async Task CreateUser(CreateAccountViewModel account)
         {
 
@@ -60,7 +49,7 @@ namespace LAKAPSAGAP.Services.Core
                         UserName = account.Username,
                         Email = account.Email,
                     };
-                    Console.WriteLine(account.UserRole);
+                    Console.WriteLine(account);
                     var role = account.UserRole.ToUpper();
                     if (!await _roleManager.RoleExistsAsync(role))
                     {
@@ -73,11 +62,12 @@ namespace LAKAPSAGAP.Services.Core
 
                     await _userManager.AddToRoleAsync(userAuth, role);
 
-                   // var addedBy = _authRepository.GetAuthenticatedUser();
-
+                 //  var addedBy = _authRepository.GetAuthenticatedUser();
+                   // string? addedById = addedBy != null ? addedBy.LastModifiedById : null;
+                    int existingRecordsCount = await GetCount();
                     UserInfo userInfo = new UserInfo
                     {
-                        Id = await GenerateUserId(),
+                        Id = IdGenerator.GenerateId(IdGenerator.PFX_USERINFO,existingRecordsCount),
                         UserAuthId = userAuth.Id,
                         FirstName = account.FirstName,
                         MiddleName = account.MiddleName,
@@ -86,7 +76,7 @@ namespace LAKAPSAGAP.Services.Core
                         Email = account.Email,
                         Phone = account.Phone,
                         UserRole = account.UserRole,
-                        LastModifiedById = "" //addedBy.LastModifiedById
+                      
 
                     };
                     await Create(userInfo);

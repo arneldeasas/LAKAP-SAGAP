@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using LAKAPSAGAP.Models.Models;
+using LAKAPSAGAP.Services.Core.Helpers;
 using LAKAPSAGAP.Services.Repositories;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -25,10 +26,17 @@ namespace LAKAPSAGAP.Services.Core
 
             var attachmentUrlList = await Task.WhenAll(fileMetadataList.Select(fileMetadata => UploadFileAsync(fileMetadata)));
 
-            List<Attachment> attachmentList = attachmentUrlList.Select(attachmentUrl => new Attachment
+            int existingRecordsCount = await GetCount();
+            List<Attachment> attachmentList = attachmentUrlList.Select((attachmentUrl) =>
             {
-                AddedById = userId,
-                Url = attachmentUrl
+                existingRecordsCount++;
+                return new Attachment
+                {
+                    Id = IdGenerator.GenerateId(IdGenerator.PFX_ATTACHMENT, existingRecordsCount),
+                    UserId = userId,
+                    //AddedById = userId,
+                    Url = attachmentUrl
+                };
             }).ToList();
 
             await CreateMany(attachmentList);

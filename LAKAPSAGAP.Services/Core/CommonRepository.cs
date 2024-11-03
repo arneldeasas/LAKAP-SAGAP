@@ -48,6 +48,10 @@ namespace LAKAPSAGAP.Services.Core
         {
             var itemList = await _context.Set<T>().ToListAsync();
             return itemList;
-        } 
+        }
+        public async Task<int> GetCount()
+        {
+            return await _context.Set<T>().CountAsync();
+        }
     }
 }

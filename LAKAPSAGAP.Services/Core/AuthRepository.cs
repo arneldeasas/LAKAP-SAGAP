@@ -15,14 +15,14 @@ namespace LAKAPSAGAP.Services.Core
 		private readonly MyDbContext _context;
         private readonly UserManager<UserAuth> _userManager;
         private readonly SignInManager<UserAuth> _signInManager;
-        //private readonly HttpContext _httpContext;
-		public AuthRepository(MyDbContext context,UserManager<UserAuth> userManager, SignInManager<UserAuth> signInManager, NavigationManager navigationManager)
+        private readonly HttpContextAccessor _contextAccessor;
+		public AuthRepository(MyDbContext context,UserManager<UserAuth> userManager, SignInManager<UserAuth> signInManager, NavigationManager navigationManager, HttpContextAccessor httpContextAccessor)
         {
             _context = context;
 			_userManager = userManager;
 			_signInManager = signInManager;
             _navigationManager = navigationManager;
-            //_httpContext = httpContext;
+            _contextAccessor = httpContextAccessor;
 		}
 
         public async Task Authenticate(LoginViewModel login)
@@ -60,12 +60,12 @@ namespace LAKAPSAGAP.Services.Core
             }
             return user;
         }
-        //public UserInfo GetAuthenticatedUser()
-        //{
-        //    var userId = _httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var user = _context.UserInfo.Find(userId);
+        public UserInfo GetAuthenticatedUser()
+        {
+            var userId = _contextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = _context.UserInfo.Find(userId);
 
-        //    return user;
-        //}
+            return user;
+        }
     }
 }

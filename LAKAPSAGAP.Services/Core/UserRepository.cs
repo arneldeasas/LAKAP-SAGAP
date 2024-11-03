@@ -109,7 +109,7 @@ namespace LAKAPSAGAP.Services.Core
         {
             try
             {
-                var userInfo = _context.UserInfo.First(x=>x.IsDeleted);
+                var userInfo = _context.UserInfo.First(x=> x.Id == Id && x.IsDeleted );
                 if (userInfo is not null) throw new Exception("User already deleted.");
                 userInfo.IsDeleted = true;
                 await Update(userInfo);
@@ -126,7 +126,7 @@ namespace LAKAPSAGAP.Services.Core
         {
             try
             {
-                var userInfo = _context.UserInfo.First(x=> x.isArchived);
+                var userInfo = _context.UserInfo.First(x=> x.Id == Id && x.isArchived);
                 if (userInfo is not null) throw new Exception("User already archived.");
 
                 userInfo.isArchived = true;

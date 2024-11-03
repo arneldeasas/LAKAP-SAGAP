@@ -34,7 +34,42 @@ namespace LAKAPSAGAP.Services
 
 
 
-           
+            builder.Entity<StockItem>()
+            .HasOne(r => r.LastModifiedBy)
+            .WithMany()
+            .HasForeignKey(r => r.LastModifiedById)
+            .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<StockType>()
+                .HasOne(r => r.LastModifiedBy)
+                .WithMany()
+                .HasForeignKey(r => r.LastModifiedById)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<StockCategory>()
+                .HasOne(r => r.LastModifiedBy)
+                .WithMany()
+                .HasForeignKey(r => r.LastModifiedById)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+            builder.Entity<Attachment>()
+                .HasOne(a => a.User)
+                .WithMany() // Or specify a collection in UserInfo if you have one
+                .HasForeignKey(a => a.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Attachment>()
+                .HasOne(a => a.AddedBy)
+                .WithMany() // Or specify a collection in UserInfo if you have one
+                .HasForeignKey(a => a.AddedById)
+                .OnDelete(DeleteBehavior.NoAction); // Set to NoAction or Restrict based on your needs
+
+            builder.Entity<Attachment>()
+                .HasOne(a => a.LastModifiedBy)
+                .WithMany() // Or specify a collection in UserInfo if you have one
+                .HasForeignKey(a => a.LastModifiedById)
+                .OnDelete(DeleteBehavior.NoAction);
         }
         public override int SaveChanges()
         {

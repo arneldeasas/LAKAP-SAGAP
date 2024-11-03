@@ -1,0 +1,51 @@
+﻿<div class="w-100 d-flex justify-content-end align-items-center gap-2 mt-1">
+	<label class="rz-color-base-800 fw-bold">Search</label>
+	<input type="text" 
+		   class="px-2 py-1 rz-border-radius-1 m-0 search" 
+		   style="width: 100%; max-width: 300px;" 
+		   placeholder="@Placeholder" 
+		   @onchange="OnChange" 
+		   @oninput="OnInput" />
+</div>
+
+@code
+{
+	[Parameter] public string Placeholder { get; set; } = "Search ... ";
+
+	[Parameter] public EventCallback<ChangeEventArgs> OnChange { get; set; }
+	[Parameter] public EventCallback<ChangeEventArgs> OnInput { get; set; }
+}
+
+<style>
+
+.search {
+    outline: none;
+    border: 2px solid var(--rz-base-dark);
+    padding: 8px;
+    outline: none;
+    background: var(--rz-base-50);
+    transition: border-color 0.3s, outline 0.3s;
+}
+    .search:focus {
+        outline: none;
+        border: 2px solid var(--rz-primary);
+    }
+
+    .search:hover {
+        outline: none;
+        border: 2px solid var(--rz-primary);
+    }
+
+    .search:active {
+        outline: none;
+        border: 2px solid var(--rz-primary);
+    }
+
+    .search:disabled {
+        outline: none;
+        border: 2px solid var(--rz-primary);
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+</style>

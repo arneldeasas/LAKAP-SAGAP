@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LAKAPSAGAP.Models.ViewModels
+namespace LAKAPSAGAP.Models.ViewModel
 {
     public class TestViewModel
     {

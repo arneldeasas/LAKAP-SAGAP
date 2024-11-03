@@ -1,4 +1,4 @@
-﻿namespace LAKAPSAGAP.Models.ViewModels
+﻿namespace LAKAPSAGAP.Models.ViewModel
 {
     public class BreadcrumbViewModel
     {

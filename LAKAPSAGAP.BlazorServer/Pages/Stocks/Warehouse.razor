@@ -1,0 +1,30 @@
+﻿<div class="d-flex flex-column gap-2 justify-content-start align-items-start w-100">
+	<div class="d-flex flex-row gap-2 justify-content-center align-items-center text-success">
+		<i class='bx bxs-business fs-5'></i>
+		<span class="fw-bold text-center fs-5">Warehouse Status</span>
+	</div>
+	<RadzenDropDown TValue="string" Style="width: 100%; margin-top: 0.25rem;" Name="WarehouseList" />
+	<div class="d-flex flex-column gap-2 justify-content-start align-items-start" style="margin-top: 0.75rem;">
+		<h6 class="fs-6 fw-bold text-capitalize">Location</h6>
+		<p></p>
+	</div>
+	<RadzenButton ButtonStyle="ButtonStyle.Success" Variant="Variant.Outlined" Icon="settings" Text="Warehouse Settings"
+				  Style="width: 100%; border-radius: var(--rz-border-radius-6);" />
+	<hr class="w-100 px-3 my-1" />
+	<RadzenPanel AllowCollapse="true" class="rz-mx-auto"
+				 Style="width: 100%; box-shadow: none; border: 1px solid var(--rz-success-lighter); border-radius: var(--rz-border-radius-2);">
+		<HeaderTemplate>
+			<RadzenText TextStyle="TextStyle.H6" class="rz-display-flex rz-align-items-center rz-m-0">
+				<RadzenIcon Icon="dns" class="rz-me-1" Style="color: var(--rz-success);" /><b Style="color: var(--rz-success);">First Floor</b>
+			</RadzenText>
+		</HeaderTemplate>
+		<ChildContent>
+			<RadzenDataList AllowVirtualization=false Style="width: 100%;" WrapItems="false" AllowPaging="true"
+							TItem="WarehouseViewModel.Warehouse" PageSize="5" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
+				<Template Context="data">
+
+				</Template>
+			</RadzenDataList>
+		</ChildContent>
+	</RadzenPanel>
+</div>

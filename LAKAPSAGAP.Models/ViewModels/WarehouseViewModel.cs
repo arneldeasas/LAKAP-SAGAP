@@ -4,12 +4,9 @@ namespace LAKAPSAGAP.Models.ViewModel
 {
     public class WarehouseViewModel
     {
-        public class Warehouse
-        {
-            public string Id { get; set; }
-            public string Name { get; set; }
-            public string Location { get; set; }
-            public ICollection<ReliefReceivedViewModel> ReliefReceivedList { get; set; }
-        }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Location { get; set; }
+        public List<ReliefReceivedViewModel> ReliefReceivedList { get; set; }
     }
 }

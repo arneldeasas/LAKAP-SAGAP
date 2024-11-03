@@ -1,0 +1,77 @@
+﻿@page "/testregister"
+
+
+<EditForm Model="@createAccountViewModel" OnValidSubmit="HandleCreate">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <h3>Register</h3>
+
+    <div>
+        <label for="userRole">User Role:</label>
+        <select id="userRole" @bind="createAccountViewModel.UserRole">
+            <option value="">Select a rol   e</option>
+            <option value="REPRESENTATIVE">Representative</option>
+            
+            <option value="OFFICE HEAD">Office Head</option>
+            <option value="ADMIN">Admin</option>
+        </select>
+        <ValidationMessage For="@(() => createAccountViewModel.UserRole)" />
+    </div>
+
+    <div>
+        <label for="firstName">First Name:</label>
+        <InputText id="firstName" @bind-Value="createAccountViewModel.FirstName" />
+        <ValidationMessage For="@(() => createAccountViewModel.FirstName)" />
+    </div>
+
+    <div>
+        <label for="middleName">Middle Name:</label>
+        <InputText id="middleName" @bind-Value="createAccountViewModel.MiddleName" />
+    </div>
+
+    <div>
+        <label for="lastName">Last Name:</label>
+        <InputText id="lastName" @bind-Value="createAccountViewModel.LastName" />
+        <ValidationMessage For="@(() => createAccountViewModel.LastName)" />
+    </div>
+
+    <div>
+        <label for="barangay">Barangay:</label>
+        <InputText id="barangay" @bind-Value="createAccountViewModel.Barangay" />
+    </div>
+
+    <div>
+        <label for="email">Email:</label>
+        <InputText id="email" @bind-Value="createAccountViewModel.Email" />
+        <ValidationMessage For="@(() => createAccountViewModel.Email)" />
+    </div>
+
+    <div>
+        <label for="phone">Phone:</label>
+        <InputText id="phone" @bind-Value="createAccountViewModel.Phone" />
+        <ValidationMessage For="@(() => createAccountViewModel.Phone)" />
+    </div>
+
+    <div>
+        <label for="username">Username:</label>
+        <InputText id="username" @bind-Value="createAccountViewModel.Username" />
+        <ValidationMessage For="@(() => createAccountViewModel.Username)" />
+    </div>
+
+    <div>
+        <label for="password">Password:</label>
+        <InputText id="password" type="password" @bind-Value="createAccountViewModel.Password" />
+        <ValidationMessage For="@(() => createAccountViewModel.Password)" />
+    </div>
+
+    <div>
+        <label for="fileList">Upload Files:</label>
+        <InputFile id="fileList" multiple OnChange="HandleFileSelected" />
+        <ValidationMessage For="@(() => createAccountViewModel.fileList)" />
+    </div>
+
+    <button type="submit">Register</button>
+</EditForm>
+
+

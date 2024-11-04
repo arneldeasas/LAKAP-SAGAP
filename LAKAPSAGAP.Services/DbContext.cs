@@ -33,7 +33,18 @@ namespace LAKAPSAGAP.Services
             base.OnModelCreating(builder);
 
 
+            builder.Entity<UserInfo>()
+                .HasOne(r => r.LastModifiedBy)
+                .WithMany()
+                .HasForeignKey(r => r.LastModifiedById)
+                .OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<UserInfo>()
+                .HasOne(r => r.AddedBy)
+                .WithMany()
+                .HasForeignKey(r => r.AddedById)
+                .OnDelete(DeleteBehavior.NoAction);
 
+           
 
             builder.Entity<StockItem>()
             .HasOne(r => r.LastModifiedBy)
@@ -88,6 +99,7 @@ namespace LAKAPSAGAP.Services
                         entry.Property("DateCreated").CurrentValue = DateTime.UtcNow;
                         entry.Property("DateUpdated").CurrentValue = DateTime.UtcNow;
                         entry.Property("AddedById").CurrentValue = actionUserId;
+                        entry.Property("LastModifiedById").CurrentValue = actionUserId;
                     }
                     if (entry.State == EntityState.Modified)
                     {

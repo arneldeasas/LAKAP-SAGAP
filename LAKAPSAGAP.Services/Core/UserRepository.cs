@@ -80,7 +80,7 @@ namespace LAKAPSAGAP.Services.Core
 
                     };
                     await Create(userInfo);
-
+                    Console.WriteLine(userInfo);
                     await _userAttachmentRepository.UploadAttachments(account.fileList, userInfo.Id);
 
                     transaction.Commit();

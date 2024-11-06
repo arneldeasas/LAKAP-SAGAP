@@ -93,18 +93,21 @@ namespace LAKAPSAGAP.Services
                 bool hasModifiedById = entry.Properties.Any(p => p.Metadata.Name == "LastModifiedById");
                 if (hasDateCreated && hasDateUpdated && hasAddedById && hasModifiedById)
                 {
-                    string? actionUserId = _contextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    string? actionUserAuthId = _contextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    string? userId = UserInfo.FirstOrDefault(x => x.UserAuthId == actionUserAuthId).Id;
+                
+                
                     if (entry.State == EntityState.Added)
                     {
                         entry.Property("DateCreated").CurrentValue = DateTime.UtcNow;
                         entry.Property("DateUpdated").CurrentValue = DateTime.UtcNow;
-                        entry.Property("AddedById").CurrentValue = actionUserId;
-                        entry.Property("LastModifiedById").CurrentValue = actionUserId;
+                        entry.Property("AddedById").CurrentValue = userId;
+                        entry.Property("LastModifiedById").CurrentValue = userId;
                     }
                     if (entry.State == EntityState.Modified)
                     {
 
-                        entry.Property("LastModifiedById").CurrentValue = actionUserId;
+                        entry.Property("LastModifiedById").CurrentValue = userId;
                         entry.Property("DateUpdated").CurrentValue = DateTime.UtcNow;
                     }
                 }

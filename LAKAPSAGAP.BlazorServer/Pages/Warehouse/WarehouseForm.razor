@@ -1,0 +1,38 @@
+﻿<MacroBody Style="width: 100dvw; max-width: 35dvw; padding: 0.25rem">
+	<RadzenText class="fw-bold text-danger" TextStyle="TextStyle.DisplayH5" Text="Warehouse Management" />
+	<form style="width: 100%;" class="d-grid gap-2">
+		<div class="row w-100">
+			<div class="col w-full">
+				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
+					<span class="fw-bold text-uppercase">Select Warehouse</span>
+					<RadzenDropDown TValue="WarehouseViewModel" Style="width: 100%;" Placeholder="Select option" />
+				</div>
+			</div>
+			<div class="col w-full">
+				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
+					<span class="fw-bold text-uppercase">Warehouse Name</span>
+					<RadzenTextBox Style="width: 100%;" Placeholder="Warehouse XYZ" />
+				</div>
+			</div>
+		</div>
+		<div class="row w-100">
+			<div class="col w-full">
+				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
+					<span class="fw-bold text-uppercase">Location</span>
+					<RadzenTextBox Style="width: 100%;" Placeholder="Valenzuela City" />
+				</div>
+			</div>
+		</div>
+		<div class="d-flex align-items-center justify-content-end mt-3 gap-2">
+			<RadzenButton Style="width: fit-content;" Text="Cancel" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Danger" />
+			<RadzenButton Style="width: fit-content; background: var(--rz-success-light);" Text="Next" ButtonStyle="ButtonStyle.Primary" />
+		</div>
+	</form>
+
+</MacroBody>
+
+@code {
+
+	DateOnly value = DateOnly.FromDateTime(DateTime.Now);
+	[Parameter] public DialogService dialogService { get; set; } = default!;
+}

@@ -20,8 +20,8 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 				   || x.Id.ToString().ToLower().Contains(value.ToLower())
 				   || x.ReliefType.ToString().ToLower().Contains(value.ToLower())
 				   || x.ReceivedFrom.ToString().ToLower().Contains(value.ToLower())
-				   || x.ReceivedDate.ToString().ToLower().Contains(value.ToLower())
-				   || x.Warehouse.ToString().ToLower().Contains(value.ToLower())).ToList();
+				   || x.ReceivedDate.ToString().ToLower().Contains(value.ToLower())).ToList();
+				   //|| x.Warehouse.ToString().ToLower().Contains(value.ToLower())).ToList();
 			}
 			else
 			{

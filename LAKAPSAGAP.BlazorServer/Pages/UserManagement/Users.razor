@@ -56,6 +56,8 @@
 @code {
 
     [Inject] DialogService _dialogService { get; set; }
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; }
 
     private List<BreadcrumbViewModel> Breadcrumbs = new()
     {
@@ -64,6 +66,10 @@
 
     private List<UserInfoViewModel> _userInfoList = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+       // var user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+    }
     async Task ShowUsersCreateDialog()
     {
         var result = await _dialogService.OpenAsync("Add User", ds => @<UsersCreate dialogService="ds" />,

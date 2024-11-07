@@ -33,7 +33,7 @@
 {
 	async Task ShowWarehouseManagementDialog()
 		{
-			var result = await _dialogService.OpenAsync("Receive Stock", ds => @<WarehouseForm dialogService="ds" /> ,
+			var result = await _dialogService.OpenAsync("Receive Stock", ds => @<WarehouseCreateEdit dialogService="ds" /> ,
 			new DialogOptions()
 			{
 				CssClass = "rz-w-fit-content",

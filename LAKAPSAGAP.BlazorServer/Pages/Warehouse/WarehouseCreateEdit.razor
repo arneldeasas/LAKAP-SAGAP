@@ -5,13 +5,15 @@
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Select Warehouse</span>
-					<RadzenDropDown TValue="WarehouseViewModel" Style="width: 100%;" Placeholder="Select option" />
+					<RadzenDropDown Style="width: 100%;" Placeholder="Select option" AllowClear="true"
+									Data="warehouses" TextProperty="Name" ValueProperty="Id" @bind-Value="_selectedWhse" Change="() => CreateOrEdit(_selectedWhse)" />
 				</div>
 			</div>
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Warehouse Name</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="Warehouse XYZ" />
+					<RadzenTextBox Style="width: 100%;" Placeholder="Warehouse XYZ"
+								   @bind-Value="model.Name" />
 				</div>
 			</div>
 		</div>
@@ -19,13 +21,15 @@
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Location</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="Valenzuela City" />
+					<RadzenTextBox Style="width: 100%;" Placeholder="Valenzuela City"
+								   @bind-Value="model.Location" />
 				</div>
 			</div>
 		</div>
 		<div class="d-flex align-items-center justify-content-end mt-3 gap-2">
-			<RadzenButton Style="width: fit-content;" Text="Cancel" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Danger" />
-			<RadzenButton Style="width: fit-content; background: var(--rz-success-light);" Text="Next" ButtonStyle="ButtonStyle.Primary" />
+			<RadzenButton Style="width: fit-content;" Text="Cancel" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Base" Shade="Shade.Light" />
+			<RadzenButton Style="width: fit-content; background: var(--rz-success-light);" Text="@((_isCreating ? "Add New Warehouse" : "Save Changes"))" ButtonStyle="ButtonStyle.Primary" 
+							Disabled="@(_selectedWhse is null || _selectedWhse == string.Empty)"/>
 		</div>
 	</form>
 

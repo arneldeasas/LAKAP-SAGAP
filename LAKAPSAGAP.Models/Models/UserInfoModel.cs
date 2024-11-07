@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNetCore.Identity;
+
 namespace LAKAPSAGAP.Models.Models
 {
     [Table("UserInfo")]
@@ -6,7 +8,7 @@ namespace LAKAPSAGAP.Models.Models
     {
        
         public string UserAuthId { get; set; }
-        public string UserRole { get; set; }
+        public string RoleId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -14,8 +16,10 @@ namespace LAKAPSAGAP.Models.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public List<Attachment> Attachments { get; set; } = new List<Attachment>();
+        [ForeignKey(nameof(RoleId))]
+        public IdentityRole Role { get; set; }
 
-    }
+	}
     public class Attachment : CommonModel
     {
        

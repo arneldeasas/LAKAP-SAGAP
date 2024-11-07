@@ -4,7 +4,7 @@ namespace LAKAPSAGAP.Models.ViewModels
     public class CreateAccountViewModel
     {
 
-        public string UserRole { get; set; }
+        public string RoleId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

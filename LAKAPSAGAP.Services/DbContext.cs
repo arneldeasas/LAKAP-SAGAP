@@ -19,7 +19,8 @@ namespace LAKAPSAGAP.Services
 
         public DbSet<UserAuth> UserAuth { get; set; }
         public DbSet<UserInfo> UserInfo { get; set; }
-        public DbSet<Attachment> Attachment { get; set; }
+        public DbSet<IdentityRole> Role { get; set; }
+		public DbSet<Attachment> Attachment { get; set; }
         public DbSet<ReliefReceived> ReliefReceived { get; set; }
         public DbSet<StockDetail> StockDetail { get; set; }
         public DbSet<StockType> StockType { get; set; }

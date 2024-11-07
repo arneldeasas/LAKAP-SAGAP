@@ -50,10 +50,11 @@ namespace LAKAPSAGAP.Services.Core
                         Email = account.Email,
                     };
                     Console.WriteLine(account);
-                    var role = account.UserRole.ToUpper();
+
+                    var role = _context.Role.Find(account.RoleId).Name.ToUpper();
                     if (!await _roleManager.RoleExistsAsync(role))
                     {
-                        await _roleManager.CreateAsync(new IdentityRole(account.UserRole.ToUpper()));
+                        await _roleManager.CreateAsync(new IdentityRole(role));
                     }
 
                     var result = await _userManager.CreateAsync(userAuth, account.Password);
@@ -75,7 +76,7 @@ namespace LAKAPSAGAP.Services.Core
                         Barangay = account.Barangay,
                         Email = account.Email,
                         Phone = account.Phone,
-                        UserRole = account.UserRole,
+                        RoleId = account.RoleId,
                       
 
                     };

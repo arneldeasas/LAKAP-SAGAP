@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using LAKAPSAGAP.Services.Core.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,9 +69,13 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 
+builder.Services.AddHttpClient("API", client =>
+{
+	client.BaseAddress = new Uri("https://localhost:7224/");
+});
 
 var app = builder.Build();
-
+app.MapEndpoints();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

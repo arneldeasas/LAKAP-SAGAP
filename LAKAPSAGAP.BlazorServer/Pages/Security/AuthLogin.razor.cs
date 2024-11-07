@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Identity;
 
 namespace LAKAPSAGAP.BlazorServer.Pages.Security
 {
     public partial class AuthLogin
     {
-		[Inject] IHttpContextAccessor HttpContextAccessor { get; set; }
+        [Inject] IHttpClientFactory HttpClientFactory { get; set; }
+        [Inject] IHttpContextAccessor HttpContextAccessor { get; set; }
 		[Inject] NavigationManager NavigationManager { get; set; }
       
         [Inject] IAuthRepository authRepository { get; set; }
@@ -15,10 +15,11 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Security
         {
             try
             {
-            
-                 await authRepository.Authenticate(loginViewModel);
-				
-			}
+                var httpClient = HttpClientFactory.CreateClient("API");
+
+                var result = await httpClient.PostAsJsonAsync("/api/account/login", loginViewModel);
+                if (result.IsSuccessStatusCode) NavigationManager.NavigateTo("/users");
+            }
             catch (Exception e)
             {
                 loginError = e.Message;

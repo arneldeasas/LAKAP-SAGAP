@@ -1,4 +1,5 @@
 ﻿@using LAKAPSAGAP.Models.ViewModel
+
 <MacroContainer Style="width: 100dvw; max-width: 900px; padding: 0.25rem">
 	<RadzenText class="fw-bold text-primary" TextStyle="TextStyle.DisplayH5" Text="Add New User" />
 	<form style="width: 100%;" class="d-grid gap-3">
@@ -6,13 +7,13 @@
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Designation</span>
-					<RadzenDropDown TValue="string" Data=@UserInfoViewModel.UserRoles Style="width: 100%;" Placeholder="Select option" />
+					<RadzenDropDown TValue="string" Data=@UserInfoViewModel.UserRoles @bind-Value=model.UserRole Style="width: 100%;" Placeholder="Select option" />
 				</div>
 			</div>
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Barangay</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="Karuhatan" />
+					<RadzenTextBox Style="width: 100%;" Placeholder="Karuhatan" @bind-Value=model.Barangay />
 				</div>
 			</div>
 		</div>
@@ -20,19 +21,19 @@
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">First Name</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="Juan" />
+					<RadzenTextBox Style="width: 100%;" Placeholder="Juan" @bind-Value=model.FirstName />
 				</div>
 			</div>
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Middle Name</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="Alfonso" />
+					<RadzenTextBox Style="width: 100%;" Placeholder="Alfonso" @bind-Value=model.MiddleName />
 				</div>
 			</div>
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Last Name</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="Dela Cruz" />
+					<RadzenTextBox Style="width: 100%;" Placeholder="Dela Cruz" @bind-Value=model.LastName />
 				</div>
 			</div>
 		</div>
@@ -42,13 +43,13 @@
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Username / ID</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="CSWD-01" />
+					<RadzenTextBox Style="width: 100%;" Placeholder="CSWD-01" @bind-Value=model.Username />
 				</div>
 			</div>
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Password</span>
-					<RadzenPassword Style="width: 100%;" Placeholder="Enter Password Here" />
+					<RadzenPassword Style="width: 100%;" Placeholder="Enter Password Here" @bind-Value=model.Password />
 				</div>
 			</div>
 		</div>
@@ -56,13 +57,13 @@
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Email</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="cswd@email.com" />
+					<RadzenTextBox Style="width: 100%;" Placeholder="cswd@email.com" @bind-Value=model.Email />
 				</div>
 			</div>
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Phone Number</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="0912 3456 789" />
+					<RadzenTextBox Style="width: 100%;" Placeholder="0912 3456 789" @bind-Value=model.Phone />
 				</div>
 			</div>
 		</div>

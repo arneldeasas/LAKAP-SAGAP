@@ -142,6 +142,21 @@ namespace LAKAPSAGAP.Services.Core
 				throw;
 			}
 		}
+
+        public async Task<List<UserInfo>> GetUsers()
+        {
+            try
+            {
+                return await _context.UserInfo
+                        .Include(u => u.Role)
+                        .ToListAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 	}
 }
 

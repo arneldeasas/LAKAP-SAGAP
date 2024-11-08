@@ -25,6 +25,13 @@ namespace LAKAPSAGAP.BlazorServer.Pages.UserManagement
 			{
 				await UserRepo.CreateUser(model);
 
+				// NEED TO RETURN THE CREATED MODEL/USER TO ADD IT TO THE PARENT DATAGRID
+				//	=> THIS IS DONE TO SIMULATE UPDATING OF LATEST VALUES
+
+				//datalist.Add(model);
+				await datagrid.Reload();
+				dialogService.Close(false);
+				StateHasChanged();
 			}
 			catch (Exception e)
 			{

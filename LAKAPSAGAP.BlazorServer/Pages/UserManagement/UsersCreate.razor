@@ -95,6 +95,12 @@
 	[Parameter]
 	public DialogService dialogService { get; set; } = default!;
 
+	[Parameter]
+	public RadzenDataGrid<UserInfo> datagrid { get; set; } = default!;
+
+	[Parameter]
+	public List<UserInfo> datalist { get; set; } = new();
+
 	private void HandleFileSelected(InputFileChangeEventArgs e)
 	{
 		model.fileList = e.GetMultipleFiles().ToList();

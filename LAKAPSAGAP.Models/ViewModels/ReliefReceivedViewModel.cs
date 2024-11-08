@@ -1,7 +1,4 @@
-﻿using LAKAPSAGAP.Models.Models;
-using static LAKAPSAGAP.Models.ViewModel.WarehouseViewModel;
-using static LAKAPSAGAP.Models.ViewModel.UserInfoViewModel;
-
+﻿
 namespace LAKAPSAGAP.Models.ViewModel
 {
     public class ReliefReceivedViewModel
@@ -9,7 +6,7 @@ namespace LAKAPSAGAP.Models.ViewModel
 
 		public string Id { get; set; }
 		public string WarehouseId { get; set; }
-		public Warehouse Warehouse { get; set; }
+        public WarehouseViewModel Warehouse { get; set; } = new();
 		public string ReliefType { get; set; }
 		public string ReceivedBy { get; set; }
 		public string ReceivedFrom { get; set; }

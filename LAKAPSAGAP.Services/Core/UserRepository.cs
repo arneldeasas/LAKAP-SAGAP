@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 namespace LAKAPSAGAP.Services.Core
 {
     public class UserRepository : CommonRepository<UserInfo>, IUserRepository
-    {
+	{
 
         private readonly UserManager<UserAuth> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -131,6 +131,17 @@ namespace LAKAPSAGAP.Services.Core
             }
         }
 
-    }
+		public async Task<List<IdentityRole>> GetUserRoles()
+		{
+			try
+			{
+				return await _context.Role.ToListAsync();
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+	}
 }
 

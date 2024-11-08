@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 namespace LAKAPSAGAP.Services.Core
 {
     public class AuthRepository : IAuthRepository
-    {
+	{
         private readonly NavigationManager _navigationManager;
         private readonly MyDbContext _context;
         private readonly UserManager<UserAuth> _userManager;
@@ -32,8 +32,6 @@ namespace LAKAPSAGAP.Services.Core
 
             try
             {
-
-
 				var user = await _userManager.FindByNameAsync(login.Username);
 				//var userRoles = await _userManager.GetRolesAsync(user);
 				if (user == null)
@@ -44,7 +42,6 @@ namespace LAKAPSAGAP.Services.Core
 
 				Console.WriteLine(result);
                 return result.Succeeded;
-
 
 			}
 			catch (Exception e)
@@ -72,5 +69,6 @@ namespace LAKAPSAGAP.Services.Core
 
             return user;
         }
+		
     }
 }

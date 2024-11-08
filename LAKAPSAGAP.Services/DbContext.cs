@@ -95,7 +95,7 @@ namespace LAKAPSAGAP.Services
                 if (hasDateCreated && hasDateUpdated && hasAddedById && hasModifiedById)
                 {
                     string? actionUserAuthId = _contextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    string? userId = UserInfo.FirstOrDefault(x => x.UserAuthId == actionUserAuthId).Id;
+                    string? userId = UserInfo.FirstOrDefault(x => x.UserAuthId == actionUserAuthId)?.Id;
                 
                 
                     if (entry.State == EntityState.Added)

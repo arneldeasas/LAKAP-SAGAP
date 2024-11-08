@@ -56,6 +56,7 @@
 @code {
 
     [Inject] DialogService _dialogService { get; set; }
+    [Inject] IUserRepository _userRepo { get; set; }
     [CascadingParameter]
     private HttpContext HttpContext { get; set; }
 
@@ -68,8 +69,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-       // var user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+        // var user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+        // _userInfoList = _userRepo.
     }
+
     async Task ShowUsersCreateDialog()
     {
         var result = await _dialogService.OpenAsync("Add User", ds => @<UsersCreate dialogService="ds" />,

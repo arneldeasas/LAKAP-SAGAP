@@ -1,4 +1,5 @@
 ﻿@using LAKAPSAGAP.Models.ViewModel
+@using Microsoft.AspNetCore.Identity
 
 <MacroContainer Style="width: 100dvw; max-width: 900px; padding: 0.25rem">
 	<RadzenText class="fw-bold text-primary" TextStyle="TextStyle.DisplayH5" Text="Add New User" />
@@ -7,8 +8,15 @@
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Designation</span>
-					<RadzenDropDown TValue="string" Data=@UserInfoViewModel.UserRoles @bind-Value=model.UserRole Style="width: 100%;" Placeholder="Select option" />
+					<RadzenDropDown Data=@userRoles ValueProperty="@nameof(IdentityRole.Id)" TextProperty="@nameof(IdentityRole.Name)" @bind-Value="@model.RoleId" TValue="string" Style="width: 100%;" Placeholder="Select option" />
 				</div>
+				@if (userRoles is not null)
+				{
+					@foreach (var property in userRoles)
+					{
+						<span>@property.Name</span>
+					}
+				}
 			</div>
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
@@ -70,13 +78,14 @@
 		<div class="row w-100 d-flex flex-column gap-2">
 			<RadzenCard Variant="Variant.Flat">
 				<span class="fw-bold text-uppercase">Upload Valid ID/s</span>
-				<RadzenUpload Multiple="true" Change=@OnClientChange Style="width: 100%; padding; height:64px;"
-							  InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})" />
+				@* <RadzenUpload Multiple="true" Change="@((args) => HandleFileSelected(args))" Style="width: 100%; padding; height:64px;"
+							  InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})" /> *@
+				<InputFile id="fileList" multiple OnChange="HandleFileSelected" />
 			</RadzenCard>
 		</div>
 		<div class="d-flex align-items-center justify-content-end mt-3 gap-2">
 			<RadzenButton Style="width: fit-content;" Text="Cancel" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Danger" />
-			<RadzenButton Style="width: fit-content;" Text="Add User" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Primary" />
+			<RadzenButton Style="width: fit-content;" Text="Add User" Click="CreateUser" ButtonStyle="ButtonStyle.Primary" />
 		</div>
 	</form>
 </MacroContainer>
@@ -86,23 +95,10 @@
 	[Parameter]
 	public DialogService dialogService { get; set; } = default!;
 
-	void OnClientChange(UploadChangeEventArgs args)
+	private void HandleFileSelected(InputFileChangeEventArgs e)
 	{
-
-		foreach (var file in args.Files)
-		{
-
-			try
-			{
-				long maxFileSize = 10 * 1024 * 1024;
-				// read file
-				var stream = file.OpenReadStream(maxFileSize);
-				stream.Close();
-			}
-			catch (Exception ex)
-			{
-				throw;
-			}
-		}
+		model.fileList = e.GetMultipleFiles().ToList();
 	}
+
+	
 }

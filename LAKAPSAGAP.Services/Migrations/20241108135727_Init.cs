@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LAKAPSAGAP.Services.Migrations
 {
     /// <inheritdoc />
-    public partial class adjustmentuserinfo : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,41 +51,6 @@ namespace LAKAPSAGAP.Services.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserInfo",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserAuthId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserRole = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Barangay = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AddedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    LastModifiedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    isArchived = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserInfo", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserInfo_UserInfo_AddedById",
-                        column: x => x.AddedById,
-                        principalTable: "UserInfo",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_UserInfo_UserInfo_LastModifiedById",
-                        column: x => x.LastModifiedById,
-                        principalTable: "UserInfo",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -104,6 +69,47 @@ namespace LAKAPSAGAP.Services.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserInfo",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserAuthId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Barangay = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    LastModifiedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    isArchived = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserInfo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserInfo_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserInfo_UserInfo_AddedById",
+                        column: x => x.AddedById,
+                        principalTable: "UserInfo",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserInfo_UserInfo_LastModifiedById",
+                        column: x => x.LastModifiedById,
+                        principalTable: "UserInfo",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -359,6 +365,40 @@ namespace LAKAPSAGAP.Services.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Floor",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    WarehouseId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    LastModifiedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    isArchived = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Floor", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Floor_UserInfo_AddedById",
+                        column: x => x.AddedById,
+                        principalTable: "UserInfo",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Floor_UserInfo_LastModifiedById",
+                        column: x => x.LastModifiedById,
+                        principalTable: "UserInfo",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Floor_Warehouse_WarehouseId",
+                        column: x => x.WarehouseId,
+                        principalTable: "Warehouse",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ReliefReceived",
                 columns: table => new
                 {
@@ -395,6 +435,40 @@ namespace LAKAPSAGAP.Services.Migrations
                         principalTable: "Warehouse",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Rack",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FloorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    LastModifiedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    isArchived = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rack", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Rack_Floor_FloorId",
+                        column: x => x.FloorId,
+                        principalTable: "Floor",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Rack_UserInfo_AddedById",
+                        column: x => x.AddedById,
+                        principalTable: "UserInfo",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Rack_UserInfo_LastModifiedById",
+                        column: x => x.LastModifiedById,
+                        principalTable: "UserInfo",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -499,6 +573,36 @@ namespace LAKAPSAGAP.Services.Migrations
                 column: "UserInfoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Floor_AddedById",
+                table: "Floor",
+                column: "AddedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Floor_LastModifiedById",
+                table: "Floor",
+                column: "LastModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Floor_WarehouseId",
+                table: "Floor",
+                column: "WarehouseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rack_AddedById",
+                table: "Rack",
+                column: "AddedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rack_FloorId",
+                table: "Rack",
+                column: "FloorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rack_LastModifiedById",
+                table: "Rack",
+                column: "LastModifiedById");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ReliefReceived_AddedById",
                 table: "ReliefReceived",
                 column: "AddedById");
@@ -579,6 +683,11 @@ namespace LAKAPSAGAP.Services.Migrations
                 column: "LastModifiedById");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserInfo_RoleId",
+                table: "UserInfo",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Warehouse_AddedById",
                 table: "Warehouse",
                 column: "AddedById");
@@ -611,16 +720,19 @@ namespace LAKAPSAGAP.Services.Migrations
                 name: "Attachment");
 
             migrationBuilder.DropTable(
+                name: "Rack");
+
+            migrationBuilder.DropTable(
                 name: "StockDetail");
 
             migrationBuilder.DropTable(
                 name: "StockItem");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Floor");
 
             migrationBuilder.DropTable(
                 name: "ReliefReceived");
@@ -636,6 +748,9 @@ namespace LAKAPSAGAP.Services.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserInfo");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
         }
     }
 }

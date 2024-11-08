@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNetCore.Identity;
+
 namespace LAKAPSAGAP.Models.ViewModels
 {
     public class CreateAccountViewModel
@@ -14,5 +16,6 @@ namespace LAKAPSAGAP.Models.ViewModels
         public string Username { get; set; }
         public string Password { get; set; }
         public List<IBrowserFile> fileList { get; set; }
+        public IdentityRole UserRole { get; set; }
     }
 }

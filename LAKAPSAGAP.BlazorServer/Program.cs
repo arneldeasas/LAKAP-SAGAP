@@ -97,7 +97,7 @@ using (var scope = app.Services.CreateScope())
 	var services = scope.ServiceProvider;
 	var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-	var roles = new[] { "REPRESENTATIVE", "OFFICE HEAD", "ADMIN" };
+	var roles = new[] { "BARANGAY_REPRESENTATIVE", "CSWD_OFFICE_HEAD", "CSWD_ADMINISTRATION_STAFF" };
 	foreach (var role in roles)
 	{
 		if (!await roleManager.RoleExistsAsync(role)) // Check if the role exists

@@ -10,21 +10,22 @@ using Microsoft.Extensions.Configuration;
 
 namespace LAKAPSAGAP.Services.Core
 {
-    public class UserRepository : CommonRepository<UserInfo>, IUserRepository
+    public class UserRepository :  IUserRepository
 	{
-
+        private readonly MyDbContext _context;
         private readonly UserManager<UserAuth> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AuthRepository _authRepository;
         private readonly UserAttachmentRepository _userAttachmentRepository;
         public static string UserIdPrefix = "ACC_";
+        
         public UserRepository(MyDbContext context, 
             UserManager<UserAuth> userManager, 
             RoleManager<IdentityRole> roleManager, 
             AuthRepository authRepository, 
-            UserAttachmentRepository userAttachmentRepository) : base(context)
+            UserAttachmentRepository userAttachmentRepository) 
         {
-
+            _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
             _authRepository = authRepository;
@@ -32,7 +33,7 @@ namespace LAKAPSAGAP.Services.Core
         }
 
        
-        public async Task CreateUser(CreateAccountViewModel account)
+        public async Task<UserInfo> CreateUser(CreateAccountViewModel account)
         {
 
             using (var transaction = _context.Database.BeginTransaction())
@@ -65,7 +66,7 @@ namespace LAKAPSAGAP.Services.Core
 
                  //  var addedBy = _authRepository.GetAuthenticatedUser();
                    // string? addedById = addedBy != null ? addedBy.LastModifiedById : null;
-                    int existingRecordsCount = await GetCount();
+                    int existingRecordsCount = await _context.GetCount<UserInfo>();
                     UserInfo userInfo = new UserInfo
                     {
                         Id = IdGenerator.GenerateId(IdGenerator.PFX_USERINFO,existingRecordsCount),
@@ -80,11 +81,12 @@ namespace LAKAPSAGAP.Services.Core
                       
 
                     };
-                    await Create(userInfo);
+                    await _context.Create<UserInfo>(userInfo);
                     Console.WriteLine(userInfo);
                     await _userAttachmentRepository.UploadAttachments(account.fileList, userInfo.Id);
 
                     transaction.Commit();
+                    return userInfo;
                 }
                 catch (Exception e)
                 {
@@ -103,7 +105,7 @@ namespace LAKAPSAGAP.Services.Core
                 var userInfo = _context.UserInfo.First(x=> x.Id == Id && x.IsDeleted );
                 if (userInfo is not null) throw new Exception("User already deleted.");
                 userInfo.IsDeleted = true;
-                await Update(userInfo);
+                await _context.UpdateItem<UserInfo>(userInfo);
                 return userInfo;
             }
             catch (Exception)
@@ -121,7 +123,7 @@ namespace LAKAPSAGAP.Services.Core
                 if (userInfo is not null) throw new Exception("User already archived.");
 
                 userInfo.isArchived = true;
-                await Update(userInfo);
+                await _context.UpdateItem<UserInfo>(userInfo);
                 return userInfo;
             }
             catch (Exception)

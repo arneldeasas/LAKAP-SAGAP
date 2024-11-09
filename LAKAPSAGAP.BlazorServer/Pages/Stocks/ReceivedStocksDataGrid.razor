@@ -28,7 +28,7 @@
 			</Columns>
 			<Template Context="data">
 				<RadzenDataGrid AllowColumnResize="false" AllowPaging="true" AllowSorting="true" AllowFiltering="false" ShowPagingSummary="true"
-								Data="@data.StockDetailList" PageSize="10"
+								Data="@data.StockDetailViewList" PageSize="10"
 								Style="border-radius: var(--rz-border-radius-2);">
 					<Columns>
 						<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Id)" Title="Batch ID"

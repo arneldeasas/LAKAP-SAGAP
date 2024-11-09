@@ -1,6 +1,7 @@
 ﻿
 
 
+using LAKAPSAGAP.Models.ViewModel;
 using LAKAPSAGAP.Services.Core.Helpers;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +13,7 @@ namespace LAKAPSAGAP.Services.Core
 {
     public class UserRepository :  IUserRepository
 	{
-        private readonly MyDbContext _context;
+        public  MyDbContext _context;
         private readonly UserManager<UserAuth> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AuthRepository _authRepository;
@@ -98,14 +99,36 @@ namespace LAKAPSAGAP.Services.Core
             }
         }
 
+        public async Task<UserInfo> UpdateUser(UserInfoViewModel userInfoViewModel)
+        {
+            try
+            {
+                var updatedUserInfo = new UserInfo {
+                    RoleId = userInfoViewModel.RoleId,
+                    FirstName = userInfoViewModel.FirstName,    
+                    LastName = userInfoViewModel.LastName,
+                    MiddleName = userInfoViewModel.MiddleName,
+                    Barangay = userInfoViewModel.Barangay,
+                    Email = userInfoViewModel.Email,
+                    Phone = userInfoViewModel.Phone,
+                };
+                updatedUserInfo = await _context.UpdateItem<UserInfo>(updatedUserInfo);
+                return updatedUserInfo;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public async Task<UserInfo> DeleteUser(string Id)
         {
             try
             {
-                var userInfo = _context.UserInfo.First(x=> x.Id == Id && x.IsDeleted );
-                if (userInfo is not null) throw new Exception("User already deleted.");
+                var userInfo = await _context.GetById<UserInfo>(Id);
                 userInfo.IsDeleted = true;
-                await _context.UpdateItem<UserInfo>(userInfo);
+      
+                userInfo = await _context.UpdateItem<UserInfo>(userInfo);
                 return userInfo;
             }
             catch (Exception)
@@ -119,13 +142,12 @@ namespace LAKAPSAGAP.Services.Core
         {
             try
             {
-                var userInfo = _context.UserInfo.First(x=> x.Id == Id && x.isArchived);
-                if (userInfo is not null) throw new Exception("User already archived.");
+				var userInfo = await _context.GetById<UserInfo>(Id);
+				userInfo.isArchived = true;
 
-                userInfo.isArchived = true;
-                await _context.UpdateItem<UserInfo>(userInfo);
-                return userInfo;
-            }
+				userInfo = await _context.UpdateItem<UserInfo>(userInfo);
+				return userInfo;
+			}
             catch (Exception)
             {
 
@@ -145,7 +167,7 @@ namespace LAKAPSAGAP.Services.Core
 			}
 		}
 
-        public async Task<List<UserInfo>> GetUsers()
+        public async Task<List<UserInfo>> GetAllUsers()
         {
             try
             {

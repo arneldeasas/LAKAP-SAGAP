@@ -9,7 +9,7 @@ namespace LAKAPSAGAP.Models.ViewModel
     public class UserInfoViewModel
     {
 		public int Id { get; set; }
-		public string UserRole { get; set; }
+		public string RoleId { get; set; }
 		public string FirstName { get; set; }
 		public string MiddleName { get; set; }
 		public string LastName { get; set; }

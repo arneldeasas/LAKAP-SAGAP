@@ -12,7 +12,8 @@ namespace LAKAPSAGAP.Services.Core.Helpers
         public static string PFX_USERINFO = "ACC_";
         public static string PFX_ATTACHMENT = "ATT_";
         public static string PFX_RELIEFRECEIVED = "BATCH_";
-
+        public static string PFX_Warehouse = "WH_";
+        public static string PFX_Stock = "ITM_";
         public static string GenerateId(string prefix,int count)
         {
             try

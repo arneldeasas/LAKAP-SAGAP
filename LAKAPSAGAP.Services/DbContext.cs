@@ -21,12 +21,17 @@ namespace LAKAPSAGAP.Services
         public DbSet<UserInfo> UserInfo { get; set; }
         public DbSet<IdentityRole> Role { get; set; }
 		public DbSet<Attachment> Attachment { get; set; }
-        public DbSet<ReliefReceived> ReliefReceived { get; set; }
+		public DbSet<Warehouse> Warehouse { get; set; }
+		public DbSet<ReliefReceived> ReliefReceived { get; set; }
         public DbSet<StockDetail> StockDetail { get; set; }
         public DbSet<StockType> StockType { get; set; }
         public DbSet<StockItem> StockItem { get; set; }
         public DbSet<StockCategory> StockCategory { get; set; }
-        public DbSet<Warehouse> Warehouse { get; set; }
+        public DbSet<UoM> UoM { get; set; }
+		public DbSet<Floor> Floor { get; set; }
+		public DbSet<Rack> Rack { get; set; }
+		
+        
         // Add other DbSets for your models here
 
         protected override void OnModelCreating(ModelBuilder builder)

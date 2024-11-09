@@ -16,6 +16,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.UserManagement
 
 		protected override async Task OnInitializedAsync()
 		{
+		
 			userRoles = await UserRepo.GetUserRoles();
 		}
 

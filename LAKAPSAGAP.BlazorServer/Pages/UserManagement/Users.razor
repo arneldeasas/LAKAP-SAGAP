@@ -73,7 +73,7 @@
     protected override async Task OnInitializedAsync()
     {
         // var user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-        _userInfoList = await _userRepo.GetUsers();
+        _userInfoList = await _userRepo.GetAllUsers();
     }
 
     async Task ShowUsersCreateDialog()

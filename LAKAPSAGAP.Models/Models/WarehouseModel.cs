@@ -11,6 +11,6 @@ namespace LAKAPSAGAP.Models.Models
         public string Name { get; set; }
         public string Location { get; set; }
         public List<ReliefReceived> ReliefReceivedList { get; set; } = new();
-        public List<Floor> Floors { get; set; } = new();
+        public List<Floor> FloorList { get; set; } = new();
     }
 }

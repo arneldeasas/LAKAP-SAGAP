@@ -101,5 +101,10 @@ namespace LAKAPSAGAP.Services.Core
         {
             return await context.Set<T>().CountAsync();
         }
-    }
+
+		public static IQueryable<T> WhereIsNotArchivedAndDeleted<T>(this DbSet<T> dbSet) where T : CommonModel
+		{
+			return dbSet.Where(x => !x.IsDeleted && !x.isArchived);
+		}
+	}
 }

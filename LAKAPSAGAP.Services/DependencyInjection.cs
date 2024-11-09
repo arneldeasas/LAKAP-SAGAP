@@ -13,6 +13,7 @@ namespace LAKAPSAGAP.Services
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserAttachmentRepository, UserAttachmentRepository>();
+            services.AddScoped<IWarehouseRepository, WarehouseRepository>();
 
             services.AddScoped<AuthRepository>();
             services.AddScoped<UserAttachmentRepository>();

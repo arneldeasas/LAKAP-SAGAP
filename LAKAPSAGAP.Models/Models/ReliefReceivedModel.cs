@@ -13,7 +13,7 @@ namespace LAKAPSAGAP.Models.Models
         public string ReceivedFrom { get; set; }
         public string? TruckPlateNumber { get; set; }
         public string? DriverName { get; set; }
-        DateTime ReceivedDate { get; set; }
+        public DateTime ReceivedDate { get; set; }
         public List<StockDetail> StockDetailList { get; set; }
     }
 
@@ -67,11 +67,15 @@ namespace LAKAPSAGAP.Models.Models
 
     }
 
+    public class UoM : CommonModel
+    {
+        public string Name { get; set; }
+    }
     public class Floor : CommonModel 
     {
       
         public string Name { get; set; }
-        public List<Rack> Racks {get; set;}
+        public List<Rack> RackList {get; set;}
 
     }
 

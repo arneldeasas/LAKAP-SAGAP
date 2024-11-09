@@ -10,7 +10,7 @@ namespace LAKAPSAGAP.Models.Models
         public string UserAuthId { get; set; }
         public string RoleId { get; set; }
         public string FirstName { get; set; }
-        public string MiddleName { get; set; }
+        public string? MiddleName { get; set; }
         public string LastName { get; set; }
         public string Barangay { get; set; }
         public string Email { get; set; }

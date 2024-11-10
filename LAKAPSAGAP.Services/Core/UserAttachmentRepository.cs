@@ -84,8 +84,24 @@ namespace LAKAPSAGAP.Services.Core
 
         }
 
+		public async Task<List<(string, string)>> GetUserAttachments(string userId)
+		{
+			try
+			{
+				var response = await _context.Attachment
+					.Where(x => x.UserId == userId && x.IsDeleted == false)
+					.Select(x => new { x.Id, x.Url })
+					.ToListAsync();
 
-    }
+                return response.Select(x => (x.Id, x.Url)).ToList();
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+	}
 }
 public class FileMetadata
 {

@@ -8,7 +8,8 @@ namespace LAKAPSAGAP.Services.Repositories
     {
        
         public Task<bool> Authenticate(LoginViewModel login);
-        public Task<UserAuth> GetAuthUser(string username);
-        //public UserInfo GetAuthenticatedUser();
-    }
+		Task<UserAuth> GetAuthUserByUsername(string username);
+		Task<UserAuth> GetAuthUserByUserAuthId(string UserAuthId);
+		//public UserInfo GetAuthenticatedUser();
+	}
 }

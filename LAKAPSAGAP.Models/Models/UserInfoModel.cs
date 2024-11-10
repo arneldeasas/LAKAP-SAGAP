@@ -6,8 +6,8 @@ namespace LAKAPSAGAP.Models.Models
     [Table("UserInfo")]
     public class UserInfo:CommonModel
     {
-       
         public string UserAuthId { get; set; }
+        public string Username { get; set; }
         public string RoleId { get; set; }
         public string FirstName { get; set; }
         public string? MiddleName { get; set; }

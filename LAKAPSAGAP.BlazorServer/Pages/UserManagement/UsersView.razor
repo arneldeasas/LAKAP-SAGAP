@@ -1,22 +1,14 @@
-﻿@using LAKAPSAGAP.Models.ViewModel
-@using Microsoft.AspNetCore.Identity
+﻿<MacroContainer Style="width: 100dvw; max-width: 900px; padding: 0.25rem">
 
-<MacroContainer Style="width: 100dvw; max-width: 900px; padding: 0.25rem">
-	<RadzenText class="fw-bold text-primary" TextStyle="TextStyle.DisplayH5" Text="Add New User" />
-	<form style="width: 100%;" class="d-grid gap-3">
+	<RadzenText class="fw-bold text-primary" TextStyle="TextStyle.DisplayH5" Text="@(String.IsNullOrEmpty(model.Id) ? "Add New User" : $"Update User {model.Id}")" />
+
+	<div style="width: 100%;" class="d-grid gap-3">
 		<div class="row w-100">
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Designation</span>
-					<RadzenDropDown Data=@userRoles ValueProperty="@nameof(IdentityRole.Id)" TextProperty="@nameof(IdentityRole.Name)" @bind-Value="@model.RoleId" TValue="string" Style="width: 100%;" Placeholder="Select option" />
+					@* <RadzenDropDown Name="UserRoles" Data=@userRoles ValueProperty="@nameof(IdentityRole.Id)" TextProperty="@(string.Join(" ", nameof(IdentityRole.Name).ToLower().Split('_').Select(word => char.ToUpper(word[0]) + word.Substring(1))))" @bind-Value="@model.RoleId" TValue="string" Style="width: 100%;" Placeholder="Select option" /> *@
 				</div>
-				@if (userRoles is not null)
-				{
-					@foreach (var property in userRoles)
-					{
-						<span>@property.Name</span>
-					}
-				}
 			</div>
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
@@ -57,7 +49,7 @@
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Password</span>
-					<RadzenPassword Style="width: 100%;" Placeholder="Enter Password Here" @bind-Value=model.Password />
+					<RadzenPassword Style="width: 100%;" Placeholder="@(String.IsNullOrEmpty(model.Id) ? "Enter Password Here" : "Enter New Password Here")" @bind-Value=model.Password />
 				</div>
 			</div>
 		</div>
@@ -65,7 +57,7 @@
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Email</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="cswd@email.com" @bind-Value=model.Email />
+					<RadzenTextBox Name="Email" Style="width: 100%;" Placeholder="cswd@email.com" @bind-Value=model.Email />
 				</div>
 			</div>
 			<div class="col w-full">
@@ -76,35 +68,26 @@
 			</div>
 		</div>
 		<div class="row w-100 d-flex flex-column gap-2">
-			<RadzenCard Variant="Variant.Flat">
-				<span class="fw-bold text-uppercase">Upload Valid ID/s</span>
-				@* <RadzenUpload Multiple="true" Change="@((args) => HandleFileSelected(args))" Style="width: 100%; padding; height:64px;"
-							  InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})" /> *@
-				<InputFile id="fileList" multiple OnChange="HandleFileSelected" />
-			</RadzenCard>
+
+			<p class="fw-bold text-uppercase mb-1">Valid ID/s</p>
+
+			@if (userFiles is not null)
+			{
+				<div class="d-flex flex-wrap justify-content-start align-items-center gap-3 mt-2">
+					@foreach (var file in userFiles)
+					{
+						<div class="card position-relative w-25" style="width: fit-content;">
+							<img class="card-img" src="@(file.Url.Replace(@"wwwroot\", ""))" style="max-width: 100%; max-height: 100%; object-fit: contain;" />
+						</div>
+					}
+				</div>
+			}
+
+
 		</div>
 		<div class="d-flex align-items-center justify-content-end mt-3 gap-2">
 			<RadzenButton Style="width: fit-content;" Text="Cancel" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Danger" />
-			<RadzenButton Style="width: fit-content;" Text="Add User" Click="CreateUser" ButtonStyle="ButtonStyle.Primary" />
 		</div>
-	</form>
+	</div>
+
 </MacroContainer>
-
-@code {
-
-	[Parameter]
-	public DialogService dialogService { get; set; } = default!;
-
-	[Parameter]
-	public RadzenDataGrid<UserInfo> datagrid { get; set; } = default!;
-
-	[Parameter]
-	public List<UserInfo> datalist { get; set; } = new();
-
-	private void HandleFileSelected(InputFileChangeEventArgs e)
-	{
-		model.fileList = e.GetMultipleFiles().ToList();
-	}
-
-	
-}

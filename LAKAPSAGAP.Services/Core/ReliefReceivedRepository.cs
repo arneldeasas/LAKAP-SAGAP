@@ -104,7 +104,7 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				var reliefReceivedList = await _context.ReliefReceived.WhereIsNotArchivedAndDeleted().ToListAsync();
+				var reliefReceivedList = await _context.GetAll<ReliefReceived>();
 
 				return reliefReceivedList;
 			}
@@ -117,10 +117,10 @@ namespace LAKAPSAGAP.Services.Core
 
 		public async Task<ReliefReceivedViewModel> GetAllInitialSelectionOptions (ReliefReceivedViewModel reliefReceivedViewModel)
 		{
-			Task<List<StockType>> StockTypeList = _context.StockType.WhereIsNotArchivedAndDeleted().ToListAsync();
-			Task<List<StockCategory>> StockCategoryList = _context.StockCategory.WhereIsNotArchivedAndDeleted().ToListAsync();
-			Task<List<UoM>> UoMList = _context.UoM.WhereIsNotArchivedAndDeleted().ToListAsync();
-			Task<List<Floor>> FloorList = _context.Floor.WhereIsNotArchivedAndDeleted().ToListAsync();
+			Task<List<StockType>> StockTypeList = _context.GetAll<StockType>();
+			Task<List<StockCategory>> StockCategoryList = _context.GetAll<StockCategory>();
+			Task<List<UoM>> UoMList = _context.GetAll<UoM>();
+			Task<List<Floor>> FloorList = _context.GetAll<Floor>();
 
 			await Task.WhenAll(StockTypeList, StockCategoryList, UoMList, FloorList);
 
@@ -152,7 +152,7 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				var rackList = await _context.Rack.WhereIsNotArchivedAndDeleted().ToListAsync();
+				var rackList = await _context.GetAll<Rack>();
 				return rackList;
 			}
 			catch (Exception)

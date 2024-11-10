@@ -36,14 +36,12 @@ namespace LAKAPSAGAP.Models.ViewModel
 		public string Id { get; set; }
 		public string BatchNumber { get; set; }
 		public string TypeId { get; set; }
-		public StockType Type { get; set; }
-		public string ItemName { get; set; }
+		public string ItemId { get; set; }
 		public string CategoryId { get; set; }
-		public StockCategory Category { get; set; }
 		public int Quantity { get; set; }
-		public string UnitOfMeasure { get; set; }
-		public string Floor { get; set; }
-		public string Rack { get; set; }
+		public string UoMId { get; set; }
+		public string FloorId { get; set; }
+		public string RackId { get; set; }
 		public DateTime? ExpiryDate { get; set; }
 		
 		public ReliefReceivedViewModel BatchDetail { get; set; }

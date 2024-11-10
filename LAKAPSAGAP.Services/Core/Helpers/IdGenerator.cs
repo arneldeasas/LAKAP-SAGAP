@@ -13,8 +13,13 @@ namespace LAKAPSAGAP.Services.Core.Helpers
         public static string PFX_ATTACHMENT = "ATT_";
         public static string PFX_RELIEFRECEIVED = "BATCH_";
         public static string PFX_Warehouse = "WH_";
-        public static string PFX_Stock = "ITM_";
-        public static string GenerateId(string prefix,int count)
+		public static string PFX_STOCKDETAIL = "STKDTL_";
+		public static string PFX_STOCKITEM = "STKITM_";
+        public static string PFX_STOCKTYPE = "STKTYP_";
+		public static string PFX_STOCKCATEGORY = "STKCAT_";
+		public static string PFX_FLOOR = "FLR_";
+		public static string PFX_RACK = "RCK_";
+		public static string GenerateId(string prefix,int count)
         {
             try
             {

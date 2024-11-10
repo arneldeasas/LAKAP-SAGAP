@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LAKAPSAGAP.Models.ViewModel
 {
-    public class UserInfoViewModel
+    public class UserInfoViewModel 
     {
-		public int Id { get; set; }
+		public string Id { get; set; }
 		public string RoleId { get; set; }
 		public string FirstName { get; set; }
 		public string MiddleName { get; set; }
@@ -27,8 +27,8 @@ namespace LAKAPSAGAP.Models.ViewModel
 
         public class Attachment
         {
-            public int Id { get; set; }
-            public int UserId { get; set; }
+            public string Id { get; set; }
+            public string UserId { get; set; }
             public string Url { get; set; }
         }
 

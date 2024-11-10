@@ -63,6 +63,10 @@ namespace LAKAPSAGAP.Services.Core
 			try
 			{
 				var warehouse = await _context.GetById<Warehouse>(Id);
+				if (warehouse == null)
+				{
+					throw new Exception("Warehouse not found");
+				}
 				warehouse.IsDeleted = true;
 				warehouse = await _context.UpdateItem<Warehouse>(warehouse);
 				return warehouse;
@@ -79,6 +83,10 @@ namespace LAKAPSAGAP.Services.Core
 			try
 			{
 				var warehouse = await _context.GetById<Warehouse>(Id);
+				if (warehouse == null)
+				{
+					throw new Exception("Warehouse not found");
+				}
 				warehouse.isArchived = true;
 				warehouse = await _context.UpdateItem(warehouse);
 				return warehouse;

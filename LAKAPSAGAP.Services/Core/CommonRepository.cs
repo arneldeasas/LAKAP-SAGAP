@@ -88,6 +88,7 @@ namespace LAKAPSAGAP.Services.Core
         public static async Task<T?> GetById<T>(this MyDbContext context, string Id, bool? includeArchived = false, bool? includeDeleted = false) where T : CommonModel
         {
             var item = await context.Set<T>().Where(x => x.isArchived == includeArchived && x.IsDeleted == includeDeleted).FirstOrDefaultAsync(x => x.Id == Id);
+
 			return item;
         }
 

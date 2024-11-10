@@ -2,26 +2,24 @@
 @using Microsoft.AspNetCore.Identity
 
 <MacroContainer Style="width: 100dvw; max-width: 900px; padding: 0.25rem">
-	<RadzenText class="fw-bold text-primary" TextStyle="TextStyle.DisplayH5" Text="Add New User" />
-	<form style="width: 100%;" class="d-grid gap-3">
+
+	<RadzenText class="fw-bold text-primary" TextStyle="TextStyle.DisplayH5" Text="@(String.IsNullOrEmpty(model.Id) ? "Add New User" : $"Update User {model.Id}")" />
+	<EditForm Model="@model" OnValidSubmit="@(String.IsNullOrEmpty(model.Id) ? CreateUser : UpdateUser)" style="width: 100%;" class="d-grid gap-3">
+		<DataAnnotationsValidator />
+		@* <ValidationSummary /> *@
 		<div class="row w-100">
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Designation</span>
-					<RadzenDropDown Data=@userRoles ValueProperty="@nameof(IdentityRole.Id)" TextProperty="@nameof(IdentityRole.Name)" @bind-Value="@model.RoleId" TValue="string" Style="width: 100%;" Placeholder="Select option" />
+					<RadzenDropDown Name="UserRoles" Data=@userRoles ValueProperty="@nameof(IdentityRole.Id)" TextProperty="@(string.Join(" ", nameof(IdentityRole.Name).ToLower().Split('_').Select(word => char.ToUpper(word[0]) + word.Substring(1))))" @bind-Value="@model.RoleId" TValue="string" Style="width: 100%;" Placeholder="Select option" />
+					<ValidationMessage For="@(() => model.RoleId)" />
 				</div>
-				@if (userRoles is not null)
-				{
-					@foreach (var property in userRoles)
-					{
-						<span>@property.Name</span>
-					}
-				}
 			</div>
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Barangay</span>
 					<RadzenTextBox Style="width: 100%;" Placeholder="Karuhatan" @bind-Value=model.Barangay />
+					<ValidationMessage For="@(() => model.Barangay)" />
 				</div>
 			</div>
 		</div>
@@ -30,18 +28,21 @@
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">First Name</span>
 					<RadzenTextBox Style="width: 100%;" Placeholder="Juan" @bind-Value=model.FirstName />
+					<ValidationMessage For="@(() => model.FirstName)" />
 				</div>
 			</div>
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Middle Name</span>
 					<RadzenTextBox Style="width: 100%;" Placeholder="Alfonso" @bind-Value=model.MiddleName />
+					<ValidationMessage For="@(() => model.MiddleName)" />
 				</div>
 			</div>
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Last Name</span>
 					<RadzenTextBox Style="width: 100%;" Placeholder="Dela Cruz" @bind-Value=model.LastName />
+					<ValidationMessage For="@(() => model.LastName)" />
 				</div>
 			</div>
 		</div>
@@ -52,12 +53,14 @@
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Username / ID</span>
 					<RadzenTextBox Style="width: 100%;" Placeholder="CSWD-01" @bind-Value=model.Username />
+					<ValidationMessage For="@(() => model.Username)" />
 				</div>
 			</div>
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Password</span>
-					<RadzenPassword Style="width: 100%;" Placeholder="Enter Password Here" @bind-Value=model.Password />
+					<RadzenPassword Style="width: 100%;" Placeholder="@(String.IsNullOrEmpty(model.Id) ? "Enter Password Here" : "Enter New Password Here")" @bind-Value=model.Password />
+					<ValidationMessage For="@(() => model.Password)" />
 				</div>
 			</div>
 		</div>
@@ -65,46 +68,54 @@
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Email</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="cswd@email.com" @bind-Value=model.Email />
+					<RadzenTextBox Name="Email" Style="width: 100%;" Placeholder="cswd@email.com" @bind-Value=model.Email />
+					<ValidationMessage For="@(() => model.Email)" />
 				</div>
 			</div>
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Phone Number</span>
 					<RadzenTextBox Style="width: 100%;" Placeholder="0912 3456 789" @bind-Value=model.Phone />
+					<ValidationMessage For="@(() => model.Phone)" />
 				</div>
 			</div>
 		</div>
 		<div class="row w-100 d-flex flex-column gap-2">
-			<RadzenCard Variant="Variant.Flat">
-				<span class="fw-bold text-uppercase">Upload Valid ID/s</span>
-				@* <RadzenUpload Multiple="true" Change="@((args) => HandleFileSelected(args))" Style="width: 100%; padding; height:64px;"
-							  InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})" /> *@
-				<InputFile id="fileList" multiple OnChange="HandleFileSelected" />
-			</RadzenCard>
+
+			<p class="fw-bold text-uppercase mb-1">@(String.IsNullOrEmpty(model.Id) ? "Upload Valid ID/s" : "Manage Valid ID/s")</p>
+
+
+			<RadzenButton class="d-inline-block position-relative" Style="width: fit-content;" ButtonStyle="ButtonStyle.Primary">
+
+				<label for="fileList">
+					<i class='bx bx-plus'></i> Add Files
+				</label>
+				<InputFile id="fileList" accept=".png,.jpg,.jpeg" multiple class="position-absolute top-0 start-0 w-100 h-100 opacity-0" OnChange="HandleFileSelected" />
+				<ValidationMessage For="@(() => model.fileList)" />
+			</RadzenButton>
+
+			@if (userFiles is not null)
+			{
+				<div class="d-flex flex-wrap justify-content-start align-items-center gap-3 mt-2">
+					@foreach (var file in userFiles)
+					{
+						<div class="card position-relative w-25" style="width: fit-content;">
+							<div class="position-absolute btn btn-danger" style="top: -10px; right: -10px;" @onclick="() => RemoveFromList(file.Id)">
+								<i class='bx bx-x'></i>
+							</div>
+							<img class="card-img" src="@(file.Url.Replace(@"wwwroot\", ""))" style="max-width: 100%; max-height: 100%; object-fit: contain;" />
+						</div>
+					}
+				</div>
+			}
+
+
 		</div>
 		<div class="d-flex align-items-center justify-content-end mt-3 gap-2">
 			<RadzenButton Style="width: fit-content;" Text="Cancel" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Danger" />
-			<RadzenButton Style="width: fit-content;" Text="Add User" Click="CreateUser" ButtonStyle="ButtonStyle.Primary" />
+			<RadzenButton ButtonType="ButtonType.Submit" Style="width: fit-content;" Text="@(String.IsNullOrEmpty(model.Id) ? " Add User" : $"Update User")" ButtonStyle="ButtonStyle.Primary" />
 		</div>
-	</form>
+
+	</EditForm>
+
 </MacroContainer>
-
-@code {
-
-	[Parameter]
-	public DialogService dialogService { get; set; } = default!;
-
-	[Parameter]
-	public RadzenDataGrid<UserInfo> datagrid { get; set; } = default!;
-
-	[Parameter]
-	public List<UserInfo> datalist { get; set; } = new();
-
-	private void HandleFileSelected(InputFileChangeEventArgs e)
-	{
-		model.fileList = e.GetMultipleFiles().ToList();
-	}
-
-	
-}

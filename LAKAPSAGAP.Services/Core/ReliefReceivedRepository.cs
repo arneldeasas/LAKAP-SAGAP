@@ -61,6 +61,7 @@ namespace LAKAPSAGAP.Services.Core
 					stockDetailList = await _context.CreateMany<StockDetail>(stockDetailList);
 					newReliefReceived.StockDetailList = stockDetailList;
 
+					await transaction.CommitAsync();
 					return newReliefReceived;
 				}
 				catch (Exception)

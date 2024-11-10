@@ -77,8 +77,14 @@ namespace LAKAPSAGAP.Services.Core
             await context.SaveChangesAsync();
             return item;
         }
+        public static async Task<List<T>> UpdateMany<T>(this MyDbContext context, List<T> itemList) where T : class
+		{
+			context.Set<T>().UpdateRange(itemList);
+			await context.SaveChangesAsync();
+			return itemList;
+		}
 
-        public static async Task<T?> Delete<T>(this MyDbContext context, T item) where T : class
+		public static async Task<T?> Delete<T>(this MyDbContext context, T item) where T : class
         {
             context.Set<T>().Remove(item);
             await context.SaveChangesAsync();

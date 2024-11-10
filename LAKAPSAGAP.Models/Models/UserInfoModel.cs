@@ -7,7 +7,6 @@ namespace LAKAPSAGAP.Models.Models
     public class UserInfo:CommonModel
     {
         public string UserAuthId { get; set; }
-        public string Username { get; set; }
         public string RoleId { get; set; }
         public string FirstName { get; set; }
         public string? MiddleName { get; set; }
@@ -18,6 +17,8 @@ namespace LAKAPSAGAP.Models.Models
         public List<Attachment> Attachments { get; set; } = new List<Attachment>();
         [ForeignKey(nameof(RoleId))]
         public IdentityRole Role { get; set; }
+        [ForeignKey(nameof(UserAuthId))]
+		public UserAuth UserAuth { get; set; }
 
 	}
     public class Attachment : CommonModel

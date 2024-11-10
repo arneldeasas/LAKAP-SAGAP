@@ -88,7 +88,13 @@ namespace LAKAPSAGAP.Services
                 .WithMany() // Or specify a collection in UserInfo if you have one
                 .HasForeignKey(a => a.LastModifiedById)
                 .OnDelete(DeleteBehavior.NoAction);
-        }
+
+            builder.Entity<Rack>().HasOne(r => r.Floor).WithMany().HasForeignKey(r => r.FloorId).OnDelete(DeleteBehavior.NoAction);
+			builder.Entity<StockItem>().HasOne(r => r.StockType).WithMany().HasForeignKey(r => r.StockTypeId).OnDelete(DeleteBehavior.NoAction);
+			builder.Entity<StockItem>().HasOne(r => r.StockCategory).WithMany().HasForeignKey(r => r.StockCategoryId).OnDelete(DeleteBehavior.NoAction);
+
+          
+		}
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             foreach (var entry in ChangeTracker.Entries())

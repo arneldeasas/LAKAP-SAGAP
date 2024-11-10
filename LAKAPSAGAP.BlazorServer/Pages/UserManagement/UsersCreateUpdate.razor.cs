@@ -106,17 +106,9 @@ namespace LAKAPSAGAP.BlazorServer.Pages.UserManagement
 
 				if (!await _jSRuntime.InvokeAsync<bool>("Confirmation")) return;
 
-				foreach (var toDelete in filesToDelete)
-                {
-					var result = await UserFileRepo.DeleteAttachment(new Attachment
-					{
-						Id = toDelete.Id,
-						Url = toDelete.Url,
-						UserId = model.Id
-					});
-                }
+				
 
-				await UserRepo.UpdateUser(model);
+				await UserRepo.UpdateUser(model, filesToDelete);
 				dialogService.Close(false);
 				StateHasChanged();
 			}

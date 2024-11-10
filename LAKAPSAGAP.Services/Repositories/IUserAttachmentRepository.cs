@@ -14,6 +14,7 @@ namespace LAKAPSAGAP.Services.Repositories
         public Task<List<string>> UploadAttachments(List<IBrowserFile> fileList, string userId);
         public Task<string> UploadFileAsync(FileMetadata fileMetadata);
         public Task<Attachment> DeleteAttachment(Attachment attachment);
+        public Task<Attachment> DeleteAttachmentSoft(string Id);
         Task<List<(string, string)>> GetUserAttachments(string userId);
 
 

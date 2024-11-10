@@ -97,46 +97,59 @@ namespace LAKAPSAGAP.Services.Core
 			}
 		}
 
-		public async Task<UserInfo> UpdateUser(CreateAccountViewModel data)
+		public async Task<UserInfo> UpdateUser(CreateAccountViewModel data, List<(string Id, string Url)> filesToDelete)
 		{
-			try
-			{
-				var userAuth = await _context.UserAuth.Where(x => x.Id == data.Id).SingleOrDefaultAsync();
+			using (var transaction = _context.Database.BeginTransaction()) {
 
-				if (!String.IsNullOrEmpty(data.Password)) { var updatedUserAuth = await _userManager.ChangePasswordAsync(userAuth, userAuth.PasswordHash, data.Password); }
-				if (!String.IsNullOrEmpty(data.Username)) { var updatedUserAuth = await _userManager.SetUserNameAsync(userAuth,  data.Username); }
-
-
-				var userInfo = await _context.UserInfo.Where(x => x.Id == data.Id).SingleOrDefaultAsync();
-
-
-				if (userInfo is not null)
+				try
 				{
-					userInfo.Id = data.Id;
-					userInfo.RoleId = data.RoleId;
-					userInfo.FirstName = data.FirstName;
-					userInfo.LastName = data.LastName;
-					userInfo.MiddleName = data.MiddleName;
-					userInfo.Barangay = data.Barangay;
-					userInfo.Email = data.Email;
-					userInfo.Phone = data.Phone;
+                    Console.WriteLine(data.Id);
+					var userAuth = await _context.UserAuth.Where(x => x.Id == data.UserAuthId).SingleOrDefaultAsync();
 
-					_context.UserInfo.Update(userInfo);
-					await _userAttachmentRepository.UploadAttachments(data.fileList, userInfo.Id);
-					await _context.SaveChangesAsync();
+					if (!String.IsNullOrEmpty(data.Password)) { var updatedUserAuth = await _userManager.ChangePasswordAsync(userAuth, userAuth.PasswordHash, data.Password); }
+					if (!String.IsNullOrEmpty(data.Username)) { var updatedUserAuth = await _userManager.SetUserNameAsync(userAuth, data.Username); }
 
-					return userInfo;
+
+					var userInfo = await _context.UserInfo.Where(x => x.Id == data.Id).SingleOrDefaultAsync();
+
+
+					if (userInfo is not null)
+					{
+						userInfo.Id = data.Id;
+						userInfo.RoleId = data.RoleId;
+						userInfo.FirstName = data.FirstName;
+						userInfo.LastName = data.LastName;
+						userInfo.MiddleName = data.MiddleName;
+						userInfo.Barangay = data.Barangay;
+						userInfo.Email = data.Email;
+						userInfo.Phone = data.Phone;
+
+						await _context.UpdateItem<UserInfo>(userInfo);
+
+						//await _context.UpdateMany<List<Attachment>>()
+
+						foreach (var toDelete in filesToDelete)
+						{
+							var result = await _userAttachmentRepository.DeleteAttachmentSoft(toDelete.Id);
+						}
+
+						await _userAttachmentRepository.UploadAttachments(data.fileList, userInfo.Id);
+						await _context.SaveChangesAsync();
+						await transaction.CommitAsync();
+						return userInfo;
+					}
+					else
+					{
+						throw new Exception("User not Found");
+					}
 				}
-				else
+				catch (Exception)
 				{
-					throw new Exception("User not Found");
+					transaction.Rollback();
+					throw;
 				}
 			}
-			catch (Exception)
-			{
-
-				throw;
-			}
+				
 		}
 		public async Task<UserInfo> DeleteUser(string Id)
 		{

@@ -6,15 +6,15 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace LAKAPSAGAP.Services.Core
 {
-    public class UserAttachmentRepository : CommonRepository<Attachment>, IUserAttachmentRepository
+    public class UserAttachmentRepository : IUserAttachmentRepository
     {
         public static readonly string _uploadPath = Path.Combine("wwwroot", "attachments");
         public static readonly int maxFileSize = 1024 * 1024 * 5;
-
-        public UserAttachmentRepository(MyDbContext context):base(context)
+        readonly MyDbContext _context;
+		public UserAttachmentRepository(MyDbContext context)
         {
-            
-        }
+            _context = context;
+		}
         public async Task<List<string>> UploadAttachments(List<IBrowserFile> fileList, string userId)
         {  //Makes metadata for files
             var largeFile = fileList.Find(x => x.Size > maxFileSize)  ;
@@ -26,7 +26,7 @@ namespace LAKAPSAGAP.Services.Core
 
             var attachmentUrlList = await Task.WhenAll(fileMetadataList.Select(fileMetadata => UploadFileAsync(fileMetadata)));
 
-            int existingRecordsCount = await GetCount();
+            int existingRecordsCount = await _context.GetCount<Attachment>();
             List<Attachment> attachmentList = attachmentUrlList.Select((attachmentUrl) =>
             {
                 existingRecordsCount++;
@@ -39,7 +39,7 @@ namespace LAKAPSAGAP.Services.Core
                 };
             }).ToList();
 
-            await CreateMany(attachmentList);
+            await _context.CreateMany(attachmentList);
 
          
             var uploadTasks = fileMetadataList.Select(file => UploadFileAsync(file)
@@ -73,7 +73,7 @@ namespace LAKAPSAGAP.Services.Core
             {
                 File.Delete(attachment.Url);
                 attachment.IsDeleted = true;
-                await Update(attachment);
+                await _context.UpdateItem(attachment);
                 return attachment;
             }
             catch (Exception)
@@ -83,13 +83,31 @@ namespace LAKAPSAGAP.Services.Core
             }
 
         }
+        public async Task<Attachment> DeleteAttachmentSoft(string Id)
+        {
+            try
+            {
+                var attachment = await _context.GetById<Attachment>(Id);
+                if(attachment == null)
+				{
+					throw new Exception("Attachment not found");
+				}
+				attachment.IsDeleted = true;
+				attachment = await _context.UpdateItem(attachment);
+				return attachment;
+			}
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
 		public async Task<List<(string, string)>> GetUserAttachments(string userId)
 		{
 			try
 			{
-				var response = await _context.Attachment
-					.Where(x => x.UserId == userId && x.IsDeleted == false)
+				var response = await _context.Attachment.WhereIsNotArchivedAndDeleted()
+					.Where(x => x.UserId == userId )
 					.Select(x => new { x.Id, x.Url })
 					.ToListAsync();
 

@@ -1,70 +1,61 @@
 ﻿<MacroContainer Style="width: 100dvw; max-width: 900px; padding: 0.25rem">
 
-	<RadzenText class="fw-bold text-primary" TextStyle="TextStyle.DisplayH5" Text="@(String.IsNullOrEmpty(model.Id) ? "Add New User" : $"Update User {model.Id}")" />
+	<RadzenText class="fw-bold text-primary" TextStyle="TextStyle.DisplayH5" Text="@($"User {model.Id}")" />
 
-	<div style="width: 100%;" class="d-grid gap-3">
-		<div class="row w-100">
-			<div class="col w-full">
-				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-					<span class="fw-bold text-uppercase">Designation</span>
-					@* <RadzenDropDown Name="UserRoles" Data=@userRoles ValueProperty="@nameof(IdentityRole.Id)" TextProperty="@(string.Join(" ", nameof(IdentityRole.Name).ToLower().Split('_').Select(word => char.ToUpper(word[0]) + word.Substring(1))))" @bind-Value="@model.RoleId" TValue="string" Style="width: 100%;" Placeholder="Select option" /> *@
-				</div>
+	<div style="width: 100%;" class="d-flex flex-column gap-1 align-items-center justify-content-start">
+		<div class="w-100 d-flex align-items-center justify-content-start gap-5">
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Designation</span>
+				<p>@model.UserRole</p>
 			</div>
-			<div class="col w-full">
-				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-					<span class="fw-bold text-uppercase">Barangay</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="Karuhatan" @bind-Value=model.Barangay />
-				</div>
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Barangay</span>
+				<p>@model.Barangay</p>
 			</div>
 		</div>
-		<div class="row w-100">
-			<div class="col w-full">
-				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-					<span class="fw-bold text-uppercase">First Name</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="Juan" @bind-Value=model.FirstName />
-				</div>
+		<div class="d-flex w-100 align-items-center justify-content-start gap-5">
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">First Name</span>
+				<p>@model.FirstName</p>
 			</div>
-			<div class="col w-full">
-				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-					<span class="fw-bold text-uppercase">Middle Name</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="Alfonso" @bind-Value=model.MiddleName />
-				</div>
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Middle Name</span>
+				<p>@model.MiddleName</p>
 			</div>
-			<div class="col w-full">
-				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-					<span class="fw-bold text-uppercase">Last Name</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="Dela Cruz" @bind-Value=model.LastName />
-				</div>
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Last Name</span>
+				<p>@model.LastName</p>
 			</div>
 		</div>
-		<hr />
-		<h5 class="row w-100 fs-6 text-danger fw-bold text-uppercase">Set Account and Password</h5>
-		<div class="row w-100">
-			<div class="col w-full">
-				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-					<span class="fw-bold text-uppercase">Username / ID</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="CSWD-01" @bind-Value=model.Username />
-				</div>
+
+		<h5 class="row w-100 fs-6 text-danger fw-bold text-uppercase">User Account</h5>
+
+		<div class="d-flex w-100 align-items-center justify-content-start gap-5">
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Username</span>
+				<p>@model.Username</p>
 			</div>
-			<div class="col w-full">
-				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-					<span class="fw-bold text-uppercase">Password</span>
-					<RadzenPassword Style="width: 100%;" Placeholder="@(String.IsNullOrEmpty(model.Id) ? "Enter Password Here" : "Enter New Password Here")" @bind-Value=model.Password />
-				</div>
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Email</span>
+				<p>@model.Email</p>
+			</div>
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Phone Number</span>
+				<p>@model.Phone</p>
 			</div>
 		</div>
-		<div class="row w-100">
-			<div class="col w-full">
-				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-					<span class="fw-bold text-uppercase">Email</span>
-					<RadzenTextBox Name="Email" Style="width: 100%;" Placeholder="cswd@email.com" @bind-Value=model.Email />
-				</div>
+		<div class="d-flex w-100 align-items-center justify-content-start gap-5">
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Date Created</span>
+				<p>@userData.DateCreated</p>
 			</div>
-			<div class="col w-full">
-				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-					<span class="fw-bold text-uppercase">Phone Number</span>
-					<RadzenTextBox Style="width: 100%;" Placeholder="0912 3456 789" @bind-Value=model.Phone />
-				</div>
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Dated Updated</span>
+				<p>@userData.DateUpdated</p>
+			</div>
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Last Modified By</span>
+				<p>@userData.LastModifiedBy</p>
 			</div>
 		</div>
 		<div class="row w-100 d-flex flex-column gap-2">
@@ -85,8 +76,8 @@
 
 
 		</div>
-		<div class="d-flex align-items-center justify-content-end mt-3 gap-2">
-			<RadzenButton Style="width: fit-content;" Text="Cancel" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Danger" />
+		<div class="d-flex align-items-center justify-content-end mt-3 gap-2 w-100">
+			<RadzenButton Style="width: fit-content;" Text="Return" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Base" />
 		</div>
 	</div>
 

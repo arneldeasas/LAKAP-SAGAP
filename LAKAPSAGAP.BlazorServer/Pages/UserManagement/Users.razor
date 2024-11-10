@@ -18,10 +18,11 @@
 	</div>
 
 	<div class="card p-3 d-flex flex-column align-items-start justify-items-end gap-3" style="width: 100%; height: 100%;">
-		<MacroSearch Placeholder="Search Users ... " />
+		<MacroSearch OnInput="(EventArgs) => SearchUsers(EventArgs.Value.ToString())" />
+
 		<RadzenDataGrid @ref="UsersDG" AllowFiltering="false" AllowColumnResize="false" AllowAlternatingRows="false" FilterMode="FilterMode.Simple"
 						AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
-						ShowPagingSummary="true" Data=@_userInfoList TItem="UserInfo" LogicalFilterOperator="LogicalFilterOperator.Or"
+						ShowPagingSummary="true" Data=@tableData TItem="UserInfo" LogicalFilterOperator="LogicalFilterOperator.Or"
 						Style="border-radius: var(--rz-border-radius-3);">
 			<EmptyTemplate>
 				<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
@@ -41,6 +42,8 @@
 				<RadzenDataGridColumn TItem="UserInfo" Property="Barangay" Title="Barangay" Width="250px" />
 				<RadzenDataGridColumn TItem="UserInfo" Property="Email" Title="Email" Width="160px" />
 				<RadzenDataGridColumn TItem="UserInfo" Property="Phone" Title="Phone Number" Width="150px" />
+				<RadzenDataGridColumn TItem="UserInfo" Property="@(nameof(UserInfo.DateCreated))" FormatString="{0:d}" Title="Date Created" Width="100px" />
+				<RadzenDataGridColumn TItem="UserInfo" Property="@(nameof(UserInfo.DateUpdated))" FormatString="{0:d}" Title="Last Updated" Width="100px" />
 				<RadzenDataGridColumn TItem="UserInfo" Title="Actions" Width="100px">
 					<Template Context="data">
 						<RadzenButton Style="border-radius: var(--rz-border-radius-3);"
@@ -50,7 +53,8 @@
 									  Icon="edit" Shade="Shade.Light" ButtonStyle="ButtonStyle.Success"
 									  Click="() => ShowUsersUpdateDialog(data)" />
 						<RadzenButton Style="border-radius: var(--rz-border-radius-3);"
-									  Icon="delete" ButtonStyle="ButtonStyle.Danger" />
+									  Icon="delete" ButtonStyle="ButtonStyle.Danger"
+									  Click="() => ArchiveUser(data.Id)"/>
 					</Template>
 				</RadzenDataGridColumn>
 			</Columns>

@@ -190,6 +190,7 @@ namespace LAKAPSAGAP.Services.Core
 			{
 				return await _context.UserInfo
 						.Include(u => u.Role)
+						.Where(u => u.isArchived == false)
 						.ToListAsync();
 			}
 			catch (Exception)

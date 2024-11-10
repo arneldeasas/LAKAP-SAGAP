@@ -17,6 +17,7 @@ namespace LAKAPSAGAP.Services.Core.Helpers
 		public static string PFX_STOCKITEM = "STKITM_";
         public static string PFX_STOCKTYPE = "STKTYP_";
 		public static string PFX_STOCKCATEGORY = "STKCAT_";
+		public static string PFX_STOCKUOM = "STKUOM_";
 		public static string PFX_FLOOR = "FLR_";
 		public static string PFX_RACK = "RCK_";
 		public static string GenerateId(string prefix,int count)

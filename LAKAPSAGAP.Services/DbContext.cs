@@ -92,8 +92,9 @@ namespace LAKAPSAGAP.Services
             builder.Entity<Rack>().HasOne(r => r.Floor).WithMany().HasForeignKey(r => r.FloorId).OnDelete(DeleteBehavior.NoAction);
 			builder.Entity<StockItem>().HasOne(r => r.StockType).WithMany().HasForeignKey(r => r.StockTypeId).OnDelete(DeleteBehavior.NoAction);
 			builder.Entity<StockItem>().HasOne(r => r.StockCategory).WithMany().HasForeignKey(r => r.StockCategoryId).OnDelete(DeleteBehavior.NoAction);
+			builder.Entity<StockDetail>().HasOne(r => r.BatchDetail).WithMany().HasForeignKey(r => r.BatchNumber).OnDelete(DeleteBehavior.NoAction);
 
-          
+
 		}
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

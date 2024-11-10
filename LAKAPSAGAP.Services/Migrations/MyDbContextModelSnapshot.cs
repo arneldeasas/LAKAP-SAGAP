@@ -94,6 +94,7 @@ namespace LAKAPSAGAP.Services.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WarehouseId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("isArchived")
@@ -298,6 +299,9 @@ namespace LAKAPSAGAP.Services.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ReliefReceivedId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("TypeId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -324,6 +328,8 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.HasIndex("LastModifiedById");
 
                     b.HasIndex("RackId");
+
+                    b.HasIndex("ReliefReceivedId");
 
                     b.HasIndex("TypeId");
 
@@ -566,7 +572,7 @@ namespace LAKAPSAGAP.Services.Migrations
 
                     b.Property<string>("UserAuthId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("isArchived")
                         .HasColumnType("bit");
@@ -578,6 +584,8 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.HasIndex("LastModifiedById");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("UserAuthId");
 
                     b.ToTable("UserInfo");
                 });
@@ -794,13 +802,17 @@ namespace LAKAPSAGAP.Services.Migrations
                         .WithMany()
                         .HasForeignKey("LastModifiedById");
 
-                    b.HasOne("LAKAPSAGAP.Models.Models.Warehouse", null)
+                    b.HasOne("LAKAPSAGAP.Models.Models.Warehouse", "Warehouse")
                         .WithMany("FloorList")
-                        .HasForeignKey("WarehouseId");
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AddedBy");
 
                     b.Navigation("LastModifiedBy");
+
+                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.Rack", b =>
@@ -876,9 +888,9 @@ namespace LAKAPSAGAP.Services.Migrations
                         .HasForeignKey("AddedById");
 
                     b.HasOne("LAKAPSAGAP.Models.Models.ReliefReceived", "BatchDetail")
-                        .WithMany("StockDetailList")
+                        .WithMany()
                         .HasForeignKey("BatchNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("LAKAPSAGAP.Models.Models.StockCategory", "Category")
@@ -908,6 +920,10 @@ namespace LAKAPSAGAP.Services.Migrations
                         .HasForeignKey("RackId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("LAKAPSAGAP.Models.Models.ReliefReceived", null)
+                        .WithMany("StockDetailList")
+                        .HasForeignKey("ReliefReceivedId");
 
                     b.HasOne("LAKAPSAGAP.Models.Models.StockType", "Type")
                         .WithMany()
@@ -1021,11 +1037,19 @@ namespace LAKAPSAGAP.Services.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LAKAPSAGAP.Models.Models.UserAuth", "UserAuth")
+                        .WithMany()
+                        .HasForeignKey("UserAuthId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("AddedBy");
 
                     b.Navigation("LastModifiedBy");
 
                     b.Navigation("Role");
+
+                    b.Navigation("UserAuth");
                 });
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.Warehouse", b =>

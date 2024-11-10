@@ -89,7 +89,10 @@ namespace LAKAPSAGAP.Models.Models
     {
       
         public string Name { get; set; }
-        public List<Rack> RackList {get; set;}
+        public string WarehouseId { get; set; }
+		[ForeignKey(nameof(WarehouseId))]
+		public Warehouse Warehouse { get; set; }
+        public List<Rack> RackList { get; set; } = new();
 
     }
 

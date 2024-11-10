@@ -8,7 +8,13 @@ namespace LAKAPSAGAP.Services.Repositories
 {
 	public interface IMaintenanceRepository
 	{
-		public Task<StockType> CreateStockType(string Name);
+		public Task<StockType> CreateStockType(StockTypeViewModel stockTypeViewModel);
+		public Task<StockType> UpdateStockType(StockTypeViewModel stockTypeViewModel);
+		public Task<StockType> DeleteStockType(string Id);
+		public Task<StockType> ArchiveStockType(string Id);
+		public Task<StockType> GetStockTypeById(string Id);
+		public Task<List<StockType>> GetAllStockTypes();
+
 		public Task<StockCategory> CreateStockCategory(string Name);
 		public Task<StockItem> CreateStockItem(string Name);
 		public Task<UoM> CreateUoM(string Name);

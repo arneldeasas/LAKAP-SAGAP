@@ -15,6 +15,8 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 		private ReliefReceivedViewModel headers { get; set; } = new();
 		private string _activePane { get; set; } = "form";
 
+		
+
 
 		private async Task ConfirmReceiving()
 		{

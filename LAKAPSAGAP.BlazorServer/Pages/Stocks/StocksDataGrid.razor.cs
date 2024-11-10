@@ -18,13 +18,13 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
             {
                 _tableData = StockDetailList.Where( x => x.Id.ToString().ToLower().Contains(value.ToLower())
                    || x.BatchNumber.ToString().ToLower().Contains(value.ToLower())
-                   || x.ItemName.ToString().ToLower().Contains(value.ToLower())
-                   || x.Type.ToString().ToLower().Contains(value.ToLower())
-                   || x.Category.ToString().ToLower().Contains(value.ToLower())
+                   || x.ItemId.ToString().ToLower().Contains(value.ToLower())
+                   || x.TypeId.ToString().ToLower().Contains(value.ToLower())
+                   || x.CategoryId.ToString().ToLower().Contains(value.ToLower())
                    || x.Quantity.ToString().ToLower().Contains(value.ToLower())
-				   || x.UnitOfMeasure.ToString().ToLower().Contains(value.ToLower())
-                   || x.Rack.ToString().ToLower().Contains(value.ToLower())
-                   || x.Floor.ToString().ToLower().Contains(value.ToLower())
+				   || x.UoMId.ToString().ToLower().Contains(value.ToLower())
+                   || x.RackId.ToString().ToLower().Contains(value.ToLower())
+                   || x.FloorId.ToString().ToLower().Contains(value.ToLower())
 				   || x.ExpiryDate.ToString().ToLower().Contains(value.ToLower())).ToList();
 			}
             else

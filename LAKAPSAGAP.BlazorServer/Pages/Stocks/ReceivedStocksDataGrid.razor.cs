@@ -9,6 +9,8 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 		//
 		// On Initialized Async Adapt the Data Service Model into _tableData
 		//
+
+
 		private List<ReliefReceivedViewModel> ReceivedStocks { get; set; } = new();
 		private List<ReliefReceivedViewModel> _tableData { get; set; } = new();
 

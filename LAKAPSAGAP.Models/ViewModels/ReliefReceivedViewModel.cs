@@ -3,9 +3,14 @@ using LAKAPSAGAP.Models.Models;
 
 namespace LAKAPSAGAP.Models.ViewModel
 {
+
+	public class ReliefReceivedTableViewModel
+	{
+
+	}
+
     public class ReliefReceivedViewModel
     {
-
 		public string Id { get; set; }
 		public string WarehouseId { get; set; }
         public Warehouse Warehouse { get; set; } = new();
@@ -17,11 +22,10 @@ namespace LAKAPSAGAP.Models.ViewModel
 		public DateTime ReceivedDate { get; set; }
 		public int UserId { get; set; }
 		public UserInfo AddedBy { get; set; }
-		public List<StockDetailViewModel> StockDetailViewList { get; set; }
-
-		public ReliefReceivedFormSelections ReliefReceivedFormSelections { get; set; } // contains all records for selection type input
-
+		public List<StockDetailViewModel>? StockDetailViewList { get; set; }
+		public ReliefReceivedFormSelections? ReliefReceivedFormSelections { get; set; } // contains all records for selection type input
     }
+
 	public class ReliefReceivedFormSelections
 	{
 		public List<StockType> StockTypeList { get; set; }
@@ -31,6 +35,7 @@ namespace LAKAPSAGAP.Models.ViewModel
 		public List<Floor> FloorList { get; set; }
 		public List<Rack> RackList { get; set; }
 	}
+
 	public class StockDetailViewModel
 	{
 		public string Id { get; set; }
@@ -43,7 +48,6 @@ namespace LAKAPSAGAP.Models.ViewModel
 		public string FloorId { get; set; }
 		public string RackId { get; set; }
 		public DateTime? ExpiryDate { get; set; }
-		
 		public ReliefReceivedViewModel BatchDetail { get; set; }
 	}
 }

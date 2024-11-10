@@ -10,19 +10,19 @@
 									  TextAlign="TextAlign.Left" Width="60px" />
 				<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Id)" Title="Item Code"
 									  TextAlign="TextAlign.Left" Width="80px" />
-				<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.ItemName)" Title="Item"
+				<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.ItemId)" Title="Item"
 									  TextAlign="TextAlign.Left" Width="150px" />
-				<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Type)" Title="Type"
+				<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.TypeId)" Title="Type"
 									  TextAlign="TextAlign.Left" Width="90px" />
-				<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Category)" Title="Category"
+				<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.CategoryId)" Title="Category"
 									  TextAlign="TextAlign.Left" Width="90px" />
 				<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Quantity)" Title="Qty"
 									  TextAlign="TextAlign.Left" Width="90px" />
-				<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.UnitOfMeasure)" Title="UoM"
+				<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.UoMId)" Title="UoM"
 									  TextAlign="TextAlign.Left" Width="90px" />
 				<RadzenDataGridColumn Title="Location" TextAlign="TextAlign.Left" Width="90px">
 					<Template Context="data">
-						@data.Floor - @data.Rack
+						@data.FloorId - @data.RackId
 					</Template>
 				</RadzenDataGridColumn>
 				<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.ExpiryDate)" Title="Expiration Date" FormatString="{0:MMM dd, yyyy}"

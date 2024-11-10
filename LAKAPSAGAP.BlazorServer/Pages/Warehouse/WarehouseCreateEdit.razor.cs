@@ -12,13 +12,13 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 
 		protected override Task OnInitializedAsync()
 		{
-			warehouses = new List<WarehouseViewModel>
-			{
-				new WarehouseViewModel { Id = "CREATE", Name = "Add New Warehouse" },
-				new WarehouseViewModel { Id = "Whse01", Name = "Warehouse 1", Location = "Location 1" },
-				new WarehouseViewModel { Id = "Whse02", Name = "Warehouse 2", Location = "Location 2" },
-				new WarehouseViewModel { Id = "Whse03", Name = "Warehouse 3", Location = "Location 3" },
-			};
+			//warehouses = new List<WarehouseViewModel>
+			//{
+			//	new WarehouseViewModel { Id = "CREATE", Name = "Add New Warehouse" },
+			//	new WarehouseViewModel { Id = "Whse01", Name = "Warehouse 1", Location = "Location 1" },
+			//	new WarehouseViewModel { Id = "Whse02", Name = "Warehouse 2", Location = "Location 2" },
+			//	new WarehouseViewModel { Id = "Whse03", Name = "Warehouse 3", Location = "Location 3" },
+			//};
 
 			return base.OnInitializedAsync();
 		}
@@ -30,9 +30,9 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 				_isCreating = true;
 				model = new();
 			}
-			else if (value is string && warehouses.Any(x => x.Id == value))
+			else if (value is string && warehouses.Any(x => x.Name == value))
 			{
-				model = warehouses.Single(x => x.Id == value);
+				model = warehouses.Single(x => x.Name == value);
                 _isCreating = false;
 			}
 			else

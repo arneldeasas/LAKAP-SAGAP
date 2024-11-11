@@ -1,61 +1,70 @@
-﻿@layout LoginLayout
+﻿@layout EmptyLayout
 
-@page "/"
-@page "/login"
 
-<MacroContainer Style="width: 100%; height: 100%; padding: 0px; margin: 0px; position: relative;">
-	<RadzenImage Path="/images/login-background.jpg" Style="position: absolute; top: 0; left: 0; z-index:-1; width: 100%; height: 100%; background-repeat: no-repeat; background-size: cover; object-fit: cover; object-position: center;" />
-	<div class="d-flex w-100 h-100 align-items-center justify-content-center login-bg">
-		<EditForm Model="loginViewModel" OnValidSubmit="Login">
-			<RadzenCard Style="width: 100%; max-width: 480px; height: fit-content;" class="mx-4 my-4">
-				<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Start" Gap="1rem" class="mx-4 my-4">
-					<RadzenImage Path="/images/long.png" Style="width: 20rem;" />
-					<div class="d-flex flex-column justify-content-center align-items-start w-100">
-						<label class="fw-bold text-capitalize">Username</label>
-						<input class="input" type="text" placeholder="Username" @bind="loginViewModel.Username"/>
-					</div>
-					<div class="d-flex flex-column justify-content-center align-items-start w-100">
-						<label class="fw-bold text-capitalize">Password</label>
-						<input class="input" type="password" placeholder="Password" @bind="loginViewModel.Password" />
-					</div>
-					<button type="submit" Style="margin-top: 0.5rem; width: 100%; background-color: #4388FB; padding: 0.65rem 0rem 0.65rem 0rem; text-transform:capitalize; font-weight: 700; border-radius: var(--rz-border-radius-3)">
-						Login
-					</button>
-				</RadzenStack>
-			</RadzenCard>
-		</EditForm>
-	</div>
-</MacroContainer>
+@page "/account/login"
 
+@using LAKAPSAGAP.Models.ViewModels
+@using Microsoft.AspNetCore.Identity
+
+@using System.ComponentModel.DataAnnotations
+
+<div style="width: 100%; height: 100%; padding: 0; margin: 0; position: relative;">
+    <img src="/images/login-background.jpg" style="position: absolute; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; background-repeat: no-repeat; background-size: cover; object-fit: cover; object-position: center;" alt="background image" />
+    <div class="d-flex w-100 h-100 align-items-center justify-content-center login-bg">
+        <EditForm FormName="LoginForm" Model="@loginViewModel" method="POST" OnValidSubmit="Login">
+            <DataAnnotationsValidator />
+            @* <ValidationSummary /> *@
+            @* Add the antiforgery token *@
+            <input type="hidden" name="@Antiforgery.GetTokens(HttpContext).RequestToken" />
+            <div class="card mx-4 my-4" style="width: 100%; max-width: 480px; height: fit-content;">
+                <div class="d-flex flex-column align-items-center justify-content-start mx-4 my-4 gap-1rem">
+                    <img src="/images/long.png" style="width: 20rem;" alt="logo image" />
+                    <div class="d-flex flex-column justify-content-center align-items-start w-100">
+                        <label class="fw-bold text-capitalize">Username</label>
+                        <InputText class="input" type="text" id="username" placeholder="Username" @bind-Value="loginViewModel.Username" />
+                        <ValidationMessage For="@(() => loginViewModel.Username)" />
+                    </div>
+                    <div class="d-flex flex-column mt-3 justify-content-center align-items-start w-100">
+                        <label class="fw-bold text-capitalize">Password</label>
+                        <InputText class="input" type="password" placeholder="Password" id="password" @bind-Value="loginViewModel.Password" />
+                        <ValidationMessage For="@(() => loginViewModel.Password)" />
+                    </div>
+                    <button type="submit" style="margin-top: 3rem; width: 100%; background-color: #4388FB; padding: 0.65rem 0; text-transform: capitalize; font-weight: 700; border-radius: var(--rz-border-radius-3);">
+                        Login
+                    </button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
 
 <style>
-	.login-bg {
-		background-image: linear-gradient(rgba(212, 212, 212, 0.7), rgba(212, 212, 212, 0.7));
-		z-index: 10;
-		background-repeat: no-repeat;
-		background-size: cover;
-		object-fit: cover;
-		object-position: center;
-	}
+    .login-bg {
+        background-image: linear-gradient(rgba(212, 212, 212, 0.7), rgba(212, 212, 212, 0.7));
+        z-index: 10;
+        background-repeat: no-repeat;
+        background-size: cover;
+        object-fit: cover;
+        object-position: center;
+    }
 
-	.input {
-		width: 100%;
-		outline: none;
-		border: 2px solid var(--rz-base-300);
-		border-radius: var(--rz-border-radius-2);
-		padding: 0.35rem 0.65rem 0.35rem 0.65rem
-	}
+    .input {
+        width: 100%;
+        outline: none;
+        border: 2px solid var(--rz-base-300);
+        border-radius: var(--rz-border-radius-2);
+        padding: 0.35rem 0.65rem;
+    }
 
-		.input:is(:hover) {
-			border: 2px solid #b4cffd
-		}
+        .input:hover {
+            border: 2px solid #b4cffd;
+        }
 
-		.input:active {
-			border: 2px solid #4388FB
-		}
+        .input:active {
+            border: 2px solid #4388FB;
+        }
 
-		.input:focus {
-			border: 2px solid #4388FB
-		}
-
+        .input:focus {
+            border: 2px solid #4388FB;
+        }
 </style>

@@ -17,9 +17,12 @@ builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents();
 
 builder.Services.AddRadzenComponents();
+builder.Services.AddAuthorization();
+builder.Services.AddAntiforgery();
 builder.Services.AddCascadingAuthenticationState();
 
 builder.Services.AddServices();
+//builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 builder.Services.AddDbContext<MyDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -54,7 +57,6 @@ builder.Services.ConfigureApplicationCookie(options =>
 	// Cookie settings
 	options.Cookie.HttpOnly = true;
 	options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-
 	options.LoginPath = "/login";
 	options.AccessDeniedPath = "/AccessDenied";
 	options.SlidingExpiration = true;
@@ -81,8 +83,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAntiforgery();
-app.UseAuthentication(); // Ensure authentication middleware is used
-app.UseAuthorization();  // Ensure authorization middleware is used
+//app.UseAuthentication(); // Ensure authentication middleware is used
+//app.UseAuthorization();  // Ensure authorization middleware is used
 
 using (var scope = app.Services.CreateScope())
 {
@@ -121,6 +123,6 @@ if (app.Environment.IsDevelopment())
 	{
 		// Proxies requests for css and js to 
 		// the Vite development server for HMR.
-		app.UseViteDevelopmentServer(true);
+		//app.UseViteDevelopmentServer(true);
 	}
 }

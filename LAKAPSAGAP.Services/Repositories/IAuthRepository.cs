@@ -1,5 +1,6 @@
 ﻿
 
+using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
 namespace LAKAPSAGAP.Services.Repositories
@@ -8,6 +9,7 @@ namespace LAKAPSAGAP.Services.Repositories
     {
        
         public Task<bool> Authenticate(LoginViewModel login);
+       // public Task<ClaimsPrincipal?> MakeNewAuthenticatedUser(LoginViewModel login);
 		Task<UserAuth> GetAuthUserByUsername(string username);
 		Task<UserAuth> GetAuthUserByUserAuthId(string UserAuthId);
 		//public UserInfo GetAuthenticatedUser();

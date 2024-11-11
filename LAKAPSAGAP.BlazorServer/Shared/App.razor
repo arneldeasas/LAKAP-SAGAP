@@ -17,7 +17,7 @@
 	<link rel="stylesheet" href="app.css" />
 	<link rel="stylesheet" href="LAKAPSAGAP.BlazorServer.styles.css" />
 	<link rel="icon" type="image/png" href="favicon.png" />
-	<HeadOutlet @rendermode="InteractiveServer" />
+	<HeadOutlet @rendermode=RenderModeForPage />
 	<RadzenTheme Theme="material" @rendermode="InteractiveServer" />
 	@if (env.IsDevelopment() && vite.IsMiddlewareEnable)
 	{
@@ -55,7 +55,7 @@
 </head>
 
 <body>
-	<Routes @rendermode="InteractiveServer" />
+	<Routes @rendermode=RenderModeForPage />
 	<script src="_framework/blazor.web.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
@@ -66,7 +66,7 @@
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
 
-    private IComponentRenderMode? RenderModeForPage => HttpContext.Request.Path.StartsWithSegments("/Account")
+    private IComponentRenderMode? RenderModeForPage => HttpContext.Request.Path.StartsWithSegments("/account")
         ? null
         : InteractiveServer;
        

@@ -13,9 +13,9 @@ namespace LAKAPSAGAP.Services.Core.API
                 try
                 {
 					var data = await request.ReadFromJsonAsync<LoginViewModel>();
-                    var isSuccess =  await authRepository.Authenticate(data);
-
-                    if(isSuccess)return Results.Ok(new {message = "login success."});
+                    var ok =  await authRepository.Authenticate(data);
+                   // customAuthenticationStateProvider.MarkUserAsAuthenticated(name);
+                    if(ok)return Results.Ok(new {Message = "login success.",Data=data});
                     return Results.Json(new {message="login failed."},statusCode:401);
 				}
                 catch (Exception e)

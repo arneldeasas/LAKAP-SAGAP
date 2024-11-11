@@ -8,9 +8,10 @@ namespace LAKAPSAGAP.BlazorServer.Pages
         string? errorMessage = string.Empty;
         [CascadingParameter]
         private HttpContext HttpContext { get; set; }
-		[Inject] NavigationManager navManager { get; set; }
-        [Inject] IAuthRepository authService { get; set; }
         [Inject] IAntiforgery Antiforgery { get; set; }
+        [Inject] NavigationManager navManager { get; set; }
+        [Inject] IAuthRepository authService { get; set; }
+      
 
 		[SupplyParameterFromForm]
         LoginViewModel loginModel { get; set; } = new();
@@ -22,8 +23,8 @@ namespace LAKAPSAGAP.BlazorServer.Pages
             try
             {
 				await authService.Authenticate(loginModel);
-
-			}
+                navManager.NavigateTo("/users");
+            }
 			catch (Exception)
             {
 

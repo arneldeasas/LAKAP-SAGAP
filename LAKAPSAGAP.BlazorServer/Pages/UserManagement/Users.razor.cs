@@ -1,14 +1,15 @@
-﻿namespace LAKAPSAGAP.BlazorServer.Pages.UserManagement
+﻿using Microsoft.AspNetCore.Components.Authorization;
+
+namespace LAKAPSAGAP.BlazorServer.Pages.UserManagement
 {
 	public partial class Users
 	{
+	
 		[Inject] DialogService _dialogService { get; set; }
 		[Inject] IUserRepository _userRepo { get; set; }
 		[Inject] protected IJSRuntime _jSRuntime { get; set; } = default!;
-
-		[CascadingParameter]
-		private HttpContext HttpContext { get; set; }
-
+		[Inject] HttpContextAccessor HttpContextAccessor { get; set; }
+		[Inject] AuthenticationStateProvider Auth { get; set; }
 		public RadzenDataGrid<UserInfo> UsersDG;
 
 		private List<BreadcrumbViewModel> Breadcrumbs = new()
@@ -25,6 +26,10 @@
 		{
 			_userInfoList = await _userRepo.GetAllUsers();
 			tableData = _userInfoList;
+            Console.WriteLine(HttpContextAccessor.HttpContext?.User);
+			var authState = await Auth.GetAuthenticationStateAsync();
+            var user = authState.User;
+      
 		}
 
 		private void SearchUsers(string value)

@@ -4,7 +4,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Security
     public partial class AuthLogin
     {
         [Inject] IHttpClientFactory HttpClientFactory { get; set; }
-        [Inject] IHttpContextAccessor HttpContextAccessor { get; set; }
+   
 		[Inject] NavigationManager NavigationManager { get; set; }
       
         [Inject] IAuthRepository authRepository { get; set; }

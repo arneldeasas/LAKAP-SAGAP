@@ -106,7 +106,9 @@ namespace LAKAPSAGAP.Services
                 bool hasModifiedById = entry.Properties.Any(p => p.Metadata.Name == "LastModifiedById");
                 if (hasDateCreated && hasDateUpdated && hasAddedById && hasModifiedById)
                 {
-                    string? actionUserAuthId = _contextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                   // Console.WriteLine(_contextAccessor.HttpContext.User);
+                    string? actionUserAuthId = _contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
                     string? userId = UserInfo.FirstOrDefault(x => x.UserAuthId == actionUserAuthId)?.Id;
                 
                 

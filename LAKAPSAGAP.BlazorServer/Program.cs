@@ -18,16 +18,11 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddRadzenComponents();
 builder.Services.AddCascadingAuthenticationState();
+
 builder.Services.AddServices();
 builder.Services.AddDbContext<MyDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-builder.Services.AddAuthentication(o =>
-{
-	o.DefaultScheme = IdentityConstants.ApplicationScheme;
-	o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-});
 
 
 builder.Services.AddIdentity<UserAuth, IdentityRole>(options =>
@@ -54,20 +49,16 @@ builder.Services.AddIdentity<UserAuth, IdentityRole>(options =>
 .AddUserManager<UserManager<UserAuth>>()
 .AddDefaultTokenProviders();
 
-
-
-
 builder.Services.ConfigureApplicationCookie(options =>
 {
 	// Cookie settings
 	options.Cookie.HttpOnly = true;
 	options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
 
-	options.LoginPath = "/Login";
+	options.LoginPath = "/login";
 	options.AccessDeniedPath = "/AccessDenied";
 	options.SlidingExpiration = true;
 });
-
 
 builder.Services.AddHttpClient("API", client =>
 {
@@ -75,6 +66,9 @@ builder.Services.AddHttpClient("API", client =>
 });
 
 var app = builder.Build();
+
+// Ensure authentication and authorization middleware are used
+
 app.MapEndpoints();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -87,18 +81,15 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAntiforgery();
-//app.UseAuthentication(); // Ensure authentication middleware is used
-//app.UseAuthorization(); // Ensure authorization middleware is used
-
-
+app.UseAuthentication(); // Ensure authentication middleware is used
+app.UseAuthorization();  // Ensure authorization middleware is used
 
 using (var scope = app.Services.CreateScope())
 {
 	var services = scope.ServiceProvider;
 	var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-	var roles = new[]
-	{
+	var roles = new[] {
 		new { Name = "Barangay Representative", NormalizedName = "BARANGAY_REPRESENTATIVE" },
 		new { Name = "CSWD Office Head", NormalizedName = "CSWD_OFFICE_HEAD" },
 		new { Name = "CSWD Administration Staff", NormalizedName = "CSWD_ADMINISTRATION_STAFF" }
@@ -118,7 +109,6 @@ using (var scope = app.Services.CreateScope())
 		}
 	}
 }
-
 
 app.MapRazorComponents<App>()
 	.AddInteractiveServerRenderMode();

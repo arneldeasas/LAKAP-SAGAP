@@ -17,9 +17,9 @@ namespace LAKAPSAGAP.Services
 
             services.AddScoped<AuthRepository>();
             services.AddScoped<UserAttachmentRepository>();
-    
+			//services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddSingleton<HttpContextAccessor>();
+			services.AddScoped<HttpContextAccessor>();
             return services;
         }
 

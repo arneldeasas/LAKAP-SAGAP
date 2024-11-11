@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAKAPSAGAP.Services.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20241110115149_Init")]
-    partial class Init
+    [Migration("20241111030659_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

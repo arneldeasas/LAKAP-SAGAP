@@ -33,9 +33,10 @@ namespace LAKAPSAGAP.Services.Core
 
 					var warehouse = await _context.Create<Warehouse>(newWarehouse);
 					int countFlr = await _context.GetCount<Floor>();
-
+					int countRck = await _context.GetCount<Rack>();
 					foreach (var (floorViewModel, index) in warehouseViewModel.FloorList.Select((value, i) => (value, i)))
 					{
+						//countFlr += 1;
 						string flrId = IdGenerator.GenerateId(IdGenerator.PFX_FLOOR, countFlr);
 
 						var floor = new Floor
@@ -47,10 +48,11 @@ namespace LAKAPSAGAP.Services.Core
 
 						floor = await _context.Create<Floor>(floor);
 
-						int countRck = await _context.GetCount<Rack>();
+						
 
 						foreach (var (rack, rckIndex) in warehouseViewModel.FloorList[index].RackList.Select((value, i) => (value, i)))
 						{
+							
 							string rckId = IdGenerator.GenerateId(IdGenerator.PFX_RACK, countRck);
 
 							var createdRack = new Rack
@@ -61,9 +63,10 @@ namespace LAKAPSAGAP.Services.Core
 							};
 
 							createdRack = await _context.Create<Rack>(createdRack);
-							countRck += rckIndex;
+							;
+							countRck += 1;
 						}
-						countFlr += index;
+						countFlr += 1;
 					}
 
 					transaction.Commit();

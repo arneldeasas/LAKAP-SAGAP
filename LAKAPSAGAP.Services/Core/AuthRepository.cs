@@ -39,7 +39,7 @@ namespace LAKAPSAGAP.Services.Core
 					throw new Exception("User not found.");
 				}
 				var result = await _signInManager.PasswordSignInAsync(login.Username, login.Password, true, false);
-
+                Console.WriteLine(_contextAccessor.HttpContext.User);
 				Console.WriteLine(result);
                 return result.Succeeded;
 

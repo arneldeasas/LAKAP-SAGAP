@@ -2,18 +2,11 @@
 	<RadzenText class="fw-bold text-danger" TextStyle="TextStyle.DisplayH5" Text="Warehouse Management" />
 	<form style="width: 100%;" class="d-grid gap-2">
 		<div class="row w-100">
-			@* <div class="col w-full">
-				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-					<span class="fw-bold text-uppercase">Select Warehouse</span>
-					<RadzenDropDown Style="width: 100%;" Placeholder="Select option" AllowClear="true"
-									Data="warehouses" TextProperty="Name" ValueProperty="Id" @bind-Value="_selectedWhse" Change="() => CreateOrEdit(_selectedWhse)" />
-				</div>
-			</div> *@
 			<div class="col w-full">
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Warehouse Name</span>
 					<RadzenTextBox Style="width: 100%;" Placeholder="Warehouse XYZ"
-								   @bind-Value="model.Name" />
+								   @bind-Value="whseModel.Name" />
 				</div>
 			</div>
 		</div>
@@ -22,11 +15,41 @@
 				<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
 					<span class="fw-bold text-uppercase">Location</span>
 					<RadzenTextBox Style="width: 100%;" Placeholder="Valenzuela City"
-								   @bind-Value="model.Location" />
+								   @bind-Value="whseModel.Location" />
 				</div>
 			</div>
 		</div>
-		<div class="d-flex align-items-center justify-content-end mt-3 gap-2">
+
+		<RadzenDataList WrapItems="false" AllowPaging="true" Data="@whseModel.FloorList">
+							<Template Context="data">
+								<RadzenPanel AllowCollapse="true" Style="width: 100%;">
+									<HeaderTemplate>
+										<RadzenText TextStyle="TextStyle.H6" class="rz-display-flex rz-align-items-center rz-m-0">
+											<RadzenIcon icon="dns" class="rz-me-1" style="color: var(--rz-success);" /><b>@data.Name</b>
+											<RadzenButton Style="margin-left: 0.5rem;" Icon="backspace" Variant="Variant.Flat" ButtonStyle="ButtonStyle.Base" Click="() => RemoveFloor(data)" />
+										</RadzenText>
+									</HeaderTemplate>
+									<ChildContent>
+										<div class="d-flex flex-wrap justify-content-start align-items-center mt-4 mx-2 gap-3">
+											<div class="d-flex justify-content-center align-items-center">
+												<RadzenTextBox Style="width: 125px;" Placeholder="Rack Name"
+															   @bind-Value="rackModel.Name" />
+												<RadzenButton Style="margin-left: 0.5rem;" Icon="add" Variant="Variant.Flat" ButtonStyle="ButtonStyle.Success" Click="() => AddRack(data.Name, rackModel)" />
+											</div>
+							@foreach (var rack in data.RackList)
+							{
+													<RadzenBadge Style="padding: 0.25rem 0.5rem 0.25rem 0.5rem" BadgeStyle="BadgeStyle.Primary">
+														<b>@rack.Name</b>
+														<RadzenButton Style="margin-left: 0.5rem;" Icon="backspace" Shade="Shade.Light" Variant="Variant.Text" ButtonStyle="ButtonStyle.Base" Click="() => RemoveRack(data.Name, rack)" />
+													</RadzenBadge>
+							}
+										</div>
+									</ChildContent>
+								</RadzenPanel>
+							</Template>
+						</RadzenDataList>
+
+						<div class="d-flex align-items-center justify-content-end mt-3 gap-2">
 			<RadzenButton Style="width: fit-content;" Text="Cancel" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Base" Shade="Shade.Light" />
 			<RadzenButton Style="width: fit-content; background: var(--rz-success-light);" Text="@((_isCreating ? "Add New Warehouse" : "Save Changes"))" ButtonStyle="ButtonStyle.Primary" 
 							Disabled="@(_selectedWhse is null || _selectedWhse == string.Empty)"/>
@@ -39,4 +62,6 @@
 
 	DateOnly value = DateOnly.FromDateTime(DateTime.Now);
 	[Parameter] public DialogService dialogService { get; set; } = default!;
+	[Parameter] required public WarehouseViewModel whseModel { get; set; } = new();
+
 }

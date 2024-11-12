@@ -10,12 +10,16 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 		[Inject] NavigationManager? NavManager { get; set; }
 
 
+
 		private bool Loading = true;
 
 		public WarehouseViewModel model { get; set; } = new();
+		public List<LAKAPSAGAP.Models.Models.Warehouse> warehouses { get; set; } = new();
 
 		protected override async Task OnParametersSetAsync()
 		{
+
+
 			while (Id == null)
 			{
 				Loading = true;
@@ -30,6 +34,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 				Name = res.Name,
 				Location = res.Location
 			};
+
 
 			foreach (var (floor, index) in res.FloorList.Select((floor, index) => (floor, index)))
 			{
@@ -48,9 +53,15 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 				}
 			}
 
+			warehouses = await WarehouseRepo.GetAllWarehouses();
 			Loading = false;
 		}
 
+		public void NavigateToWhse(string selectedWhse)
+		{
+			NavManager.NavigateTo($"/Warehouse/{selectedWhse}", true);
+		}
 
 	}
 }
+

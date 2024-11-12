@@ -1,47 +1,56 @@
 ﻿
+using LAKAPSAGAP.Models.Models;
+
 namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 {
 	public partial class WarehouseCreateEdit
 	{
-		public WarehouseViewModel model { get; set; } = new();
-		public List<WarehouseViewModel> warehouses { get; set; } = new();
+		public List<Warehouse> warehouses { get; set; } = new();
+		private RadzenDataList<FloorViewModel> floorDL { get; set; } = default!;
+		private RadzenDataList<RackViewModel> rackDL { get; set; } = default!;
+		public FloorViewModel floorModel { get; set; } = new();
+		public RackViewModel rackModel { get; set; } = new();
 
 		private string _selectedWhse = String.Empty;
 
 		private bool _isCreating = true;
+		private bool Loading = true;
 
-		protected override Task OnInitializedAsync()
+		public async Task AddFloor()
 		{
-			//warehouses = new List<WarehouseViewModel>
-			//{
-			//	new WarehouseViewModel { Id = "CREATE", Name = "Add New Warehouse" },
-			//	new WarehouseViewModel { Id = "Whse01", Name = "Warehouse 1", Location = "Location 1" },
-			//	new WarehouseViewModel { Id = "Whse02", Name = "Warehouse 2", Location = "Location 2" },
-			//	new WarehouseViewModel { Id = "Whse03", Name = "Warehouse 3", Location = "Location 3" },
-			//};
-
-			return base.OnInitializedAsync();
+			whseModel.FloorList.Add(floorModel);
+			floorModel = new();
+			await floorDL.Reload();
+			StateHasChanged();
 		}
 
-		private void CreateOrEdit(string value)
+		public async Task RemoveFloor(FloorViewModel floor)
 		{
-			if (value == "CREATE")
-			{
-				_isCreating = true;
-				model = new();
-			}
-			else if (value is string && warehouses.Any(x => x.Name == value))
-			{
-				model = warehouses.Single(x => x.Name == value);
-                _isCreating = false;
-			}
-			else
-			{
-				_isCreating = false;
-			}
+			whseModel.FloorList.Remove(floor);
+			floorModel = new();
+			await floorDL.Reload();
+			StateHasChanged();
+		}
 
-        }
+		public async Task AddRack(string floorName, RackViewModel rack)
+		{
+			FloorViewModel floor = whseModel.FloorList.Where(x => x.Name == floorName).Single();
+			if (floor is null) return;
+			floor.RackList.Add(rack);
+			rackModel = new();
+			await floorDL.Reload();
+			StateHasChanged();
+		}
 
+		public async Task RemoveRack(string floorName, RackViewModel rack)
+		{
+			FloorViewModel floor = whseModel.FloorList.Where(x => x.Name == floorName).Single();
+			if (floor is null) return;
+			floor.RackList.Remove(rack);
+			rackModel = new();
+			await floorDL.Reload();
+			StateHasChanged();
+		}
 
 	}
 }

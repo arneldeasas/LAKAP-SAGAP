@@ -4,7 +4,15 @@
 		<span class="fw-bold text-center fs-5">Warehouse Status</span>
 	</div>
 
-	<RadzenDropDown TValue="string" Style="width: 100%; margin-top: 0.25rem;" Name="WarehouseList" AllowClear=true />
+	<RadzenDropDown TValue="LAKAPSAGAP.Models.Models.Warehouse"
+					Style="width: 100%; margin-top: 0.25rem;"
+					TextProperty="@nameof(LAKAPSAGAP.Models.Models.Warehouse.Name)"
+					ValueProperty="@nameof(LAKAPSAGAP.Models.Models.Warehouse.Id)"
+					Name="WarehouseList"
+					Data="@warehouses"
+					AllowClear="false"
+					Change="(args) => NavigateToWhse(args?.ToString())" />
+
 
 	<div class="d-flex flex-column gap-2 justify-content-start align-items-start" style="margin-top: 0.75rem;">
 		<h6 class="fs-6 fw-bold text-capitalize rz-color-base-900">Location</h6>
@@ -17,7 +25,7 @@
 	<hr class="w-100 px-3 my-1" />
 
 	<div id="floors-list" class="d-flex flex-column gap-2 justify-content-start align-items-start w-100 overflow-scroll"
-		 style="height: calc(100% - 10%); overflow-y: auto;">
+		 style="height: calc(100% - 20%); overflow-y: auto;">
 		@foreach (var floor in model.FloorList)
 		{
 			<RadzenPanel AllowCollapse="true" class="rz-mx-auto"
@@ -36,7 +44,6 @@
 									@rack.Name
 								</div>
 								<div class="w-75 h-100 d-flex align-items-center justify-content-center flex-wrap gap-2">
-
 								</div>
 							</div>
 						</Template>
@@ -51,11 +58,11 @@
 {
 	async Task ShowWarehouseManagementDialog()
 	{
-		var result = await _dialogService.OpenAsync("Receive Stock", ds => @<WarehouseCreateEdit dialogService="ds" whseModel="model"  /> ,
+		var result = await _dialogService.OpenAsync("Receive Stock", ds => @<WarehouseCreateEdit dialogService="ds" whseModel="model" /> ,
 		new DialogOptions()
-			{
-				CssClass = "rz-w-fit-content",
-				ShowTitle = false,
-			});
+		{
+			CssClass = "rz-w-fit-content",
+			ShowTitle = false,
+		});
 	}
 }

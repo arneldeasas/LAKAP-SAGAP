@@ -20,6 +20,7 @@
     },
     "dependencies": {
         "bootstrap": "^5.3.3",
-        "sweetalert2": "^11.14.4"
+        "sweetalert2": "^11.14.4",
+        "toastify-js": "^1.12.0"
     }
 }

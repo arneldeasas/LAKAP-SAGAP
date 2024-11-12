@@ -5,6 +5,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 {
 	public partial class Stocks
 	{
+		[Parameter] public string? id { get; set; }
 		[Inject] DialogService _dialogService { get; set; }
 
 		private List<BreadcrumbViewModel> Breadcrumbs = new()

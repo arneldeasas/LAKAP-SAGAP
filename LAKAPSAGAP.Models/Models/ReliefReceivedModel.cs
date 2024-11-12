@@ -21,22 +21,12 @@ namespace LAKAPSAGAP.Models.Models
     public class StockDetail : CommonModel
     {
       
-        public string BatchNumber { get; set; }
-        public string TypeId { get; set; } //Item Type
-		[ForeignKey(nameof(TypeId))]
-        public StockType Type { get; set; }
-
+        public string BatchNumber { get; set; }  
 		public string ItemId { get; set; }
 		[ForeignKey(nameof(ItemId))]
 		public StockItem Item { get; set; }
-		public string CategoryId { get; set; }
-		[ForeignKey(nameof(CategoryId))]
-		public StockCategory Category { get; set; }
+	
 		public int Quantity { get; set; }
-        public string UoMId { get; set; }
-		[ForeignKey(nameof(UoMId))]
-		public UoM UoM { get; set; }
-		
 		public string FloorId { get; set; }
         [ForeignKey(nameof(FloorId))]
         public Floor Floor { get; set; }                                  
@@ -69,13 +59,16 @@ namespace LAKAPSAGAP.Models.Models
     public class StockItem : CommonModel 
     {
       
-        public string StockTypeId { get; set; }
-        [ForeignKey(nameof(StockTypeId))]
-        public StockType StockType { get; set; }
+        //public string StockTypeId { get; set; }
+        //[ForeignKey(nameof(StockTypeId))]
+        //public StockType StockType { get; set; }
        
         public string StockCategoryId { get; set; }
         [ForeignKey(nameof(StockCategoryId))]
         public StockCategory StockCategory { get; set; }
+        public string UoMId { get; set; }
+        [ForeignKey(nameof(UoMId))]
+        public UoM UoM { get; set; }
         public string Name { get; set; }
 
 

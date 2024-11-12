@@ -48,11 +48,11 @@ namespace LAKAPSAGAP.Services.Core
 						{
 							Id = Id,
 							BatchNumber = newReliefReceived.Id,
-							TypeId = x.TypeId,
-							CategoryId = x.CategoryId,
+							//TypeId = x.TypeId,
+							
 							ItemId = x.ItemId,
 							Quantity = x.Quantity,
-							UoMId = x.UoMId,
+							
 							FloorId = x.FloorId,
 							RackId = x.RackId,
 						};
@@ -151,46 +151,46 @@ namespace LAKAPSAGAP.Services.Core
 			}
 		}
 
-		public async Task<ReliefReceivedViewModel> GetAllInitialSelectionOptions (ReliefReceivedViewModel reliefReceivedViewModel)
-		{
-			try
-			{
-				Task<List<StockType>> StockTypeList = _context.GetAll<StockType>();
-				Task<List<StockCategory>> StockCategoryList = _context.GetAll<StockCategory>();
-				Task<List<UoM>> UoMList = _context.GetAll<UoM>();
-				Task<List<Floor>> FloorList = _context.GetAll<Floor>();
+		//public async Task<ReliefReceivedViewModel> GetAllInitialSelectionOptions (ReliefReceivedViewModel reliefReceivedViewModel)
+		//{
+		//	try
+		//	{
+		//		Task<List<StockType>> StockTypeList = _context.GetAll<StockType>();
+		//		Task<List<StockCategory>> StockCategoryList = _context.GetAll<StockCategory>();
+		//		Task<List<UoM>> UoMList = _context.GetAll<UoM>();
+		//		Task<List<Floor>> FloorList = _context.GetAll<Floor>();
 
-				await Task.WhenAll(StockTypeList, StockCategoryList, UoMList, FloorList);
+		//		await Task.WhenAll(StockTypeList, StockCategoryList, UoMList, FloorList);
 
-				reliefReceivedViewModel.ReliefReceivedFormSelections.StockTypeList = await StockTypeList;
-				reliefReceivedViewModel.ReliefReceivedFormSelections.StockCategoryList = await StockCategoryList;
-				reliefReceivedViewModel.ReliefReceivedFormSelections.UoMList = await UoMList;
-				reliefReceivedViewModel.ReliefReceivedFormSelections.FloorList = await FloorList;
+		//		reliefReceivedViewModel.ReliefReceivedFormSelections.StockTypeList = await StockTypeList;
+		//		reliefReceivedViewModel.ReliefReceivedFormSelections.StockCategoryList = await StockCategoryList;
+		//		reliefReceivedViewModel.ReliefReceivedFormSelections.UoMList = await UoMList;
+		//		reliefReceivedViewModel.ReliefReceivedFormSelections.FloorList = await FloorList;
 
-				return reliefReceivedViewModel;
-			}
-			catch (Exception)
-			{
+		//		return reliefReceivedViewModel;
+		//	}
+		//	catch (Exception)
+		//	{
 
-				throw;
-			}
+		//		throw;
+		//	}
 
-		}
+		//}
 
-		public async Task<List<StockItem>> GetAllStockItemBasedOnTypeAndCategory(string stockTypeId, string stockCategoryId)
-		{
-			try
-			{
-				var stockItemList = await _context.StockItem.WhereIsNotArchivedAndDeleted().Where(x=>x.StockTypeId == stockTypeId && x.StockCategoryId == stockCategoryId).ToListAsync();	
+		//public async Task<List<StockItem>> GetAllStockItemBasedOnTypeAndCategory(string stockTypeId, string stockCategoryId)
+		//{
+		//	try
+		//	{
+		//		var stockItemList = await _context.StockItem.WhereIsNotArchivedAndDeleted().Where(x=>x.StockTypeId == stockTypeId && x.StockCategoryId == stockCategoryId).ToListAsync();	
 
-				return stockItemList;
-			}
-			catch (Exception)
-			{
+		//		return stockItemList;
+		//	}
+		//	catch (Exception)
+		//	{
 
-				throw;
-			}
-		}
+		//		throw;
+		//	}
+		//}
 
 		public async Task<List<Rack>> GetAllRacksBasedOnFloor(string floorId)
 		{
@@ -204,7 +204,27 @@ namespace LAKAPSAGAP.Services.Core
 
 				throw;
 			}
-		} 
+		}
+		
+		public async Task<List<StockItem>> GetItemSuggestions(string searchString)
+		{
+			try
+			{
+
+				List<StockItem> suggestions = new();
+				suggestions = await  _context.StockItem.Where(x => x.Name.ToLower() == searchString.ToLower()).ToListAsync();
+				if (suggestions.Count == 0) { //conditioned to be last option if search results are empty. Expensive Function.
+					suggestions = await _context.StockItem.Where(x => PartialTextSearch.CalculateLevenshteinDistance(x.Name, searchString) <= 2).ToListAsync();
+				}
+				
+				return suggestions;
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+		}
 
 	}
 }

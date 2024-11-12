@@ -48,11 +48,11 @@ namespace LAKAPSAGAP.Services.Core
 
 						floor = await _context.Create<Floor>(floor);
 
-						
+
 
 						foreach (var (rack, rckIndex) in warehouseViewModel.FloorList[index].RackList.Select((value, i) => (value, i)))
 						{
-							
+
 							string rckId = IdGenerator.GenerateId(IdGenerator.PFX_RACK, countRck);
 
 							var createdRack = new Rack
@@ -148,7 +148,27 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				var warehouse = await _context.GetById<Warehouse>(Id);
+				var warehouse = await _context.Warehouse
+										.AsNoTracking()
+										.Where(x => x.Id == Id)
+										.SingleAsync();
+
+				var floors = await _context.Floor
+									.AsNoTracking()
+									.Where(x => x.WarehouseId == Id)
+									.ToListAsync();
+				foreach (var floor in floors)
+				{
+					var racks = await _context.Rack
+										.AsNoTracking()
+										.Where(x => x.FloorId == floor.Id)
+										.ToListAsync();
+
+					floor.RackList = racks;
+				}
+
+				warehouse.FloorList = floors;
+
 				return warehouse;
 			}
 			catch (Exception)

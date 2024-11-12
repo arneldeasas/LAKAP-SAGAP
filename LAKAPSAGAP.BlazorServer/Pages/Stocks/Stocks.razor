@@ -1,4 +1,6 @@
-﻿@page "/Warehouse/{id}"
+﻿@using LAKAPSAGAP.BlazorServer.Pages.Warehouse
+
+@page "/Warehouse/{id}"
 @layout MainLayout
 <PageTitle>Stocks</PageTitle>
 
@@ -14,7 +16,7 @@
 			@* Side Content *@
 
 			<div class="card p-3 d-flex flex-column align-items-start just-items-start" style="width: 20%; height: 100%;">
-				<LAKAPSAGAP.BlazorServer.Pages.Warehouse.Warehouse />
+				<Warehouse Id="@(id)"/>
 			</div>
 
 			@* Center Contents *@

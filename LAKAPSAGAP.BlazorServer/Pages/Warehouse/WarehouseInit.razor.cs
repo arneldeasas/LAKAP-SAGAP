@@ -71,15 +71,18 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 			try
 			{
 				var whse = await WarehouseRepo.CreateWarehouse(model);
+				Loading = true;
 
                 if (whse is not null)
                 {
 					await _jSRuntime.InvokeVoidAsync("Toast", "success", "Warehouse Created Successfully!");
+					await Task.Delay(3000);
 					NavManager.NavigateTo($"/Warehouse/{whse.Id}", true);
                 }
 				else
 				{
 					await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Oh No! Something bad happenned, Please try again...");
+					await Task.Delay(3000);
 					NavManager.NavigateTo($"/Warehouse", true);
 
 				}

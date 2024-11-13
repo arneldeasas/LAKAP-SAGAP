@@ -5,6 +5,11 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 {
 	public partial class WarehouseCreateEdit
 	{
+
+		[Inject] protected IJSRuntime _jSRuntime { get; set; } = default!;
+		[Inject] IWarehouseRepository? WarehouseRepo { get; set; }
+
+
 		public List<Warehouse> warehouses { get; set; } = new();
 		private RadzenDataList<FloorViewModel> floorDL { get; set; } = default!;
 		private RadzenDataList<RackViewModel> rackDL { get; set; } = default!;
@@ -50,6 +55,33 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 			rackModel = new();
 			await floorDL.Reload();
 			StateHasChanged();
+		}
+
+		public async Task Save()
+		{
+			if (!await _jSRuntime.InvokeAsync<bool>("Confirmation")) return;
+
+			try
+			{
+				var whse = await WarehouseRepo.UpdateWarehouse(whseModel);
+				Loading = true;
+
+				if (whse is not null)
+				{
+					await _jSRuntime.InvokeVoidAsync("Toast", "success", "Warehouse Created Successfully!");
+					await Task.Delay(3000);
+				}
+				else
+				{
+					await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Oh No! Something bad happenned, Please try again...");
+					await Task.Delay(3000);
+				}
+
+			}
+			catch (Exception)
+			{
+				throw;
+			}
 		}
 
 	}

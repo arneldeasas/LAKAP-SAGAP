@@ -23,15 +23,15 @@ namespace LAKAPSAGAP.Models.ViewModel
 		public int UserId { get; set; }
 		public UserInfo AddedBy { get; set; }
 		public List<StockDetailViewModel>? StockDetailViewList { get; set; }
-		public ReliefReceivedFormSelections? ReliefReceivedFormSelections { get; set; } // contains all records for selection type input
+		public ReliefReceivedFormSelectionsOptions? ReliefReceivedFormSelections { get; set; } // contains all records for selection type input
     }
 
-	public class ReliefReceivedFormSelections
+	public class ReliefReceivedFormSelectionsOptions
 	{
-		public List<StockType> StockTypeList { get; set; }
+		//public List<StockType> StockTypeList { get; set; }
 		public List<StockCategory> StockCategoryList { get; set; }
-		public List<StockItem> StockItemList { get; set; } 
-		public List<UoM> UoMList { get; set; }
+	//	public List<StockItem> StockItemList { get; set; } 
+		//public List<UoM> UoMList { get; set; }
 		public List<Floor> FloorList { get; set; }
 		public List<Rack> RackList { get; set; }
 	}

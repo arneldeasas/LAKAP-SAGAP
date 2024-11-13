@@ -152,31 +152,31 @@ namespace LAKAPSAGAP.Services.Core
 			}
 		}
 
-		//public async Task<ReliefReceivedViewModel> GetAllInitialSelectionOptions (ReliefReceivedViewModel reliefReceivedViewModel)
-		//{
-		//	try
-		//	{
-		//		Task<List<StockType>> StockTypeList = _context.GetAll<StockType>();
-		//		Task<List<StockCategory>> StockCategoryList = _context.GetAll<StockCategory>();
-		//		Task<List<UoM>> UoMList = _context.GetAll<UoM>();
-		//		Task<List<Floor>> FloorList = _context.GetAll<Floor>();
+		public async Task<ReliefReceivedFormSelectionsOptions> GetAllInitialSelectionOptions(ReliefReceivedViewModel reliefReceivedViewModel)
+		{
+			try
+			{
+			//	Task<List<StockType>> StockTypeList = _context.GetAll<StockType>();
+				//Task<List<StockCategory>> StockCategoryList = _context.GetAll<StockCategory>();
+			//	Task<List<UoM>> UoMList = _context.GetAll<UoM>();
+				Task<List<Floor>> FloorList = _context.GetAll<Floor>();
 
-		//		await Task.WhenAll(StockTypeList, StockCategoryList, UoMList, FloorList);
+				await Task.WhenAll( FloorList);
 
-		//		reliefReceivedViewModel.ReliefReceivedFormSelections.StockTypeList = await StockTypeList;
-		//		reliefReceivedViewModel.ReliefReceivedFormSelections.StockCategoryList = await StockCategoryList;
-		//		reliefReceivedViewModel.ReliefReceivedFormSelections.UoMList = await UoMList;
-		//		reliefReceivedViewModel.ReliefReceivedFormSelections.FloorList = await FloorList;
+				//reliefReceivedViewModel.ReliefReceivedFormSelections.StockTypeList = await StockTypeList;
+				//reliefReceivedViewModel.ReliefReceivedFormSelections.StockCategoryList = await StockCategoryList;
+				//reliefReceivedViewModel.ReliefReceivedFormSelections.UoMList = await UoMList;
+				reliefReceivedViewModel.ReliefReceivedFormSelections.FloorList = await FloorList;
 
-		//		return reliefReceivedViewModel;
-		//	}
-		//	catch (Exception)
-		//	{
+				return reliefReceivedViewModel.ReliefReceivedFormSelections;
+			}
+			catch (Exception)
+			{
 
-		//		throw;
-		//	}
+				throw;
+			}
 
-		//}
+		}
 
 		//public async Task<List<StockItem>> GetAllStockItemBasedOnTypeAndCategory(string stockTypeId, string stockCategoryId)
 		//{

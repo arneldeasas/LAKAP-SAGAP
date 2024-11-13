@@ -18,7 +18,7 @@ namespace LAKAPSAGAP.Models.Models
     }
 
     [Table("StockDetail")]
-    public class StockDetail : CommonModel
+    public class StockDetail : CommonModel 
     {
       
         public string BatchNumber { get; set; }
@@ -53,39 +53,37 @@ namespace LAKAPSAGAP.Models.Models
 
     }
 
-    [Table("StockType")]
-    public class StockType : CommonModel
-    {
-        
-        public string Name { get; set; }
-        
-    }
+    //[Table("StockType")]
+    //public class StockType : CommonModel 
+    //{  
+    //    public string Name { get; set; }
+    //}
 
     [Table("StockCategory")]
-    public class StockCategory : CommonModel
+    public class StockCategory : CommonModel //Food, Hygiene, Kitchen, clothes etc
     {
         
         public string Name { get; set; }
 
     }
 
-    [Table("StockItem")]
-    public class StockItem : CommonModel 
+    [Table("StockItem")] 
+    public class StockItem : CommonModel //record of all Relief Items
     {
       
         public string StockTypeId { get; set; }
         [ForeignKey(nameof(StockTypeId))]
-        public StockType StockType { get; set; }
-       
+       // public StockType StockType { get; set; }
         public string StockCategoryId { get; set; }
         [ForeignKey(nameof(StockCategoryId))]
         public StockCategory StockCategory { get; set; }
         public string Name { get; set; }
+        public string UoMId { get; set; }
+        [ForeignKey(nameof(UoMId))]
+		public UoM UoM { get; set; }
+	}
 
-
-    }
-
-    public class UoM : CommonModel
+    public class UoM : CommonModel // Bottle, can, pack, sachet, box, tray etc
     {
         public string Name { get; set; }
     }

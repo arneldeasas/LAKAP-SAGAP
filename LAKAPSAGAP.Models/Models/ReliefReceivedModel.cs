@@ -10,10 +10,10 @@ namespace LAKAPSAGAP.Models.Models
         public Warehouse Warehouse { get; set; }
         public string ReliefType { get; set; }
         public string ReceivedBy { get; set; }
-        public string ReceivedFrom { get; set; }
-        public string? TruckPlateNumber { get; set; }
+        public string ReceivedFrom { get; set; } //supplier or donor
+		public string? TruckPlateNumber { get; set; }
         public string? DriverName { get; set; }
-        public DateTime ReceivedDate { get; set; }
+        public DateTime DateReceived { get; set; }
         public List<StockDetail> StockDetailList { get; set; }
     }
 
@@ -28,10 +28,14 @@ namespace LAKAPSAGAP.Models.Models
 
 		public string ItemId { get; set; }
 		[ForeignKey(nameof(ItemId))]
+<<<<<<< Updated upstream
 		public StockItem Item { get; set; }
 		public string CategoryId { get; set; }
 		[ForeignKey(nameof(CategoryId))]
 		public StockCategory Category { get; set; }
+=======
+		public StockItem Item { get; set; }	
+>>>>>>> Stashed changes
 		public int Quantity { get; set; }
         public string UoMId { get; set; }
 		[ForeignKey(nameof(UoMId))]
@@ -43,7 +47,7 @@ namespace LAKAPSAGAP.Models.Models
 		public string RackId { get; set; }
 		[ForeignKey(nameof(RackId))]
         public Rack Rack { get; set; }
-		public DateTime? ExpiryDate { get; set; }
+		public DateTime? DateExpiry { get; set; }
         [ForeignKey(nameof(BatchNumber))]
         public ReliefReceived BatchDetail { get; set; }
 

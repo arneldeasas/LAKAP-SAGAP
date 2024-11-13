@@ -32,7 +32,7 @@ namespace LAKAPSAGAP.Services.Core
 						ReceivedFrom = reliefReceivedViewModel.ReceivedFrom,
 						TruckPlateNumber = reliefReceivedViewModel.TruckPlateNumber,
 						DriverName = reliefReceivedViewModel.DriverName,
-						ReceivedDate = reliefReceivedViewModel.ReceivedDate,
+						DateReceived = reliefReceivedViewModel.ReceivedDate,
 					};
 
 					newReliefReceived = await _context.Create<ReliefReceived>(newReliefReceived);
@@ -52,9 +52,14 @@ namespace LAKAPSAGAP.Services.Core
 							CategoryId = x.CategoryId,
 							ItemId = x.ItemId,
 							Quantity = x.Quantity,
+<<<<<<< Updated upstream
 							UoMId = x.UoMId,
+=======
+						
+>>>>>>> Stashed changes
 							FloorId = x.FloorId,
 							RackId = x.RackId,
+							DateExpiry = x.ExpiryDate 
 						};
 					}).ToList();
 

@@ -24,7 +24,7 @@ namespace LAKAPSAGAP.Services
 		public DbSet<Warehouse> Warehouse { get; set; }
 		public DbSet<ReliefReceived> ReliefReceived { get; set; }
         public DbSet<StockDetail> StockDetail { get; set; }
-        public DbSet<StockType> StockType { get; set; }
+      //  public DbSet<StockType> StockType { get; set; }
         public DbSet<StockItem> StockItem { get; set; }
         public DbSet<StockCategory> StockCategory { get; set; }
         public DbSet<UoM> UoM { get; set; }

@@ -33,19 +33,19 @@ namespace LAKAPSAGAP.Models.Models
 		public string RackId { get; set; }
 		[ForeignKey(nameof(RackId))]
         public Rack Rack { get; set; }
-		public DateTime? ExpiryDate { get; set; }
+		public DateTime? DateExpiry { get; set; }
         [ForeignKey(nameof(BatchNumber))]
         public ReliefReceived BatchDetail { get; set; }
 
     }
 
-    [Table("StockType")]
-    public class StockType : CommonModel
-    {
+    //[Table("StockType")]
+    //public class StockType : CommonModel
+    //{
         
-        public string Name { get; set; }
+    //    public string Name { get; set; }
         
-    }
+    //}
 
     [Table("StockCategory")]
     public class StockCategory : CommonModel

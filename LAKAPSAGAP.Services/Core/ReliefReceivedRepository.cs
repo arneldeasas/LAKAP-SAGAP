@@ -55,6 +55,7 @@ namespace LAKAPSAGAP.Services.Core
 							
 							FloorId = x.FloorId,
 							RackId = x.RackId,
+							DateExpiry = x.ExpiryDate
 						};
 					}).ToList();
 

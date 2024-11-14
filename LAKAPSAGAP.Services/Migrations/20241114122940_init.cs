@@ -272,34 +272,6 @@ namespace LAKAPSAGAP.Services.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StockType",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AddedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    LastModifiedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    isArchived = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StockType", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StockType_UserInfo_AddedById",
-                        column: x => x.AddedById,
-                        principalTable: "UserInfo",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_StockType_UserInfo_LastModifiedById",
-                        column: x => x.LastModifiedById,
-                        principalTable: "UserInfo",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UoM",
                 columns: table => new
                 {
@@ -361,9 +333,9 @@ namespace LAKAPSAGAP.Services.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StockTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     StockCategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UoMId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AddedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -380,10 +352,11 @@ namespace LAKAPSAGAP.Services.Migrations
                         principalTable: "StockCategory",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_StockItem_StockType_StockTypeId",
-                        column: x => x.StockTypeId,
-                        principalTable: "StockType",
-                        principalColumn: "Id");
+                        name: "FK_StockItem_UoM_UoMId",
+                        column: x => x.UoMId,
+                        principalTable: "UoM",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_StockItem_UserInfo_AddedById",
                         column: x => x.AddedById,
@@ -442,7 +415,7 @@ namespace LAKAPSAGAP.Services.Migrations
                     ReceivedFrom = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TruckPlateNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DriverName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ReceivedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateReceived = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AddedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -517,14 +490,13 @@ namespace LAKAPSAGAP.Services.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     BatchNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ItemId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     UoMId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FloorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     RackId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DateExpiry = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ReliefReceivedId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -571,17 +543,10 @@ namespace LAKAPSAGAP.Services.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StockDetail_StockType_TypeId",
-                        column: x => x.TypeId,
-                        principalTable: "StockType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_StockDetail_UoM_UoMId",
                         column: x => x.UoMId,
                         principalTable: "UoM",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_StockDetail_UserInfo_AddedById",
                         column: x => x.AddedById,
@@ -754,11 +719,6 @@ namespace LAKAPSAGAP.Services.Migrations
                 column: "ReliefReceivedId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StockDetail_TypeId",
-                table: "StockDetail",
-                column: "TypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_StockDetail_UoMId",
                 table: "StockDetail",
                 column: "UoMId");
@@ -779,19 +739,9 @@ namespace LAKAPSAGAP.Services.Migrations
                 column: "StockCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StockItem_StockTypeId",
+                name: "IX_StockItem_UoMId",
                 table: "StockItem",
-                column: "StockTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StockType_AddedById",
-                table: "StockType",
-                column: "AddedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StockType_LastModifiedById",
-                table: "StockType",
-                column: "LastModifiedById");
+                column: "UoMId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UoM_AddedById",
@@ -868,16 +818,13 @@ namespace LAKAPSAGAP.Services.Migrations
                 name: "StockItem");
 
             migrationBuilder.DropTable(
-                name: "UoM");
-
-            migrationBuilder.DropTable(
                 name: "Floor");
 
             migrationBuilder.DropTable(
                 name: "StockCategory");
 
             migrationBuilder.DropTable(
-                name: "StockType");
+                name: "UoM");
 
             migrationBuilder.DropTable(
                 name: "Warehouse");

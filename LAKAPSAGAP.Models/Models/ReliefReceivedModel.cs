@@ -43,6 +43,8 @@ namespace LAKAPSAGAP.Models.Models
 		[ForeignKey(nameof(CategoryId))]
 		public StockCategory Category { get; set; }
 
+
+
 		public int Quantity { get; set; }
 
         public string UoMId { get; set; }
@@ -72,6 +74,8 @@ namespace LAKAPSAGAP.Models.Models
     [Table("StockItem")] 
     public class StockItem : CommonModel //record of all Relief Items
     {
+      
+
         public string StockCategoryId { get; set; }
 
         [ForeignKey(nameof(StockCategoryId))]

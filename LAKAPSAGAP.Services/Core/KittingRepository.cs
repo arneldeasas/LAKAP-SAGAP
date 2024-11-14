@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace LAKAPSAGAP.Services.Core
 {
-	public class KittingRepository : IKittingRepository
-	{
-	}
+    public class KittingRepository : IKittingRepository
+    {
+        public Task<Kit> CreateKit(KitViewModel kitViewModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Kit> UpdateKit(KitViewModel kitViewModel)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

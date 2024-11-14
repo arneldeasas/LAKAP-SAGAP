@@ -118,7 +118,6 @@ namespace LAKAPSAGAP.Services.Core
 				var newStockItem = new StockItem
 				{
 					Id = Id,
-					StockTypeId = stockItemViewModel.StockTypeId,
 					StockCategoryId = stockItemViewModel.StockCategoryId,
 					Name = stockItemViewModel.Name.Trim(),
 				};
@@ -136,7 +135,6 @@ namespace LAKAPSAGAP.Services.Core
 			{
 				var updatedStockItem = new StockItem
 				{
-					StockTypeId = stockItemViewModel.StockTypeId,
 					StockCategoryId = stockItemViewModel.StockCategoryId,
 					Name = stockItemViewModel.Name.Trim(),
 				};

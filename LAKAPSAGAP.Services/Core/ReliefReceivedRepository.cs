@@ -8,7 +8,7 @@ using LAKAPSAGAP.Services.Core.Helpers;
 
 namespace LAKAPSAGAP.Services.Core
 {
-	public class ReliefReceivedRepository:IReliefReceivedRepository
+	public class ReliefReceivedRepository : IReliefReceivedRepository
 	{
 		readonly MyDbContext _context;
 		ReliefReceivedRepository(MyDbContext context)
@@ -178,7 +178,7 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				var stockItemList = await _context.StockItem.WhereIsNotArchivedAndDeleted().Where(x=>x.StockTypeId == stockTypeId && x.StockCategoryId == stockCategoryId).ToListAsync();	
+				var stockItemList = await _context.StockItem.WhereIsNotArchivedAndDeleted().Where(x=> x.StockCategoryId == stockCategoryId).ToListAsync();	
 
 				return stockItemList;
 			}
@@ -201,7 +201,11 @@ namespace LAKAPSAGAP.Services.Core
 
 				throw;
 			}
-		} 
+		}
 
-	}
+        public Task<List<StockItem>> GetItemSuggestions(string searchString)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

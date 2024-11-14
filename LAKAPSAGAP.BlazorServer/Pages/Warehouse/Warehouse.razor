@@ -1,43 +1,75 @@
-﻿<div class="d-flex flex-column gap-2 justify-content-start align-items-start w-100">
+﻿<div class="d-flex flex-column gap-2 justify-content-start align-items-start w-100 overflow-hidden">
 	<div class="d-flex flex-row gap-2 justify-content-center align-items-center text-success">
 		<i class='bx bxs-business fs-5'></i>
 		<span class="fw-bold text-center fs-5">Warehouse Status</span>
 	</div>
-	<RadzenDropDown TValue="string" Style="width: 100%; margin-top: 0.25rem;" Name="WarehouseList" AllowClear=true />
-	<div class="d-flex flex-column gap-2 justify-content-start align-items-start" style="margin-top: 0.75rem;">
-		<h6 class="fs-6 fw-bold text-capitalize">Location</h6>
-		<p></p>
-	</div>
-	<RadzenButton ButtonStyle="ButtonStyle.Success" Variant="Variant.Outlined" Icon="settings" Text="Warehouse Settings"
-				  Style="width: 100%; border-radius: var(--rz-border-radius-6);" Click="ShowWarehouseManagementDialog" />
-	<hr class="w-100 px-3 my-1" />
-	<RadzenPanel AllowCollapse="true" class="rz-mx-auto"
-				 style="width: 100%; box-shadow: none; border: 1px solid var(--rz-success-lighter); border-radius: var(--rz-border-radius-2);">
-		<HeaderTemplate>
-			<RadzenText TextStyle="TextStyle.H6" class="rz-display-flex rz-align-items-center rz-m-0">
-				<RadzenIcon icon="dns" class="rz-me-1" style="color: var(--rz-success);" /><b style="color: var(--rz-success);">first floor</b>
-			</RadzenText>
-		</HeaderTemplate>
-		<ChildContent>
-			<RadzenDataList AllowVirtualization=false Style="width: 100%;" WrapItems="false" AllowPaging="true"
-							TItem="WarehouseViewModel" PageSize="5" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
-				<Template Context="data">
 
-				</Template>
-			</RadzenDataList>
-		</ChildContent>
-	</RadzenPanel>
+	<div class="d-flex w-100 gap-2 justify-content-evenly align-items-center" style="margin-top: 0.75rem;">
+		<RadzenDropDown TValue="LAKAPSAGAP.Models.Models.Warehouse"
+						Style="width: 100%; height: 40px !important; flex-grow: 1;"
+						TextProperty="@nameof(LAKAPSAGAP.Models.Models.Warehouse.Name)"
+						ValueProperty="@nameof(LAKAPSAGAP.Models.Models.Warehouse.Id)"
+						Name="WarehouseList"
+						Data="@warehouses"
+						Placeholder="@model.Name"
+						AllowClear="false"
+						Change="(args) => NavigateToWhse(args?.ToString())" />
+
+		<RadzenButton ButtonStyle="ButtonStyle.Success" Variant="Variant.Filled" Shade="Shade.Light" Icon="add"
+					  Style="margin: 0px; flex-shrink: 0; border-radius: var(--rz-border-radius-1);" 
+					  Click="() => ShowWarehouseManagementDialog(new WarehouseViewModel())" />
+	</div>
+
+
+	<div class="d-flex flex-column gap-2 justify-content-start align-items-start" style="margin-top: 0.75rem;">
+		<h6 class="fs-6 fw-bold text-capitalize rz-color-base-900">Location</h6>
+		<p class="rz-color-base-700">@model.Location</p>
+	</div>
+
+	<RadzenButton ButtonStyle="ButtonStyle.Success" Variant="Variant.Outlined" Icon="settings" Text="Warehouse Settings"
+				  Style="width: 100%; border-radius: var(--rz-border-radius-6);" Click="() => ShowWarehouseManagementDialog(model)" />
+
+	<hr class="w-100 px-3 my-1" />
+
+	<div id="floors-list" class="d-flex flex-column gap-2 justify-content-start align-items-start w-100 overflow-scroll flex-grow-0">
+		@foreach (var floor in model.FloorList)
+		{
+			<RadzenPanel AllowCollapse="true" class="rz-mx-auto"
+						 style="width: 100%; box-shadow: none; border: 1px solid var(--rz-success-lighter); border-radius: var(--rz-border-radius-2);">
+				<HeaderTemplate>
+					<RadzenText TextStyle="TextStyle.H6" class="rz-display-flex rz-align-items-center rz-m-0">
+						<RadzenIcon icon="dns" class="rz-me-1" style="color: var(--rz-success);" /><b style="color: var(--rz-success);">@floor.Name</b>
+					</RadzenText>
+				</HeaderTemplate>
+				<ChildContent>
+					<RadzenDataList AllowVirtualization=false Style="width: 100%; margin-top: 0.75rem;" WrapItems="false" AllowPaging="true"
+									Data="@floor.RackList" PageSize="3" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
+						<Template Context="rack">
+							<div style="width: 100%; height: 100%;" class="d-flex justify-content-center align-items-center gap-2">
+								<div class="w-25 h-100 fs-6 fw-bold text-capitalize rz-color-primary-light">
+									@rack.Name
+								</div>
+								<div class="w-75 h-100 d-flex align-items-center justify-content-center flex-wrap gap-2">
+								</div>
+							</div>
+						</Template>
+					</RadzenDataList>
+				</ChildContent>
+			</RadzenPanel>
+		}
+	</div>
 </div>
 
 @code
 {
-	async Task ShowWarehouseManagementDialog()
+	async Task ShowWarehouseManagementDialog(WarehouseViewModel? value)
+	{
+		var result = await _dialogService.OpenAsync("Receive Stock", ds => @<WarehouseCreateEdit dialogService="ds" whseModel="value" /> ,
+		new DialogOptions()
 		{
-			var result = await _dialogService.OpenAsync("Receive Stock", ds => @<WarehouseCreateEdit dialogService="ds" /> ,
-			new DialogOptions()
-			{
-				CssClass = "rz-w-fit-content",
-				ShowTitle = false,
-			});
-		}
+			CssClass = "rz-w-fit-content",
+			ShowTitle = false,
+		});
+	}
+
 }

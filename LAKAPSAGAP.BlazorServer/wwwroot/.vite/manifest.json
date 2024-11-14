@@ -1,15 +1,22 @@
 {
-  "_lib-CjiPITC0.chunk.min.js": {
-    "file": "js/lib-CjiPITC0.chunk.min.js",
-    "name": "lib"
+  "_lib-!~{003}~.chunk.min.js": {
+    "file": "css/lib-U_b-ZeMd.bundle.min.css",
+    "src": "_lib-!~{003}~.chunk.min.js"
+  },
+  "_lib-wjeBjLej.chunk.min.js": {
+    "file": "js/lib-wjeBjLej.chunk.min.js",
+    "name": "lib",
+    "css": [
+      "css/lib-U_b-ZeMd.bundle.min.css"
+    ]
   },
   "scripts/app.js": {
-    "file": "js/app-VKQbiCoA.bundle.min.js",
+    "file": "js/app-BtwfR1Ap.bundle.min.js",
     "name": "app",
     "src": "scripts/app.js",
     "isEntry": true,
     "imports": [
-      "_lib-CjiPITC0.chunk.min.js"
+      "_lib-wjeBjLej.chunk.min.js"
     ]
   },
   "styles/app.scss": {

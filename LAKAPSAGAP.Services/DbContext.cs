@@ -93,6 +93,7 @@ namespace LAKAPSAGAP.Services
 			//builder.Entity<StockItem>().HasOne(r => r.StockType).WithMany().HasForeignKey(r => r.StockTypeId).OnDelete(DeleteBehavior.NoAction);
 			builder.Entity<StockItem>().HasOne(r => r.StockCategory).WithMany().HasForeignKey(r => r.StockCategoryId).OnDelete(DeleteBehavior.NoAction);
 			builder.Entity<StockDetail>().HasOne(r => r.BatchDetail).WithMany().HasForeignKey(r => r.BatchNumber).OnDelete(DeleteBehavior.NoAction);
+			builder.Entity<StockDetail>().HasOne(r => r.UoM).WithMany().HasForeignKey(r => r.UoMId).OnDelete(DeleteBehavior.NoAction);
 
 
 		}

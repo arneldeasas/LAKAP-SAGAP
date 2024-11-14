@@ -18,8 +18,6 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 
 		protected override async Task OnParametersSetAsync()
 		{
-
-
 			while (Id == null)
 			{
 				Loading = true;

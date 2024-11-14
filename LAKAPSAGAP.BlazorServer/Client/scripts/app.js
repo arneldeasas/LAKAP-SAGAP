@@ -1,6 +1,5 @@
 import Swal from 'sweetalert2';
 import Toastify from 'toastify-js';
-import 'toastify-js/src/toastify.css';
 import 'bootstrap';
 
 window.Confirmation = async (title, icon, text) => {
@@ -38,15 +37,3 @@ window.Toast = (type, message) => {
         stopOnFocus: false,
     }).showToast();
 };
-
-Toastify({
-    text:"This is a toast",
-    duration: 3000,
-    close: true,
-    gravity: "top",
-    position: "right",
-    style: {
-        background: colors[type] || colors.info,
-    },
-    stopOnFocus: false,
-}).showToast();

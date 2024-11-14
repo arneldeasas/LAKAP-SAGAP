@@ -89,6 +89,7 @@ namespace LAKAPSAGAP.Services.Core
 			{
 				var updatedWarehouse = new Warehouse
 				{
+					Id = warehouseViewModel.Id.Trim(),
 					Name = warehouseViewModel.Name.Trim(),
 					Location = warehouseViewModel.Location.Trim(),
 				};

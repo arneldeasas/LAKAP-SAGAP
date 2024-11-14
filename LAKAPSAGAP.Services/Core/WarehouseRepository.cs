@@ -87,14 +87,12 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				var updatedWarehouse = new Warehouse
-				{
-					Id = warehouseViewModel.Id.Trim(),
-					Name = warehouseViewModel.Name.Trim(),
-					Location = warehouseViewModel.Location.Trim(),
-				};
+				var warehouse = await _context.Warehouse.FindAsync(warehouseViewModel.Id);
+				warehouse.Name = warehouseViewModel.Name;
+				warehouse.Location = warehouseViewModel.Location;
 
-				var warehouse = await _context.UpdateItem<Warehouse>(updatedWarehouse);
+
+				await _context.SaveChangesAsync();
 
 				return warehouse;
 			}

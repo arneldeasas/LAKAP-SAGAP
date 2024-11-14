@@ -32,7 +32,7 @@ namespace LAKAPSAGAP.Services.Core
 						ReceivedFrom = reliefReceivedViewModel.ReceivedFrom,
 						TruckPlateNumber = reliefReceivedViewModel.TruckPlateNumber,
 						DriverName = reliefReceivedViewModel.DriverName,
-						ReceivedDate = reliefReceivedViewModel.ReceivedDate,
+						DateReceived = reliefReceivedViewModel.ReceivedDate,
 					};
 
 					newReliefReceived = await _context.Create<ReliefReceived>(newReliefReceived);
@@ -48,13 +48,13 @@ namespace LAKAPSAGAP.Services.Core
 						{
 							Id = Id,
 							BatchNumber = newReliefReceived.Id,
-							TypeId = x.TypeId,
 							CategoryId = x.CategoryId,
 							ItemId = x.ItemId,
 							Quantity = x.Quantity,
 							UoMId = x.UoMId,
 							FloorId = x.FloorId,
 							RackId = x.RackId,
+							DateExpiry = x.ExpiryDate 
 						};
 					}).ToList();
 
@@ -83,7 +83,7 @@ namespace LAKAPSAGAP.Services.Core
 					ReceivedFrom = reliefReceivedViewModel.ReceivedFrom,
 					TruckPlateNumber = reliefReceivedViewModel.TruckPlateNumber,
 					DriverName = reliefReceivedViewModel.DriverName,
-					ReceivedDate = reliefReceivedViewModel.ReceivedDate
+					DateReceived = reliefReceivedViewModel.ReceivedDate
 				};
 
 				updateReliefReceived = await _context.UpdateItem<ReliefReceived>(updateReliefReceived);
@@ -151,23 +151,20 @@ namespace LAKAPSAGAP.Services.Core
 			}
 		}
 
-		public async Task<ReliefReceivedViewModel> GetAllInitialSelectionOptions (ReliefReceivedViewModel reliefReceivedViewModel)
+		public async Task<ReliefReceivedFormSelections> GetAllInitialSelectionOptions (ReliefReceivedViewModel reliefReceivedViewModel)
 		{
 			try
 			{
-				Task<List<StockType>> StockTypeList = _context.GetAll<StockType>();
-				Task<List<StockCategory>> StockCategoryList = _context.GetAll<StockCategory>();
-				Task<List<UoM>> UoMList = _context.GetAll<UoM>();
+			
+
 				Task<List<Floor>> FloorList = _context.GetAll<Floor>();
 
-				await Task.WhenAll(StockTypeList, StockCategoryList, UoMList, FloorList);
+				await Task.WhenAll( FloorList);
 
-				reliefReceivedViewModel.ReliefReceivedFormSelections.StockTypeList = await StockTypeList;
-				reliefReceivedViewModel.ReliefReceivedFormSelections.StockCategoryList = await StockCategoryList;
-				reliefReceivedViewModel.ReliefReceivedFormSelections.UoMList = await UoMList;
+		
 				reliefReceivedViewModel.ReliefReceivedFormSelections.FloorList = await FloorList;
 
-				return reliefReceivedViewModel;
+				return reliefReceivedViewModel.ReliefReceivedFormSelections;
 			}
 			catch (Exception)
 			{
@@ -177,20 +174,7 @@ namespace LAKAPSAGAP.Services.Core
 
 		}
 
-		public async Task<List<StockItem>> GetAllStockItemBasedOnTypeAndCategory(string stockTypeId, string stockCategoryId)
-		{
-			try
-			{
-				var stockItemList = await _context.StockItem.WhereIsNotArchivedAndDeleted().Where(x=>x.StockTypeId == stockTypeId && x.StockCategoryId == stockCategoryId).ToListAsync();	
 
-				return stockItemList;
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
 
 		public async Task<List<Rack>> GetAllRacksBasedOnFloor(string floorId)
 		{

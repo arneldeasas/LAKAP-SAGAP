@@ -14,8 +14,8 @@ namespace LAKAPSAGAP.Services.Repositories
 		public Task<ReliefReceived> DeleteReliefReceived(string Id);
 		public Task<ReliefReceived> ArchiveReliefReceived(string Id);
 		public Task<List<ReliefReceived>> GetAllReliefReceived();
-		public Task<ReliefReceivedViewModel> GetAllInitialSelectionOptions(ReliefReceivedViewModel reliefReceivedViewModel); // will get all initial options/records for the selection inputs, includes stocktype, stockcategory, uom, and floor
-		public Task<List<StockItem>> GetAllStockItemBasedOnTypeAndCategory(string stockTypeId, string stockCategory);
+		public Task<ReliefReceivedFormSelections> GetAllInitialSelectionOptions(ReliefReceivedViewModel reliefReceivedViewModel); // will get all initial options/records for the selection inputs, includes stocktype, stockcategory, uom, and floor
+
 		public Task<List<Rack>> GetAllRacksBasedOnFloor(string floorId);
 	}
 }

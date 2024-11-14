@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LAKAPSAGAP.Services.Core
 {
-	public class KittingRepository : IKittingRepository
+	public class KittingRepository 
 	{
 	}
 }

@@ -22,20 +22,18 @@ namespace LAKAPSAGAP.Models.Models
     {
       
         public string BatchNumber { get; set; }
-        public string TypeId { get; set; } //Item Type
-		[ForeignKey(nameof(TypeId))]
-        public StockType Type { get; set; }
+
 
 		public string ItemId { get; set; }
 		[ForeignKey(nameof(ItemId))]
-<<<<<<< Updated upstream
+
 		public StockItem Item { get; set; }
 		public string CategoryId { get; set; }
 		[ForeignKey(nameof(CategoryId))]
 		public StockCategory Category { get; set; }
-=======
-		public StockItem Item { get; set; }	
->>>>>>> Stashed changes
+
+
+
 		public int Quantity { get; set; }
         public string UoMId { get; set; }
 		[ForeignKey(nameof(UoMId))]
@@ -71,9 +69,7 @@ namespace LAKAPSAGAP.Models.Models
     public class StockItem : CommonModel //record of all Relief Items
     {
       
-        public string StockTypeId { get; set; }
-        [ForeignKey(nameof(StockTypeId))]
-       // public StockType StockType { get; set; }
+
         public string StockCategoryId { get; set; }
         [ForeignKey(nameof(StockCategoryId))]
         public StockCategory StockCategory { get; set; }

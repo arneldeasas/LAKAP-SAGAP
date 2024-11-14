@@ -174,20 +174,7 @@ namespace LAKAPSAGAP.Services.Core
 
 		}
 
-		public async Task<List<StockItem>> GetAllStockItemBasedOnTypeAndCategory(string stockTypeId, string stockCategoryId)
-		{
-			try
-			{
-				var stockItemList = await _context.StockItem.WhereIsNotArchivedAndDeleted().Where(x=>x.StockTypeId == stockTypeId && x.StockCategoryId == stockCategoryId).ToListAsync();	
 
-				return stockItemList;
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
 
 		public async Task<List<Rack>> GetAllRacksBasedOnFloor(string floorId)
 		{

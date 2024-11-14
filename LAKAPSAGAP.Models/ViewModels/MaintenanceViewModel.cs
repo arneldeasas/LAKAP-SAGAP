@@ -16,9 +16,10 @@ namespace LAKAPSAGAP.Models.ViewModels
 	}
 	public class StockItemViewModel
 	{
-		public string StockTypeId { get; set; }
+	
 		public string StockCategoryId { get; set; }
 		public string Name { get; set; }
+		public string UoMId { get; set; }
 	}
 	public class UoMViewModel
 	{

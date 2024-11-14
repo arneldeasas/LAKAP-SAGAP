@@ -24,7 +24,7 @@ namespace LAKAPSAGAP.Services
 		public DbSet<Warehouse> Warehouse { get; set; }
 		public DbSet<ReliefReceived> ReliefReceived { get; set; }
         public DbSet<StockDetail> StockDetail { get; set; }
-        public DbSet<StockType> StockType { get; set; }
+        //public DbSet<StockType> StockType { get; set; }
         public DbSet<StockItem> StockItem { get; set; }
         public DbSet<StockCategory> StockCategory { get; set; }
         public DbSet<UoM> UoM { get; set; }
@@ -58,11 +58,11 @@ namespace LAKAPSAGAP.Services
             .HasForeignKey(r => r.LastModifiedById)
             .OnDelete(DeleteBehavior.NoAction);
 
-            builder.Entity<StockType>()
-                .HasOne(r => r.LastModifiedBy)
-                .WithMany()
-                .HasForeignKey(r => r.LastModifiedById)
-                .OnDelete(DeleteBehavior.NoAction);
+            //builder.Entity<StockType>()
+            //    .HasOne(r => r.LastModifiedBy)
+            //    .WithMany()
+            //    .HasForeignKey(r => r.LastModifiedById)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<StockCategory>()
                 .HasOne(r => r.LastModifiedBy)
@@ -90,7 +90,7 @@ namespace LAKAPSAGAP.Services
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<Rack>().HasOne(r => r.Floor).WithMany().HasForeignKey(r => r.FloorId).OnDelete(DeleteBehavior.NoAction);
-			builder.Entity<StockItem>().HasOne(r => r.StockType).WithMany().HasForeignKey(r => r.StockTypeId).OnDelete(DeleteBehavior.NoAction);
+			//builder.Entity<StockItem>().HasOne(r => r.StockType).WithMany().HasForeignKey(r => r.StockTypeId).OnDelete(DeleteBehavior.NoAction);
 			builder.Entity<StockItem>().HasOne(r => r.StockCategory).WithMany().HasForeignKey(r => r.StockCategoryId).OnDelete(DeleteBehavior.NoAction);
 			builder.Entity<StockDetail>().HasOne(r => r.BatchDetail).WithMany().HasForeignKey(r => r.BatchNumber).OnDelete(DeleteBehavior.NoAction);
 
@@ -110,7 +110,6 @@ namespace LAKAPSAGAP.Services
                     string? actionUserAuthId = _contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
 
                     string? userId = UserInfo.FirstOrDefault(x => x.UserAuthId == actionUserAuthId)?.Id;
-                
                 
                     if (entry.State == EntityState.Added)
                     {

@@ -18,12 +18,14 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 		{
 			if (value != string.Empty)
 			{
-				_tableData = ReceivedStocks.Where(x => x.Id.ToString().ToLower().Contains(value.ToLower())
-				   || x.Id.ToString().ToLower().Contains(value.ToLower())
-				   || x.ReliefType.ToString().ToLower().Contains(value.ToLower())
-				   || x.ReceivedFrom.ToString().ToLower().Contains(value.ToLower())
-				   || x.ReceivedDate.ToString().ToLower().Contains(value.ToLower())
-				   || x.Warehouse.ToString().ToLower().Contains(value.ToLower())).ToList();
+				_tableData = ReceivedStocks.Where(
+					x => x.Id.ToString().ToLower().Contains(value.ToLower())
+						|| x.Id.ToString().ToLower().Contains(value.ToLower())
+						|| x.ReliefType.ToString().ToLower().Contains(value.ToLower())
+						|| x.ReceivedFrom.ToString().ToLower().Contains(value.ToLower())
+						|| x.ReceivedDate.ToString().ToLower().Contains(value.ToLower())
+						|| x.Warehouse.Name.ToString().ToLower().Contains(value.ToLower())
+					).ToList();
 			}
 			else
 			{

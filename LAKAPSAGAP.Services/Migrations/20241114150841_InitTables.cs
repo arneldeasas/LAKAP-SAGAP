@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LAKAPSAGAP.Services.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class InitTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -277,6 +277,7 @@ namespace LAKAPSAGAP.Services.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Symbol = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AddedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -355,8 +356,7 @@ namespace LAKAPSAGAP.Services.Migrations
                         name: "FK_StockItem_UoM_UoMId",
                         column: x => x.UoMId,
                         principalTable: "UoM",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_StockItem_UserInfo_AddedById",
                         column: x => x.AddedById,
@@ -489,14 +489,13 @@ namespace LAKAPSAGAP.Services.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BatchNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ItemId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     UoMId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FloorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     RackId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DateExpiry = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    BatchNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ReliefReceivedId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -509,17 +508,10 @@ namespace LAKAPSAGAP.Services.Migrations
                 {
                     table.PrimaryKey("PK_StockDetail", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StockDetail_Floor_FloorId",
-                        column: x => x.FloorId,
-                        principalTable: "Floor",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_StockDetail_Rack_RackId",
                         column: x => x.RackId,
                         principalTable: "Rack",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_StockDetail_ReliefReceived_BatchNumber",
                         column: x => x.BatchNumber,
@@ -534,14 +526,12 @@ namespace LAKAPSAGAP.Services.Migrations
                         name: "FK_StockDetail_StockCategory_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "StockCategory",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_StockDetail_StockItem_ItemId",
                         column: x => x.ItemId,
                         principalTable: "StockItem",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_StockDetail_UoM_UoMId",
                         column: x => x.UoMId,
@@ -692,11 +682,6 @@ namespace LAKAPSAGAP.Services.Migrations
                 name: "IX_StockDetail_CategoryId",
                 table: "StockDetail",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StockDetail_FloorId",
-                table: "StockDetail",
-                column: "FloorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StockDetail_ItemId",

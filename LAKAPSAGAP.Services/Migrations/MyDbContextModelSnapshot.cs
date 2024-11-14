@@ -278,10 +278,6 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FloorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -316,8 +312,6 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.HasIndex("BatchNumber");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("FloorId");
 
                     b.HasIndex("ItemId");
 
@@ -401,6 +395,10 @@ namespace LAKAPSAGAP.Services.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Symbol")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -854,19 +852,13 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.HasOne("LAKAPSAGAP.Models.Models.StockCategory", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LAKAPSAGAP.Models.Models.Floor", "Floor")
-                        .WithMany()
-                        .HasForeignKey("FloorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("LAKAPSAGAP.Models.Models.StockItem", "Item")
                         .WithMany()
                         .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("LAKAPSAGAP.Models.Models.UserInfo", "LastModifiedBy")
@@ -876,7 +868,7 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.HasOne("LAKAPSAGAP.Models.Models.Rack", "Rack")
                         .WithMany()
                         .HasForeignKey("RackId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("LAKAPSAGAP.Models.Models.ReliefReceived", null)
@@ -894,8 +886,6 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.Navigation("BatchDetail");
 
                     b.Navigation("Category");
-
-                    b.Navigation("Floor");
 
                     b.Navigation("Item");
 
@@ -926,7 +916,7 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.HasOne("LAKAPSAGAP.Models.Models.UoM", "UoM")
                         .WithMany()
                         .HasForeignKey("UoMId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("AddedBy");

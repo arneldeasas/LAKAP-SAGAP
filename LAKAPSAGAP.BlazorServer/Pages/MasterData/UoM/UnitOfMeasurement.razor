@@ -1,7 +1,13 @@
-﻿@page "/MasterData/UoM"
+﻿@using LAKAPSAGAP.BlazorServer.Controls.MasterData.UoM
+
+@page "/MasterData/UoM"
 @layout MainLayout
 
-<h3>UnitOfMeasurement</h3>
+<PageTitle>UoM</PageTitle>
+
+<MacroContainer>
+    <UoMControl />
+</MacroContainer>
 
 @code {
 

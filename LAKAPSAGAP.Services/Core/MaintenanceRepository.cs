@@ -218,7 +218,7 @@ namespace LAKAPSAGAP.Services.Core
 			try
 			{
 				int count = await _context.GetCount<UoM>();
-				string Id = IdGenerator.GenerateId(IdGenerator.PFX_STOCKUOM, count);
+				string Id = IdGenerator.GenerateId(IdGenerator.PFX_UOM, count);
 				var newUoM = new UoM
 				{
 					Id = Id,

@@ -9,11 +9,12 @@ namespace LAKAPSAGAP.Services.Repositories
 {
 	public interface IWarehouseRepository
 	{
-		public Task<Warehouse> CreateWarehouse(WarehouseViewModel warehouseViewModel);
-		public Task<Warehouse> UpdateWarehouse(WarehouseViewModel warehouseViewModel);
-		public Task<Warehouse> DeleteWarehouse(string Id);
-		public Task<Warehouse> ArchiveWarehouse(string Id);
-		public Task<Warehouse> GetWarehouseById (string Id);
-		public Task<List<Warehouse>> GetAllWarehouses();
+		Task<Warehouse> CreateWarehouse(WarehouseViewModel warehouseViewModel);
+		Task<Warehouse> UpdateWarehouse(WarehouseViewModel warehouseViewModel);
+		Task<Warehouse> DeleteWarehouse(string Id);
+		Task<Warehouse> ArchiveWarehouse(string Id);
+		Task<Warehouse?> GetWarehouseById (string Id);
+		Task<List<Warehouse>> GetAllWarehouses();
+		Task<Warehouse> PickWarehouse();
 	}
 }

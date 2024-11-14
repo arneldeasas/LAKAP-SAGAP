@@ -145,14 +145,16 @@ namespace LAKAPSAGAP.Services.Core
 			}
 		}
 
-		public async Task<Warehouse> GetWarehouseById(string Id)
+		public async Task<Warehouse?> GetWarehouseById(string Id)
 		{
 			try
 			{
 				var warehouse = await _context.Warehouse
 										.AsNoTracking()
 										.Where(x => x.Id == Id)
-										.SingleAsync();
+										.SingleOrDefaultAsync();
+
+				if (warehouse == null) return null;
 
 				var floors = await _context.Floor
 									.AsNoTracking()
@@ -185,6 +187,23 @@ namespace LAKAPSAGAP.Services.Core
 				List<Warehouse> warehouseList = await _context.GetAll<Warehouse>();
 
 				return warehouseList;
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+		}
+
+		async Task<Warehouse> IWarehouseRepository.PickWarehouse()
+		{
+			try
+			{
+				var warehouse = await _context.Warehouse
+									.OrderBy(x => x.DateCreated)
+									.FirstOrDefaultAsync();
+
+				return warehouse;
 			}
 			catch (Exception)
 			{

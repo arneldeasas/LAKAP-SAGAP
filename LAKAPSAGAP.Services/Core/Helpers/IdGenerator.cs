@@ -20,6 +20,8 @@ namespace LAKAPSAGAP.Services.Core.Helpers
 		public static string PFX_STOCKUOM = "STKUOM_";
 		public static string PFX_FLOOR = "FLR_";
 		public static string PFX_RACK = "RCK_";
+        public static string PFX_KIT = "KIT_";
+        public static string PFX_KITCOMPONENT = "KIT_";
 		public static string GenerateId(string prefix,int count)
         {
             try

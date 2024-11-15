@@ -15,5 +15,13 @@ namespace LAKAPSAGAP.Services.Repositories
 		public Task<Kit> GetKitById(string Id);
 		public Task<List<Kit>> GetAllKit();
 
+		public Task<KitComponent> CreateKitComponent(KitComponentViewModel kitComponentViewModel);
+		public Task<KitComponent> UpdateKitComponent(KitComponentViewModel kitComponentViewModel);
+		public Task<KitComponent> DeleteKitComponent(string Id);
+		public Task<KitComponent> ArchiveKitComponent(string Id);
+		public Task<KitComponent> GetKitComponentById(string Id);
+		public Task<List<KitComponent>> GetAllKitComponent();
+
+
 	}
 }

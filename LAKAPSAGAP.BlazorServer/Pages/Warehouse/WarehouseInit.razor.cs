@@ -3,7 +3,7 @@ using LAKAPSAGAP.Models.Models;
 
 namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 {
-	public partial class WarehouseIndex
+	public partial class WarehouseInit
 	{
 
 		[Inject] IWarehouseRepository? WarehouseRepo { get; set; }
@@ -21,10 +21,10 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 
 		protected override async Task OnInitializedAsync()
 		{
-			//Loading = true;
-			//await Task.Delay(1000);
-			//WarehouseList = await WarehouseRepo.GetAllWarehouses();
-			//if (WarehouseList.Count() > 0) NavManager.NavigateTo($@"/Warehouses/{WarehouseList.First().Id}",true);
+			Loading = true;
+			await Task.Delay(1000);
+			WarehouseList = await WarehouseRepo.GetAllWarehouses();
+			if (WarehouseList.Count() > 0) NavManager.NavigateTo($@"/Warehouse/{WarehouseList.First().Id}", true);
 			Loading = false;
         }
 
@@ -70,7 +70,24 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 
 			try
 			{
-				await WarehouseRepo.CreateWarehouse(model);
+				var whse = await WarehouseRepo.CreateWarehouse(model);
+				Loading = true;
+
+                if (whse is not null)
+                {
+					await _jSRuntime.InvokeVoidAsync("Toast", "success", "Warehouse Created Successfully!");
+					await Task.Delay(3000);
+					NavManager.NavigateTo($"/Warehouse/Stocks/{whse.Id}", true);
+                }
+				else
+				{
+					await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Oh No! Something bad happenned, Please try again...");
+					await Task.Delay(3000);
+					NavManager.NavigateTo($"/Warehouse", true);
+
+				}
+
+
 			}
 			catch (Exception)
 			{

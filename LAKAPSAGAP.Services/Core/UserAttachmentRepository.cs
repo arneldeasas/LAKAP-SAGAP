@@ -14,6 +14,11 @@ namespace LAKAPSAGAP.Services.Core
 		public UserAttachmentRepository(MyDbContext context)
         {
             _context = context;
+            if (!Directory.Exists(_uploadPath))
+            {
+                Directory.CreateDirectory(_uploadPath);
+            }
+
 		}
         public async Task<List<string>> UploadAttachments(List<IBrowserFile> fileList, string userId)
         {  //Makes metadata for files

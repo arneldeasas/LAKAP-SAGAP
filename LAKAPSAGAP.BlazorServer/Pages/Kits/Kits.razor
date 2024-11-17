@@ -1,6 +1,6 @@
 ﻿@using LAKAPSAGAP.BlazorServer.Pages.Warehouse
 
-@page "/Warehouse/{id}/Stocks"
+@page "/Warehouse/{id}/Kits"
 @layout MainLayout
 <PageTitle>Stocks</PageTitle>
 
@@ -16,7 +16,7 @@
 			@* Side Content *@
 
 			<div class="card p-3 d-flex flex-column align-items-start just-items-start" style="width: 20%; height: 100%;">
-				<Warehouse Id="@(id)"/>
+				@* <Warehouse Id="@(id)"/> *@
 			</div>
 
 			@* Center Contents *@
@@ -42,7 +42,7 @@
 
 				@* Tabs *@
 
-				<RadzenTabs Style="border: 1px solid var(--rz-base-300); border-radius: var(--rz-border-radius-1); width: 100%; height: 100%;" TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Client">
+				@* <RadzenTabs Style="border: 1px solid var(--rz-base-300); border-radius: var(--rz-border-radius-1); width: 100%; height: 100%;" TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Client">
 					<Tabs>
 						<RadzenTabsItem Text="Stocks">
 							<StocksDataGrid />
@@ -54,7 +54,7 @@
 							<ReleasedStocksDataGrid />
 						</RadzenTabsItem>
 					</Tabs>
-				</RadzenTabs>
+				</RadzenTabs> *@
 
 			</div>
 		</div>

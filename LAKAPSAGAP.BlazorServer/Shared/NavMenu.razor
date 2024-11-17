@@ -28,7 +28,7 @@
         </div>
 
         @* Master Data *@
-        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Warehouse") ? "link-active" : "link")}")"
+        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("MasterData") ? "link-active" : "link")}")"
              @ref="masterDataButton" @onclick="@(args => {masterDataPopup.ToggleAsync(masterDataButton); ToggleVisibility();})">
             <i class='bx bxs-data' style="font-size: 0.8rem"></i>
             <span class="fw-bold text-center" style="font-size: 0.75rem">Master Data</span>

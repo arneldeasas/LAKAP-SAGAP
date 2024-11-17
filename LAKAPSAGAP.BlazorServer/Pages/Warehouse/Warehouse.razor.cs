@@ -17,7 +17,12 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 		public WarehouseViewModel model { get; set; } = new();
 		public List<LAKAPSAGAP.Models.Models.Warehouse> warehouses { get; set; } = new();
 
-		protected override async Task OnParametersSetAsync()
+        protected override async Task OnInitializedAsync()
+        {
+			
+        }
+
+        protected override async Task OnParametersSetAsync()
 		{
 
             var res = await WarehouseRepo.GetWarehouseById(Id);

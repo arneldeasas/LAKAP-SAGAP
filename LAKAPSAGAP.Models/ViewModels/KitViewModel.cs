@@ -9,6 +9,7 @@ namespace LAKAPSAGAP.Models.ViewModels
 {
 	public class KitViewModel 
 	{
+		public string Id { get; set; }
 		public string Name { get; set; }
 		public string? Description { get; set; }
 		public KitType KitType { get; set; }
@@ -18,6 +19,7 @@ namespace LAKAPSAGAP.Models.ViewModels
 	// component of a Kit
 	public class KitComponentViewModel
 	{
+		public string Id { get; set; }
 		public string ItemId { get; set; }
 		[ForeignKey(nameof(ItemId))]
 		public StockItem StockItem { get; set; }

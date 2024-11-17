@@ -1,9 +1,6 @@
-﻿using LAKAPSAGAP.BlazorServer.Pages.UserManagement;
-using Radzen;
-
-namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
+﻿namespace LAKAPSAGAP.BlazorServer.Pages.Kits
 {
-	public partial class Stocks
+	public partial class Kits
 	{
 		[Parameter] public static string? id { get; set; }
 		[Inject] DialogService _dialogService { get; set; }
@@ -11,7 +8,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 		private List<BreadcrumbViewModel> Breadcrumbs = new()
 		{
 			new BreadcrumbViewModel { Path = "javascript:void(0);", Text = "Warehouse" },
-			new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Stocks", Text = "Stocks" },
+			new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Kits", Text = "Kits" },
 		};
 
 	}

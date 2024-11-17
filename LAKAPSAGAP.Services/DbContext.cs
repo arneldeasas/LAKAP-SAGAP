@@ -30,11 +30,12 @@ namespace LAKAPSAGAP.Services
         public DbSet<UoM> UoM { get; set; }
 		public DbSet<Floor> Floor { get; set; }
 		public DbSet<Rack> Rack { get; set; }
-		
-        
-        // Add other DbSets for your models here
+        public DbSet<Kit> Kit { get; set; }
+        public DbSet<KitComponent> KitComponent { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+		// Add other DbSets for your models here
+
+		protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 

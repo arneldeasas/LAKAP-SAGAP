@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\NewFolder\**" />
+    <Content Remove="wwwroot\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\NewFolder\**" />
+    <None Remove="wwwroot\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
@@ -14,7 +21,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Radzen.Blazor" Version="5.3.5" />
-    <PackageReference Include="Vite.AspNetCore" Version="2.1.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,7 +30,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Attachments\" />
-    <Folder Include="wwwroot\NewFolder\" />
+    <Folder Include="wwwroot\scripts\" />
   </ItemGroup>
 
 </Project>

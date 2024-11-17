@@ -4,7 +4,7 @@
 </RadzenStack>
 
 <RadzenStack class="rz-w-100 rz-h-100 rz-p-3 card">
-	<RadzenDataGrid TItem="UoMViewModel" Data="@_uomListFiltered">
+	<RadzenDataGrid @ref=@_uomGrid TItem="UoMViewModel" Data="@_uomListFiltered" IsLoading=@_isBusy>
 		<EmptyTemplate>
 			<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
 		</EmptyTemplate>
@@ -35,6 +35,6 @@
 		}
 
 		await LoadUoMList();
-		StateHasChanged();
+		await RerenderTable();
 	}
 }

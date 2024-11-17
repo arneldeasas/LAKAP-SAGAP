@@ -5,7 +5,7 @@ namespace LAKAPSAGAP.Services.Core;
 
 public class UoMRepository : IUoMRepository
 {
-    MyDbContext _context { get; set; }
+    readonly MyDbContext _context;
 
     public UoMRepository(MyDbContext context) => _context = context;
 
@@ -26,7 +26,7 @@ public class UoMRepository : IUoMRepository
                 Symbol = uoM.Symbol
             };
 
-            await _context.UoMs.AddAsync(newUom);
+            await _context.Create<UoM>(newUom);
             await transaction.CommitAsync();
             newUoMId = uomId;
         }
@@ -38,15 +38,39 @@ public class UoMRepository : IUoMRepository
         return newUoMId;
     }
 
-    public Task<List<UoM>> GetAllUoM()
+    public async Task<List<UoM>> GetAllUoM()
     {
-        throw new NotImplementedException();
+		using IDbContextTransaction transaction = _context.Database.BeginTransaction();
+        List<UoM> uomList = [];
+
+		try
+        {
+            uomList = await _context.GetAll<UoM>();
+        }
+        catch (Exception)
+        {
+			await transaction.RollbackAsync();
+        }
+
+        return uomList;
     }
 
-    public Task<UoM> GetUoM(string uomId)
+    public async Task<UoM?> GetUoM(string uomId)
     {
-        throw new NotImplementedException();
-    }
+		using IDbContextTransaction transaction = _context.Database.BeginTransaction();
+        UoM? uom = null;
+
+		try
+		{
+			uom = await _context.GetById<UoM>(uomId);
+		}
+		catch (Exception)
+		{
+			await transaction.RollbackAsync();
+		}
+
+		return uom;
+	}
 
     public Task UpdateUoM(UoMViewModel uoM)
     {

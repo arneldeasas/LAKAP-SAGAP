@@ -12,6 +12,7 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserAttachmentRepository, UserAttachmentRepository>();
         services.AddScoped<IWarehouseRepository, WarehouseRepository>();
+        services.AddScoped<IUoMRepository, UoMRepository>();
 
         services.AddScoped<AuthRepository>();
         services.AddScoped<UserAttachmentRepository>();

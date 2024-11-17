@@ -1,11 +1,8 @@
 using LAKAPSAGAP.Services;
-using Vite.AspNetCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using LAKAPSAGAP.Services.Core.API;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Vite.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,8 +22,10 @@ builder.Services.AddServices();
 //builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 builder.Services.AddDbContext<MyDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+#if DEBUG
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+#endif
 
 builder.Services.AddIdentity<UserAuth, IdentityRole>(options =>
 {

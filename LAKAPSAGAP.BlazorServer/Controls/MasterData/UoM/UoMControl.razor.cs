@@ -1,9 +1,11 @@
+using UoMModel = LAKAPSAGAP.Models.Models.UoM;
 
 namespace LAKAPSAGAP.BlazorServer.Controls.MasterData.UoM;
 
 public partial class UoMControl
 {
 	[Inject] DialogService _dialogService { get; set; }
+	[Inject] IUoMRepository _uomRepo { get; set; }
 
 	RadzenDataGrid<UoMViewModel> _uomGrid { get; set; }
 	
@@ -13,6 +15,8 @@ public partial class UoMControl
 	];
 	List<UoMViewModel> _uomList { get; set; }
 	List<UoMViewModel> _uomListFiltered { get; set; }
+
+	bool _isBusy { get; set; }
 
 	protected override void OnInitialized()
 	{
@@ -25,10 +29,9 @@ public partial class UoMControl
 	{
 		if(firstRender)
 		{
-			//await LoadUoMList(); // will change later
-			_uomList = [new() { Name = "Kilogram", Symbol = "Kg" }];
-
+			await LoadUoMList();
 			_uomListFiltered = _uomList;
+			await RerenderTable();
 			StateHasChanged();
 		}
 		await base.OnAfterRenderAsync(firstRender);
@@ -36,8 +39,32 @@ public partial class UoMControl
 
 	async Task LoadUoMList()
 	{
-		//TODO: get all uom data/ uom list
+		SetBusy(true);
+		List<UoMModel> uoms = await _uomRepo.GetAllUoM();
+		_uomList = [];
+		foreach(UoMModel uom in uoms)
+		{
+			_uomList.Add(new()
+			{
+				Id = uom.Id,
+				Name = uom.Name,
+				Symbol = uom.Symbol,
+			});
+		}
+		SetBusy(false);
+	}
+
+	async Task RerenderTable()
+	{
+		_uomListFiltered = _uomList;
 		await _uomGrid.RefreshDataAsync();
 		await _uomGrid.Reload();
+		StateHasChanged();
+	}
+
+	void SetBusy(bool busy)
+	{
+		_isBusy = busy;
+		StateHasChanged();
 	}
 }

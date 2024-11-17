@@ -1,0 +1,32 @@
+﻿<RadzenTemplateForm Data="@_uom" TItem="UoMViewModel" Submit="@Submit">
+	<RadzenStack Gap="5px">
+		<RadzenFormField Text="Name">
+			<ChildContent>
+				<RadzenTextBox @bind-Value=@_uom.Name Name="uom-name" Disabled=@(!_isEditing) />
+			</ChildContent>
+			<Helper>
+				<RadzenRequiredValidator Component="uom-name" Text="Required" />
+			</Helper>
+		</RadzenFormField>
+
+		<RadzenFormField Text="Symbol">
+			<ChildContent>
+				<RadzenTextBox @bind-Value=@_uom.Symbol Name="uom-symbol" Disabled=@(!_isEditing) />
+			</ChildContent>
+			<Helper>
+				<RadzenRequiredValidator Component="uom-symbol" Text="Required" />
+			</Helper>
+		</RadzenFormField>
+
+		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" AlignItems="AlignItems.Center" class="rz-mt-5">
+			<RadzenButton Visible=@(!_isEditing) Text="Close" ButtonType="ButtonType.Button" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Light" Click="@(() => _dialogService.Close())" />
+			<RadzenButton Visible=@(!_isEditing) Text="Edit" ButtonType="ButtonType.Button" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Info" Click=@(() => _isEditing = true) />
+			<RadzenButton Visible=@(_isEditing) Text="Cancel" ButtonType="ButtonType.Button" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Dark" Click=@(() => _isEditing = false) />
+			<RadzenButton Visible=@(_isEditing) Text="Save" ButtonType="ButtonType.Submit" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Primary" />
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+
+}

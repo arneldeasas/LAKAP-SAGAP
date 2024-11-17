@@ -72,8 +72,24 @@ public class UoMRepository : IUoMRepository
 		return uom;
 	}
 
-    public Task UpdateUoM(UoMViewModel uoM)
+    public async Task<bool> UpdateUoM(UoMViewModel uoM)
     {
-        throw new NotImplementedException();
-    }
+		using IDbContextTransaction transaction = _context.Database.BeginTransaction();
+		try
+		{
+			UoM? uom = await _context.GetById<UoM>(uoM.Id);
+            if (uom is null) return false;
+
+            uom.Name = uoM.Name;
+            uom.Symbol = uoM.Symbol;
+
+            await _context.UpdateItem(uom);
+            return true;
+		}
+		catch (Exception)
+		{
+			await transaction.RollbackAsync();
+            return false;
+		}
+	}
 }

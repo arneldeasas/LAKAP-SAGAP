@@ -12,10 +12,9 @@
 			<RadzenDataGridColumn TItem="UoMViewModel" Property="@nameof(UoMViewModel.Name)" Title="Name" />
 			<RadzenDataGridColumn TItem="UoMViewModel" Property="@nameof(UoMViewModel.Symbol)" Title="Symbol" />
 			<RadzenDataGridColumn TItem="UoMViewModel">
-				<Template>
+				<Template Context="uom">
 					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
-						<RadzenButton Icon="visibility" Shade="Shade.Light" ButtonStyle="ButtonStyle.Primary" class="rz-border-radius-3" />
-						<RadzenButton Icon="edit" Shade="Shade.Light" ButtonStyle="ButtonStyle.Success" class="rz-border-radius-3" />
+						<RadzenButton Icon="visibility" Shade="Shade.Light" ButtonStyle="ButtonStyle.Primary" class="rz-border-radius-3" Click="@(async () => await ShowViewUpdateUomDialog(uom.Id))" />
 					</RadzenStack>
 				</Template>
 			</RadzenDataGridColumn>
@@ -33,6 +32,13 @@
 			// TODO: toast create error of uom
 			return;
 		}
+
+		await LoadUoMList();
+		await RerenderTable();
+	}
+
+	async Task ShowViewUpdateUomDialog(string Id){
+		await _dialogService.OpenAsync<ViewUpdateUoMDialog>("UoM Details", new(){{"Id", Id}});
 
 		await LoadUoMList();
 		await RerenderTable();

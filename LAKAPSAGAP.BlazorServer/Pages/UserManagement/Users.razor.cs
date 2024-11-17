@@ -27,11 +27,20 @@ namespace LAKAPSAGAP.BlazorServer.Pages.UserManagement
 			_userInfoList = await _userRepo.GetAllUsers();
 			tableData = _userInfoList;
             Console.WriteLine(HttpContextAccessor.HttpContext.User);
-	
-      
-		}
 
-		private void SearchUsers(string value)
+
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+			await _jSRuntime.InvokeAsync<bool>("Confirmation", "User Account Archived Successfully.", "success", null);
+
+            }
+        }
+
+        private void SearchUsers(string value)
 		{
 			if (value != string.Empty)
 			{

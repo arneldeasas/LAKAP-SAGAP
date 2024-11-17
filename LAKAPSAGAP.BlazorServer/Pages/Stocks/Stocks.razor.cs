@@ -5,13 +5,13 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 {
 	public partial class Stocks
 	{
-		[Parameter] public static string? id { get; set; }
+		[Parameter] public string? id { get; set; }
 		[Inject] DialogService _dialogService { get; set; }
 
 		private List<BreadcrumbViewModel> Breadcrumbs = new()
 		{
 			new BreadcrumbViewModel { Path = "javascript:void(0);", Text = "Warehouse" },
-			new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Stocks", Text = "Stocks" },
+			new BreadcrumbViewModel { Path = "/Warehouse/Stocks", Text = "Stocks" },
 		};
 
 	}

@@ -28,13 +28,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LAKAPSAGAP.Models\LAKAPSAGAP.Models.csproj" />
-    <ProjectReference Include="..\LAKAPSAGAP.Services\LAKAPSAGAP.Services.csproj" />
+    <Folder Include="wwwroot\NewFolder1\" />
+    <Folder Include="wwwroot\scripts\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\NewFolder1\" />
-    <Folder Include="wwwroot\scripts\" />
+    <ProjectReference Include="..\LAKAPSAGAP.Models\LAKAPSAGAP.Models.csproj" />
+    <ProjectReference Include="..\LAKAPSAGAP.Services\LAKAPSAGAP.Services.csproj" />
   </ItemGroup>
 
 </Project>

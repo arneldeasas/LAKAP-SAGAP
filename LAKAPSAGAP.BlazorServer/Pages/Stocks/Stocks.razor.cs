@@ -15,7 +15,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 
 		protected override void OnParametersSet()
 		{
-			Breadcrumbs.Add(new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Stocks", Text = "Stocks" });
+			//Breadcrumbs.Add(new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Stocks", Text = "Stocks" });
 		}
 
 	}

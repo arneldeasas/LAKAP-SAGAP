@@ -43,7 +43,6 @@ namespace LAKAPSAGAP.Models.ViewModel
 		public string CategoryId { get; set; }
 		public int Quantity { get; set; }
 		public string UoMId { get; set; }
-		public string FloorId { get; set; }
 		public string RackId { get; set; }
 		public DateTime? ExpiryDate { get; set; }
 		public ReliefReceivedViewModel BatchDetail { get; set; }

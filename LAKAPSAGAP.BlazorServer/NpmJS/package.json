@@ -22,9 +22,10 @@
     "webpack-dev-server": "^5.1.0"
   },
   "dependencies": {
-    "sweetalert2": "^11.14.5",
     "@popperjs/core": "^2.11.8",
+    "autoprefixer": "^10.4.20",
     "bootstrap": "^5.3.3",
-    "autoprefixer": "^10.4.20"
+    "sweetalert2": "^11.14.5",
+    "toastify-js": "^1.12.0"
   }
 }

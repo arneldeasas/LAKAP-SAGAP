@@ -1,39 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿namespace LAKAPSAGAP.Services.Core.Helpers;
 
-namespace LAKAPSAGAP.Services.Core.Helpers
+public class IdGenerator
 {
-    public class IdGenerator
+    public static string PFX_USERINFO { get; set; } = "ACC_";
+    public static string PFX_ATTACHMENT { get; set; } = "ATT_";
+    public static string PFX_RELIEFRECEIVED { get; set; } = "BATCH_";
+    public static string PFX_Warehouse { get; set; } = "WH_";
+    public static string PFX_STOCKDETAIL { get; set; } = "STKDTL_";
+    public static string PFX_STOCKITEM { get; set; } = "STKITM_";
+    public static string PFX_STOCKCATEGORY { get; set; } = "STKCAT_";
+    public static string PFX_UOM { get; set; } = "UOM_";
+    public static string PFX_FLOOR { get; set; } = "FLR_";
+    public static string PFX_RACK { get; set; } = "RCK_";
+    public static string PFX_KIT = "KIT_";
+    public static string PFX_KITCOMPONENT = "KIT_";
+
+    public static string GenerateId(string prefix, int count)
     {
-        public static string PFX_USERINFO = "ACC_";
-        public static string PFX_ATTACHMENT = "ATT_";
-        public static string PFX_RELIEFRECEIVED = "BATCH_";
-        public static string PFX_Warehouse = "WH_";
-		public static string PFX_STOCKDETAIL = "STKDTL_";
-		public static string PFX_STOCKITEM = "STKITM_";
-        public static string PFX_STOCKTYPE = "STKTYP_";
-		public static string PFX_STOCKCATEGORY = "STKCAT_";
-		public static string PFX_STOCKUOM = "STKUOM_";
-		public static string PFX_FLOOR = "FLR_";
-		public static string PFX_RACK = "RCK_";
-        public static string PFX_KIT = "KIT_";
-        public static string PFX_KITCOMPONENT = "KIT_";
-		public static string GenerateId(string prefix,int count)
+        try
         {
-            try
-            {
-                var userCount = count+ 1;
-                return prefix + userCount.ToString("D3");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            var userCount = count + 1;
+            return prefix + userCount.ToString("D3");
         }
-    
+        catch (Exception)
+        {
+            throw;
+        }
     }
 }

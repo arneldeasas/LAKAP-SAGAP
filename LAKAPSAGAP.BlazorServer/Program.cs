@@ -1,5 +1,4 @@
 using LAKAPSAGAP.Services;
-using Vite.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -10,8 +9,6 @@ using LAKAPSAGAP.Services.Core.API;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddViteServices();
 
 builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents();
@@ -116,13 +113,3 @@ app.MapRazorComponents<App>()
 	.AddInteractiveServerRenderMode();
 
 app.Run(); // Ensure the application runs asynchronously
-
-if (app.Environment.IsDevelopment())
-{
-	if (bool.Parse(builder.Configuration["Vite:Server:Enabled"] ?? string.Empty))
-	{
-		// Proxies requests for css and js to 
-		// the Vite development server for HMR.
-		//app.UseViteDevelopmentServer(true);
-	}
-}

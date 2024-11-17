@@ -9,10 +9,12 @@ public partial class CreateUoMDialog
 	UoMViewModel _newUom { get; set; }
 
 	bool _isBusy { get; set; }
+	bool _isActive { get; set; }
 
 	protected override void OnInitialized()
 	{
 		_newUom = new ();
+		_isActive = true;
 		base.OnInitialized();
 	}
 
@@ -21,6 +23,7 @@ public partial class CreateUoMDialog
 		if (!await _jSRuntime.InvokeAsync<bool>("Confirmation")) return;
 
 		SetBusy(true);
+		_newUom.isArchived = !_isActive;
 		string? newId = await _uomRepo.CreateUoM(_newUom);
 		SetBusy(true);
 		_dialogService.Close(newId);        

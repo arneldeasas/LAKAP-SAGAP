@@ -14,6 +14,7 @@ public partial class ViewUpdateUoMDialog
 
 	bool _isBusy { get; set; }
 	bool _isEditing { get; set; }
+	bool _isActive { get; set; }
 
 	protected override void OnInitialized()
 	{
@@ -31,7 +32,7 @@ public partial class ViewUpdateUoMDialog
 				_uom.Id = uom.Id;
 				_uom.Name = uom.Name;
 				_uom.Symbol = uom.Symbol;
-				StateHasChanged();
+				_uom.isArchived = uom.isArchived;
 			}
 			else
 			{
@@ -39,7 +40,9 @@ public partial class ViewUpdateUoMDialog
 				// Initializes the uom as new to avoid errors
 				_uom = new();
 			}
-
+			
+			_isActive = !_uom.isArchived;
+			StateHasChanged();
 		}
 		await base.OnAfterRenderAsync(firstRender);
 	}
@@ -49,7 +52,7 @@ public partial class ViewUpdateUoMDialog
 		if (!await _jSRuntime.InvokeAsync<bool>("Confirmation")) return;
 
 		SetBusy(true);
-		
+		_uom.isArchived = !_isActive;
 		bool success = await _uomRepo.UpdateUoM(_uom);
 		SetBusy(true);
 

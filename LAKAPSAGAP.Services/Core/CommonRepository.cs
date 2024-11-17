@@ -91,10 +91,23 @@ public static class DbSetExtensions
 
         return item;
     }
+    
+    public static async Task<T?> GetByIdIncludeArchivedsOnly<T>(this MyDbContext context, string Id) where T : CommonModel
+    {
+        var item = await context.Set<T>().Where(x => !x.IsDeleted).FirstOrDefaultAsync(x => x.Id == Id);
+
+        return item;
+    }
 
     public static async Task<List<T>> GetAll<T>(this MyDbContext context, bool? includeArchived = false, bool? includeDeleted = false) where T : CommonModel
     {
         var itemList = await context.Set<T>().Where(x => x.isArchived == includeArchived && x.IsDeleted == includeDeleted).ToListAsync();
+        return itemList;
+    }
+    
+    public static async Task<List<T>> GetAllIncludeArchivedsOnly<T>(this MyDbContext context) where T : CommonModel
+    {
+        var itemList = await context.Set<T>().Where(x => !x.IsDeleted).ToListAsync();
         return itemList;
     }
 

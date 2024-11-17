@@ -49,6 +49,7 @@ public partial class UoMControl
 				Id = uom.Id,
 				Name = uom.Name,
 				Symbol = uom.Symbol,
+				isArchived = uom.isArchived
 			});
 		}
 		SetBusy(false);

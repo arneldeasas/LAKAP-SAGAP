@@ -10,104 +10,6 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			_context = context;
 		}
-		public async Task<StockType> CreateStockType(StockTypeViewModel stockTypeViewModel)
-		{
-
-			try
-			{
-				int count = await _context.GetCount<StockType>();
-				string Id = IdGenerator.GenerateId(IdGenerator.PFX_STOCKTYPE, count);
-				var stockType = new StockType
-				{
-					Id = Id,
-					Name = stockTypeViewModel.Name.Trim()
-				};
-				return await _context.Create(stockType);
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-		public async Task<StockType> UpdateStockType(StockTypeViewModel stockTypeViewModel)
-		{
-			try
-			{
-				var updatedStockType = new StockType
-				{
-					Name = stockTypeViewModel.Name
-				};
-				return await _context.UpdateItem<StockType>(updatedStockType);
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-		public async Task<StockType> DeleteStockType(string Id)
-		{
-			try
-			{
-				var stockType = await _context.GetById<StockType>(Id);
-				if (stockType is null)
-				{
-					throw new Exception("Record not found.");
-				}
-				stockType.IsDeleted = true;
-				return await _context.UpdateItem<StockType>(stockType);
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-
-		public async Task<StockType> ArchiveStockType(string Id)
-		{
-			try
-			{
-				var stockType = await _context.GetById<StockType>(Id);
-				if (stockType is null)
-				{
-					throw new Exception("Record not found.");
-				}
-				stockType.isArchived = true;
-				return await _context.UpdateItem<StockType>(stockType);
-			}
-			catch (Exception)
-			{
-				throw;
-			}
-		}
-		public async Task<StockType> GetStockTypeById(string Id)
-		{
-			try
-			{
-				return await _context.GetById<StockType>(Id);
-				
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-		public async Task<List<StockType>> GetAllStockTypes()
-		{
-			try
-			{
-				return await _context.GetAll<StockType>();
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-
 
 		public async Task<StockCategory> CreateStockCategory(StockCategoryViewModel stockCategoryViewModel)
 		{
@@ -216,9 +118,10 @@ namespace LAKAPSAGAP.Services.Core
 				var newStockItem = new StockItem
 				{
 					Id = Id,
-					StockTypeId = stockItemViewModel.StockTypeId,
+			
 					StockCategoryId = stockItemViewModel.StockCategoryId,
 					Name = stockItemViewModel.Name.Trim(),
+					UoMId = stockItemViewModel.UoMId
 				};
 				return await _context.Create<StockItem>(newStockItem);
 			}
@@ -234,7 +137,7 @@ namespace LAKAPSAGAP.Services.Core
 			{
 				var updatedStockItem = new StockItem
 				{
-					StockTypeId = stockItemViewModel.StockTypeId,
+					UoMId = stockItemViewModel.UoMId,
 					StockCategoryId = stockItemViewModel.StockCategoryId,
 					Name = stockItemViewModel.Name.Trim(),
 				};
@@ -315,7 +218,7 @@ namespace LAKAPSAGAP.Services.Core
 			try
 			{
 				int count = await _context.GetCount<UoM>();
-				string Id = IdGenerator.GenerateId(IdGenerator.PFX_STOCKUOM, count);
+				string Id = IdGenerator.GenerateId(IdGenerator.PFX_UOM, count);
 				var newUoM = new UoM
 				{
 					Id = Id,

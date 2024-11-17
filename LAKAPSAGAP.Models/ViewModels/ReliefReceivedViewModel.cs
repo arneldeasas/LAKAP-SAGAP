@@ -28,12 +28,10 @@ namespace LAKAPSAGAP.Models.ViewModel
 
 	public class ReliefReceivedFormSelections
 	{
-		public List<StockType> StockTypeList { get; set; }
-		public List<StockCategory> StockCategoryList { get; set; }
-		public List<StockItem> StockItemList { get; set; } 
-		public List<UoM> UoMList { get; set; }
+
+
 		public List<Floor> FloorList { get; set; }
-		public List<Rack> RackList { get; set; }
+
 	}
 
 	public class StockDetailViewModel
@@ -45,7 +43,6 @@ namespace LAKAPSAGAP.Models.ViewModel
 		public string CategoryId { get; set; }
 		public int Quantity { get; set; }
 		public string UoMId { get; set; }
-		public string FloorId { get; set; }
 		public string RackId { get; set; }
 		public DateTime? ExpiryDate { get; set; }
 		public ReliefReceivedViewModel BatchDetail { get; set; }

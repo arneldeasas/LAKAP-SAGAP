@@ -2,14 +2,22 @@
 {
 	public partial class Kits
 	{
-		[Parameter] public static string? id { get; set; }
+		[Parameter] public string? id { get; set; }
 		[Inject] DialogService _dialogService { get; set; }
 
 		private List<BreadcrumbViewModel> Breadcrumbs = new()
 		{
-			new BreadcrumbViewModel { Path = "javascript:void(0);", Text = "Warehouse" },
-			new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Kits", Text = "Kits" },
+			new BreadcrumbViewModel { Path = "/Warehouse", Text = "Warehouse" },
 		};
+		protected override void OnParametersSet()
+		{
+            if (id is null)
+            {
+				Breadcrumbs.Add(new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Kits", Text = "Stocks" });
 
+			}
+
+			Breadcrumbs.Add(new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Kits", Text = "Stocks" });
+		}
 	}
 }

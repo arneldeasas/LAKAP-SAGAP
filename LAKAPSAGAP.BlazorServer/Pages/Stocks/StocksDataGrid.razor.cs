@@ -24,7 +24,6 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
                    || x.Quantity.ToString().ToLower().Contains(value.ToLower())
 				   || x.UoMId.ToString().ToLower().Contains(value.ToLower())
                    || x.RackId.ToString().ToLower().Contains(value.ToLower())
-                   || x.FloorId.ToString().ToLower().Contains(value.ToLower())
 				   || x.ExpiryDate.ToString().ToLower().Contains(value.ToLower())).ToList();
 			}
             else

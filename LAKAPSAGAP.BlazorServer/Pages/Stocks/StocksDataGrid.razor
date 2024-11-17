@@ -20,11 +20,6 @@
 									  TextAlign="TextAlign.Left" Width="90px" />
 				<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.UoMId)" Title="UoM"
 									  TextAlign="TextAlign.Left" Width="90px" />
-				<RadzenDataGridColumn Title="Location" TextAlign="TextAlign.Left" Width="90px">
-					<Template Context="data">
-						@data.FloorId - @data.RackId
-					</Template>
-				</RadzenDataGridColumn>
 				<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.ExpiryDate)" Title="Expiration Date" FormatString="{0:MMM dd, yyyy}"
 									  TextAlign="TextAlign.Left" Width="90px" />
 				<RadzenDataGridColumn Title="Actions" TextAlign="TextAlign.Left" Width="60px">

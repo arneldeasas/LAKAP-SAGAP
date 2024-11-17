@@ -11,6 +11,11 @@
 		<Columns>
 			<RadzenDataGridColumn TItem="UoMViewModel" Property="@nameof(UoMViewModel.Name)" Title="Name" />
 			<RadzenDataGridColumn TItem="UoMViewModel" Property="@nameof(UoMViewModel.Symbol)" Title="Symbol" />
+			<RadzenDataGridColumn TItem="UoMViewModel" Property="@nameof(UoMViewModel.isArchived)" Title="Active">
+				<Template Context="uom">
+					<RadzenBadge Text="@($"{(uom.isArchived ? "Inactive" : "Active")}")" BadgeStyle="@(uom.isArchived ? BadgeStyle.Danger : BadgeStyle.Success)" Shade="Shade.Light" IsPill />
+				</Template>
+			</RadzenDataGridColumn>
 			<RadzenDataGridColumn TItem="UoMViewModel">
 				<Template Context="uom">
 					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">

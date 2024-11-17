@@ -45,7 +45,7 @@ public class UoMRepository : IUoMRepository
 		try
 		{
 			List<UoM> uomList = [];
-			uomList = await _context.GetAll<UoM>();
+			uomList = await _context.GetAllIncludeArchivedsOnly<UoM>();
 			return uomList;
 		}
 		catch (Exception)
@@ -59,7 +59,7 @@ public class UoMRepository : IUoMRepository
 		try
 		{
 			UoM? uom = null;
-			uom = await _context.GetById<UoM>(uomId);
+			uom = await _context.GetByIdIncludeArchivedsOnly<UoM>(uomId);
 			return uom;
 		}
 		catch (Exception)
@@ -73,7 +73,7 @@ public class UoMRepository : IUoMRepository
 		using IDbContextTransaction transaction = _context.Database.BeginTransaction();
 		try
 		{
-			UoM? uom = await _context.GetById<UoM>(uoM.Id);
+			UoM? uom = await _context.GetByIdIncludeArchivedsOnly<UoM>(uoM.Id);
 			if (uom is null) return false;
 
 			uom.Name = uoM.Name;

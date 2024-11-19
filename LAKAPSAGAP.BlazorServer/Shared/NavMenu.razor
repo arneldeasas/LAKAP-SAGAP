@@ -12,32 +12,45 @@
 
     <RadzenStack Style="width: 100%; flex-grow:1;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
                  JustifyContent="JustifyContent.Center" Wrap="FlexWrap.NoWrap" Gap="1rem">
+
+        @* Dashboard *@
         <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Dashboard") ? "link-active" : "link")}")"
              @onclick="@(() =>_navManager.NavigateTo("Dashboard", true))">
             <i class='bx bxs-home' style="font-size: 0.8rem"></i>
             <span class="text fw-bold text-center" style="font-size: 0.75rem">Dashboard</span>
         </div>
+
+        @* Request *@
         <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Request") ? "link-active" : "link")}")"
              @onclick="@(() =>_navManager.NavigateTo("Request", true))">
             <i class='bx bx-transfer-alt' style="font-size: 0.8rem"></i>
             <span class="fw-bold text-center" style="font-size: 0.75rem">Request</span>
         </div>
+
+        @* Master Data *@
+        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("MasterData") ? "link-active" : "link")}")"
+             @ref="masterDataButton" @onclick="@(args => {masterDataPopup.ToggleAsync(masterDataButton); ToggleVisibility();})">
+            <i class='bx bxs-data' style="font-size: 0.8rem"></i>
+            <span class="fw-bold text-center" style="font-size: 0.75rem">Master Data</span>
+            <i class="@($"bx {(_isVisible ? "bx-caret-up" : "bx-caret-down")} ms-1")"></i>
+        </div>
+        
+        @* Warehouse *@
         <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Warehouse") ? "link-active" : "link")}")"
             @ref="warehouseButton" @onclick="@(args => {warehousePopup.ToggleAsync(warehouseButton); ToggleVisibility();})" >
             <i class='bx bxs-business' style="font-size: 0.8rem"></i>
             <span class="fw-bold text-center" style="font-size: 0.75rem">Warehouse</span>
             <i class="@($"bx {(_isVisible ? "bx-caret-up" : "bx-caret-down")} ms-1")"></i>
         </div>
-        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Users") ? "link-active" : "link")}")"
-             @onclick="@(() =>_navManager.NavigateTo("Users", true))">
-            <i class='bx bxs-user' style="font-size: 0.8rem"></i>
-            <span class="fw-bold text-center" style="font-size: 0.75rem">Users</span>
-        </div>
+
+        @* Reports *@
         <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Reports") ? "link-active" : "link")}")"
              @onclick="@(() =>_navManager.NavigateTo("Reports", true))">
             <i class='bx bxs-report' style="font-size: 0.8rem"></i>
             <span class="fw-bold text-center" style="font-size: 0.75rem">Reports</span>
         </div>
+
+        @* History *@
         <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("History") ? "link-active" : "link")}")"
              @onclick="@(() =>_navManager.NavigateTo("History", true))">
             <i class='bx bx-history' style="font-size: 0.8rem"></i>
@@ -46,62 +59,55 @@
     </RadzenStack>
 
     @* User *@
-
     <RadzenStack Style="width: 18rem;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
                  JustifyContent="JustifyContent.End" Wrap="FlexWrap.NoWrap" Gap="4rem">
         <RadzenButton Icon="notifications" ButtonStyle="ButtonStyle.Base" Style="border-radius: var(--rz-border-radius-6);" />
-        <div>
-        </div>
+        <RadzenButton Icon="account_circle" ButtonStyle="ButtonStyle.Base" Style="border-radius: var(--rz-border-radius-6);" />
     </RadzenStack>
 
 </RadzenStack>
 
-<Popup @ref=warehousePopup Lazy=true class="popup">
-    <RadzenStack Style="width: 8rem;" Orientation="Orientation.Vertical" AlignItems="AlignItems.Start"
-                 JustifyContent="JustifyContent.Start" Wrap="FlexWrap.NoWrap" Gap="0.25rem">
+<Popup @ref=masterDataPopup Lazy class="popup">
+    <RadzenStack Wrap="FlexWrap.NoWrap" Gap="0.25rem">
         <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
-             class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link"
+             class="d-flex flex-row gap-2 px-4 py-2 align-items-center link"
+             @onclick="@(() =>_navManager.NavigateTo("MasterData/Users", true))">
+            <i class='bx bxs-user-account' style="font-size: 0.8rem"></i>
+            <span class="fs-6 fw-bold text-center">Users</span>
+        </div>
+        <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
+             class="d-flex flex-row gap-2 px-4 py-2 align-items-center link"
+             @onclick="@(() =>_navManager.NavigateTo("MasterData/UoM", true))">
+            <i class='bx bxs-shopping-bag-alt' style="font-size: 0.8rem"></i>
+            <span class="fs-6 fw-bold text-center">Unit Of Measurements</span>
+        </div>
+        <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
+             class="d-flex flex-row gap-2 px-4 py-2 align-items-center link"
+             @onclick="@(() =>_navManager.NavigateTo("MasterData/Categories", true))">
+            <i class='bx bxs-category' style="font-size: 0.8rem"></i>
+            <span class="fs-6 fw-bold text-center">Categories</span>
+        </div>
+    </RadzenStack>
+</Popup>
+
+<Popup @ref=warehousePopup Lazy class="popup">
+    <RadzenStack Style="width: 8rem;" Wrap="FlexWrap.NoWrap" Gap="0.25rem">
+        <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
+             class="d-flex flex-row gap-2 px-4 py-2 align-items-center link"
              @onclick="@(() =>_navManager.NavigateTo("Warehouse/Stocks", true))">
             <i class='bx bxs-package' style="font-size: 0.8rem"></i>
             <span class="fs-6 fw-bold text-center">Stocks</span>
         </div>
         <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
              class="d-flex flex-row gap-2 px-4 py-2 justify-content-start align-items-center link"
-             @onclick="@(() =>_navManager.NavigateTo("Warehouse/Kits", true))">
+             @onclick="@(() =>_navManager.NavigateTo("Warehouse/warehouse/Kits", true))">
             <i class='bx bxs-shopping-bag-alt' style="font-size: 0.8rem"></i>
             <span class="fs-6 fw-bold text-center">Kits</span>
         </div>
     </RadzenStack>
 </Popup>
 
-@code {
-    [Inject] private NavigationManager _navManager { get; set; }
 
-    ElementReference warehouseButton;
-    Popup warehousePopup;
-    bool _isVisible = false;
-    string uri = String.Empty;
-
-    private bool ToggleVisibility()
-    {
-        return _isVisible = !_isVisible;
-    }
-
-    // protected override void OnAfterRender(bool firstRender)
-    // {
-    //     if (firstRender)
-    //     {
-    //         uri = _navManager.Uri;
-    //     }
-    // }
-
-    private bool UriHas(string keyword)
-    {
-        uri = _navManager.Uri;
-        return uri.Contains(keyword, StringComparison.OrdinalIgnoreCase);
-    }
-
-}
 
 <style type="text/css">
     .popup {

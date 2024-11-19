@@ -1,0 +1,37 @@
+﻿<RadzenTemplateForm Data="@_category" TItem="CategoryViewModel" Submit="@Submit">
+	<RadzenStack Gap="5px">
+		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" AlignItems="AlignItems.Center">
+			<RadzenLabel Text="Active" Component="switch" />
+			<RadzenSwitch @bind-Value=@_isActive Name="switch" Disabled=@(!_isEditing) />
+		</RadzenStack>
+
+		<RadzenFormField Text="Code">
+			<ChildContent>
+				<RadzenTextBox @bind-Value=@_category.Code Name="category-code" Disabled=@(!_isEditing) />
+			</ChildContent>
+			<Helper>
+				<RadzenRequiredValidator Component="category-code" Text="Required" />
+			</Helper>
+		</RadzenFormField>
+		<RadzenFormField Text="Name">
+			<ChildContent>
+				<RadzenTextBox @bind-Value=@_category.Name Name="category-name" Disabled=@(!_isEditing) />
+			</ChildContent>
+			<Helper>
+				<RadzenRequiredValidator Component="category-name" Text="Required" />
+			</Helper>
+		</RadzenFormField>
+
+
+		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" AlignItems="AlignItems.Center" class="rz-mt-5">
+			<RadzenButton Visible=@(!_isEditing) Text="Close" ButtonType="ButtonType.Button" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Light" Click="@(() => _dialogService.Close())" />
+			<RadzenButton Visible=@(!_isEditing) Text="Edit" ButtonType="ButtonType.Button" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Info" Click=@(() => _isEditing = true) />
+			<RadzenButton Visible=@(_isEditing) Text="Cancel" ButtonType="ButtonType.Button" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Dark" Click=@(() => _isEditing = false) />
+			<RadzenButton Visible=@(_isEditing) Text="Save" ButtonType="ButtonType.Submit" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Primary" />
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+
+}

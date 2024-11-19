@@ -82,31 +82,31 @@ app.UseAntiforgery();
 //app.UseAuthentication(); // Ensure authentication middleware is used
 //app.UseAuthorization();  // Ensure authorization middleware is used
 
-using (var scope = app.Services.CreateScope())
-{
-	var services = scope.ServiceProvider;
-	var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+//using (var scope = app.Services.CreateScope())
+//{
+//	var services = scope.ServiceProvider;
+//	var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-	var roles = new[] {
-		new { Name = "Barangay Representative", NormalizedName = "BARANGAY_REPRESENTATIVE" },
-		new { Name = "CSWD Office Head", NormalizedName = "CSWD_OFFICE_HEAD" },
-		new { Name = "CSWD Administration Staff", NormalizedName = "CSWD_ADMINISTRATION_STAFF" }
-	};
+//	var roles = new[] {
+//		new { Name = "Barangay Representative", NormalizedName = "BARANGAY_REPRESENTATIVE" },
+//		new { Name = "CSWD Office Head", NormalizedName = "CSWD_OFFICE_HEAD" },
+//		new { Name = "CSWD Administration Staff", NormalizedName = "CSWD_ADMINISTRATION_STAFF" }
+//	};
 
-	foreach (var role in roles)
-	{
-		if (!await roleManager.RoleExistsAsync(role.NormalizedName)) // Check if the role exists
-		{
-			var identityRole = new IdentityRole
-			{
-				Name = role.Name,
-				NormalizedName = role.NormalizedName
-			};
+//	foreach (var role in roles)
+//	{
+//		if (!await roleManager.RoleExistsAsync(role.NormalizedName)) // Check if the role exists
+//		{
+//			var identityRole = new IdentityRole
+//			{
+//				Name = role.Name,
+//				NormalizedName = role.NormalizedName
+//			};
 
-			await roleManager.CreateAsync(identityRole); // Create the role if it doesn't exist
-		}
-	}
-}
+//			await roleManager.CreateAsync(identityRole); // Create the role if it doesn't exist
+//		}
+//	}
+//}
 
 app.MapRazorComponents<App>()
 	.AddInteractiveServerRenderMode();

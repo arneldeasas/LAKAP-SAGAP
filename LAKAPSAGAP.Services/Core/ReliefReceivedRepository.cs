@@ -43,10 +43,8 @@ public class ReliefReceivedRepository : IReliefReceivedRepository
 					{
 						Id = Id,
 						BatchNumber = newReliefReceived.Id,
-						CategoryId = x.CategoryId,
 						ItemId = x.ItemId,
 						Quantity = x.Quantity,
-						UoMId = x.UoMId,
 						RackId = x.RackId,
 						DateExpiry = x.ExpiryDate
 					};

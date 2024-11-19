@@ -8,7 +8,7 @@ public class IdGenerator
     public static string PFX_Warehouse { get; set; } = "WH_";
     public static string PFX_STOCKDETAIL { get; set; } = "STKDTL_";
     public static string PFX_STOCKITEM { get; set; } = "STKITM_";
-    public static string PFX_STOCKCATEGORY { get; set; } = "STKCAT_";
+    public static string PFX_CATEGORY { get; set; } = "CAT_";
     public static string PFX_UOM { get; set; } = "UOM_";
     public static string PFX_FLOOR { get; set; } = "FLR_";
     public static string PFX_RACK { get; set; } = "RCK_";

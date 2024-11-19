@@ -3,11 +3,9 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace LAKAPSAGAP.Services.Core;
 
-public class UoMRepository : IUoMRepository
+public class UoMRepository(MyDbContext context) : IUoMRepository
 {
-	readonly MyDbContext _context;
-
-	public UoMRepository(MyDbContext context) => _context = context;
+	readonly MyDbContext _context = context;
 
 	public async Task<string?> CreateUoM(UoMViewModel uoM)
 	{

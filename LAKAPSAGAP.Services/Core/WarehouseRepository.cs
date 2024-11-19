@@ -158,7 +158,7 @@ public class WarehouseRepository : IWarehouseRepository
 									.Where(x => x.FloorId == floor.Id)
 									.ToListAsync();
 
-				floor.RackList = racks;
+				floor.Racks = racks;
 			}
 
 			warehouse.FloorList = floors;

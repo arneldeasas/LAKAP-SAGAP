@@ -79,7 +79,13 @@
              class="d-flex flex-row gap-2 px-4 py-2 align-items-center link"
              @onclick="@(() =>_navManager.NavigateTo("MasterData/UoM", true))">
             <i class='bx bxs-shopping-bag-alt' style="font-size: 0.8rem"></i>
-            <span class="fs-6 fw-bold text-center">Unit Of Measurement</span>
+            <span class="fs-6 fw-bold text-center">Unit Of Measurements</span>
+        </div>
+        <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
+             class="d-flex flex-row gap-2 px-4 py-2 align-items-center link"
+             @onclick="@(() =>_navManager.NavigateTo("MasterData/Categories", true))">
+            <i class='bx bxs-category' style="font-size: 0.8rem"></i>
+            <span class="fs-6 fw-bold text-center">Categories</span>
         </div>
     </RadzenStack>
 </Popup>

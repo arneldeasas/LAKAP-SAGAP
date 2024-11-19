@@ -8,7 +8,7 @@ public class StockCategoryViewModel
 public class StockItemViewModel
 {
 
-    public string StockCategoryId { get; set; }
+    public string CategoryId { get; set; }
     public string Name { get; set; }
     public string UoMId { get; set; }
 }

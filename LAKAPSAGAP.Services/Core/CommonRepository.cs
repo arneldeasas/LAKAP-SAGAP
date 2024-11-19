@@ -105,7 +105,7 @@ public static class DbSetExtensions
         return itemList;
     }
     
-    public static async Task<List<T>> GetAllIncludeArchivedsOnly<T>(this MyDbContext context) where T : CommonModel
+    public static async Task<List<T>> GetAllNotDeleted<T>(this MyDbContext context) where T : CommonModel
     {
         var itemList = await context.Set<T>().Where(x => !x.IsDeleted).ToListAsync();
         return itemList;

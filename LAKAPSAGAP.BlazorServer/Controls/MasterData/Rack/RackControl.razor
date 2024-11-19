@@ -1,0 +1,51 @@
+﻿<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" class="rz-w-100">
+	<MacroBreadcrumbs Breadcrumbs="Breadcrumbs" />
+	<RadzenButton Icon="add" Text="Add Rack" ButtonStyle="ButtonStyle.Primary" Click="@ShowCreateRackDialog" class="rz-border-radius-3 text-capitalize" />
+</RadzenStack>
+
+<RadzenStack class="rz-w-100 rz-h-100 rz-p-3 card">
+	<RadzenDataGrid @ref=@_racksGrid TItem="RackViewModel" Data="@_filteredRacks" IsLoading=@_isBusy>
+		<EmptyTemplate>
+			<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+		</EmptyTemplate>
+		<Columns>
+			<RadzenDataGridColumn TItem="RackViewModel" Property="@nameof(RackViewModel.Name)" Title="Name" />
+			<RadzenDataGridColumn TItem="RackViewModel" Property="@nameof(RackViewModel.isArchived)" Title="Active">
+				<Template Context="rack">
+					<RadzenBadge Text="@($"{(rack.isArchived ? "Inactive" : "Active")}")" BadgeStyle="@(rack.isArchived ? BadgeStyle.Danger : BadgeStyle.Success)" Shade="Shade.Light" IsPill />
+				</Template>
+			</RadzenDataGridColumn>
+			<RadzenDataGridColumn TItem="RackViewModel">
+				<Template Context="rack">
+					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+						<RadzenButton Icon="visibility" Shade="Shade.Light" ButtonStyle="ButtonStyle.Primary" class="rz-border-radius-3" Click="@(async () => await ShowViewUpdateRackDialog(rack.Id))" />
+					</RadzenStack>
+				</Template>
+			</RadzenDataGridColumn>
+		</Columns>
+	</RadzenDataGrid>
+</RadzenStack>
+
+@code {
+	async Task ShowCreateRackDialog()
+	{
+		string? newRackId = await _dialogService.OpenAsync<CreateRackDialog>("Create Rack");
+
+		if (string.IsNullOrEmpty(newRackId))
+		{
+			// TODO: toast create error of uom
+			return;
+		}
+
+		await LoadRacksList();
+		await RerenderTable();
+	}
+
+	async Task ShowViewUpdateRackDialog(string Id)
+	{
+		await _dialogService.OpenAsync<ViewUpdateRackDialog>("Rack Details", new() { { "Id", Id } });
+
+		await LoadRacksList();
+		await RerenderTable();
+	}
+}

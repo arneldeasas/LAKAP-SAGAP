@@ -38,7 +38,7 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				var kit = await _context.Kit.FindAsync(kitViewModel.Id);
+				var kit = await _context.Kits.FindAsync(kitViewModel.Id);
 				if (kit != null)
 				{
 					kit.Name = kitViewModel.Name;
@@ -59,7 +59,7 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				var kit = await _context.Kit.FindAsync(Id);
+				var kit = await _context.Kits.FindAsync(Id);
 				if (kit != null)
 				{
 					kit.IsDeleted = true;
@@ -77,7 +77,7 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				var kit = await _context.Kit.FindAsync(Id);
+				var kit = await _context.Kits.FindAsync(Id);
 				if (kit != null)
 				{
 					kit.isArchived = true;
@@ -143,7 +143,7 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				var kitComponent = await _context.KitComponent.FindAsync(kitComponentViewModel.Id);
+				var kitComponent = await _context.KitComponents.FindAsync(kitComponentViewModel.Id);
 				if (kitComponent != null)
 				{
 					kitComponent.ItemId = kitComponentViewModel.ItemId;
@@ -162,7 +162,7 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				var kitComponent = await _context.KitComponent.FindAsync(Id);
+				var kitComponent = await _context.KitComponents.FindAsync(Id);
 				if (kitComponent != null)
 				{
 					kitComponent.IsDeleted = true;
@@ -180,7 +180,7 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				var kitComponent = await _context.KitComponent.FindAsync(Id);
+				var kitComponent = await _context.KitComponents.FindAsync(Id);
 				if (kitComponent != null)
 				{
 					kitComponent.isArchived = true;

@@ -111,7 +111,7 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				var response = await _context.Attachment.WhereIsNotArchivedAndDeleted()
+				var response = await _context.Attachments.WhereIsNotArchivedAndDeleted()
 					.Where(x => x.UserId == userId )
 					.Select(x => new { x.Id, x.Url })
 					.ToListAsync();

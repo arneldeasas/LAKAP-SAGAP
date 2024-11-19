@@ -18,9 +18,3 @@ public class FloorViewModel
     public string Name { get; set; }
     public List<RackViewModel> RackList { get; set; } = new();
 }
-
-public class RackViewModel
-{
-    public string FloorId { get; set; }
-    public string Name { get; set; }
-}

@@ -47,12 +47,3 @@ public class Floor : CommonModel
     public List<Rack> Racks { get; set; }
     public List<StockItem> StockItems { get; set; }
 }
-
-public class Rack : CommonModel
-{
-    public string Name { get; set; }
-    public string FloorId { get; set; }
-    public Floor Floor { get; set; }
-
-    public List<StockDetail> StockDetailList { get; set; }
-}

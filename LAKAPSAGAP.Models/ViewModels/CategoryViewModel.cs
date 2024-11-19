@@ -1,6 +1,4 @@
-﻿using LAKAPSAGAP.Models.Models;
-
-namespace LAKAPSAGAP.Models.ViewModels;
+﻿namespace LAKAPSAGAP.Models.ViewModels;
 
 public class CategoryViewModel
 {
@@ -9,8 +7,5 @@ public class CategoryViewModel
 	public string Name { get; set; }
 	public bool isArchived { get; set; }
 
-	public CategoryViewModel()
-	{
-		isArchived = false;
-	}
+	public CategoryViewModel() => isArchived = false;
 }

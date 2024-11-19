@@ -43,7 +43,7 @@ public class UoMRepository(MyDbContext context) : IUoMRepository
 		try
 		{
 			List<UoM> uomList = [];
-			uomList = await _context.GetAllIncludeArchivedsOnly<UoM>();
+			uomList = await _context.GetAllNotDeleted<UoM>();
 			return uomList;
 		}
 		catch (Exception)

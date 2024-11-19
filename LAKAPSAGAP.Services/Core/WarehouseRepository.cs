@@ -80,7 +80,7 @@ public class WarehouseRepository : IWarehouseRepository
 	{
 		try
 		{
-			var warehouse = await _context.Warehouse.FindAsync(warehouseViewModel.Id);
+			var warehouse = await _context.Warehouses.FindAsync(warehouseViewModel.Id);
 			warehouse.Name = warehouseViewModel.Name;
 			warehouse.Location = warehouseViewModel.Location;
 
@@ -140,20 +140,20 @@ public class WarehouseRepository : IWarehouseRepository
 	{
 		try
 		{
-			var warehouse = await _context.Warehouse
+			var warehouse = await _context.Warehouses
 									.AsNoTracking()
 									.Where(x => x.Id == Id)
 									.SingleOrDefaultAsync();
 
 			if (warehouse == null) return null;
 
-			var floors = await _context.Floor
+			var floors = await _context.Floors
 								.AsNoTracking()
 								.Where(x => x.WarehouseId == Id)
 								.ToListAsync();
 			foreach (var floor in floors)
 			{
-				var racks = await _context.Rack
+				var racks = await _context.Racks
 									.AsNoTracking()
 									.Where(x => x.FloorId == floor.Id)
 									.ToListAsync();
@@ -191,7 +191,7 @@ public class WarehouseRepository : IWarehouseRepository
 	{
 		try
 		{
-			var warehouse = await _context.Warehouse
+			var warehouse = await _context.Warehouses
 								.OrderBy(x => x.DateCreated)
 								.FirstOrDefaultAsync();
 

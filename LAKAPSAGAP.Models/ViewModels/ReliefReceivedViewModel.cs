@@ -3,12 +3,6 @@ using LAKAPSAGAP.Models.Models;
 
 namespace LAKAPSAGAP.Models.ViewModel
 {
-
-	public class ReliefReceivedTableViewModel
-	{
-
-	}
-
     public class ReliefReceivedViewModel
     {
 		public string Id { get; set; }
@@ -28,10 +22,7 @@ namespace LAKAPSAGAP.Models.ViewModel
 
 	public class ReliefReceivedFormSelections
 	{
-
-
 		public List<Floor> FloorList { get; set; }
-
 	}
 
 	public class StockDetailViewModel

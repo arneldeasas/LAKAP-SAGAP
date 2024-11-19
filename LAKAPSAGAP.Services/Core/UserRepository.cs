@@ -22,7 +22,7 @@ public class UserRepository(
 		try
 		{
 
-			UserAuth? duplicate = await _context.UserAuth.FirstOrDefaultAsync(x => x.UserName == account.Username);
+			UserAuth? duplicate = await _context.UserAuths.FirstOrDefaultAsync(x => x.UserName == account.Username);
 
 			if (duplicate is not null) throw new Exception("Account already exists");
 
@@ -32,7 +32,7 @@ public class UserRepository(
 				Email = account.Email,
 			};
 
-			var role = _context.Role.Find(account.RoleId).Name.ToUpper();
+			var role = _context.Roles.Find(account.RoleId).Name.ToUpper();
 			if (!await _roleManager.RoleExistsAsync(role))
 			{
 				await _roleManager.CreateAsync(new IdentityRole(role));
@@ -77,13 +77,13 @@ public class UserRepository(
 		try
 		{
 			Console.WriteLine(data.Id);
-			var userAuth = await _context.UserAuth.Where(x => x.Id == data.UserAuthId).SingleOrDefaultAsync();
+			var userAuth = await _context.UserAuths.Where(x => x.Id == data.UserAuthId).SingleOrDefaultAsync();
 
 			if (!String.IsNullOrEmpty(data.Password)) { var updatedUserAuth = await _userManager.ChangePasswordAsync(userAuth, userAuth.PasswordHash, data.Password); }
 			if (!String.IsNullOrEmpty(data.Username)) { var updatedUserAuth = await _userManager.SetUserNameAsync(userAuth, data.Username); }
 
 
-			var userInfo = await _context.UserInfo.Where(x => x.Id == data.Id).SingleOrDefaultAsync();
+			var userInfo = await _context.UserInfos.Where(x => x.Id == data.Id).SingleOrDefaultAsync();
 
 
 			if (userInfo is not null)
@@ -161,7 +161,7 @@ public class UserRepository(
 	{
 		try
 		{
-			return await _context.Role.ToListAsync();
+			return await _context.Roles.ToListAsync();
 		}
 		catch (Exception)
 		{
@@ -173,7 +173,7 @@ public class UserRepository(
 	{
 		try
 		{
-			return await _context.UserInfo
+			return await _context.UserInfos
 					.Include(u => u.Role)
 					.Where(u => u.isArchived == false)
 					.ToListAsync();

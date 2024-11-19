@@ -10,20 +10,23 @@ public class MyDbContext(
 {
 	HttpContextAccessor _contextAccessor { get; set; } = contextAccessor;
 
-	public DbSet<UserAuth> UserAuth { get; set; }
-    public DbSet<UserInfo> UserInfo { get; set; }
-    public DbSet<IdentityRole> Role { get; set; }
-    public DbSet<Attachment> Attachment { get; set; }
-    public DbSet<Rack> Rack { get; set; }
-    public DbSet<Floor> Floor { get; set; }
-    public DbSet<Warehouse> Warehouse { get; set; }
-    public DbSet<ReliefReceived> ReliefReceived { get; set; }
-    public DbSet<StockDetail> StockDetail { get; set; }
-    public DbSet<StockItem> StockItem { get; set; }
-    public DbSet<UoM> UoMs { get; set; }
+	public DbSet<UserAuth> UserAuths { get; set; }
+    public DbSet<IdentityRole> Roles { get; set; }
+    public DbSet<UserInfo> UserInfos { get; set; }
+    public DbSet<Attachment> Attachments { get; set; }
+
+    public DbSet<Rack> Racks { get; set; }
+    public DbSet<Floor> Floors { get; set; }
+    public DbSet<Warehouse> Warehouses { get; set; }
+
     public DbSet<Category> Categories { get; set; }
-    public DbSet<Kit> Kit { get; set; }
-    public DbSet<KitComponent> KitComponent { get; set; }
+    public DbSet<UoM> UoMs { get; set; }
+    public DbSet<StockItem> StockItems { get; set; }
+    public DbSet<StockDetail> StockDetails { get; set; }
+    public DbSet<ReliefReceived> ReliefReceiveds { get; set; }
+
+    public DbSet<Kit> Kits { get; set; }
+    public DbSet<KitComponent> KitComponents { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -50,20 +53,22 @@ public class MyDbContext(
 		builder.Entity<Warehouse>().HasMany(x => x.FloorList).WithOne(x => x.Warehouse).HasForeignKey(x => x.WarehouseId).OnDelete(DeleteBehavior.NoAction);
         builder.Entity<Warehouse>().HasMany(x => x.ReliefReceivedList).WithOne(x => x.Warehouse).HasForeignKey(x => x.WarehouseId).OnDelete(DeleteBehavior.NoAction);
 
-        builder.Entity<ReliefReceived>().HasOne(x => x.Warehouse).WithMany(x => x.ReliefReceivedList).HasForeignKey(x => x.WarehouseId).OnDelete(DeleteBehavior.NoAction);
-        builder.Entity<ReliefReceived>().HasMany(x => x.StockDetailList).WithOne(x => x.BatchDetail).HasForeignKey(x => x.BatchNumber).OnDelete(DeleteBehavior.NoAction);
-
-		builder.Entity<StockDetail>().HasOne(r => r.Item).WithMany(x => x.StockDetailList).HasForeignKey(r => r.ItemId).OnDelete(DeleteBehavior.NoAction);
-        builder.Entity<StockDetail>().HasOne(r => r.Rack).WithMany(x => x.StockDetailList).HasForeignKey(r => r.RackId).OnDelete(DeleteBehavior.NoAction);
-        builder.Entity<StockDetail>().HasOne(r => r.BatchDetail).WithMany(x => x.StockDetailList).HasForeignKey(r => r.BatchNumber).OnDelete(DeleteBehavior.NoAction);
+        builder.Entity<UoM>().HasMany(x => x.StockItems).WithOne(x => x.UoM).HasForeignKey(x => x.UoMId).OnDelete(DeleteBehavior.Restrict);
+        
+        builder.Entity<Category>().HasMany(x => x.StockItems).WithOne(x => x.Category).HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.Restrict);
+        builder.Entity<Category>().HasOne(x => x.AddedBy).WithMany(x => x.CategoriesCreated).HasForeignKey(x => x.AddedById).OnDelete(DeleteBehavior.Restrict);
 
 		builder.Entity<StockItem>().HasOne(r => r.Category).WithMany(x => x.StockItems).HasForeignKey(r => r.CategoryId).OnDelete(DeleteBehavior.NoAction);
         builder.Entity<StockItem>().HasOne(r => r.UoM).WithMany(x => x.StockItems).HasForeignKey(r => r.UoMId).OnDelete(DeleteBehavior.NoAction);
         builder.Entity<StockItem>().HasOne(r => r.Floor).WithMany(x => x.StockItems).HasForeignKey(r => r.FloorId).OnDelete(DeleteBehavior.NoAction);
         builder.Entity<StockItem>().HasMany(r => r.StockDetailList).WithOne(x => x.Item).HasForeignKey(r => r.ItemId).OnDelete(DeleteBehavior.NoAction);
 
-        builder.Entity<Category>().HasMany(x => x.StockItems).WithOne(x => x.Category).HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.Restrict);
-        builder.Entity<Category>().HasOne(x => x.AddedBy).WithMany(x => x.CategoriesCreated).HasForeignKey(x => x.AddedById).OnDelete(DeleteBehavior.Restrict);
+		builder.Entity<StockDetail>().HasOne(r => r.Item).WithMany(x => x.StockDetailList).HasForeignKey(r => r.ItemId).OnDelete(DeleteBehavior.NoAction);
+        builder.Entity<StockDetail>().HasOne(r => r.Rack).WithMany(x => x.StockDetailList).HasForeignKey(r => r.RackId).OnDelete(DeleteBehavior.NoAction);
+        builder.Entity<StockDetail>().HasOne(r => r.BatchDetail).WithMany(x => x.StockDetailList).HasForeignKey(r => r.BatchNumber).OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<ReliefReceived>().HasOne(x => x.Warehouse).WithMany(x => x.ReliefReceivedList).HasForeignKey(x => x.WarehouseId).OnDelete(DeleteBehavior.NoAction);
+        builder.Entity<ReliefReceived>().HasMany(x => x.StockDetailList).WithOne(x => x.BatchDetail).HasForeignKey(x => x.BatchNumber).OnDelete(DeleteBehavior.NoAction);
 
 		/**
          * Author: Charles Maverick Herrera
@@ -94,7 +99,7 @@ public class MyDbContext(
             {
                 string? actionUserAuthId = _contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                string? userId = UserInfo.FirstOrDefault(x => x.UserAuthId == actionUserAuthId)?.Id;
+                string? userId = UserInfos.FirstOrDefault(x => x.UserAuthId == actionUserAuthId)?.Id;
 
                 if (entry.State == EntityState.Added)
                 {

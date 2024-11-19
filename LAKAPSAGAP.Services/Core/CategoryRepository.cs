@@ -41,7 +41,7 @@ public class CategoryRepository(MyDbContext context) : ICategoryRepository
 		try
 		{
 			List<Category> categoryList = [];
-			categoryList = await _context.GetAllIncludeArchivedsOnly<Category>();
+			categoryList = await _context.GetAllNotDeleted<Category>();
 			return categoryList;
 		}
 		catch (Exception)

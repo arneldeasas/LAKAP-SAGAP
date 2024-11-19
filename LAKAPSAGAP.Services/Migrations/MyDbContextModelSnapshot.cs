@@ -61,15 +61,15 @@ namespace LAKAPSAGAP.Services.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Attachment");
+                    b.ToTable("Attachments");
 
                     b.HasData(
                         new
                         {
                             Id = "ATT_001",
                             AddedById = "ACC_001",
-                            DateCreated = new DateTime(2024, 11, 20, 4, 54, 54, 224, DateTimeKind.Local).AddTicks(2506),
-                            DateUpdated = new DateTime(2024, 11, 20, 4, 54, 54, 224, DateTimeKind.Local).AddTicks(2516),
+                            DateCreated = new DateTime(2024, 11, 20, 6, 31, 57, 837, DateTimeKind.Local).AddTicks(3545),
+                            DateUpdated = new DateTime(2024, 11, 20, 6, 31, 57, 837, DateTimeKind.Local).AddTicks(3559),
                             IsDeleted = false,
                             Url = "wwwroot\\attachments\\default_user_image.png",
                             UserId = "ACC_001",
@@ -156,7 +156,7 @@ namespace LAKAPSAGAP.Services.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("Floor");
+                    b.ToTable("Floors");
                 });
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.Kit", b =>
@@ -198,7 +198,7 @@ namespace LAKAPSAGAP.Services.Migrations
 
                     b.HasIndex("LastModifiedById");
 
-                    b.ToTable("Kit");
+                    b.ToTable("Kits");
                 });
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.KitComponent", b =>
@@ -244,7 +244,7 @@ namespace LAKAPSAGAP.Services.Migrations
 
                     b.HasIndex("LastModifiedById");
 
-                    b.ToTable("KitComponent");
+                    b.ToTable("KitComponents");
                 });
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.Rack", b =>
@@ -262,7 +262,6 @@ namespace LAKAPSAGAP.Services.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FloorId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
@@ -286,7 +285,7 @@ namespace LAKAPSAGAP.Services.Migrations
 
                     b.HasIndex("LastModifiedById");
 
-                    b.ToTable("Rack");
+                    b.ToTable("Racks");
                 });
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.ReliefReceived", b =>
@@ -345,7 +344,7 @@ namespace LAKAPSAGAP.Services.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("ReliefReceived");
+                    b.ToTable("ReliefReceiveds");
                 });
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.StockDetail", b =>
@@ -401,7 +400,7 @@ namespace LAKAPSAGAP.Services.Migrations
 
                     b.HasIndex("RackId");
 
-                    b.ToTable("StockDetail");
+                    b.ToTable("StockDetails");
                 });
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.StockItem", b =>
@@ -455,7 +454,7 @@ namespace LAKAPSAGAP.Services.Migrations
 
                     b.HasIndex("UoMId");
 
-                    b.ToTable("StockItem");
+                    b.ToTable("StockItems");
                 });
 
             modelBuilder.Entity("LAKAPSAGAP.Models.Models.UoM", b =>
@@ -565,40 +564,40 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "870b1e28-ac75-45fa-ba9c-98b816d8c65a",
+                            Id = "14474767-fc5d-4289-8392-29475281aefe",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "10cc5c91-1631-4e9c-9452-ff0eca1e3203",
+                            ConcurrencyStamp = "b30290d0-a6e1-49a8-b3e5-187fd6f915b6",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1d961fe2-1538-42a1-9968-874de1a352c6",
+                            SecurityStamp = "f22e19a7-dcb6-4401-93a6-8efe87ba75b1",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
                         new
                         {
-                            Id = "f66afff6-a815-46fb-ba8c-a6854d75a17a",
+                            Id = "6abc8ab6-7e95-4dd0-af34-32170b5f446f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fa48c182-3e7e-46b9-a684-19463b3ad2dc",
+                            ConcurrencyStamp = "513b276d-7dfe-4473-bfb2-3aa0ebac7a86",
                             Email = "head@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f11d4128-28f5-428f-b4a9-d56f916292f6",
+                            SecurityStamp = "ab962497-dd0a-4746-8efc-8ee9e09a8171",
                             TwoFactorEnabled = false,
                             UserName = "head"
                         },
                         new
                         {
-                            Id = "7f314d1d-80c3-4203-b453-5b46dadb0f85",
+                            Id = "49248abe-8a5d-4544-abea-78f9bfd1a651",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4d3eb86f-3129-42fc-a1ce-5827ae95695f",
+                            ConcurrencyStamp = "dd71e949-ef25-4d9f-907f-b35cc80d8a05",
                             Email = "barangay@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "478e209f-35f3-430e-8d37-90d11046c5f5",
+                            SecurityStamp = "699bab5b-bcb5-465d-a98d-7098b4d51164",
                             TwoFactorEnabled = false,
                             UserName = "barangay"
                         });
@@ -668,7 +667,7 @@ namespace LAKAPSAGAP.Services.Migrations
 
                     b.HasIndex("UserAuthId");
 
-                    b.ToTable("UserInfo");
+                    b.ToTable("UserInfos");
 
                     b.HasData(
                         new
@@ -676,16 +675,16 @@ namespace LAKAPSAGAP.Services.Migrations
                             Id = "ACC_001",
                             AddedById = "ACC_001",
                             Barangay = "Karuhatan",
-                            DateCreated = new DateTime(2024, 11, 20, 4, 54, 54, 224, DateTimeKind.Local).AddTicks(2540),
-                            DateUpdated = new DateTime(2024, 11, 20, 4, 54, 54, 224, DateTimeKind.Local).AddTicks(2541),
+                            DateCreated = new DateTime(2024, 11, 20, 6, 31, 57, 837, DateTimeKind.Local).AddTicks(3584),
+                            DateUpdated = new DateTime(2024, 11, 20, 6, 31, 57, 837, DateTimeKind.Local).AddTicks(3584),
                             Email = "admin@gmail.com",
                             FirstName = "LakapSagap",
                             IsDeleted = false,
                             LastName = "Admin",
                             MiddleName = "Capstone",
                             Phone = "09123456789",
-                            RoleId = "ab9388e3-8300-4150-a9fa-490efc6cdd31",
-                            UserAuthId = "870b1e28-ac75-45fa-ba9c-98b816d8c65a",
+                            RoleId = "8dcc7c63-f624-4e5a-ad66-f2402c29c988",
+                            UserAuthId = "14474767-fc5d-4289-8392-29475281aefe",
                             isArchived = false
                         });
                 });
@@ -727,7 +726,7 @@ namespace LAKAPSAGAP.Services.Migrations
 
                     b.HasIndex("LastModifiedById");
 
-                    b.ToTable("Warehouse");
+                    b.ToTable("Warehouses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -759,19 +758,19 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ab9388e3-8300-4150-a9fa-490efc6cdd31",
+                            Id = "8dcc7c63-f624-4e5a-ad66-f2402c29c988",
                             Name = "CSWD Administration Staff",
                             NormalizedName = "CSWD_ADMINISTRATION_STAFF"
                         },
                         new
                         {
-                            Id = "417c7054-fc01-44ba-a9d1-25b3ff8b47be",
+                            Id = "3d96adfd-863f-4f03-9567-e89de446fbb5",
                             Name = "CSWD Office Head",
                             NormalizedName = "CSWD_OFFICE_HEAD"
                         },
                         new
                         {
-                            Id = "78b5a045-757e-4d5d-84f9-deeb3a021dac",
+                            Id = "51b1aa57-68c0-48fd-8778-9d50e7582e15",
                             Name = "Barangay Representative",
                             NormalizedName = "BARANGAY_REPRESENTATIVE"
                         });
@@ -997,8 +996,7 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.HasOne("LAKAPSAGAP.Models.Models.Floor", "Floor")
                         .WithMany("Racks")
                         .HasForeignKey("FloorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("LAKAPSAGAP.Models.Models.UserInfo", "LastModifiedBy")
                         .WithMany()
@@ -1082,7 +1080,7 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.HasOne("LAKAPSAGAP.Models.Models.Category", "Category")
                         .WithMany("StockItems")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("LAKAPSAGAP.Models.Models.Floor", "Floor")

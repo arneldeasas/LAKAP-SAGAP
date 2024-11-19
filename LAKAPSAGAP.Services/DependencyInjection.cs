@@ -14,6 +14,7 @@ public static class DependencyInjection
         services.AddScoped<IWarehouseRepository, WarehouseRepository>();
         services.AddScoped<IUoMRepository, UoMRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IRackRepository, RackRepository>();
 
         services.AddScoped<AuthRepository>();
         services.AddScoped<UserAttachmentRepository>();

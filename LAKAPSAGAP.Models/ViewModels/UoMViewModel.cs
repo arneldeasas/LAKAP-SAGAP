@@ -7,8 +7,5 @@ public class UoMViewModel
     public string Symbol { get; set; }
     public bool isArchived { get; set; }
 
-    public UoMViewModel()
-    {
-        isArchived = false;
-    }
+	public UoMViewModel() => isArchived = false;
 }

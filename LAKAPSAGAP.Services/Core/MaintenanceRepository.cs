@@ -11,104 +11,6 @@ namespace LAKAPSAGAP.Services.Core
 			_context = context;
 		}
 
-		public async Task<StockCategory> CreateStockCategory(StockCategoryViewModel stockCategoryViewModel)
-		{
-			try
-			{
-				int count = await _context.GetCount<StockCategory>();
-				string Id = IdGenerator.GenerateId(IdGenerator.PFX_STOCKCATEGORY, count);
-
-				var newStockCategory = new StockCategory
-				{
-					Id = Id,
-					Name = stockCategoryViewModel.Name.Trim(),
-
-				};
-				return await _context.Create<StockCategory>(newStockCategory);
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-		public async Task<StockCategory> UpdateStockCategory(StockCategoryViewModel stockCategoryViewModel)
-		{
-			try
-			{
-				var updatedStockCategory = new StockCategory
-				{
-					Name = stockCategoryViewModel.Name.Trim()
-				};
-				return await _context.UpdateItem<StockCategory>(updatedStockCategory);
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-		public async Task<StockCategory> DeleteStockCategory(string Id)
-		{
-			try
-			{
-				var stockCategory = await _context.GetById<StockCategory>(Id);
-				if (stockCategory is null)
-				{
-					throw new Exception("Record not found.");
-				}
-				stockCategory.IsDeleted = true;
-				return await _context.UpdateItem<StockCategory>(stockCategory);
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-		public async Task<StockCategory> ArchiveStockCategory(string Id)
-		{
-			try
-			{
-				var stockCategory = await _context.GetById<StockCategory>(Id);
-				if (stockCategory is null)
-				{
-					throw new Exception("Record not found.");
-				}
-				stockCategory.isArchived = true;
-				return await _context.UpdateItem<StockCategory>(stockCategory);
-			}
-			catch (Exception)
-			{
-				throw;
-			}
-		}
-		public async Task<StockCategory> GetStockCategoryById(string Id)
-		{
-			try
-			{
-				return await _context.GetById<StockCategory>(Id);
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-		public async Task<List<StockCategory>> GetAllStockCategories()
-		{
-			try
-			{
-				return await _context.GetAll<StockCategory>();
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-
-
 		public async Task<StockItem> CreateStockItem(StockItemViewModel stockItemViewModel)
 		{
 			try
@@ -119,7 +21,7 @@ namespace LAKAPSAGAP.Services.Core
 				{
 					Id = Id,
 			
-					StockCategoryId = stockItemViewModel.StockCategoryId,
+					CategoryId = stockItemViewModel.CategoryId,
 					Name = stockItemViewModel.Name.Trim(),
 					UoMId = stockItemViewModel.UoMId
 				};
@@ -138,7 +40,7 @@ namespace LAKAPSAGAP.Services.Core
 				var updatedStockItem = new StockItem
 				{
 					UoMId = stockItemViewModel.UoMId,
-					StockCategoryId = stockItemViewModel.StockCategoryId,
+					CategoryId = stockItemViewModel.CategoryId,
 					Name = stockItemViewModel.Name.Trim(),
 				};
 					
@@ -218,7 +120,7 @@ namespace LAKAPSAGAP.Services.Core
 			try
 			{
 				int count = await _context.GetCount<UoM>();
-				string Id = IdGenerator.GenerateId(IdGenerator.PFX_STOCKUOM, count);
+				string Id = IdGenerator.GenerateId(IdGenerator.PFX_UOM, count);
 				var newUoM = new UoM
 				{
 					Id = Id,

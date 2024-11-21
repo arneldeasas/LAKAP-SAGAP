@@ -96,7 +96,7 @@ namespace LAKAPSAGAP.Services.Core
         //}
         public async Task<UserAuth> GetAuthUserByUsername(string username)
         {
-            var user = await _context.UserAuth.FirstOrDefaultAsync(x => x.UserName == username);
+            var user = await _context.UserAuths.FirstOrDefaultAsync(x => x.UserName == username);
             Console.WriteLine(user);
             if (user == null)
             {
@@ -107,7 +107,7 @@ namespace LAKAPSAGAP.Services.Core
 
 		public async Task<UserAuth> GetAuthUserByUserAuthId(string UserAuthId)
 		{
-			var user = await _context.UserAuth.FirstOrDefaultAsync(x => x.Id == UserAuthId);
+			var user = await _context.UserAuths.FirstOrDefaultAsync(x => x.Id == UserAuthId);
 			Console.WriteLine(user);
 			if (user == null)
 			{
@@ -124,7 +124,7 @@ namespace LAKAPSAGAP.Services.Core
 		public UserInfo GetAuthenticatedUser()
         {
             var userId = _contextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = _context.UserInfo.Find(userId);
+            var user = _context.UserInfos.Find(userId);
 
             return user;
         }

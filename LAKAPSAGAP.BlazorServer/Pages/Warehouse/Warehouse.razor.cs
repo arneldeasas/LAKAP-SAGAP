@@ -49,7 +49,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 					Name = floor.Name,
 				});
 
-				foreach (var rack in floor.RackList)
+				foreach (var rack in floor.Racks)
 				{
 					model.FloorList[index].RackList.Add(new RackViewModel
 					{

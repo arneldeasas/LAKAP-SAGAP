@@ -4,12 +4,12 @@ namespace LAKAPSAGAP.BlazorServer.Pages.UserManagement
 {
 	public partial class Users
 	{
-	
+
 		[Inject] DialogService _dialogService { get; set; }
 		[Inject] IUserRepository _userRepo { get; set; }
 		[Inject] protected IJSRuntime _jSRuntime { get; set; } = default!;
-		[Inject] HttpContextAccessor HttpContextAccessor { get; set; }
-	
+		//[Inject] HttpContextAccessor HttpContextAccessor { get; set; }
+
 		public RadzenDataGrid<UserInfo> UsersDG;
 
 		private List<BreadcrumbViewModel> Breadcrumbs = new()
@@ -26,12 +26,9 @@ namespace LAKAPSAGAP.BlazorServer.Pages.UserManagement
 		{
 			_userInfoList = await _userRepo.GetAllUsers();
 			tableData = _userInfoList;
-            Console.WriteLine(HttpContextAccessor.HttpContext.User);
+		}
 
-
-        }
-
-        private void SearchUsers(string value)
+		private void SearchUsers(string value)
 		{
 			if (value != string.Empty)
 			{

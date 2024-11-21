@@ -1,16 +1,15 @@
 ﻿@inherits LayoutComponentBase
 
 <RadzenComponents @rendermode="InteractiveServer" />
-<CascadingValues>
-	<CascadingAuthenticationState>
-		<RadzenLayout>
-			<RadzenHeader class="shadow-sm" Style="box-shadow: var(--rz-shadow-0); background-color: var(--rz-white);">
-				<NavMenu />
-			</RadzenHeader>
-			<RadzenBody Style="background-color: var(--rz-base-200); padding: 0px">
-				@Body
-			</RadzenBody>
-		</RadzenLayout>
-	</CascadingAuthenticationState>
-</CascadingValues>
+
+<CascadingAuthenticationState>
+    <RadzenLayout>
+        <RadzenHeader class="shadow-sm" Style="box-shadow: var(--rz-shadow-0); background-color: var(--rz-white);">
+            <NavMenu />
+        </RadzenHeader>
+        <RadzenBody Style="background-color: var(--rz-base-200); padding: 0px">
+            @Body
+        </RadzenBody>
+    </RadzenLayout>
+</CascadingAuthenticationState>
 

@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\Attachments\**" />
     <Compile Remove="wwwroot\NewFolder\**" />
+    <Content Remove="wwwroot\Attachments\**" />
     <Content Remove="wwwroot\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\Attachments\**" />
     <EmbeddedResource Remove="wwwroot\NewFolder\**" />
+    <None Remove="wwwroot\Attachments\**" />
     <None Remove="wwwroot\NewFolder\**" />
   </ItemGroup>
 
@@ -24,13 +28,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LAKAPSAGAP.Models\LAKAPSAGAP.Models.csproj" />
-    <ProjectReference Include="..\LAKAPSAGAP.Services\LAKAPSAGAP.Services.csproj" />
+    <Folder Include="wwwroot\NewFolder1\" />
+    <Folder Include="wwwroot\scripts\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Attachments\" />
-    <Folder Include="wwwroot\scripts\" />
+    <ProjectReference Include="..\LAKAPSAGAP.Models\LAKAPSAGAP.Models.csproj" />
+    <ProjectReference Include="..\LAKAPSAGAP.Services\LAKAPSAGAP.Services.csproj" />
   </ItemGroup>
 
 </Project>

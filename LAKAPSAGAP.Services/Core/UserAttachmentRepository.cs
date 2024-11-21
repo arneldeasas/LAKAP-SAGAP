@@ -14,6 +14,11 @@ namespace LAKAPSAGAP.Services.Core
 		public UserAttachmentRepository(MyDbContext context)
         {
             _context = context;
+            if (!Directory.Exists(_uploadPath))
+            {
+                Directory.CreateDirectory(_uploadPath);
+            }
+
 		}
         public async Task<List<string>> UploadAttachments(List<IBrowserFile> fileList, string userId)
         {  //Makes metadata for files
@@ -106,7 +111,7 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				var response = await _context.Attachment.WhereIsNotArchivedAndDeleted()
+				var response = await _context.Attachments.WhereIsNotArchivedAndDeleted()
 					.Where(x => x.UserId == userId )
 					.Select(x => new { x.Id, x.Url })
 					.ToListAsync();

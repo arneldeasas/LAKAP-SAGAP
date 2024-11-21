@@ -31,15 +31,6 @@ namespace LAKAPSAGAP.BlazorServer.Pages.UserManagement
 
         }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (firstRender)
-            {
-			await _jSRuntime.InvokeAsync<bool>("Confirmation", "User Account Archived Successfully.", "success", null);
-
-            }
-        }
-
         private void SearchUsers(string value)
 		{
 			if (value != string.Empty)

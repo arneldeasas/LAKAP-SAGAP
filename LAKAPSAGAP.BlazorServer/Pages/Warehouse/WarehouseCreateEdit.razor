@@ -47,7 +47,7 @@
 							@foreach (var rack in data.RackList)
 							{
 								<RadzenBadge Style="padding: 0.25rem 0.5rem 0.25rem 0.5rem" BadgeStyle="BadgeStyle.Primary" Shade="Shade.Lighter">
-									<RadzenTextBox Style="width: 125px;" Placeholder="Rack Name"
+									<RadzenTextBox Style="width: 125px;" Placeholder="Rack Name" 
 												   @bind-Value="rack.Name" />
 									<RadzenButton Style="margin-left: 0.5rem;" Icon="backspace" Shade="Shade.Light" Variant="Variant.Flat" ButtonStyle="ButtonStyle.Base" Click="() => RemoveRack(data.Name, rack)" />
 								</RadzenBadge>

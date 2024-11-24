@@ -39,7 +39,7 @@
 								}
 								<RadzenButton Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Success"
 											  Icon="done" Click="@((args) => SaveRow(data))" aria-label="Save" />
-								<RadzenButton Size="ButtonSize.Small"
+								<RadzenButton Visible=@(!readingIsForInsertion) Size="ButtonSize.Small"
 											  ButtonStyle="ButtonStyle.Dark" Shade="Shade.Lighter" Icon="close"
 											  Click="@(args => CancelEdit(data))" />
 								<RadzenButton Visible=@(!readingIsForInsertion) Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Danger"

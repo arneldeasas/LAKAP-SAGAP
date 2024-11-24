@@ -61,7 +61,7 @@
 		<div class="d-flex align-items-center justify-content-end my-3 gap-2">
 			<RadzenButton Style="width: fit-content;" Text="Cancel" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Base" Shade="Shade.Light" />
 			<RadzenButton Style="width: fit-content;" Text="@((whseModel.Id is null ? "Add New Warehouse" : "Save Changes"))" ButtonStyle="ButtonStyle.Success" 
-							Disabled="whseModel.FloorList.Count() <= 0 || whseModel.FloorList.Any(x => x.RackList.Count() <= 0)" Click="Save" />
+							Disabled="whseModel.FloorList.Count() <= 0 && whseModel.FloorList.Any(x => x.RackList.Count() <= 0)" Click="Save" />
 		</div>
 	</form>
 

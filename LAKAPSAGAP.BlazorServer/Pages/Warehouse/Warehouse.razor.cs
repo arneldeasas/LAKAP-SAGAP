@@ -11,24 +11,30 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 
 
 
-		private bool Loading = true;
+		bool Loading = true;
+		int retries = 0;
 
 		public WarehouseViewModel model { get; set; } = new();
 		public List<LAKAPSAGAP.Models.Models.Warehouse> warehouses { get; set; } = new();
 
-		protected override async Task OnParametersSetAsync()
+        protected override async Task OnInitializedAsync()
+        {
+			
+        }
+
+        protected override async Task OnParametersSetAsync()
 		{
 
+            var res = await WarehouseRepo.GetWarehouseById(Id);
 
-			while (Id == null)
-			{
-				Loading = true;
-				await Task.Delay(100); // Wait for 100 milliseconds before checking again
+            if (res is null)
+            {
+				res = await WarehouseRepo.PickWarehouse();
+				if (res is null) NavManager.NavigateTo("/Warehouse");
+				NavManager.NavigateTo($@"/Warehouse/{res.Id}/Stocks");
 			}
 
-			var res = await WarehouseRepo.GetWarehouseById(Id);
-
-			model = new WarehouseViewModel
+            model = new WarehouseViewModel
 			{
 				Id = res.Id,
 				Name = res.Name,
@@ -43,7 +49,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 					Name = floor.Name,
 				});
 
-				foreach (var rack in floor.RackList)
+				foreach (var rack in floor.Racks)
 				{
 					model.FloorList[index].RackList.Add(new RackViewModel
 					{

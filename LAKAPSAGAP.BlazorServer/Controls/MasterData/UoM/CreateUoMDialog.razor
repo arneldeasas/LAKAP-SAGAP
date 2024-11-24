@@ -1,0 +1,33 @@
+﻿<RadzenTemplateForm Data="@_newUom" TItem="UoMViewModel" Submit="@Submit">
+	<RadzenStack Gap="5px">
+		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" AlignItems="AlignItems.Center">
+			<RadzenLabel Text="Active" Component="switch" />
+			<RadzenSwitch @bind-Value=@_isActive Name="switch" />
+		</RadzenStack>
+		<RadzenFormField Text="Name">
+			<ChildContent>
+				<RadzenTextBox @bind-Value=@_newUom.Name Name="uom-name" />
+			</ChildContent>
+			<Helper>
+				<RadzenRequiredValidator Component="uom-name" Text="Required" />
+			</Helper>
+		</RadzenFormField>
+		
+		<RadzenFormField Text="Symbol">
+			<ChildContent>
+				<RadzenTextBox @bind-Value=@_newUom.Symbol Name="uom-symbol" />
+			</ChildContent>
+			<Helper>
+				<RadzenRequiredValidator Component="uom-symbol" Text="Required" />
+			</Helper>
+		</RadzenFormField>
+
+		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" AlignItems="AlignItems.Center" class="rz-mt-5">
+			<RadzenButton Text="Add" ButtonType="ButtonType.Submit" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Primary" />
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+
+}

@@ -10,9 +10,13 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 
 		private List<BreadcrumbViewModel> Breadcrumbs = new()
 		{
-			new BreadcrumbViewModel { Path = "javascript:void(0);", Text = "Warehouse" },
-			new BreadcrumbViewModel { Path = "/Warehouse/Stocks", Text = "Stocks" },
+			new BreadcrumbViewModel { Path = "/Warehouse", Text = "Warehouse" },
 		};
+
+		protected override void OnParametersSet()
+		{
+			//Breadcrumbs.Add(new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Stocks", Text = "Stocks" });
+		}
 
 	}
 }

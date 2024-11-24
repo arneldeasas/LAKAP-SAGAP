@@ -63,24 +63,30 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 
 			try
 			{
-				var whse = await WarehouseRepo.UpdateWarehouse(whseModel);
 				Loading = true;
 
-				if (whse is not null)
+				if (whseModel.Id is not null)
 				{
-					await _jSRuntime.InvokeVoidAsync("Toast", "success", "Warehouse Created Successfully!");
+					await WarehouseRepo.UpdateWarehouse(whseModel);
+					await _jSRuntime.InvokeVoidAsync("Toast", "success", "Warehouse Updated Successfully!");
 					await Task.Delay(3000);
 				}
-				else
-				{
-					await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Oh No! Something bad happenned, Please try again...");
+				else if (whseModel.Id is null)
+                {
+					await WarehouseRepo.CreateWarehouse(whseModel);
+					await _jSRuntime.InvokeVoidAsync("Toast", "success", "Warehouse Created Successfully!");
 					await Task.Delay(3000);
 				}
 
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
-				throw;
+				await _jSRuntime.InvokeVoidAsync("Toast", "error", $@"{e.Message}");
+				//throw;
+			}
+			finally
+			{
+				dialogService.Close(true);
 			}
 		}
 

@@ -51,7 +51,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Security
             {
                 Console.WriteLine(loginViewModel);
                 await authRepository.Authenticate(loginViewModel);
-                NavigationManager.NavigateTo("/users");
+                NavigationManager.NavigateTo("/masterdata/users");
             }
             catch (Exception)
             {

@@ -1,5 +1,26 @@
-﻿<h3>KitsAvailability</h3>
-
-@code {
-
-}
+﻿<RadzenDataList WrapItems="true" AllowPaging="true" TItem="@Kit">
+	<Template Context="data">
+		<RadzenCard class="rz-w-50">
+			<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceEvenly">
+				<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+					<RadzenText class="rz-m-0" TextStyle="TextStyle.H5" Text="Food Pack Name" />
+					<RadzenButton class="rz-m-0" Icon="edit" Text="Edit" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined" />
+				</RadzenStack>
+				<hr />
+				<RadzenDataGrid TItem="@KitComponentViewModel">
+					<Columns>
+						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.Quantity))" Title="Name" />
+						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.ItemName))" Title="Name" />
+						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.QuantityOnHand))" Title="Name" />
+						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.Status))" Title="Status" />
+					</Columns>
+				</RadzenDataGrid>
+			</RadzenStack>
+		</RadzenCard>
+	</Template>
+	<EmptyTemplate>
+		<span>
+			No Kits Available.
+		</span>
+	</EmptyTemplate>
+</RadzenDataList>

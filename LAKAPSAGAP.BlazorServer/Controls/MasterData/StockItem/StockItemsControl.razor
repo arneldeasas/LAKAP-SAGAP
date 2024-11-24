@@ -1,0 +1,61 @@
+﻿<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" class="rz-w-100">
+	<MacroBreadcrumbs Breadcrumbs="Breadcrumbs" />
+	<RadzenButton Icon="add" Text="Add Stock Item" ButtonStyle="ButtonStyle.Primary" Click="@ShowCreateStockItemDialog" class="rz-border-radius-3 text-capitalize" />
+</RadzenStack>
+
+<RadzenStack class="rz-w-100 rz-h-100 rz-p-3 card">
+	<RadzenDataGrid @ref=@_StockItemsGrid TItem="StockItemViewModel" Data="@_filteredStockItems" IsLoading=@_isBusy>
+		<EmptyTemplate>
+			<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+		</EmptyTemplate>
+		<Columns>
+			<RadzenDataGridColumn TItem="StockItemViewModel" Property="@nameof(StockItemViewModel.Name)" Title="Name" />
+			<RadzenDataGridColumn TItem="StockItemViewModel" Title="Category">
+				<Template Context="item">
+					<RadzenText Text="@_categoryList.First(x => x.Id == item.CategoryId).Name" />
+				</Template>
+			</RadzenDataGridColumn>
+			<RadzenDataGridColumn TItem="StockItemViewModel" Title="UoM">
+				<Template Context="item">
+					<RadzenText Text="@_uomList.First(x => x.Id == item.UoMId).Name" />
+				</Template>
+			</RadzenDataGridColumn>
+			<RadzenDataGridColumn TItem="StockItemViewModel" Property="@nameof(StockItemViewModel.isArchived)" Title="Active">
+				<Template Context="item">
+					<RadzenBadge Text="@($"{(item.isArchived ? "Inactive" : "Active")}")" BadgeStyle="@(item.isArchived ? BadgeStyle.Danger : BadgeStyle.Success)" Shade="Shade.Light" IsPill />
+				</Template>
+			</RadzenDataGridColumn>
+			<RadzenDataGridColumn TItem="StockItemViewModel">
+				<Template Context="item">
+					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+						<RadzenButton Icon="visibility" Shade="Shade.Light" ButtonStyle="ButtonStyle.Primary" class="rz-border-radius-3" Click="@(async () => await ShowViewUpdateStockItemDialog(item.Id))" />
+					</RadzenStack>
+				</Template>
+			</RadzenDataGridColumn>
+		</Columns>
+	</RadzenDataGrid>
+</RadzenStack>
+
+@code {
+	async Task ShowCreateStockItemDialog()
+	{
+		string? newStockItemId = await _dialogService.OpenAsync<CreateStockItemDialog>("Create Stock Item");
+
+		if (string.IsNullOrEmpty(newStockItemId))
+		{
+			// TODO: toast create error of uom
+			return;
+		}
+
+		await LoadStockItemsList();
+		await RerenderTable();
+	}
+
+	async Task ShowViewUpdateStockItemDialog(string Id)
+	{
+		await _dialogService.OpenAsync<ViewUpdateStockItemDialog>("Stock Item Info.", new() { { "Id", Id } });
+
+		await LoadStockItemsList();
+		await RerenderTable();
+	}
+}

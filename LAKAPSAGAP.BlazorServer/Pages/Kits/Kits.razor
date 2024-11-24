@@ -61,7 +61,7 @@
 {
 	async Task ShowKitsCreateDialog()
 		{
-		var result = await _dialogService.OpenAsync("Create Kit", ds => @<KitsCreateUpdate /> ,
+		var result = await _dialogService.OpenAsync("Create Kit", ds => @<KitTypeCreateUpdate /> ,
 			new DialogOptions()
 			{
 				CssClass = "rz-w-fit-content",

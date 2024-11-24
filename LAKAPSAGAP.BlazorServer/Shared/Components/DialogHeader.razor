@@ -1,0 +1,8 @@
+﻿<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">  
+	<RadzenText class="rz-m-0" Text="@HeaderText" TextStyle="TextStyle.H5" />
+	<RadzenButton Icon="close" Variant="Variant.Text" />
+</RadzenStack>
+
+@code {
+	[Parameter] public string HeaderText { get; set; } = "Header";
+}

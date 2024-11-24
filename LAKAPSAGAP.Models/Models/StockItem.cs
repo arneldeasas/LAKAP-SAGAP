@@ -8,7 +8,7 @@ public class StockItem : CommonModel //record of all Relief Items
 	public string UoMId { get; set; }
 	public UoM UoM { get; set; }
 
-	public string FloorId { get; set; }
-	public Floor Floor { get; set; }
+	//public string FloorId { get; set; } //StockDetail is the one that has rackId 
+	//public Floor Floor { get; set; }
 	public List<StockDetail> StockDetailList { get; set; }
 }

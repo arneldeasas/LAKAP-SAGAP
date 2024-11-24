@@ -77,14 +77,13 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
                 {
 					await _jSRuntime.InvokeVoidAsync("Toast", "success", "Warehouse Created Successfully!");
 					await Task.Delay(3000);
-					NavManager.NavigateTo($"/Warehouse/Stocks/{whse.Id}", true);
+					NavManager.NavigateTo($"/Warehouse/{whse.Id}/Stocks", true);
                 }
 				else
 				{
 					await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Oh No! Something bad happenned, Please try again...");
 					await Task.Delay(3000);
 					NavManager.NavigateTo($"/Warehouse", true);
-
 				}
 
 

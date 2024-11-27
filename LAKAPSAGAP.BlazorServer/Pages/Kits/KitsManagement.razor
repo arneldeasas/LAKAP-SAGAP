@@ -3,7 +3,7 @@
 		<RadzenText TextStyle="TextStyle.Subtitle1" Text="Search" />
 		<RadzenTextBox Style="width: 100%; max-width: 400px;" Placeholder="Search ... " />
 	</RadzenStack>
-	<RadzenDataGrid TItem="KitViewModel">
+	<RadzenDataGrid TItem="KitViewModel" Data="@KitComponentList">
 		<Columns>
 			<RadzenDataGridColumn Property="@nameof(KitViewModel.ManufactureDate)" Title="Date Packed" FormatString="{0:MM/dd/yyyy}" Width="200px" />
 			<RadzenDataGridColumn Property="@nameof(KitViewModel.Id)" Title="Kit Code" Width="80px" />
@@ -17,5 +17,8 @@
 				</Template>
 			</RadzenDataGridColumn>
 		</Columns>
+		<EmptyTemplate>
+			<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+		</EmptyTemplate>
 	</RadzenDataGrid>
 </RadzenStack>

@@ -9,7 +9,8 @@ public partial class StockItemsControl
 	[Inject] DialogService _dialogService { get; set; }
 	[Inject] IUoMRepository _uomRepo { get; set; }
 	[Inject] ICategoryRepository _categoryRepo { get; set; }
-	//[Inject] IStockItemRepository _StockItemRepo { get; set; }
+	[Inject] IStockItemRepository _stockItemRepo { get; set; }
+	[Inject] IJSRuntime _jSRuntime { get; set; }
 
 	List<StockItemViewModel> _stockItems { get; set; }
 	List<StockItemViewModel> _filteredStockItems { get; set; }
@@ -22,7 +23,7 @@ public partial class StockItemsControl
 		new() { Path = "/MasterData/StockItems", Text = "StockItems" },
 	];
 
-	RadzenDataGrid<StockItemViewModel> _StockItemsGrid { get; set; }
+	RadzenDataGrid<StockItemViewModel> _stockItemsGrid { get; set; }
 
 	bool _isBusy { get; set; }
 
@@ -52,17 +53,21 @@ public partial class StockItemsControl
 	async Task LoadStockItemsList()
 	{
 		SetBusy(true);
-		//List<StockItemModel> StockItems = await _StockItemRepo.GetAllStockItem();
+		await LoadCategoryList();
+		await LoadUomList();
+		List<StockItemModel> stockItems = await _stockItemRepo.GetAllStockItem();
 		_stockItems = [];
-		//foreach (StockItemModel StockItem in StockItems)
-		//{
-		//	_StockItems.Add(new()
-		//	{
-		//		Id = StockItem.Id,
-		//		Name = StockItem.Name,
-		//		isArchived = StockItem.isArchived
-		//	});
-		//}
+		foreach (StockItemModel stockItem in stockItems)
+		{
+			_stockItems.Add(new()
+			{
+				Id = stockItem.Id,
+				Name = stockItem.Name,
+				CategoryId = stockItem.CategoryId,
+				UoMId = stockItem.UoMId,
+				isArchived = stockItem.isArchived
+			});
+		}
 		SetBusy(false);
 	}
 
@@ -98,8 +103,8 @@ public partial class StockItemsControl
 	async Task RerenderTable()
 	{
 		_filteredStockItems = _stockItems;
-		await _StockItemsGrid.RefreshDataAsync();
-		await _StockItemsGrid.Reload();
+		await _stockItemsGrid.RefreshDataAsync();
+		await _stockItemsGrid.Reload();
 		StateHasChanged();
 	}
 

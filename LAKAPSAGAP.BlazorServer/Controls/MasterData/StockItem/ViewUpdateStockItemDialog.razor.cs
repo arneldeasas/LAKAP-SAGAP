@@ -23,6 +23,8 @@ public partial class ViewUpdateStockItemDialog
 	bool _isBusy { get; set; }
 	bool _isEditing { get; set; }
 	bool _isActive { get; set; }
+	bool _categoryFldHovering { get; set; }
+	bool _uomFldHovering { get; set; }
 
 	protected override void OnInitialized()
 	{

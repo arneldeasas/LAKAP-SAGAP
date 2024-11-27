@@ -4,7 +4,7 @@ public partial class CreateUoMDialog
 {
 	[Inject] DialogService _dialogService { get; set; }
 	[Inject] IUoMRepository _uomRepo { get; set; }
-	[Inject] protected IJSRuntime _jSRuntime { get; set; }
+	[Inject] IJSRuntime _jSRuntime { get; set; }
 
 	UoMViewModel _newUom { get; set; }
 
@@ -26,13 +26,11 @@ public partial class CreateUoMDialog
 		_newUom.isArchived = !_isActive;
 		string? newId = await _uomRepo.CreateUoM(_newUom);
 		SetBusy(true);
-		_dialogService.Close(newId);        
 
-		// TODO: have the user be notified about the error
-
-        //if (!string.IsNullOrEmpty(newId))
-        //{
-        //}
+		if (!string.IsNullOrEmpty(newId)) _jSRuntime.InvokeVoidAsync("Toast", "success", "UoM added successfully!");
+		else _jSRuntime.InvokeVoidAsync("Toast", "error", "An error occured. Something went wrong!");
+		
+		_dialogService.Close(newId);
 	}
 
 	void SetBusy(bool busy)

@@ -6,7 +6,7 @@ public class ReliefReceived : CommonModel
    
     public string WarehouseId { get; set; }
     public Warehouse Warehouse { get; set; }
-    public string ReliefType { get; set; }
+    public string ReliefType { get; set; } // Acquisition Type (kung purchase or donation)
     public string ReceivedBy { get; set; }
     public string ReceivedFrom { get; set; } //supplier or donor
 	public string? TruckPlateNumber { get; set; }

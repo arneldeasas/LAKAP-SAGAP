@@ -2,13 +2,10 @@
 
 namespace LAKAPSAGAP.Services.Core;
 
-public class StockItemRepository : IStockItemRepository
+public class StockItemRepository(MyDbContext context) : IStockItemRepository
 {
-	readonly MyDbContext _context;
-	StockItemRepository(MyDbContext context)
-	{
-		_context = context;
-	}
+	readonly MyDbContext _context = context;
+
 	public async Task<string?> CreateStockItem(StockItemViewModel stockItemVM)
 	{
 

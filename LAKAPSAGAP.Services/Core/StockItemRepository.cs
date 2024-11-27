@@ -63,7 +63,7 @@ public class StockItemRepository(MyDbContext context) : IStockItemRepository
 	{
 		try
 		{
-			StockItem? stockItem = await _context.GetById<StockItem>(stockItemVM.Id);
+			StockItem? stockItem = await _context.GetByIdIncludeArchivedsOnly<StockItem>(stockItemVM.Id);
 			if (stockItem == null) return false;
 
 			stockItem.Name = stockItemVM.Name;

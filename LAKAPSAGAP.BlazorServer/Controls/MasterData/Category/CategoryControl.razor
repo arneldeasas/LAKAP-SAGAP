@@ -1,6 +1,6 @@
 ﻿<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" class="rz-w-100">
 	<MacroBreadcrumbs Breadcrumbs="Breadcrumbs" />
-	<RadzenButton Icon="add" Text="Add Category" ButtonStyle="ButtonStyle.Primary" Click="@ShowCreateUomDialog" class="rz-border-radius-3 text-capitalize" />
+	<RadzenButton Icon="add" Text="Add Category" ButtonStyle="ButtonStyle.Primary" Click="@ShowCreateCategoryDialog" class="rz-border-radius-3 text-capitalize" />
 </RadzenStack>
 
 <RadzenStack class="rz-w-100 rz-h-100 rz-p-3 card">
@@ -19,7 +19,7 @@
 			<RadzenDataGridColumn TItem="CategoryViewModel">
 				<Template Context="category">
 					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
-						<RadzenButton Icon="visibility" Shade="Shade.Light" ButtonStyle="ButtonStyle.Primary" class="rz-border-radius-3" Click="@(async () => await ShowViewUpdateUomDialog(category.Id))" />
+						<RadzenButton Icon="visibility" Shade="Shade.Light" ButtonStyle="ButtonStyle.Primary" class="rz-border-radius-3" Click="@(async () => await ShowViewUpdateCategoryDialog(category.Id))" />
 					</RadzenStack>
 				</Template>
 			</RadzenDataGridColumn>
@@ -28,7 +28,7 @@
 </RadzenStack>
 
 @code {
-	async Task ShowCreateUomDialog()
+	async Task ShowCreateCategoryDialog()
 	{
 		string? newUomId = await _dialogService.OpenAsync<CreateCategoryDialog>("Create Category");
 
@@ -38,15 +38,15 @@
 			return;
 		}
 
-		await LoadUoMList();
+		await LoadCategoryList();
 		await RerenderTable();
 	}
 
-	async Task ShowViewUpdateUomDialog(string Id)
+	async Task ShowViewUpdateCategoryDialog(string Id)
 	{
 		await _dialogService.OpenAsync<ViewUpdateCategoryDialog>("Category Details", new() { { "Id", Id } });
 
-		await LoadUoMList();
+		await LoadCategoryList();
 		await RerenderTable();
 	}
 }

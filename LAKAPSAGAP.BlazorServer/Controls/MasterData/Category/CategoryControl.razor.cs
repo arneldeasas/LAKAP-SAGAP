@@ -29,7 +29,7 @@ public partial class CategoryControl
 	{
 		if (firstRender)
 		{
-			await LoadUoMList();
+			await LoadCategoryList();
 			_filteredCategories = _categories;
 			await RerenderTable();
 			StateHasChanged();
@@ -37,7 +37,7 @@ public partial class CategoryControl
 		await base.OnAfterRenderAsync(firstRender);
 	}
 
-	async Task LoadUoMList()
+	async Task LoadCategoryList()
 	{
 		SetBusy(true);
 		List<CategoryModel> uoms = await _categoryRepo.GetAllCategory();

@@ -4,7 +4,7 @@ public partial class CreateCategoryDialog
 {
 	[Inject] DialogService _dialogService { get; set; }
 	[Inject] ICategoryRepository _categoryRepo { get; set; }
-	[Inject] protected IJSRuntime _jSRuntime { get; set; }
+	[Inject] IJSRuntime _jSRuntime { get; set; }
 
 	CategoryViewModel _newCategory { get; set; }
 
@@ -26,13 +26,11 @@ public partial class CreateCategoryDialog
 		_newCategory.isArchived = !_isActive;
 		string? newId = await _categoryRepo.CreateCategory(_newCategory);
 		SetBusy(true);
-		_dialogService.Close(newId);        
 
-		// TODO: have the user be notified about the error
-
-        //if (!string.IsNullOrEmpty(newId))
-        //{
-        //}
+		if (!string.IsNullOrEmpty(newId)) await _jSRuntime.InvokeVoidAsync("Toast", "success", "Category added successfully!");
+		else await _jSRuntime.InvokeVoidAsync("Toast", "error", "An error occured. Something went wrong!");
+		
+		_dialogService.Close(newId);
 	}
 
 	void SetBusy(bool busy)

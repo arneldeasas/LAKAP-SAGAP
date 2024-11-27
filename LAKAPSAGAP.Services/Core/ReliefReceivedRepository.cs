@@ -64,28 +64,28 @@ public class ReliefReceivedRepository : IReliefReceivedRepository
 		}
 	}
 
-	public async Task<ReliefReceived> UpdateReliefReceived(ReliefReceivedViewModel reliefReceivedViewModel)
+	public async Task<bool> UpdateReliefReceived(ReliefReceivedViewModel reliefReceivedVM)
 	{
 		try
 		{
-			var updateReliefReceived = new ReliefReceived
-			{
-				ReliefType = reliefReceivedViewModel.ReliefType,
-				ReceivedBy = reliefReceivedViewModel.ReceivedBy,
-				ReceivedFrom = reliefReceivedViewModel.ReceivedFrom,
-				TruckPlateNumber = reliefReceivedViewModel.TruckPlateNumber,
-				DriverName = reliefReceivedViewModel.DriverName,
-				DateReceived = reliefReceivedViewModel.ReceivedDate
-			};
+			var reliefReceived = await _context.GetById<ReliefReceived>(reliefReceivedVM.Id);
+			if (reliefReceived is null) return false;
 
-			updateReliefReceived = await _context.UpdateItem<ReliefReceived>(updateReliefReceived);
+			reliefReceived.ReliefType = reliefReceivedVM.ReliefType;
+			reliefReceived.ReceivedBy = reliefReceivedVM.ReceivedBy;
+			reliefReceived.ReceivedFrom = reliefReceived.ReceivedFrom;
+			reliefReceived.TruckPlateNumber = reliefReceived.TruckPlateNumber;
+			reliefReceived.DriverName = reliefReceived.DriverName;
+			reliefReceived.DateReceived = reliefReceived.DateReceived;
 
-			return updateReliefReceived;
+			await _context.UpdateItem<ReliefReceived>(reliefReceived);
+
+			return true;
 		}
 		catch (Exception)
 		{
 
-			throw;
+			return false;
 		}
 	}
 
@@ -165,14 +165,26 @@ public class ReliefReceivedRepository : IReliefReceivedRepository
 		}
 
 	}
+	
+	public async Task<List<Floor>> GetAllFloorsActive()
+	{
+		List<Floor> floors = [];
+		try
+		{
+			floors = await _context.GetAll<Floor>();
+			return floors;
+		}
+		catch (Exception)
+		{
 
-
-
+			return floors;
+		}
+	}
 	public async Task<List<Rack>> GetAllRacksBasedOnFloor(string floorId)
 	{
 		try
 		{
-			var rackList = await _context.GetAll<Rack>();
+			var rackList = await _context.Racks.WhereIsNotArchivedAndDeleted().Where(x=>x.FloorId == floorId).ToListAsync();
 			return rackList;
 		}
 		catch (Exception)

@@ -48,7 +48,6 @@ public class MyDbContext(
 
 		builder.Entity<Floor>().HasOne(x => x.Warehouse).WithMany(x => x.FloorList).HasForeignKey(x => x.WarehouseId).OnDelete(DeleteBehavior.NoAction);
         builder.Entity<Floor>().HasMany(x => x.Racks).WithOne(x => x.Floor).HasForeignKey(x => x.FloorId).OnDelete(DeleteBehavior.NoAction);
-        builder.Entity<Floor>().HasMany(x => x.StockItems).WithOne(x => x.Floor).HasForeignKey(x => x.FloorId).OnDelete(DeleteBehavior.NoAction);
 
 		builder.Entity<Warehouse>().HasMany(x => x.FloorList).WithOne(x => x.Warehouse).HasForeignKey(x => x.WarehouseId).OnDelete(DeleteBehavior.NoAction);
         builder.Entity<Warehouse>().HasMany(x => x.ReliefReceivedList).WithOne(x => x.Warehouse).HasForeignKey(x => x.WarehouseId).OnDelete(DeleteBehavior.NoAction);
@@ -60,7 +59,6 @@ public class MyDbContext(
 
 		builder.Entity<StockItem>().HasOne(r => r.Category).WithMany(x => x.StockItems).HasForeignKey(r => r.CategoryId).OnDelete(DeleteBehavior.NoAction);
         builder.Entity<StockItem>().HasOne(r => r.UoM).WithMany(x => x.StockItems).HasForeignKey(r => r.UoMId).OnDelete(DeleteBehavior.NoAction);
-        builder.Entity<StockItem>().HasOne(r => r.Floor).WithMany(x => x.StockItems).HasForeignKey(r => r.FloorId).OnDelete(DeleteBehavior.NoAction);
         builder.Entity<StockItem>().HasMany(r => r.StockDetailList).WithOne(x => x.Item).HasForeignKey(r => r.ItemId).OnDelete(DeleteBehavior.NoAction);
 
 		builder.Entity<StockDetail>().HasOne(r => r.Item).WithMany(x => x.StockDetailList).HasForeignKey(r => r.ItemId).OnDelete(DeleteBehavior.NoAction);

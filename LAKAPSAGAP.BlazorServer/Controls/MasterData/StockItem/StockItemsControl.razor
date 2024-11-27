@@ -4,7 +4,7 @@
 </RadzenStack>
 
 <RadzenStack class="rz-w-100 rz-h-100 rz-p-3 card">
-	<RadzenDataGrid @ref=@_StockItemsGrid TItem="StockItemViewModel" Data="@_filteredStockItems" IsLoading=@_isBusy>
+	<RadzenDataGrid @ref=@_stockItemsGrid TItem="StockItemViewModel" Data="@_filteredStockItems" IsLoading=@_isBusy>
 		<EmptyTemplate>
 			<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
 		</EmptyTemplate>
@@ -27,8 +27,9 @@
 			</RadzenDataGridColumn>
 			<RadzenDataGridColumn TItem="StockItemViewModel">
 				<Template Context="item">
-					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
-						<RadzenButton Icon="visibility" Shade="Shade.Light" ButtonStyle="ButtonStyle.Primary" class="rz-border-radius-3" Click="@(async () => await ShowViewUpdateStockItemDialog(item.Id))" />
+					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="3px">
+						<RadzenButton Size=ButtonSize.Small Variant=Variant.Flat Icon="visibility" Shade="Shade.Light" ButtonStyle="ButtonStyle.Info" Click="@(async () => await ShowViewUpdateStockItemDialog(item.Id))" />
+						<RadzenButton Size=ButtonSize.Small Variant=Variant.Flat Icon="delete" Shade="Shade.Light" ButtonStyle="ButtonStyle.Danger" Click="@(async () => await ShowDeleteStockItemDialog(item))" />
 					</RadzenStack>
 				</Template>
 			</RadzenDataGridColumn>
@@ -41,11 +42,7 @@
 	{
 		string? newStockItemId = await _dialogService.OpenAsync<CreateStockItemDialog>("Create Stock Item");
 
-		if (string.IsNullOrEmpty(newStockItemId))
-		{
-			// TODO: toast create error of uom
-			return;
-		}
+		if (string.IsNullOrEmpty(newStockItemId)) return;
 
 		await LoadStockItemsList();
 		await RerenderTable();
@@ -57,5 +54,20 @@
 
 		await LoadStockItemsList();
 		await RerenderTable();
+	}
+
+	async Task ShowDeleteStockItemDialog(StockItemViewModel stockItem)
+	{
+		bool confirm = await _dialogService.Confirm($"Are you sure you want to delete this stock item ({stockItem.Name})", "Confirm deletion?", new() { CloseDialogOnEsc = false, CloseDialogOnOverlayClick = false, CancelButtonText = "No", OkButtonText = "Yes" }) ?? false;
+
+		if(confirm) {
+			bool deleted = await _stockItemRepo.SoftDeleteStockItem(stockItem.Id);
+
+			if (deleted) await _jSRuntime.InvokeVoidAsync("Toast", "success", "Stock Item deleted successfully!");
+			else await _jSRuntime.InvokeVoidAsync("Toast", "error", "An error occured. Something went wrong!");
+
+			await LoadStockItemsList();
+			await RerenderTable();
+		}
 	}
 }

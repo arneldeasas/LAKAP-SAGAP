@@ -12,7 +12,8 @@ public partial class ViewUpdateStockItemDialog
 	[Inject] protected IJSRuntime _jSRuntime { get; set; }
 	[Inject] IUoMRepository _uomRepo { get; set; }
 	[Inject] ICategoryRepository _categoryRepo { get; set; }
-	//[Inject] IRackRepository _rackRepo { get; set; } // Change this with Stock item repo
+	[Inject] IStockItemRepository _stockItemRepo { get; set; }
+	[Inject] IJSRuntime _jsRuntime { get; set; }
 
 	List<UoMViewModel> _uomList { get; set; }
 	List<CategoryViewModel> _categoryList { get; set; }
@@ -22,6 +23,8 @@ public partial class ViewUpdateStockItemDialog
 	bool _isBusy { get; set; }
 	bool _isEditing { get; set; }
 	bool _isActive { get; set; }
+	bool _categoryFldHovering { get; set; }
+	bool _uomFldHovering { get; set; }
 
 	protected override void OnInitialized()
 	{
@@ -38,22 +41,22 @@ public partial class ViewUpdateStockItemDialog
 			await LoadCategoryList();
 			await LoadUomList();
 
-			//StockItemModel? stockItem = await _rackRepo.GetRack(Id);
-			//if(stockItem is not null)
-			//{
-			//	_stockItem.Id = stockItem.Id;
-			//	_stockItem.Name = stockItem.Name;
-			//	_stockItem.CategoryId = stockItem.CategoryId;
-			//	_stockItem.UoMId = stockItem.UoMId;
-			//	_stockItem.isArchived = stockItem.isArchived;
-			//}
-			//else
-			//{
-			//	//TODO: Toast an error
-			//	// Initializes the cateogry as new to avoid errors
-			//	_stockItem = new();
-			//}
-			
+			StockItemModel? stockItem = await _stockItemRepo.GetStockItem(Id);
+			if (stockItem is not null)
+			{
+				_stockItem.Id = stockItem.Id;
+				_stockItem.Name = stockItem.Name;
+				_stockItem.CategoryId = stockItem.CategoryId;
+				_stockItem.UoMId = stockItem.UoMId;
+				_stockItem.isArchived = stockItem.isArchived;
+			}
+			else
+			{
+				//TODO: Toast an error
+				// Initializes the cateogry as new to avoid errors
+				_stockItem = new();
+			}
+
 			_isActive = !_stockItem.isArchived;
 			StateHasChanged();
 		}
@@ -66,12 +69,11 @@ public partial class ViewUpdateStockItemDialog
 
 		SetBusy(true);
 		_stockItem.isArchived = !_isActive;
-		//bool success = await _rackRepo.UpdateRack(_stockItem);
+		bool success = await _stockItemRepo.UpdateStockItem(_stockItem);
 		SetBusy(true);
 
-		// TODO: have the user be notified about the process
-		//if (success)
-		//else
+		if (success) await _jSRuntime.InvokeVoidAsync("Toast", "success", "Stock Item updated successfully!");
+		else await _jSRuntime.InvokeVoidAsync("Toast", "error", "An error occured. Something went wrong!");
 
 		_dialogService.Close();
 	}

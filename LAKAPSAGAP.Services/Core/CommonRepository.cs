@@ -78,6 +78,13 @@ public static class DbSetExtensions
         return itemList;
     }
 
+    /// <summary>
+    /// This function does a fucking hard delete and detaches data in EF >:<
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="context"></param>
+    /// <param name="item"></param>
+    /// <returns></returns>
     public static async Task<T?> Delete<T>(this MyDbContext context, T item) where T : class
     {
         context.Set<T>().Remove(item);
@@ -94,7 +101,7 @@ public static class DbSetExtensions
     
     public static async Task<T?> GetByIdIncludeArchivedsOnly<T>(this MyDbContext context, string Id) where T : CommonModel
     {
-        var item = await context.Set<T>().Where(x => !x.IsDeleted).FirstOrDefaultAsync(x => x.Id == Id);
+        var item = await context.Set<T>().Where(x => x.Id == Id && !x.IsDeleted).FirstOrDefaultAsync();
 
         return item;
     }
@@ -108,6 +115,12 @@ public static class DbSetExtensions
     public static async Task<List<T>> GetAllNotDeleted<T>(this MyDbContext context) where T : CommonModel
     {
         var itemList = await context.Set<T>().Where(x => !x.IsDeleted).ToListAsync();
+        return itemList;
+    }
+    
+    public static async Task<List<T>> GetAllActive<T>(this MyDbContext context) where T : CommonModel
+    {
+        var itemList = await context.Set<T>().Where(x => !x.isArchived && !x.IsDeleted).ToListAsync();
         return itemList;
     }
 

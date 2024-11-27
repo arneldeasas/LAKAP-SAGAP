@@ -1,5 +1,20 @@
 ﻿@using static LAKAPSAGAP.Models.ViewModel.ReliefReceivedViewModel
 
+@* <RadzenTemplateForm>
+	<RadzenStack Style="max-width: 75dvw; padding: 0.25rem;">
+		<RadzenText class="fw-bold" Style="color: var(--rz-success);" TextStyle="TextStyle.DisplayH5" Text="Receive Stock" />
+
+		<RadzenFormField Text="Batch Number">
+			<ChildContent>
+				<RadzenTextBox Style="width: 100%;" Placeholder="BAT000" ReadOnly Name="" />
+			</ChildContent>
+			<Helper>
+				<RadzenRequiredValidator  />
+			</Helper>
+		</RadzenFormField>
+	</RadzenStack>
+</RadzenTemplateForm> *@
+
 <MacroContainer Style="width: 100dvw; max-width: 75dvw; padding: 0.25rem">
 	<div class="tab-content w-100" id="myTabContent">
 		<div class="@($"tab-pane fade {(_activePane == "form" ? "show active" : "")}")" id="form-tab-pane" role="tabpanel" aria-labelledby="form-tab" tabindex="0">

@@ -67,7 +67,7 @@ public class StockItemRepository(MyDbContext context) : IStockItemRepository
 			if (stockItem == null) return false;
 
 			stockItem.Name = stockItemVM.Name;
-			stockItem.CategoryId = stockItem.CategoryId;
+			stockItem.CategoryId = stockItemVM.CategoryId;
 			stockItem.UoMId = stockItemVM.UoMId;
 			stockItem.isArchived = stockItemVM.isArchived;
 

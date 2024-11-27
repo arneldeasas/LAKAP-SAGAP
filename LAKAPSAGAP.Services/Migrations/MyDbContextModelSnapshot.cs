@@ -68,8 +68,8 @@ namespace LAKAPSAGAP.Services.Migrations
                         {
                             Id = "ATT_001",
                             AddedById = "ACC_001",
-                            DateCreated = new DateTime(2024, 11, 20, 6, 31, 57, 837, DateTimeKind.Local).AddTicks(3545),
-                            DateUpdated = new DateTime(2024, 11, 20, 6, 31, 57, 837, DateTimeKind.Local).AddTicks(3559),
+                            DateCreated = new DateTime(2024, 11, 27, 23, 17, 12, 69, DateTimeKind.Local).AddTicks(1728),
+                            DateUpdated = new DateTime(2024, 11, 27, 23, 17, 12, 69, DateTimeKind.Local).AddTicks(1741),
                             IsDeleted = false,
                             Url = "wwwroot\\attachments\\default_user_image.png",
                             UserId = "ACC_001",
@@ -422,7 +422,6 @@ namespace LAKAPSAGAP.Services.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FloorId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
@@ -564,40 +563,40 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "14474767-fc5d-4289-8392-29475281aefe",
+                            Id = "ab582b92-ad2b-4ab0-869f-da6aee960786",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b30290d0-a6e1-49a8-b3e5-187fd6f915b6",
+                            ConcurrencyStamp = "47da6430-ce6d-41e8-ab6e-c965c3e91b89",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f22e19a7-dcb6-4401-93a6-8efe87ba75b1",
+                            SecurityStamp = "d064dc97-e250-4011-a005-9598fdd8e916",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
                         new
                         {
-                            Id = "6abc8ab6-7e95-4dd0-af34-32170b5f446f",
+                            Id = "1b87f66d-2873-4e47-9960-b36c1e544b93",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "513b276d-7dfe-4473-bfb2-3aa0ebac7a86",
+                            ConcurrencyStamp = "17362e30-f6ab-4817-890c-7454c6854685",
                             Email = "head@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ab962497-dd0a-4746-8efc-8ee9e09a8171",
+                            SecurityStamp = "c53fdc0a-ae25-4c86-822e-9eae461809ab",
                             TwoFactorEnabled = false,
                             UserName = "head"
                         },
                         new
                         {
-                            Id = "49248abe-8a5d-4544-abea-78f9bfd1a651",
+                            Id = "dcf7833c-4005-4bd2-a140-7a12d483a1e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dd71e949-ef25-4d9f-907f-b35cc80d8a05",
+                            ConcurrencyStamp = "86e58f47-f1c3-47e7-9754-055c2c67cfcb",
                             Email = "barangay@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "699bab5b-bcb5-465d-a98d-7098b4d51164",
+                            SecurityStamp = "1de62baa-b3ca-49dd-995d-7a4b1ee4bd48",
                             TwoFactorEnabled = false,
                             UserName = "barangay"
                         });
@@ -675,16 +674,16 @@ namespace LAKAPSAGAP.Services.Migrations
                             Id = "ACC_001",
                             AddedById = "ACC_001",
                             Barangay = "Karuhatan",
-                            DateCreated = new DateTime(2024, 11, 20, 6, 31, 57, 837, DateTimeKind.Local).AddTicks(3584),
-                            DateUpdated = new DateTime(2024, 11, 20, 6, 31, 57, 837, DateTimeKind.Local).AddTicks(3584),
+                            DateCreated = new DateTime(2024, 11, 27, 23, 17, 12, 69, DateTimeKind.Local).AddTicks(1773),
+                            DateUpdated = new DateTime(2024, 11, 27, 23, 17, 12, 69, DateTimeKind.Local).AddTicks(1774),
                             Email = "admin@gmail.com",
                             FirstName = "LakapSagap",
                             IsDeleted = false,
                             LastName = "Admin",
                             MiddleName = "Capstone",
                             Phone = "09123456789",
-                            RoleId = "8dcc7c63-f624-4e5a-ad66-f2402c29c988",
-                            UserAuthId = "14474767-fc5d-4289-8392-29475281aefe",
+                            RoleId = "8e7233fb-e64e-49d6-9213-6f193c251cf1",
+                            UserAuthId = "ab582b92-ad2b-4ab0-869f-da6aee960786",
                             isArchived = false
                         });
                 });
@@ -758,19 +757,19 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8dcc7c63-f624-4e5a-ad66-f2402c29c988",
+                            Id = "8e7233fb-e64e-49d6-9213-6f193c251cf1",
                             Name = "CSWD Administration Staff",
                             NormalizedName = "CSWD_ADMINISTRATION_STAFF"
                         },
                         new
                         {
-                            Id = "3d96adfd-863f-4f03-9567-e89de446fbb5",
+                            Id = "6cf9062a-4e98-4928-8623-57fc76441007",
                             Name = "CSWD Office Head",
                             NormalizedName = "CSWD_OFFICE_HEAD"
                         },
                         new
                         {
-                            Id = "51b1aa57-68c0-48fd-8778-9d50e7582e15",
+                            Id = "084cb120-a5ad-4040-9781-23634203ac48",
                             Name = "Barangay Representative",
                             NormalizedName = "BARANGAY_REPRESENTATIVE"
                         });
@@ -1083,11 +1082,9 @@ namespace LAKAPSAGAP.Services.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("LAKAPSAGAP.Models.Models.Floor", "Floor")
+                    b.HasOne("LAKAPSAGAP.Models.Models.Floor", null)
                         .WithMany("StockItems")
-                        .HasForeignKey("FloorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("FloorId");
 
                     b.HasOne("LAKAPSAGAP.Models.Models.UserInfo", "LastModifiedBy")
                         .WithMany()
@@ -1102,8 +1099,6 @@ namespace LAKAPSAGAP.Services.Migrations
                     b.Navigation("AddedBy");
 
                     b.Navigation("Category");
-
-                    b.Navigation("Floor");
 
                     b.Navigation("LastModifiedBy");
 

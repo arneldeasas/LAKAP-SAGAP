@@ -6,7 +6,7 @@ namespace LAKAPSAGAP.BlazorServer.Controls.MasterData.StockItem;
 public partial class CreateStockItemDialog
 {
 	[Inject] DialogService _dialogService { get; set; }
-	[Inject] protected IJSRuntime _jSRuntime { get; set; }
+	[Inject] IJSRuntime _jSRuntime { get; set; }
 	[Inject] IUoMRepository _uomRepo { get; set; }
 	[Inject] ICategoryRepository _categoryRepo { get; set; }
 	[Inject] IStockItemRepository _stockItemRepo { get; set; }
@@ -18,6 +18,8 @@ public partial class CreateStockItemDialog
 
 	bool _isBusy { get; set; }
 	bool _isActive { get; set; }
+	bool _categoryFldHovering { get; set; }
+	bool _uomFldHovering { get; set; }
 
 	protected override void OnInitialized()
 	{
@@ -48,21 +50,24 @@ public partial class CreateStockItemDialog
 		_newStockItem.isArchived = !_isActive;
 		string? newId = await _stockItemRepo.CreateStockItem(_newStockItem);
 		SetBusy(true);
-		_dialogService.Close(newId);
-
+		
 		if (!string.IsNullOrEmpty(newId)) await _jSRuntime.InvokeVoidAsync("Toast", "success", "Stock Item added successfully!");
 		else await _jSRuntime.InvokeVoidAsync("Toast", "error", "An error occured. Something went wrong!");
+
+		_dialogService.Close(newId);
 	}
 
 	async Task LoadUomList()
 	{
-		List<UoMModel> uomList = await _uomRepo.GetAllUoM();
+		_uomList = [];
+		List<UoMModel> uomList = await _uomRepo.GetAllActiveUoM();
 		foreach (UoMModel uom in uomList)
 		{
 			_uomList.Add(new()
 			{
 				Id = uom.Id,
 				Name = uom.Name,
+				Symbol = uom.Symbol,
 				isArchived = uom.isArchived
 			});
 		}
@@ -70,7 +75,8 @@ public partial class CreateStockItemDialog
 
 	async Task LoadCategoryList()
 	{
-		List<CategoryModel> categoryList = await _categoryRepo.GetAllCategory();
+		_categoryList = [];
+		List<CategoryModel> categoryList = await _categoryRepo.GetAllActiveCategories();
 		foreach (CategoryModel category in categoryList)
 		{
 			_categoryList.Add(new()

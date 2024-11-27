@@ -32,11 +32,7 @@
 	{
 		string? newUomId = await _dialogService.OpenAsync<CreateCategoryDialog>("Create Category");
 
-		if (string.IsNullOrEmpty(newUomId))
-		{
-			// TODO: toast create error of uom
-			return;
-		}
+		if (string.IsNullOrEmpty(newUomId)) return;
 
 		await LoadCategoryList();
 		await RerenderTable();

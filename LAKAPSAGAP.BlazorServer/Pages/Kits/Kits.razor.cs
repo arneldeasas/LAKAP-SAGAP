@@ -5,6 +5,8 @@
 		[Parameter] public string? id { get; set; }
 		[Inject] DialogService _dialogService { get; set; }
 
+		int currentTab = 0;
+
 		private List<BreadcrumbViewModel> Breadcrumbs = new()
 		{
 			new BreadcrumbViewModel { Path = "/Warehouse", Text = "Warehouse" },

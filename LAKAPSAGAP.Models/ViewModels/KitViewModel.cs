@@ -11,6 +11,7 @@ public class KitViewModel
     public DateTime ManufactureDate { get; set; }
     public RackViewModel Location { get; set; }
     public KitType KitType { get; set; } // Kit Type is either Food or Non-Food
+    public int Quantity { get; set; }
     public List<KitComponentViewModel> KitComponentList { get; set; } // Items sa loob ng isang Kit
 }
 
@@ -23,4 +24,10 @@ public class KitComponentViewModel
     public int Quantity { get; set; }
     public int QuantityOnHand { get; set; }
     public int Status { get; set; }
+}
+
+public class KitAssemblyViewModel
+{
+    public string Id { get; set; }
+
 }

@@ -1,5 +1,6 @@
 ﻿namespace LAKAPSAGAP.Models.Models;
 
+// GRPO => Relief Received (Batch)
 public class ReliefReceived : CommonModel
 {
    
@@ -11,6 +12,8 @@ public class ReliefReceived : CommonModel
 	public string? TruckPlateNumber { get; set; }
     public string? DriverName { get; set; }
     public DateTime DateReceived { get; set; }
+
+    // Document Line (Items within the Relief Received or in a Batch)
     public List<StockDetail> StockDetailList { get; set; }
 }
 

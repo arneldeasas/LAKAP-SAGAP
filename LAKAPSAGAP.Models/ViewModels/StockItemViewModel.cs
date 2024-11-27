@@ -8,6 +8,5 @@ public class StockItemViewModel
     public string Name { get; set; }
 	public string CategoryId { get; set; }
 	public string UoMId { get; set; }
-	public string FloorId { get; set; }
     public bool isArchived { get; set; }
 }

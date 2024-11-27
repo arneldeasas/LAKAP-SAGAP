@@ -9,7 +9,7 @@ public partial class StockItemsControl
 	[Inject] DialogService _dialogService { get; set; }
 	[Inject] IUoMRepository _uomRepo { get; set; }
 	[Inject] ICategoryRepository _categoryRepo { get; set; }
-	//[Inject] IStockItemRepository _StockItemRepo { get; set; }
+	[Inject] IStockItemRepository _stockItemRepo { get; set; }
 
 	List<StockItemViewModel> _stockItems { get; set; }
 	List<StockItemViewModel> _filteredStockItems { get; set; }
@@ -52,17 +52,19 @@ public partial class StockItemsControl
 	async Task LoadStockItemsList()
 	{
 		SetBusy(true);
-		//List<StockItemModel> StockItems = await _StockItemRepo.GetAllStockItem();
+		List<StockItemModel> StockItems = await _stockItemRepo.GetAllStockItem();
 		_stockItems = [];
-		//foreach (StockItemModel StockItem in StockItems)
-		//{
-		//	_StockItems.Add(new()
-		//	{
-		//		Id = StockItem.Id,
-		//		Name = StockItem.Name,
-		//		isArchived = StockItem.isArchived
-		//	});
-		//}
+		foreach (StockItemModel stockItem in StockItems)
+		{
+			_stockItems.Add(new()
+			{
+				Id = stockItem.Id,
+				Name = stockItem.Name,
+				CategoryId = stockItem.CategoryId,
+				UoMId = stockItem.UoMId,
+				isArchived = stockItem.isArchived
+			});
+		}
 		SetBusy(false);
 	}
 

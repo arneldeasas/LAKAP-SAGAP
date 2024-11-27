@@ -1,4 +1,5 @@
-﻿using LAKAPSAGAP.Services.Core.Helpers;
+﻿using LAKAPSAGAP.Models.Models;
+using LAKAPSAGAP.Services.Core.Helpers;
 
 namespace LAKAPSAGAP.Services.Core;
 
@@ -42,7 +43,6 @@ public class StockItemRepository(MyDbContext context) : IStockItemRepository
 		}
 		catch (Exception)
 		{
-
 			return [];
 		}
 	}
@@ -72,6 +72,28 @@ public class StockItemRepository(MyDbContext context) : IStockItemRepository
 			stockItem.isArchived = stockItemVM.isArchived;
 
 			await _context.UpdateItem<StockItem>(stockItem);
+			return true;
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
+	public async Task<bool> SoftDeleteStockItem(string stockItemId)
+	{
+		try
+		{
+			StockItem? stockItem = await _context.GetByIdIncludeArchivedsOnly<StockItem>(stockItemId);
+			if (stockItem == null) return false;
+
+			stockItem.IsDeleted = true;
+
+			await _context.UpdateItem<StockItem>(stockItem);
+
+
+			// TODO: Soft delete also all parents of this stock item
+
 			return true;
 		}
 		catch (Exception)

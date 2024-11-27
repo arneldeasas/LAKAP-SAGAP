@@ -14,7 +14,7 @@ public class CategoryRepository(MyDbContext context) : ICategoryRepository
 
 		try
 		{
-			int categoryCount = await _context.GetCount<UoM>();
+			int categoryCount = await _context.GetCount<Category>();
 			string categoryId = IdGenerator.GenerateId(IdGenerator.PFX_CATEGORY, categoryCount);
 
 			await _context.Create<Category>(new()

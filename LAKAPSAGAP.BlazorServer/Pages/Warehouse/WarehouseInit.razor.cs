@@ -1,5 +1,6 @@
 ﻿
 using LAKAPSAGAP.Models.Models;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 {
@@ -30,6 +31,16 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 
 		public async Task AddFloor()
 		{
+			if (floorModel.Name.IsNullOrEmpty())
+			{
+				await _jSRuntime.InvokeVoidAsync("Toast", "error", "Floor Name is required!");
+				return;
+			}
+				if (model.FloorList.Any(x => x.Name.ToLower() == floorModel.Name.ToLower()))
+			{
+				await _jSRuntime.InvokeVoidAsync("Toast", "error", "Floor Name already is use!");
+				return;
+			}
 			model.FloorList.Add(floorModel);
 			floorModel = new();
 			await floorDL.Reload();
@@ -46,8 +57,18 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 
 		public async Task AddRack(string floorName, RackViewModel rack)
 		{
-			FloorViewModel floor = model.FloorList.Where(x => x.Name == floorName).Single();
+            if (string.IsNullOrWhiteSpace(rack.Name))
+			{
+				await _jSRuntime.InvokeVoidAsync("Toast", "error", "Rack Name is required!");
+				return;
+			}
+            FloorViewModel floor = model.FloorList.Where(x => x.Name.ToLower() == floorName.ToLower()).Single();
 			if (floor is null) return;
+			if (floor.RackList.Any(x => x.Name.ToLower() == rack.Name.ToLower()))
+			{
+				await _jSRuntime.InvokeVoidAsync("Toast", "error", "Rack Name already is use!");
+				return;
+			}
             floor.RackList.Add(rack);
 			rackModel = new();
 			await floorDL.Reload();
@@ -56,7 +77,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 
 		public async Task RemoveRack(string floorName, RackViewModel rack)
 		{
-			FloorViewModel floor = model.FloorList.Where(x => x.Name == floorName).Single();
+			FloorViewModel floor = model.FloorList.Where(x => x.Name.ToLower() == floorName.ToLower()).Single();
 			if (floor is null) return;
 			floor.RackList.Remove(rack);
 			rackModel = new();
@@ -73,7 +94,30 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 				var whse = await WarehouseRepo.CreateWarehouse(model);
 				Loading = true;
 
-                if (whse is not null)
+                if (WarehouseList.Count > 0 && WarehouseList.Any(x => x.Name.ToLower() == whse.Name.ToLower()))
+                {
+					await _jSRuntime.InvokeVoidAsync("Toast", "error", "A Warehouse with the same name already exists!");
+					return;
+				}
+
+				if (whse.FloorList.Count <= 0)
+                {
+					await _jSRuntime.InvokeVoidAsync("Toast", "error", "A Warehouse should have at least one Floor.");
+					return;
+				}
+
+				if (whse.FloorList.Any(x => x.Racks.Count <= 0))
+				{
+					if (!await _jSRuntime.InvokeAsync<bool>("Confirmation", "One of your Floors have no racks!", "warning")) return;
+				}
+
+				if (string.IsNullOrWhiteSpace(whse.Name) || string.IsNullOrWhiteSpace(whse.Location))
+				{
+					await _jSRuntime.InvokeVoidAsync("Toast", "error", "Warehouse Name and Location is Required.");
+					return;
+				}
+
+				if (whse is not null)
                 {
 					await _jSRuntime.InvokeVoidAsync("Toast", "success", "Warehouse Created Successfully!");
 					await Task.Delay(3000);

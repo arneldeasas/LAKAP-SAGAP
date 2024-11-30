@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
 namespace LAKAPSAGAP.Services;
@@ -28,7 +29,21 @@ public class MyDbContext(
     public DbSet<Kit> Kits { get; set; }
     public DbSet<KitComponent> KitComponents { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+	{
+		var loggerFactory = LoggerFactory.Create(builder =>
+		{
+			builder.AddFilter("Microsoft.AspNetCore.Hosting", LogLevel.None);
+			builder.AddFilter("Microsoft.AspNetCore.Routing", LogLevel.None);
+			builder.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.None);
+			builder.AddFilter("Microsoft.AspNetCore.DataProtection", LogLevel.None);
+		});
+
+		optionsBuilder.UseLoggerFactory(loggerFactory);
+		base.OnConfiguring(optionsBuilder);
+	}
+
+	protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
@@ -82,8 +97,7 @@ public class MyDbContext(
          */
 
 		SeedData(builder); //Uncomment if mag migrate na ng initial admin data
-
-    }
+	}
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -117,54 +131,60 @@ public class MyDbContext(
     }
 
 	static void SeedData(ModelBuilder builder)
-    {
-        string CSWD_ADMIN_ROLE_ID = Guid.NewGuid().ToString();
-        string CSWD_HEAD_ROLE_ID = Guid.NewGuid().ToString();
-        string BARANGAY_REP_ROLE_ID = Guid.NewGuid().ToString();
-        string CSWD_ADMIN_USER_AUTH_ID = Guid.NewGuid().ToString();
-        string CSWD_HEAD_USER_AUTH_ID = Guid.NewGuid().ToString();
-        string BARANGAY_REP_USER_AUTH_ID = Guid.NewGuid().ToString();
+	{
+		string CSWD_ADMIN_ROLE_ID = Guid.NewGuid().ToString();
+		string CSWD_HEAD_ROLE_ID = Guid.NewGuid().ToString();
+		string BARANGAY_REP_ROLE_ID = Guid.NewGuid().ToString();
+		string CSWD_ADMIN_USER_AUTH_ID = Guid.NewGuid().ToString();
+		string CSWD_HEAD_USER_AUTH_ID = Guid.NewGuid().ToString();
+		string BARANGAY_REP_USER_AUTH_ID = Guid.NewGuid().ToString();
 
-        builder.Entity<IdentityRole>().HasData(
-		    new IdentityRole() { Id = CSWD_ADMIN_ROLE_ID, Name = "CSWD Administration Staff", NormalizedName = "CSWD_ADMINISTRATION_STAFF" },
-		    new IdentityRole() { Id = CSWD_HEAD_ROLE_ID, Name = "CSWD Office Head", NormalizedName = "CSWD_OFFICE_HEAD" },
+		builder.Entity<IdentityRole>().HasData(
+			new IdentityRole() { Id = CSWD_ADMIN_ROLE_ID, Name = "CSWD Administration Staff", NormalizedName = "CSWD_ADMINISTRATION_STAFF" },
+			new IdentityRole() { Id = CSWD_HEAD_ROLE_ID, Name = "CSWD Office Head", NormalizedName = "CSWD_OFFICE_HEAD" },
 			new IdentityRole() { Id = BARANGAY_REP_ROLE_ID, Name = "Barangay Representative", NormalizedName = "BARANGAY_REPRESENTATIVE" }
 		);
 
-        builder.Entity<UserAuth>().HasData(
-            new UserAuth() { Id = CSWD_ADMIN_USER_AUTH_ID, UserName = "admin", Email = "admin@gmail.com" },
-            new UserAuth() { Id = CSWD_HEAD_USER_AUTH_ID, UserName = "head", Email = "head@gmail.com" },
-            new UserAuth() { Id = BARANGAY_REP_USER_AUTH_ID, UserName = "barangay", Email = "barangay@gmail.com" }
-        );
+		builder.Entity<UserAuth>().HasData(new UserAuth()
+		{
+			Id = CSWD_ADMIN_USER_AUTH_ID,
+			UserName = "admin",
+			Email = "admin@gmail.com",
+			NormalizedUserName = "ADMIN",
+			NormalizedEmail = "ADMIN@GMAIL.COM",
+			EmailConfirmed = true,
+			PasswordHash = "AQAAAAIAAYagAAAAENkx43Zrg2/tiKZoCx7TL3mMQTIN8rXAZ3Z5WOldLFjUCL9lcdeAlUlZkA8Pyq9wRg==" // admin1234
+		});
 
-        builder.Entity<Attachment>().HasData(
-            new Attachment() 
-            { 
-                Id = "ATT_001",
-                Url = "wwwroot\\attachments\\default_user_image.png",
-                UserId = "ACC_001",
-                AddedById = "ACC_001",
-                DateCreated = DateTime.Now,
-                DateUpdated = DateTime.Now,
+		builder.Entity<Attachment>().HasData(
+			new Attachment()
+			{
+				Id = "ATT_001",
+				Url = "wwwroot\\attachments\\default_user_image.png",
+				UserId = "ACC_001",
+				AddedById = "ACC_001",
+				DateCreated = DateTime.Now,
+				DateUpdated = DateTime.Now,
 			}
-        );
+		);
 
-        builder.Entity<UserInfo>().HasData(
-            new UserInfo() 
-            { 
-                Id = "ACC_001",
-                FirstName = "LakapSagap", 
-                MiddleName = "Capstone",
-                LastName = "Admin", 
-                Barangay  = "Karuhatan",
-                Email = "admin@gmail.com",
-                Phone = "09123456789",
-                AddedById = "ACC_001",
-                UserAuthId = CSWD_ADMIN_USER_AUTH_ID,
-                RoleId = CSWD_ADMIN_ROLE_ID,
-                DateCreated = DateTime.Now,
-                DateUpdated = DateTime.Now
-            }
-        );
-    }
+		builder.Entity<UserInfo>().HasData(
+			new UserInfo()
+			{
+				Id = "ACC_001",
+				FirstName = "LakapSagap",
+				MiddleName = "Capstone",
+				LastName = "Admin",
+				Barangay = "Karuhatan",
+				Email = "admin@gmail.com",
+				Phone = "09123456789",
+				AddedById = "ACC_001",
+				UserAuthId = CSWD_ADMIN_USER_AUTH_ID,
+				RoleId = CSWD_ADMIN_ROLE_ID,
+				DateCreated = DateTime.Now,
+				DateUpdated = DateTime.Now
+			}
+		);
+	}
+
 }

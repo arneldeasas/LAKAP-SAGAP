@@ -2,7 +2,6 @@
 
 public class ReliefReceived : CommonModel
 {
-   
     public string WarehouseId { get; set; }
     public Warehouse Warehouse { get; set; }
     public string ReliefType { get; set; }

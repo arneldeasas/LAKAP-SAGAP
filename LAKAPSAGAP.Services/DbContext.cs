@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LAKAPSAGAP.Services.ModelsEFConfigurations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
@@ -45,58 +46,31 @@ public class MyDbContext(
 
 	protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(builder);
-
-        builder.Entity<UserInfo>().HasOne(x => x.UserAuth).WithMany().HasForeignKey(x => x.UserAuthId).OnDelete(DeleteBehavior.Restrict);
-        builder.Entity<UserInfo>().HasOne(x => x.Role).WithMany().HasForeignKey(x => x.RoleId).OnDelete(DeleteBehavior.Restrict);
-        builder.Entity<UserInfo>().HasOne(x => x.AddedBy).WithMany(x => x.AddedUsers).HasForeignKey(x => x.AddedById).OnDelete(DeleteBehavior.Restrict);
-        builder.Entity<UserInfo>().HasOne(x => x.LastModifiedBy).WithMany(x => x.LasModifiedByList).HasForeignKey(x => x.LastModifiedById).OnDelete(DeleteBehavior.Restrict);
-        builder.Entity<UserInfo>().HasMany(x => x.UserAttachments).WithOne(x => x.User).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
-        builder.Entity<UserInfo>().HasMany(x => x.AddedAttachments).WithOne(x => x.AddedBy).HasForeignKey(x => x.AddedById).OnDelete(DeleteBehavior.Restrict);
-        builder.Entity<UserInfo>().HasMany(x => x.CategoriesCreated).WithOne(x => x.AddedBy).HasForeignKey(x => x.AddedById).OnDelete(DeleteBehavior.Restrict);
-
-        builder.Entity<Attachment>().HasOne(a => a.User).WithMany(x => x.UserAttachments).HasForeignKey(a => a.UserId).OnDelete(DeleteBehavior.NoAction);
-        builder.Entity<Attachment>().HasOne(a => a.AddedBy).WithMany(x => x.AddedAttachments).HasForeignKey(a => a.AddedById).OnDelete(DeleteBehavior.NoAction);
-
-		builder.Entity<Rack>().HasOne(r => r.Floor).WithMany(x => x.Racks).HasForeignKey(r => r.FloorId).OnDelete(DeleteBehavior.NoAction);
-		builder.Entity<Rack>().HasMany(r => r.StockDetailList).WithOne(x => x.Rack).HasForeignKey(r => r.RackId).OnDelete(DeleteBehavior.NoAction);
-
-		builder.Entity<Floor>().HasOne(x => x.Warehouse).WithMany(x => x.FloorList).HasForeignKey(x => x.WarehouseId).OnDelete(DeleteBehavior.NoAction);
-        builder.Entity<Floor>().HasMany(x => x.Racks).WithOne(x => x.Floor).HasForeignKey(x => x.FloorId).OnDelete(DeleteBehavior.NoAction);
-
-		builder.Entity<Warehouse>().HasMany(x => x.FloorList).WithOne(x => x.Warehouse).HasForeignKey(x => x.WarehouseId).OnDelete(DeleteBehavior.NoAction);
-        builder.Entity<Warehouse>().HasMany(x => x.ReliefReceivedList).WithOne(x => x.Warehouse).HasForeignKey(x => x.WarehouseId).OnDelete(DeleteBehavior.NoAction);
-
-        builder.Entity<UoM>().HasMany(x => x.StockItems).WithOne(x => x.UoM).HasForeignKey(x => x.UoMId).OnDelete(DeleteBehavior.Restrict);
-        
-        builder.Entity<Category>().HasMany(x => x.StockItems).WithOne(x => x.Category).HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.Restrict);
-        builder.Entity<Category>().HasOne(x => x.AddedBy).WithMany(x => x.CategoriesCreated).HasForeignKey(x => x.AddedById).OnDelete(DeleteBehavior.Restrict);
-
-		builder.Entity<StockItem>().HasOne(r => r.Category).WithMany(x => x.StockItems).HasForeignKey(r => r.CategoryId).OnDelete(DeleteBehavior.NoAction);
-        builder.Entity<StockItem>().HasOne(r => r.UoM).WithMany(x => x.StockItems).HasForeignKey(r => r.UoMId).OnDelete(DeleteBehavior.NoAction);
-        builder.Entity<StockItem>().HasMany(r => r.StockDetailList).WithOne(x => x.Item).HasForeignKey(r => r.ItemId).OnDelete(DeleteBehavior.NoAction);
-
-		builder.Entity<StockDetail>().HasOne(r => r.Item).WithMany(x => x.StockDetailList).HasForeignKey(r => r.ItemId).OnDelete(DeleteBehavior.NoAction);
-        builder.Entity<StockDetail>().HasOne(r => r.Rack).WithMany(x => x.StockDetailList).HasForeignKey(r => r.RackId).OnDelete(DeleteBehavior.NoAction);
-        builder.Entity<StockDetail>().HasOne(r => r.BatchDetail).WithMany(x => x.StockDetailList).HasForeignKey(r => r.BatchNumber).OnDelete(DeleteBehavior.NoAction);
-
-        builder.Entity<ReliefReceived>().HasOne(x => x.Warehouse).WithMany(x => x.ReliefReceivedList).HasForeignKey(x => x.WarehouseId).OnDelete(DeleteBehavior.NoAction);
-        builder.Entity<ReliefReceived>().HasMany(x => x.StockDetailList).WithOne(x => x.BatchDetail).HasForeignKey(x => x.BatchNumber).OnDelete(DeleteBehavior.NoAction);
+		UserInfoEFConfig.OnModelCreation(builder);
+		AttachmentEFConfig.OnModelCreation(builder);
+		RackEFConfig.OnModelCreation(builder);
+		FloorEFConfig.OnModelCreation(builder);
+		WarehouseEFConfig.OnModelCreation(builder);
+		UomEFConfig.OnModelCreation(builder);
+		CategoryEFConfig.OnModelCreation(builder);
+		StockItemEFConfig.OnModelCreation(builder);
+		StockDetailsEFConfig.OnModelCreation(builder);
+		ReliefReceivingEFConfig.OnModelCreation(builder);
 
 		/**
          * Author: Charles Maverick Herrera
          * 
-         * PLEASE LETS HAVE 2 MIGRATIONS FIRST
+         * 1. Delete any existing lakap-sagap db if you got this new update.
+         * 2. Remove the Migrations folder (make sure no migration left)
+         * 3. Add one migration (prefer: add-migration InitializeDB)
+         * 4. Start the app.
          * 
-         * 1. Initialize the tables first (add-migration InitTables). This means that dapat yung seeding ng data is naka comment muna. 
-         * 2. Seeding Data (add-migration InitAdminData). This means dapat yung seeding data is uncommented na ha.
-         * 
-         * AFTER OF 2 MIGRATIONS DONT FORGET TO CHECK IF SAANG DATABASE KAYO NAKATURO.
-         * DELETE THAT DATABASE, MAKE SURE TO REMOVE ANY CONNECTIONS ON THAT DB.
-         * AFTER THAT BE SURE TO UPDATE DATABASE (update-database)
+         * Note: There's no need to rebuild the app or remigrate if you already have the db with same migration history.
          */
 
-		SeedData(builder); //Uncomment if mag migrate na ng initial admin data
+		SeedData(builder);
+
+        base.OnModelCreating(builder);
 	}
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

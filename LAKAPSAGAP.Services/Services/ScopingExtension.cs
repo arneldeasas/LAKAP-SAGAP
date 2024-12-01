@@ -12,6 +12,7 @@ public static class ScopingExtension
 		services.AddScoped<IWarehouseRepository, WarehouseRepository>();
 		services.AddScoped<IUoMRepository, UoMRepository>();
 		services.AddScoped<ICategoryRepository, CategoryRepository>();
+		services.AddScoped<IReliefReceivedRepository, ReliefReceivedRepository>();
 		services.AddScoped<IRackRepository, RackRepository>();
 		services.AddScoped<IStockItemRepository, StockItemRepository>();
 

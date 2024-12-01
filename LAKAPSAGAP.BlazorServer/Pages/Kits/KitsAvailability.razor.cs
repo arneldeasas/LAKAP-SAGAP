@@ -12,20 +12,18 @@ public partial class KitsAvailability
 	List<KitViewModel> KitList { get; set; } = new List<KitViewModel>();
 	List<StockItem> stockItems = new List<StockItem>();
 	private bool isLoading = false;
-	protected override async Task OnAfterRenderAsync(bool firstRender)
+	protected override async Task OnInitializedAsync()
 	{
-		if (firstRender)
-		{
-			await LoadAllKits();
-		}
+		await LoadAllKits();
 	}
+	
 	async Task LoadAllKits()
 	{
 		try
 		{
 			if (isLoading) return;
 			isLoading = true;
-			List<Kit> kitList = await _context.Kits.WhereIsNotArchivedAndDeleted().Include(x=>x.KitComponentList).ToListAsync();
+			List<Kit> kitList = await _context.Kits.WhereIsNotArchivedAndDeleted().Include(x=>x.KitComponentList).ThenInclude(x=>x.StockItem).ToListAsync();
 			KitList = kitList.Select(x => new KitViewModel
 			{
 				Id = x.Id,

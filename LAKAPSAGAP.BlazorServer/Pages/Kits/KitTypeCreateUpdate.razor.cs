@@ -62,14 +62,12 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Kits
 				{
 					throw new Exception("Please add at least one component to the kit.");
 				}
-				bool isConfirmed = await _jSRuntime.InvokeAsync<bool>("Confirmation");
-				if (isConfirmed)
-				{
-					KitVM.KitComponentList = KitsComponentList;
-					await KittingRepo.CreateKit(KitVM);
-					await _jSRuntime.InvokeVoidAsync("Toast", "success", "Kit successfully created!");
-				}
-				
+				if (!await _jSRuntime.InvokeAsync<bool>("Confirmation")) return;
+
+				KitVM.KitComponentList = KitsComponentList;
+				await KittingRepo.CreateKit(KitVM);
+				await _jSRuntime.InvokeVoidAsync("Toast", "success", "Kit successfully created!");
+				_dialogService.Close(true);
 			}
 			catch (Exception e)
 			{

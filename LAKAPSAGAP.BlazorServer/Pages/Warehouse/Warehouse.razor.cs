@@ -9,24 +9,20 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 		[Inject] protected IJSRuntime _jSRuntime { get; set; } = default!;
 		[Inject] NavigationManager? NavManager { get; set; }
 
-
-
+		[Parameter] public EventCallback<bool> OnValueChanged { get; set; }
 		bool Loading = true;
 		int retries = 0;
 
 		public WarehouseViewModel model { get; set; } = new();
 		public List<LAKAPSAGAP.Models.Models.Warehouse> warehouses { get; set; } = new();
 
-        protected override async Task OnInitializedAsync()
-        {
-			
-        }
-
+        
 		protected override async Task OnAfterRenderAsync(bool firstRender)
 		{
 
 			if (firstRender)
 			{
+				ChangeValue(false);
 				var res = await WarehouseRepo.GetWarehouseById(Id);
 
 				if (res is null)
@@ -63,14 +59,21 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 
 				warehouses = await WarehouseRepo.GetAllWarehouses();
 				Loading = false;
+				ChangeValue(true);
 				StateHasChanged();
 			}
+		}
+
+		void ChangeValue(bool initialized)
+		{
+			OnValueChanged.InvokeAsync(initialized);
 		}
 
 		public void NavigateToWhse(string selectedWhse)
 		{
 			NavManager.NavigateTo($"/Warehouse/{selectedWhse}", true);
 		}
+
 
 	}
 }

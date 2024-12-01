@@ -11,6 +11,8 @@
 		{
 			new BreadcrumbViewModel { Path = "/Warehouse", Text = "Warehouse" },
 		};
+
+		
 		protected override void OnParametersSet()
 		{
             if (id is null)

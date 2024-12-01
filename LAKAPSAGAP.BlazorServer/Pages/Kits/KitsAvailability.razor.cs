@@ -1,26 +1,31 @@
-﻿using static LAKAPSAGAP.Models.Models.Kit;
+﻿using LAKAPSAGAP.Services;
+using LAKAPSAGAP.Services.Core;
+using Microsoft.EntityFrameworkCore;
+using static LAKAPSAGAP.Models.Models.Kit;
 
 namespace LAKAPSAGAP.BlazorServer.Pages.Kits;
 
 public partial class KitsAvailability
 {
 	[Inject] IKittingRepository KittingRepo { get; set; }
+	[Inject] MyDbContext _context { get; set; }
 	List<KitViewModel> KitList { get; set; } = new List<KitViewModel>();
 	List<StockItem> stockItems = new List<StockItem>();
 	private bool isLoading = false;
-	protected override async Task OnParametersSetAsync()
-	{ 
-		
-		await LoadAllKits(); 
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await LoadAllKits();
+		}
 	}
-
 	async Task LoadAllKits()
 	{
 		try
 		{
 			if (isLoading) return;
 			isLoading = true;
-			List<Kit> kitList = await KittingRepo.GetAllKitsAsync();
+			List<Kit> kitList = await _context.Kits.WhereIsNotArchivedAndDeleted().Include(x=>x.KitComponentList).ToListAsync();
 			KitList = kitList.Select(x => new KitViewModel
 			{
 				Id = x.Id,

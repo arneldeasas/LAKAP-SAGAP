@@ -22,45 +22,49 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 			
         }
 
-        protected override async Task OnParametersSetAsync()
+		protected override async Task OnAfterRenderAsync(bool firstRender)
 		{
 
-            var res = await WarehouseRepo.GetWarehouseById(Id);
-
-            if (res is null)
-            {
-				res = await WarehouseRepo.PickWarehouse();
-				if (res is null) NavManager.NavigateTo("/Warehouse");
-				NavManager.NavigateTo($@"/Warehouse/{res.Id}/Stocks");
-			}
-
-            model = new WarehouseViewModel
+			if (firstRender)
 			{
-				Id = res.Id,
-				Name = res.Name,
-				Location = res.Location
-			};
+				var res = await WarehouseRepo.GetWarehouseById(Id);
 
-
-			foreach (var (floor, index) in res.FloorList.Select((floor, index) => (floor, index)))
-			{
-				model.FloorList.Add(new FloorViewModel
+				if (res is null)
 				{
-					Name = floor.Name,
-				});
-
-				foreach (var rack in floor.Racks)
-				{
-					model.FloorList[index].RackList.Add(new RackViewModel
-					{
-						FloorId = floor.Id,
-						Name = rack.Name
-					});
+					res = await WarehouseRepo.PickWarehouse();
+					if (res is null) NavManager.NavigateTo("/Warehouse");
+					NavManager.NavigateTo($@"/Warehouse/{res.Id}/Stocks");
 				}
-			}
 
-			warehouses = await WarehouseRepo.GetAllWarehouses();
-			Loading = false;
+				model = new WarehouseViewModel
+				{
+					Id = res.Id,
+					Name = res.Name,
+					Location = res.Location
+				};
+
+
+				foreach (var (floor, index) in res.FloorList.Select((floor, index) => (floor, index)))
+				{
+					model.FloorList.Add(new FloorViewModel
+					{
+						Name = floor.Name,
+					});
+
+					foreach (var rack in floor.Racks)
+					{
+						model.FloorList[index].RackList.Add(new RackViewModel
+						{
+							FloorId = floor.Id,
+							Name = rack.Name
+						});
+					}
+				}
+
+				warehouses = await WarehouseRepo.GetAllWarehouses();
+				Loading = false;
+				StateHasChanged();
+			}
 		}
 
 		public void NavigateToWhse(string selectedWhse)

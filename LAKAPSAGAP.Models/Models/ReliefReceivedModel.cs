@@ -1,15 +1,17 @@
-﻿namespace LAKAPSAGAP.Models.Models;
+﻿using LAKAPSAGAP.Models.Enums;
+
+namespace LAKAPSAGAP.Models.Models;
 
 public class ReliefReceived : CommonModel
 {
-    public string WarehouseId { get; set; }
-    public Warehouse Warehouse { get; set; }
-    public string ReliefType { get; set; }
+    public AcquisitionTypes AcquisitionType { get; set; }
     public string ReceivedBy { get; set; }
-    public string ReceivedFrom { get; set; } //supplier or donor
 	public string? TruckPlateNumber { get; set; }
     public string? DriverName { get; set; }
-    public DateTime DateReceived { get; set; }
+    public DateTime ReceivedDate { get; set; }
+    public string WarehouseId { get; set; }
+    public Warehouse Warehouse { get; set; }
+    public string ReceivedFrom { get; set; } //supplier or donor
     public List<StockDetail> StockDetailList { get; set; }
 }
 
@@ -20,8 +22,8 @@ public class StockDetail : CommonModel
     public int Quantity { get; set; }
 	public string RackId { get; set; }
     public Rack Rack { get; set; }
-	public DateTime? DateExpiry { get; set; }
-    public string BatchNumber { get; set; }
+	public DateTime? ExpiryDate { get; set; }
+    public string BatchNo { get; set; }
     public ReliefReceived BatchDetail { get; set; }
 }
 

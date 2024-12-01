@@ -100,11 +100,11 @@
 							<RadzenText Text=@stockdetail.UomName class="rz-m-0 rz-p-0 rz-w-100" />
 						</Template>
 					</RadzenDataGridColumn>
-					<RadzenDataGridColumn TItem="StockDetailVM" Title="Location" TextAlign="TextAlign.Center" Width="300px">
+					<RadzenDataGridColumn TItem="StockDetailVM" Title="Location" TextAlign="TextAlign.Center" Width="450px">
 						<Columns>
 							<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.FloorName)" Title="Floor">
 								<Template Context="stockdetail">
-									<RadzenText Text=@stockdetail.RackName class="rz-m-0 rz-p-0 rz-w-100" />
+									<RadzenText Text=@stockdetail.FloorName class="rz-m-0 rz-p-0 rz-w-100" />
 								</Template>
 								<EditTemplate Context="stockdetail">
 									<RadzenDropDown TValue="string" Data="@_floors" ValueProperty="@nameof(FloorViewModel.Id)" TextProperty="@nameof(FloorViewModel.Name)" @bind-Value=@stockdetail.FloorId Change="@(() => SelectedFloorChanged(stockdetail))" />
@@ -112,8 +112,11 @@
 							</RadzenDataGridColumn>
 							<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.RackName)" Title="Rack">
 								<Template Context="stockdetail">
-									<RadzenDropDown TValue="string" Data="@_racks" ValueProperty="@nameof(RackViewModel.Id)" TextProperty="@nameof(RackViewModel.Name)" @bind-Value=@stockdetail.RackId Change="@(() => SelectedRackChanged(stockdetail))" />
+									<RadzenText Text=@stockdetail.RackName class="rz-m-0 rz-p-0 rz-w-100" />
 								</Template>
+								<EditTemplate Context="stockdetail">
+									<RadzenDropDown TValue="string" Data="@_racks" ValueProperty="@nameof(RackViewModel.Id)" TextProperty="@nameof(RackViewModel.Name)" @bind-Value=@stockdetail.RackId Change="@(() => SelectedRackChanged(stockdetail))" />
+								</EditTemplate>
 							</RadzenDataGridColumn>
 						</Columns>
 					</RadzenDataGridColumn>

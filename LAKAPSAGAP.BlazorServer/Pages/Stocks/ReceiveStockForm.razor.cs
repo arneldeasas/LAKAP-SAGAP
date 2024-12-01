@@ -363,7 +363,9 @@ public partial class ReceiveStockForm
 
 	async Task Submit()
 	{
-		bool confirmed = await _jSRuntime.InvokeAsync<bool>("Confirmation");
+		if(!(await _jSRuntime.InvokeAsync<bool>("Confirmation"))) return;
+
+
 	}
 
 	public void changeTab(string tab)
@@ -389,13 +391,13 @@ public partial class ReceiveStockForm
 	{
 		public string StockItemId { get; set; }
 		public string StockItemName { get; set; }
-		public string UomId { get; set; }
-		public string UomName { get; set; }
 		public string CategoryId { get; set; }
 		public string CategoryName { get; set; }
 		public string CategoryCode { get; set; }
+		public string UomId { get; set; }
+		public string UomName { get; set; }
 		public int Quantity { get; set; }
-		public DateTime ExpiryDate { get; set; }
+		public DateTime? ExpiryDate { get; set; } = null;
 		public string FloorId { get; set; }
 		public string FloorName { get; set; }
 		public string RackId { get; set; }

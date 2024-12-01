@@ -149,7 +149,8 @@
 		</RadzenStack>
 		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" class="rz-w-100 rz-px-2 mt-5">
 			<RadzenButton Text="Cancel" Click="@(() => _dialogService.Close(false))" ButtonStyle="ButtonStyle.Danger" />
-			<RadzenButton Text="Next" Click="@(() => changeTab("summary"))" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" />
+			@* <RadzenButton Text="Next" Click="@(() => changeTab("summary"))" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" /> *@
+			<RadzenButton Text="Next" Click="@Submit" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" />
 		</RadzenStack>
 	</RadzenStack>
 </RadzenTemplateForm>

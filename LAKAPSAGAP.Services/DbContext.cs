@@ -68,6 +68,8 @@ public class MyDbContext(
         builder.Entity<ReliefReceived>().HasOne(x => x.Warehouse).WithMany(x => x.ReliefReceivedList).HasForeignKey(x => x.WarehouseId).OnDelete(DeleteBehavior.NoAction);
         builder.Entity<ReliefReceived>().HasMany(x => x.StockDetailList).WithOne(x => x.BatchDetail).HasForeignKey(x => x.BatchNumber).OnDelete(DeleteBehavior.NoAction);
 
+        builder.Entity<Kit>().HasMany(x=>x.KitComponentList).WithOne(x => x.Kit).OnDelete(DeleteBehavior.NoAction);
+
 		/**
          * Author: Charles Maverick Herrera
          * 

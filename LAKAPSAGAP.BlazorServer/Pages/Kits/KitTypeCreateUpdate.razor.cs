@@ -1,25 +1,81 @@
-﻿namespace LAKAPSAGAP.BlazorServer.Pages.Kits
+﻿
+
+namespace LAKAPSAGAP.BlazorServer.Pages.Kits
 {
 	public partial class KitTypeCreateUpdate
 	{
 		[Inject] DialogService _dialogService { get; set; }
 		[Inject] protected IJSRuntime _jSRuntime { get; set; } = default!;
-
+		[Inject] IKittingRepository KittingRepo { get; set; }
 		List<KitViewModel> Kits { get; set; } = new();
-		public KitViewModel Kit { get; set; } = new();
+		
 		public List<ReliefReceivedViewModel> Items { get; set; } = new();
 
+		//Initial Data
+		List<StockItem> StockItemList = new();
+
+		//form state
+		KitViewModel KitVM { get; set; } = new();
+		KitComponentViewModel ToAdd { get; set; } = new();
+		public List<KitComponentViewModel> KitsComponentList { get; set; } = new();
+		
+		protected override async Task OnInitializedAsync()
+		{
+			StockItemList = await KittingRepo.GetAllStockItemsAsync();
+		}
 		protected override async Task OnAfterRenderAsync(bool firstRender)
 		{
             if (firstRender)
             {
-				await InsertRow();
-            }
+				//await InsertRow();
+
+				//KitsComponentsDG.Data.Append(ToAdd);
+				//KitsComponentsDG.EditRow(ToAdd);
+			}
         }
 
-		Task SubmitKit()
+		void AddComponent()
 		{
-			return Task.CompletedTask;
+			KitsComponentList.Add(new KitComponentViewModel { 
+				StockItemId = ToAdd.StockItemId,
+				ItemName = StockItemList.FirstOrDefault(x=>x.Id == ToAdd.StockItemId).Name,
+				Quantity = ToAdd.Quantity,
+			});
+			ToAdd = new KitComponentViewModel();
+		}
+		void ResetComponentForm()
+		{
+			ToAdd = new KitComponentViewModel();
+		}
+		void RemoveComponent(int index)
+		{
+			KitsComponentList.RemoveAt(index);
+			StateHasChanged();
+		}
+		async Task SubmitKit()
+		{
+	
+			try
+			{
+				
+				if (KitsComponentList.Count == 0)
+				{
+					throw new Exception("Please add at least one component to the kit.");
+				}
+				bool isConfirmed = await _jSRuntime.InvokeAsync<bool>("Confirmation");
+				if (isConfirmed)
+				{
+					KitVM.KitComponentList = KitsComponentList;
+					await KittingRepo.CreateKit(KitVM);
+					await _jSRuntime.InvokeVoidAsync("Toast", "success", "Kit successfully created!");
+				}
+				
+			}
+			catch (Exception e)
+			{
+				await _jSRuntime.InvokeVoidAsync("Toast", "error", e.Message);
+			
+			}
 		}
 
 		#region Datagrid Actions
@@ -27,7 +83,7 @@
 		bool IsEditing = false;
 		RadzenDataGrid<KitComponentViewModel> KitsComponentsDG { get; set; } = default!;
 
-		public List<KitComponentViewModel> KitsComponentList { get; set; } = new();
+		
 		List<KitComponentViewModel> KitsComponentsToInsert = new();
 		Dictionary<KitComponentViewModel, KitComponentViewModel> KitsComponentToUpdate = new();
 

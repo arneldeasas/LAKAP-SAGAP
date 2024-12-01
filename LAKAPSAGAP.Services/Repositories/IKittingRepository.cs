@@ -22,6 +22,7 @@ namespace LAKAPSAGAP.Services.Repositories
 		public Task<KitComponent> GetKitComponentById(string Id);
 		public Task<List<KitComponent>> GetAllKitComponent();
 
-
+		Task<List<StockItem>> GetAllStockItemsAsync();
+		Task<List<Kit>> GetAllKitsAsync();
 	}
 }

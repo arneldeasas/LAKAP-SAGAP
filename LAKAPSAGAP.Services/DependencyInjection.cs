@@ -16,7 +16,7 @@ public static class DependencyInjection
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IRackRepository, RackRepository>();
         services.AddScoped<IStockItemRepository, StockItemRepository>();
-
+        services.AddScoped<IKittingRepository, KittingRepository>();
         services.AddScoped<AuthRepository>();
         services.AddScoped<UserAttachmentRepository>();
         //services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();

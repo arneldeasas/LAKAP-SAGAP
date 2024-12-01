@@ -7,12 +7,12 @@
 					<RadzenButton class="rz-m-0" Icon="edit" Text="Edit" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined" />
 				</RadzenStack>
 				<hr />
-				<RadzenDataGrid TItem="@KitComponentViewModel">
+				<RadzenDataGrid TItem="@KitComponentViewModel" Data="data.KitComponentList">
 					<Columns>
 						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.Quantity))" Title="Name" />
 						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.ItemName))" Title="Name" />
-						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.QuantityOnHand))" Title="Name" />
-						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.Status))" Title="Status" />
+@* 						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.QuantityOnHand))" Title="Name" />
+						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.Status))" Title="Status" /> *@
 					</Columns>
 				</RadzenDataGrid>
 			</RadzenStack>

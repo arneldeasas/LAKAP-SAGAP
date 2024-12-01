@@ -10,7 +10,7 @@ namespace LAKAPSAGAP.Services.Core
 	public class KittingRepository : IKittingRepository
 	{
 		public readonly MyDbContext _context;
-		KittingRepository(MyDbContext context)
+		public KittingRepository(MyDbContext context)
 		{
 			_context = context;
 		}
@@ -18,14 +18,36 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				int count = await _context.GetCount<Kit>();
-				string Id = IdGenerator.GenerateId(IdGenerator.PFX_KITCOMPONENT, count);
+				int kitCount = await _context.GetCount<Kit>();
+				string Id = IdGenerator.GenerateId(IdGenerator.PFX_KIT, kitCount);
 				var newKit = new Kit
 				{
 					Id = Id,
 					Name = kitViewModel.Name,
 					Description = kitViewModel.Description,
+					
 				};
+
+				int kitCtCount = await _context.GetCount<KitComponent>();
+
+				List<KitComponent> KitComponentList = kitViewModel.KitComponentList.Select((kitComponent,index) =>
+				{
+					kitCtCount++;
+					string Id = IdGenerator.GenerateId(IdGenerator.PFX_KITCOMPONENT, kitCtCount-1);
+					return new KitComponent
+					{
+						Id = Id,
+						KitId = newKit.Id,
+						StockItemId = kitComponent.StockItemId,
+						Quantity = kitComponent.Quantity
+					};
+				}).ToList();
+
+				newKit.KitComponentList = KitComponentList;
+
+				await _context.Create<Kit>(newKit);
+
+				await _context.SaveChangesAsync();
 				return newKit;
 			}
 			catch (Exception)
@@ -126,7 +148,8 @@ namespace LAKAPSAGAP.Services.Core
 				var newKitComponent = new KitComponent
 				{
 					Id = Id,
-					ItemId = kitComponentViewModel.ItemId,
+					KitId = kitComponentViewModel.KitId,
+					StockItemId = kitComponentViewModel.StockItemId,
 					Quantity = kitComponentViewModel.Quantity
 				};
 
@@ -146,7 +169,7 @@ namespace LAKAPSAGAP.Services.Core
 				var kitComponent = await _context.KitComponents.FindAsync(kitComponentViewModel.Id);
 				if (kitComponent != null)
 				{
-					kitComponent.ItemId = kitComponentViewModel.ItemId;
+					kitComponent.StockItemId = kitComponentViewModel.StockItemId;
 					kitComponent.Quantity = kitComponentViewModel.Quantity;
 					await _context.SaveChangesAsync();
 				}
@@ -219,6 +242,34 @@ namespace LAKAPSAGAP.Services.Core
 			}
 		}
 
+		public async Task<List<StockItem>> GetAllStockItemsAsync()
+		{
+			List<StockItem> stockItems = new();
+			try
+			{
+				stockItems = await _context.StockItems.WhereIsNotArchivedAndDeleted().ToListAsync();
+				return stockItems;
+			}
+			catch (Exception)
+			{
 
+				return stockItems;
+			}
+		}
+
+		public async Task<List<Kit>> GetAllKitsAsync()
+		{
+			List<Kit> kits = new();
+			try
+			{
+				kits = await _context.Kits.ToListAsync();
+				return kits;
+			}
+			catch (Exception)
+			{
+
+				return kits;
+			}
+		}
 	}
 }

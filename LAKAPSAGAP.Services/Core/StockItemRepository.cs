@@ -101,4 +101,18 @@ public class StockItemRepository(MyDbContext context) : IStockItemRepository
 			return false;
 		}
 	}
+
+	public async Task<List<StockItem>> GetAllActiveStockItem()
+	{
+		try
+		{
+			List<StockItem> stockItemList = [];
+			stockItemList = await _context.GetAllActive<StockItem>();
+			return stockItemList;
+		}
+		catch (Exception)
+		{
+			return [];
+		}
+	}
 }

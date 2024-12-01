@@ -11,6 +11,7 @@ namespace LAKAPSAGAP.Models.Models
 		public string RequestedById { get; set; }
 		public RequestReason Reason { get; set; }
 		public string SpecificReason { get; set; }
+		public int NumberOfRecipients { get; set; }
 		public string Organization { get; set; } // barangay/organization
 		public List<Request> RequestList { get; set; }
 		public DateTime TargetDateToReceive { get; set; }
@@ -23,8 +24,8 @@ namespace LAKAPSAGAP.Models.Models
 
 	public enum RequestReason
 	{
-		Calamity = 1,
-		Noncalamity =2
+		Calamity = 0,
+		Noncalamity =1
 	}
 
 	public class Request:CommonModel
@@ -46,5 +47,19 @@ namespace LAKAPSAGAP.Models.Models
 		public string Url { get; set; }
 		public ReliefRequestDetail ReliefRequest { get; set; }
 
+	}
+	public class Barangay
+	{
+		public string Code { get; set; }
+		public string Name { get; set; }
+		public string OldName { get; set; }
+		public bool? SubMunicipalityCode { get; set; }
+		public string CityCode { get; set; }
+		public bool? MunicipalityCode { get; set; }
+		public string DistrictCode { get; set; }
+		public bool? ProvinceCode { get; set; }
+		public string RegionCode { get; set; }
+		public string IslandGroupCode { get; set; }
+		public string Psgc10DigitCode { get; set; }
 	}
 }

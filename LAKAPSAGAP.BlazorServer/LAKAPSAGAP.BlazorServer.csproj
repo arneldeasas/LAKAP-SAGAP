@@ -33,6 +33,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\styles.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LAKAPSAGAP.Models\LAKAPSAGAP.Models.csproj" />
     <ProjectReference Include="..\LAKAPSAGAP.Services\LAKAPSAGAP.Services.csproj" />
   </ItemGroup>

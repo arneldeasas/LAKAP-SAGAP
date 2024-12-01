@@ -2,7 +2,7 @@
 @using static LAKAPSAGAP.Models.ViewModel.ReliefReceivedViewModel
 
 <RadzenTemplateForm TItem="ReceiveReliefVM" Data="@_newReceivedRelief" Submit="@Submit">
-	<RadzenStack Style="max-width: 75dvw; padding: 0.25rem;">
+	<RadzenStack Style="max-width: 80dvw; padding: 0.25rem;">
 		<RadzenText TextStyle="TextStyle.DisplayH4" Text="Receive Stock" class="fw-bold rz-color-success" />
 		
 		<RadzenStack class="rz-w-100 rz-px-2">
@@ -100,10 +100,21 @@
 							<RadzenText Text=@stockdetail.UomName class="rz-m-0 rz-p-0 rz-w-100" />
 						</Template>
 					</RadzenDataGridColumn>
-					<RadzenDataGridColumn TItem="StockDetailVM" Title="Location" TextAlign="TextAlign.Center" Width="400px">
+					<RadzenDataGridColumn TItem="StockDetailVM" Title="Location" TextAlign="TextAlign.Center" Width="300px">
 						<Columns>
-							<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.FloorName)" Title="Floor" />
-							<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.RackName)" Title="Rack" />
+							<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.FloorName)" Title="Floor">
+								<Template Context="stockdetail">
+									<RadzenText Text=@stockdetail.RackName class="rz-m-0 rz-p-0 rz-w-100" />
+								</Template>
+								<EditTemplate Context="stockdetail">
+									<RadzenDropDown TValue="string" Data="@_floors" ValueProperty="@nameof(FloorViewModel.Id)" TextProperty="@nameof(FloorViewModel.Name)" @bind-Value=@stockdetail.FloorId Change="@(() => SelectedFloorChanged(stockdetail))" />
+								</EditTemplate>
+							</RadzenDataGridColumn>
+							<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.RackName)" Title="Rack">
+								<Template Context="stockdetail">
+									<RadzenDropDown TValue="string" Data="@_racks" ValueProperty="@nameof(RackViewModel.Id)" TextProperty="@nameof(RackViewModel.Name)" @bind-Value=@stockdetail.RackId Change="@(() => SelectedRackChanged(stockdetail))" />
+								</Template>
+							</RadzenDataGridColumn>
 						</Columns>
 					</RadzenDataGridColumn>
 					<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.ExpiryDate)" Title="Expiry Date">

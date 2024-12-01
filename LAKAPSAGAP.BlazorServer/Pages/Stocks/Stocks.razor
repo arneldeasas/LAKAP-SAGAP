@@ -66,6 +66,10 @@
 {
 	async Task ShowReceiveStockDialog()
 	{
-		await _dialogService.OpenAsync<ReceiveStockForm>("", options: new() { CssClass = "rz-w-fit-content", ShowTitle = false});
+		bool hasChanges = await _dialogService.OpenAsync<ReceiveStockForm>("", new() { { "WarehouseId", id } } ,new() { CssClass = "rz-w-fit-content", ShowTitle = false});
+		if(hasChanges)
+		{
+			// TODO: reload data for received reliefs
+		}
 	}
 }

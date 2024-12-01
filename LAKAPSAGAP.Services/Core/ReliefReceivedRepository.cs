@@ -22,12 +22,12 @@ public class ReliefReceivedRepository : IReliefReceivedRepository
 			var newReliefReceived = new ReliefReceived
 			{
 				Id = Id,
-				ReliefType = reliefReceivedViewModel.ReliefType,
+				AcquisitionType = reliefReceivedViewModel.AcquisitionType,
 				ReceivedBy = reliefReceivedViewModel.ReceivedBy,
 				ReceivedFrom = reliefReceivedViewModel.ReceivedFrom,
 				TruckPlateNumber = reliefReceivedViewModel.TruckPlateNumber,
 				DriverName = reliefReceivedViewModel.DriverName,
-				DateReceived = reliefReceivedViewModel.ReceivedDate,
+				ReceivedDate = reliefReceivedViewModel.ReceivedDate,
 			};
 
 			newReliefReceived = await _context.Create<ReliefReceived>(newReliefReceived);
@@ -42,11 +42,11 @@ public class ReliefReceivedRepository : IReliefReceivedRepository
 				return new StockDetail
 				{
 					Id = Id,
-					BatchNumber = newReliefReceived.Id,
+					BatchNo = newReliefReceived.Id,
 					ItemId = x.ItemId,
 					Quantity = x.Quantity,
 					RackId = x.RackId,
-					DateExpiry = x.ExpiryDate
+					ExpiryDate = x.ExpiryDate
 				};
 			}).ToList();
 
@@ -70,12 +70,12 @@ public class ReliefReceivedRepository : IReliefReceivedRepository
 			var reliefReceived = await _context.GetById<ReliefReceived>(reliefReceivedVM.Id);
 			if (reliefReceived is null) return false;
 
-			reliefReceived.ReliefType = reliefReceivedVM.ReliefType;
+			reliefReceived.AcquisitionType = reliefReceivedVM.AcquisitionType;
 			reliefReceived.ReceivedBy = reliefReceivedVM.ReceivedBy;
 			reliefReceived.ReceivedFrom = reliefReceived.ReceivedFrom;
 			reliefReceived.TruckPlateNumber = reliefReceived.TruckPlateNumber;
 			reliefReceived.DriverName = reliefReceived.DriverName;
-			reliefReceived.DateReceived = reliefReceived.DateReceived;
+			reliefReceived.ReceivedDate = reliefReceived.ReceivedDate;
 
 			await _context.UpdateItem<ReliefReceived>(reliefReceived);
 
@@ -170,7 +170,7 @@ public class ReliefReceivedRepository : IReliefReceivedRepository
 		List<Floor> floors = [];
 		try
 		{
-			floors = await _context.GetAll<Floor>();
+			floors = await _context.GetAllActive<Floor>();
 			return floors;
 		}
 		catch (Exception)

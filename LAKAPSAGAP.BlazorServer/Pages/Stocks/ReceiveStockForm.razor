@@ -122,7 +122,8 @@
 					</RadzenDataGridColumn>
 					<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.ExpiryDate)" Title="Expiry Date">
 						<Template Context="stockdetail">
-							<RadzenText Text="@stockdetail.ExpiryDate.ToString("MMMM dd, yyyy")" class="rz-m-0 rz-p-0 rz-w-100" />
+							@* <RadzenText Text="@($"{stockdetail.ExpiryDate.ToString("MMMM dd, yyyy")" class="rz-m-0 rz-p-0 rz-w-100" /> *@
+							<RadzenText Text="@($"{stockdetail.ExpiryDate}")" class="rz-m-0 rz-p-0 rz-w-100" />
 						</Template>
 						<EditTemplate Context="stockdetail">
 							<RadzenDatePicker DateFormat="MMMM dd, yyyy" @bind-Value="stockdetail.ExpiryDate" Name="expiry-date" class="rz-w-100" />

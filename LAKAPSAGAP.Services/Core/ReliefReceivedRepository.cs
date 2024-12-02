@@ -1,4 +1,5 @@
-﻿using LAKAPSAGAP.Models.ViewModel;
+﻿using LAKAPSAGAP.Models.Models;
+using LAKAPSAGAP.Models.ViewModel;
 using LAKAPSAGAP.Services.Core.Helpers;
 
 namespace LAKAPSAGAP.Services.Core;
@@ -6,61 +7,59 @@ namespace LAKAPSAGAP.Services.Core;
 public class ReliefReceivedRepository : IReliefReceivedRepository
 {
 	readonly MyDbContext _context;
-	ReliefReceivedRepository(MyDbContext context)
+	public ReliefReceivedRepository(MyDbContext context)
 	{
 		_context = context;
 	}
 	public async Task<ReliefReceived> CreateReliefReceived(ReliefReceivedViewModel reliefReceivedViewModel)
 	{
-		using (var transaction = _context.Database.BeginTransaction())
+		using var transaction = _context.Database.BeginTransaction();
+		try
 		{
-			try
-			{
-				int count = await _context.GetCount<ReliefReceived>();
-				string Id = IdGenerator.GenerateId(IdGenerator.PFX_RELIEFRECEIVED, count);
+			int count = await _context.GetCount<ReliefReceived>();
+			string Id = IdGenerator.GenerateId(IdGenerator.PFX_RELIEFRECEIVED, count);
 
-				var newReliefReceived = new ReliefReceived
+			var newReliefReceived = new ReliefReceived
+			{
+				Id = Id,
+				AcquisitionType = reliefReceivedViewModel.AcquisitionType,
+				ReceivedBy = reliefReceivedViewModel.ReceivedBy,
+				ReceivedFrom = reliefReceivedViewModel.ReceivedFrom,
+				TruckPlateNumber = reliefReceivedViewModel.TruckPlateNumber,
+				DriverName = reliefReceivedViewModel.DriverName,
+				ReceivedDate = reliefReceivedViewModel.ReceivedDate,
+			};
+
+			newReliefReceived = await _context.Create<ReliefReceived>(newReliefReceived);
+
+			int stockDetailCount = await _context.GetCount<StockDetail>();
+
+
+			List<StockDetail> stockDetailList = reliefReceivedViewModel.StockDetailViewList.Select((x, index) =>
+			{
+				stockDetailCount += index;
+				string Id = IdGenerator.GenerateId(IdGenerator.PFX_STOCKDETAIL, stockDetailCount);
+				return new StockDetail
 				{
 					Id = Id,
-					ReliefType = reliefReceivedViewModel.ReliefType,
-					ReceivedBy = reliefReceivedViewModel.ReceivedBy,
-					ReceivedFrom = reliefReceivedViewModel.ReceivedFrom,
-					TruckPlateNumber = reliefReceivedViewModel.TruckPlateNumber,
-					DriverName = reliefReceivedViewModel.DriverName,
-					DateReceived = reliefReceivedViewModel.ReceivedDate,
+					BatchNo = newReliefReceived.Id,
+					ItemId = x.ItemId,
+					Quantity = x.Quantity,
+					RackId = x.RackId,
+					ExpiryDate = x.ExpiryDate
 				};
+			}).ToList();
 
-				newReliefReceived = await _context.Create<ReliefReceived>(newReliefReceived);
+			stockDetailList = await _context.CreateMany<StockDetail>(stockDetailList);
+			newReliefReceived.StockDetailList = stockDetailList;
 
-				int stockDetailCount = await _context.GetCount<StockDetail>();
-
-
-				List<StockDetail> stockDetailList = reliefReceivedViewModel.StockDetailViewList.Select((x, index) =>
-				{
-					stockDetailCount += index;
-					string Id = IdGenerator.GenerateId(IdGenerator.PFX_STOCKDETAIL, stockDetailCount);
-					return new StockDetail
-					{
-						Id = Id,
-						BatchNumber = newReliefReceived.Id,
-						ItemId = x.ItemId,
-						Quantity = x.Quantity,
-						RackId = x.RackId,
-						DateExpiry = x.ExpiryDate
-					};
-				}).ToList();
-
-				stockDetailList = await _context.CreateMany<StockDetail>(stockDetailList);
-				newReliefReceived.StockDetailList = stockDetailList;
-
-				await transaction.CommitAsync();
-				return newReliefReceived;
-			}
-			catch (Exception)
-			{
-				transaction.Rollback();
-				throw;
-			}
+			await transaction.CommitAsync();
+			return newReliefReceived;
+		}
+		catch (Exception)
+		{
+			transaction.Rollback();
+			throw;
 		}
 	}
 
@@ -71,12 +70,12 @@ public class ReliefReceivedRepository : IReliefReceivedRepository
 			var reliefReceived = await _context.GetById<ReliefReceived>(reliefReceivedVM.Id);
 			if (reliefReceived is null) return false;
 
-			reliefReceived.ReliefType = reliefReceivedVM.ReliefType;
+			reliefReceived.AcquisitionType = reliefReceivedVM.AcquisitionType;
 			reliefReceived.ReceivedBy = reliefReceivedVM.ReceivedBy;
 			reliefReceived.ReceivedFrom = reliefReceived.ReceivedFrom;
 			reliefReceived.TruckPlateNumber = reliefReceived.TruckPlateNumber;
 			reliefReceived.DriverName = reliefReceived.DriverName;
-			reliefReceived.DateReceived = reliefReceived.DateReceived;
+			reliefReceived.ReceivedDate = reliefReceived.ReceivedDate;
 
 			await _context.UpdateItem<ReliefReceived>(reliefReceived);
 
@@ -171,7 +170,7 @@ public class ReliefReceivedRepository : IReliefReceivedRepository
 		List<Floor> floors = [];
 		try
 		{
-			floors = await _context.GetAll<Floor>();
+			floors = await _context.GetAllActive<Floor>();
 			return floors;
 		}
 		catch (Exception)
@@ -194,4 +193,17 @@ public class ReliefReceivedRepository : IReliefReceivedRepository
 		}
 	}
 
+	public async Task<List<Floor>> GetAllFloorsActiveBasedOnWarehouse(string whseId)
+	{
+		try
+		{
+			var floorList = await _context.Floors.WhereIsNotArchivedAndDeleted().Where(x => x.WarehouseId == whseId).ToListAsync();
+			return floorList;
+		}
+		catch (Exception)
+		{
+
+			throw;
+		}
+	}
 }

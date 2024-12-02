@@ -1,164 +1,163 @@
-﻿@using static LAKAPSAGAP.Models.ViewModel.ReliefReceivedViewModel
+﻿@using LAKAPSAGAP.BlazorServer.Controls.MasterData.StockItem
+@using static LAKAPSAGAP.Models.ViewModel.ReliefReceivedViewModel
 
-@* <RadzenTemplateForm>
-	<RadzenStack Style="max-width: 75dvw; padding: 0.25rem;">
-		<RadzenText class="fw-bold" Style="color: var(--rz-success);" TextStyle="TextStyle.DisplayH5" Text="Receive Stock" />
+<RadzenTemplateForm TItem="ReceiveReliefVM" Data="@_newReceivedRelief" Submit="@Submit">
+	<RadzenStack Style="max-width: 80dvw; padding: 0.25rem;">
+		<RadzenText TextStyle="TextStyle.DisplayH4" Text="Receive Stock" class="fw-bold rz-color-success" />
+		
+		<RadzenStack class="rz-w-100 rz-px-2">
+			<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" class="rz-w-100">
+				<RadzenStack Gap="5px" class="rz-w-100">
+					<RadzenLabel Text="BATCH NO." Component="batch-no" class="fw-bold" />
+					<RadzenTextBox @bind-Value=@_newReceivedRelief.BatchNo ReadOnly Name="batch-no" class="rz-w-100" />
+					<RadzenRequiredValidator Component="batch-no" Text="Required" />
+				</RadzenStack>
 
-		<RadzenFormField Text="Batch Number">
-			<ChildContent>
-				<RadzenTextBox Style="width: 100%;" Placeholder="BAT000" ReadOnly Name="" />
-			</ChildContent>
-			<Helper>
-				<RadzenRequiredValidator  />
-			</Helper>
-		</RadzenFormField>
-	</RadzenStack>
-</RadzenTemplateForm> *@
+				<RadzenStack Gap="5px" class="rz-w-100">
+					<RadzenLabel Text="ACQUISITION TYPE" Component="acquisition-type" class="fw-bold" />
+					<RadzenDropDown Data="@_acquisitionTypes" @bind-Value=@_newReceivedRelief.AcquisitionType Name="acquisition-type" class="rz-w-100" />
+					<RadzenRequiredValidator Component="acquisition-type" Text="Required" />
+				</RadzenStack>
 
-<MacroContainer Style="width: 100dvw; max-width: 75dvw; padding: 0.25rem">
-	<div class="tab-content w-100" id="myTabContent">
-		<div class="@($"tab-pane fade {(_activePane == "form" ? "show active" : "")}")" id="form-tab-pane" role="tabpanel" aria-labelledby="form-tab" tabindex="0">
-			<RadzenText class="fw-bold" Style="color: var(--rz-success);" TextStyle="TextStyle.DisplayH5" Text="Receive Stock" />
-			<form style="width: 100%;" class="d-grid gap-2">
-				<div class="row w-100">
-					<div class="col w-full">
-						<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">Batch Number</span>
-							<RadzenTextBox Style="width: 100%;" Placeholder="BAT000" ReadOnly="true" Disabled="true" />
-						</div>
-					</div>
-					<div class="col w-full">
-						<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">Receive Stock Type</span>
-							<RadzenDropDown TValue="string" Placeholder="Select Receive Type" Style="width: 100%;" Name="ReceiveType" @bind-Value="headers.ReliefType" />
-						</div>
-					</div>
-					<div class="col w-full">
-						<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">Received By</span>
-							<RadzenTextBox Style="width: 100%;" Placeholder="Juan Dela Cruz" @bind-Value="headers.ReceivedBy" />
-						</div>
-					</div>
-				</div>
-				<hr />
-				<h5 class="row w-100 fs-6 fw-bold text-uppercase" Style="color: var(--rz-success-light);">Delivery Details</h5>
-				<div class="row w-100">
-					<div class="col w-full">
-						<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">Vehicle Number</span>
-							<RadzenTextBox Style="width: 100%;" Placeholder="VHC-123" @bind-Value="headers.TruckPlateNumber" />
-						</div>
-					</div>
-					<div class="col w-full">
-						<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">Driver Name</span>
-							<RadzenTextBox Style="width: 100%;" Placeholder="Hector Manlangit" @bind-Value="headers.DriverName" />
-						</div>
-					</div>
-					<div class="col w-full">
-						<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">Supplier / Donor</span>
-							<RadzenTextBox Style="width: 100%;" Placeholder="XYZ Foundation" @bind-Value="headers.ReceivedFrom" />
-							@* <RadzenDropDown TValue="string" Placeholder="XYZ Foundation" Style="width: 100%;" Name="SupplierOrganization" /> *@
-						</div>
-					</div>
-					<div class="col w-full">
-						<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">Date Received</span>
-							<RadzenDatePicker DateFormat="MM/dd/yyyy" Style="width: 100%;" @bind-Value="headers.ReceivedDate" />
-						</div>
-					</div>
-				</div>
-				<hr />
-				<h5 class="row w-100 fs-6 fw-bold text-uppercase" Style="color: var(--rz-success-light);">Stock Details</h5>
-				<div class="row w-100">
-					<div class="col w-full">
-						<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">Item Code</span>
-							<RadzenTextBox Style="width: 100%;" Placeholder="ITM-123" ReadOnly="true" Disabled="true" />
-						</div>
-					</div>
-					<div class="col w-full">
-						<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">Type</span>
-							<RadzenDropDown TValue="string" Placeholder="Instant Coffee" Style="width: 100%;" Name="Type" />
-						</div>
-					</div>
-					<div class="col w-full">
-						<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">Quantity</span>
-							<RadzenNumeric TValue="int" Min="0" Style="width: 100%;" />
-						</div>
-					</div>
-					<div class="col w-full">
-						<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">UoM</span>
-							<RadzenDropDown TValue="string" Placeholder="Packs / Sachets / Bags" Style="width: 100%;" Name="UoM" />
-						</div>
-					</div>
-				</div>
-				<div class="row w-100">
-					<div class="col w-full">
-						<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">Floor</span>
-							<RadzenDropDown TValue="string" Placeholder="Floor 1" Style="width: 100%;" Name="Floor" />
-						</div>
-					</div>
-					<div class="col w-full">
-						<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">Rack</span>
-							<RadzenDropDown TValue="string" Placeholder="Rack 1" Style="width: 100%;" Name="Rack" />
-						</div>
-					</div>
-					<div class="col w-full">
-						<div class="d-flex w-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">Expiry Date</span>
-							<RadzenDatePicker @bind-Value="@value" DateFormat="MM/dd/yyyy" Style="width: 100%;" />
-						</div>
-					</div>
-					<div class="col w-full">
-						<div class="d-flex w-100 h-100 flex-column align-items-start justify-content-start gap-1">
-							<span class="fw-bold text-uppercase">Add Stock</span>
-							<RadzenButton Style="width: 100%; height: 100%;" Variant="Variant.Outlined" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light"
-										  Icon="add" Text="Confirm" />
-						</div>
-					</div>
-				</div>
-				<div class="row w-100 mt-3">
-					<RadzenDataGrid AllowColumnResize="false" AllowPaging="true" AllowSorting="true" AllowFiltering="false" ShowPagingSummary="true"
-									Data="@_tableData" PageSize="5"
-									Style="border-radius: var(--rz-border-radius-2);">
+				<RadzenStack Gap="5px" class="rz-w-100">
+					<RadzenLabel Text="RECEIVED BY" Component="truck-plate-no" class="fw-bold" />
+					<RadzenTextBox @bind-Value="_newReceivedRelief.ReceivedBy" Name="receive-by" class="rz-w-100" />
+					<RadzenRequiredValidator Component="receive-by" Text="Required" />
+				</RadzenStack>
+			</RadzenStack>
+
+			<RadzenText Text="Delivery Details" TextStyle="TextStyle.DisplayH6" class="rz-color-success-light rz-m-0 rz-p-0 rz-w-100 fw-bold" />
+			<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" class="rz-w-100">
+				<RadzenStack Gap="5px" class="rz-w-100">
+					<RadzenLabel Text="TRUCK PLATE NO." Component="plate-no" class="fw-bold" />
+					<RadzenTextBox @bind-Value=@_newReceivedRelief.PlateNo Name="plate-no" class="rz-w-100" />
+					<RadzenRequiredValidator Component="plate-no" Text="Required" />
+				</RadzenStack>
+
+				<RadzenStack Gap="5px" class="rz-w-100">
+					<RadzenLabel Text="DRIVER NAME" Component="driver-name" class="fw-bold" />
+					<RadzenTextBox @bind-Value=@_newReceivedRelief.DriverName Name="driver-name" class="rz-w-100" />
+					<RadzenRequiredValidator Component="driver-name" Text="Required" />
+				</RadzenStack>
+
+				<RadzenStack Gap="5px" class="rz-w-100">
+					<RadzenLabel Text="RECEIVED DATE" Component="received-date" class="fw-bold" />
+					<RadzenDatePicker DateFormat="MMM dd, yyyy" @bind-Value="_newReceivedRelief.ReceivedBy" Name="received-date" class="rz-w-100" />
+					<RadzenRequiredValidator Component="received-date" Text="Required" />
+				</RadzenStack>
+			</RadzenStack>
+
+			<RadzenText Text="Stock Details" TextStyle="TextStyle.DisplayH6" class="rz-color-success-light rz-m-0 rz-p-0 rz-w-100 fw-bold mt-3" />
+			<RadzenDataGrid @ref=@_stockDetailsGrid TItem="StockDetailVM" Data="@_newReceivedRelief.StockDetailList" class="rz-border-radius-2"
+							Density="Density.Compact" AllowAlternatingRows="false" EditMode="DataGridEditMode.Multiple" ColumnWidth="250px">
+				<EmptyTemplate>
+					<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+				</EmptyTemplate>
+				<Columns>
+					<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.StockItemName)" Title="Item Name" MinWidth="350px" Frozen FrozenPosition="FrozenColumnPosition.Left">
+						<Template Context="stockdetail">
+							<RadzenText Text=@string.Format("{0}: {1}" , stockdetail.StockItemId, stockdetail.StockItemName) class="rz-m-0 rz-p-0 rz-w-100" />
+						</Template>
+						<EditTemplate Context="stockdetail">
+							<RadzenText Visible="@(stockdetail != _newReceivedRelief.StockDetailList[0])" Text=@string.Format("{0}: {1}" , stockdetail.StockItemId, stockdetail.StockItemName) class="rz-m-0 rz-p-0 rz-w-100" />
+							<RadzenStack Visible="@(stockdetail == _newReceivedRelief.StockDetailList[0])" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0" MouseEnter="@(() => _hoveringItemDropDownFld = true)" MouseLeave="@(() => _hoveringItemDropDownFld = false)" class="rz-w-100">
+								<RadzenDropDownDataGrid TValue="StockItemViewModel" Data="@_stockItems" @bind-Value=@_selectedStockViewModel ColumnWidth="150px" Density=Density.Compact TextProperty=@nameof(StockItemViewModel.Name) Change=@((args) => ItemChanged((StockItemViewModel)args)) class="rz-w-100">
+									<Columns>
+										<RadzenDropDownDataGridColumn Property="@nameof(StockItemViewModel.Id)" Title="Id" />
+										<RadzenDropDownDataGridColumn Property="@nameof(StockItemViewModel.Name)" Title="Name" />
+										<RadzenDropDownDataGridColumn Property="@nameof(StockItemViewModel.CategoryId)" Title="Category">
+											<Template Context="stockItem">
+												<RadzenText Text="@_itemCategories.First(x => x.Id == stockItem.CategoryId).Name" class="rz-m-0 rz-p-0 rz-w-100" />
+											</Template>
+										</RadzenDropDownDataGridColumn>
+										<RadzenDropDownDataGridColumn Property="@nameof(StockItemViewModel.UoMId)" Title="UoM">
+											<Template Context="stockItem">
+												<RadzenText Text="@_uomList.First(x => x.Id == stockItem.UoMId).Name" class="rz-m-0 rz-p-0 rz-w-100" />
+											</Template>
+										</RadzenDropDownDataGridColumn>
+									</Columns>
+								</RadzenDropDownDataGrid>
+								<RadzenButton Visible="@(string.IsNullOrEmpty(stockdetail.StockItemId) && _hoveringItemDropDownFld)" Size="ButtonSize.Small" Icon="add" Style="width: 40px; height:40px;" Click="@ShowCreateStockItemDialog" />
+								<RadzenButton Visible="@(!string.IsNullOrEmpty(stockdetail.StockItemId) && _hoveringItemDropDownFld)" Size="ButtonSize.Small" Icon="close" ButtonStyle="ButtonStyle.Danger" Shade=Shade.Lighter Style="width: 40px; height:40px;" Click="@(() => ClearItem(false))" />
+							</RadzenStack>
+						</EditTemplate>
+					</RadzenDataGridColumn>
+					<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.CategoryName)" Title="Category" CssClass="rz-background-color-base-400">
+						<Template Context="stockdetail">
+							<RadzenText Text=@stockdetail.CategoryName class="rz-m-0 rz-p-0 rz-w-100" />
+						</Template>
+					</RadzenDataGridColumn>
+					<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.Quantity)" Title="Quantity" Width="150px">
+						<Template Context="stockdetail">
+							<RadzenText Text=@($"{stockdetail.Quantity}") class="rz-m-0 rz-p-0 rz-w-100" />
+						</Template>
+						<EditTemplate Context="stockdetail">
+							<RadzenNumeric @bind-Value=@stockdetail.Quantity class="rz-m-0 rz-p-0 rz-w-100" />
+						</EditTemplate>
+					</RadzenDataGridColumn>
+					<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.UomName)" Title="UoM" CssClass="rz-background-color-base-400" Width="100px">
+						<Template Context="stockdetail">
+							<RadzenText Text=@stockdetail.UomName class="rz-m-0 rz-p-0 rz-w-100" />
+						</Template>
+					</RadzenDataGridColumn>
+					<RadzenDataGridColumn TItem="StockDetailVM" Title="Location" TextAlign="TextAlign.Center" Width="450px">
 						<Columns>
-							<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Id)" Title="Item Code"
-												  TextAlign="TextAlign.Left" Width="80px" />
-							<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.ItemId)" Title="Item Name"
-												  TextAlign="TextAlign.Left" Width="150px" />
-							<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.TypeId)" Title="Type"
-												  TextAlign="TextAlign.Left" Width="90px" />
-							<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Quantity)" Title="Quantity"
-												  TextAlign="TextAlign.Left" Width="90px" />
-							<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.UoMId)" Title="UoM"
-												  TextAlign="TextAlign.Left" Width="90px" />
-							<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.ExpiryDate)" Title="Expiration Date" FormatString="{0:MMM dd, yyyy}"
-												  TextAlign="TextAlign.Left" Width="90px" />
-							<RadzenDataGridColumn Title="Actions" TextAlign="TextAlign.Left" Width="60px">
-								<Template Context="data">
-									<RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Style="border-radius: var(--rz-border-radius-2)" />
-									<RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Style="border-radius: var(--rz-border-radius-2)" />
+							<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.FloorName)" Title="Floor">
+								<Template Context="stockdetail">
+									<RadzenText Text=@stockdetail.FloorName class="rz-m-0 rz-p-0 rz-w-100" />
 								</Template>
+								<EditTemplate Context="stockdetail">
+									<RadzenDropDown TValue="string" Data="@_floors" ValueProperty="@nameof(FloorViewModel.Id)" TextProperty="@nameof(FloorViewModel.Name)" @bind-Value=@stockdetail.FloorId Change="@(() => SelectedFloorChanged(stockdetail))" />
+								</EditTemplate>
+							</RadzenDataGridColumn>
+							<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.RackName)" Title="Rack">
+								<Template Context="stockdetail">
+									<RadzenText Text=@stockdetail.RackName class="rz-m-0 rz-p-0 rz-w-100" />
+								</Template>
+								<EditTemplate Context="stockdetail">
+									<RadzenDropDown TValue="string" Data="@_racks" ValueProperty="@nameof(RackViewModel.Id)" TextProperty="@nameof(RackViewModel.Name)" @bind-Value=@stockdetail.RackId Change="@(() => SelectedRackChanged(stockdetail))" />
+								</EditTemplate>
 							</RadzenDataGridColumn>
 						</Columns>
-						<EmptyTemplate>
-							<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
-						</EmptyTemplate>
-					</RadzenDataGrid>
-				</div>
-				<div class="d-flex align-items-center justify-content-end mt-3 gap-2">
-					<RadzenButton Style="width: fit-content;" Text="Cancel" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Danger" />
-					<RadzenButton Style="width: fit-content; background: var(--rz-success-light);" Text="Next" Click="@(() => changeTab("summary"))" ButtonStyle="ButtonStyle.Primary" />
-				</div>
-			</form>
-		</div>
+					</RadzenDataGridColumn>
+					<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.ExpiryDate)" Title="Expiry Date">
+						<Template Context="stockdetail">
+							@* <RadzenText Text="@($"{stockdetail.ExpiryDate.ToString("MMMM dd, yyyy")" class="rz-m-0 rz-p-0 rz-w-100" /> *@
+							<RadzenText Text="@($"{stockdetail.ExpiryDate}")" class="rz-m-0 rz-p-0 rz-w-100" />
+						</Template>
+						<EditTemplate Context="stockdetail">
+							<RadzenDatePicker DateFormat="MMMM dd, yyyy" @bind-Value="stockdetail.ExpiryDate" Name="expiry-date" class="rz-w-100" />
+							<RadzenRequiredValidator Component="expiry-date" Text="Required" Popup />
+						</EditTemplate>
+					</RadzenDataGridColumn>
+					<RadzenDataGridColumn TItem="StockDetailVM" Title="Actions" Frozen FrozenPosition="FrozenColumnPosition.Right" TextAlign="TextAlign.Center" Width="80px">
+						<Template Context="stockdetail">
+							<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center" Gap="5px">
+								<RadzenButton Icon="edit" Size="ButtonSize.Small" Variant="Variant.Flat" ButtonStyle="ButtonStyle.Info" Click="@(() => EditInsertedRow(stockdetail))" />
+								<RadzenButton Icon="delete" Size="ButtonSize.Small" Variant="Variant.Flat" ButtonStyle="ButtonStyle.Danger" Click="@(() => RemoveStockDetail(stockdetail))" />
+							</RadzenStack>
+						</Template>
+						<EditTemplate Context="stockdetail">
+							<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center" Gap="5px">
+								<RadzenButton Visible="@(stockdetail == _newReceivedRelief.StockDetailList[0])" Icon="add" Size="ButtonSize.Small" Variant="Variant.Flat" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Click="@AddStockDetails" />
+								<RadzenButton Visible="@(stockdetail == _selectedStockDetail)" Icon="check" Size="ButtonSize.Small" Variant="Variant.Flat" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Click="@(() => SaveEditRow(stockdetail))" />
+								<RadzenButton Visible="@(stockdetail == _selectedStockDetail)" Icon="close" Size="ButtonSize.Small" Variant="Variant.Flat" ButtonStyle="ButtonStyle.Danger" Shade="Shade.Lighter" Click="@(() => CancelEditRow(stockdetail))" />
+							</RadzenStack>
+						</EditTemplate>
+					</RadzenDataGridColumn>
+				</Columns>
+			</RadzenDataGrid>
+		</RadzenStack>
+		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" class="rz-w-100 rz-px-2 mt-5">
+			<RadzenButton Text="Cancel" Click="@(() => _dialogService.Close(false))" ButtonStyle="ButtonStyle.Danger" />
+			@* <RadzenButton Text="Next" Click="@(() => changeTab("summary"))" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" /> *@
+			<RadzenButton Text="Next" Click="@Submit" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" />
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+
+@* <MacroContainer Style="width: 100dvw; max-width: 75dvw; padding: 0.25rem">
+	<div class="tab-content w-100" id="myTabContent">
 		<div class="@($"tab-pane w-100 fade {(_activePane == "summary" ? "show active" : "")}")" id="summary-tab-pane" role="tabpanel" aria-labelledby="summary-tab" tabindex="0">
 			<div class="w-100 h-100" style="width: 100%">
 				<RadzenText class="fw-bold" Style="color: var(--rz-success);" TextStyle="TextStyle.DisplayH5" Text="Delivery Summary" />
@@ -171,44 +170,38 @@
 						<p class="fs-6 rz-color-base-800 m-0">@(headers.ReceivedDate.ToString("MMM dd, yyyy"))</p>
 					</div>
 				</div>
-				<RadzenDataGrid AllowColumnResize="false" AllowPaging="true" AllowSorting="true" AllowFiltering="false" ShowPagingSummary="true"
-								Data="@_tableData" PageSize="5"
-								Style="border-radius: var(--rz-border-radius-2);">
-					<Columns>
-						<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Id)" Title="Item Code"
-											  TextAlign="TextAlign.Left" Width="80px" />
-						<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.ItemId)" Title="Item Name"
-											  TextAlign="TextAlign.Left" Width="150px" />
-						<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.TypeId)" Title="Type"
-											  TextAlign="TextAlign.Left" Width="90px" />
-						<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Quantity)" Title="Quantity"
-											  TextAlign="TextAlign.Left" Width="90px" />
-						<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.UoMId)" Title="UoM"
-											  TextAlign="TextAlign.Left" Width="90px" />
-						<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.ExpiryDate)" Title="Expiration Date" FormatString="{0:MMM dd, yyyy}"
-											  TextAlign="TextAlign.Left" Width="90px" />
-						<RadzenDataGridColumn Title="Actions" TextAlign="TextAlign.Left" Width="60px">
-							<Template Context="data">
-								<RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Style="border-radius: var(--rz-border-radius-2)" />
-								<RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Style="border-radius: var(--rz-border-radius-2)" />
-							</Template>
-						</RadzenDataGridColumn>
-					</Columns>
-					<EmptyTemplate>
-						<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
-					</EmptyTemplate>
-				</RadzenDataGrid>
 				<div class="w-100 d-flex align-items-center justify-content-end mt-3 gap-2">
 					<RadzenButton Style="width: fit-content; " Text="Back" Click="@(() => changeTab("form"))" ButtonStyle="ButtonStyle.Base" />
-					<RadzenButton Style="width: fit-content; " Text="Confirm" Click="@(async () => await ConfirmReceiving())" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" />
+					<RadzenButton Style="width: fit-content; " Text="Confirm" Click="@(async () => await Submit())" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" />
 				</div>
 			</div>
 		</div>
 	</div>
-</MacroContainer>
+</MacroContainer> *@
 
 @code {
+	async Task ShowCreateStockItemDialog()
+	{
+		string? newStockItemId = await _dialogService.OpenAsync<CreateStockItemDialog>("Create Stock Item");
 
-	DateOnly value = DateOnly.FromDateTime(DateTime.Now);
-	[Parameter] public DialogService dialogService { get; set; } = default!;
+		if (string.IsNullOrEmpty(newStockItemId)) return;
+
+		await LoadStockItemsList();
+		await LoadCategoryList();
+		await LoadUomList();
+		StateHasChanged();
+	}
+
+	async Task ShowViewUpdateStockItemDialog(string Id)
+	{
+		bool hasChanges = await _dialogService.OpenAsync<ViewUpdateStockItemDialog>("Stock Item Info.", new() { { "Id", Id } }) ?? false;
+
+		if(hasChanges) 
+		{
+			await LoadStockItemsList();
+			await LoadCategoryList();
+			await LoadUomList();
+			StateHasChanged();
+		}
+	}
 }

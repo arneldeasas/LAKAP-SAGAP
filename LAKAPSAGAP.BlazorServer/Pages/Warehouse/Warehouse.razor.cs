@@ -1,40 +1,45 @@
-﻿
-namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
+﻿namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse;
+
+public partial class Warehouse
 {
-	public partial class Warehouse
+	[Parameter] required public string Id { get; set; }
+	[Inject] DialogService _dialogService { get; set; }
+	[Inject] IWarehouseRepository? WarehouseRepo { get; set; }
+	[Inject] protected IJSRuntime _jSRuntime { get; set; } = default!;
+	[Inject] NavigationManager? NavManager { get; set; }
+
+	[Parameter] public EventCallback<bool> OnValueChanged { get; set; }
+
+	bool Loading { get; set; }
+
+	public WarehouseViewModel model { get; set; }
+	public List<LAKAPSAGAP.Models.Models.Warehouse> warehouses { get; set; }
+
+	protected override void OnInitialized()
 	{
-		[Parameter] required public string Id { get; set; }
-		[Inject] DialogService _dialogService { get; set; }
-		[Inject] IWarehouseRepository? WarehouseRepo { get; set; }
-		[Inject] protected IJSRuntime _jSRuntime { get; set; } = default!;
-		[Inject] NavigationManager? NavManager { get; set; }
+		Loading = true;
+		model ??= new();
+		model.FloorList ??= [];
+		warehouses ??= [];
+		base.OnInitialized();
+	}
 
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
 
-
-		bool Loading = true;
-		int retries = 0;
-
-		public WarehouseViewModel model { get; set; } = new();
-		public List<LAKAPSAGAP.Models.Models.Warehouse> warehouses { get; set; } = new();
-
-        protected override async Task OnInitializedAsync()
-        {
-			
-        }
-
-        protected override async Task OnParametersSetAsync()
+		if (firstRender)
 		{
+			ChangeValue(false);
+			var res = await WarehouseRepo.GetWarehouseById(Id);
 
-            var res = await WarehouseRepo.GetWarehouseById(Id);
-
-            if (res is null)
-            {
+			if (res is null)
+			{
 				res = await WarehouseRepo.PickWarehouse();
 				if (res is null) NavManager.NavigateTo("/Warehouse");
 				NavManager.NavigateTo($@"/Warehouse/{res.Id}/Stocks");
 			}
 
-            model = new WarehouseViewModel
+			model = new WarehouseViewModel
 			{
 				Id = res.Id,
 				Name = res.Name,
@@ -61,13 +66,21 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 
 			warehouses = await WarehouseRepo.GetAllWarehouses();
 			Loading = false;
+			ChangeValue(true);
+			StateHasChanged();
 		}
-
-		public void NavigateToWhse(string selectedWhse)
-		{
-			NavManager.NavigateTo($"/Warehouse/{selectedWhse}", true);
-		}
-
 	}
+
+	void ChangeValue(bool initialized)
+	{
+		OnValueChanged.InvokeAsync(initialized);
+	}
+
+	public void NavigateToWhse(string selectedWhse)
+	{
+		NavManager.NavigateTo($"/Warehouse/{selectedWhse}", true);
+	}
+
+
 }
 

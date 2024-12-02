@@ -75,7 +75,7 @@ public partial class ViewUpdateStockItemDialog
 		if (success) await _jSRuntime.InvokeVoidAsync("Toast", "success", "Stock Item updated successfully!");
 		else await _jSRuntime.InvokeVoidAsync("Toast", "error", "An error occured. Something went wrong!");
 
-		_dialogService.Close();
+		_dialogService.Close(true);
 	}
 
 	async Task LoadUomList()

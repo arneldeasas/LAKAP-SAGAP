@@ -401,3 +401,4 @@ FodyWeavers.xsd
 /LAKAPSAGAP.Services/Migrations
 LAKAPSAGAP.Services/Migrations
 LAKAPSAGAP.Services/Migrations/MyDbContextModelSnapshot.cs
+LAKAPSAGAP.BlazorServer/LAKAPSAGAP.BlazorServer.csproj.user

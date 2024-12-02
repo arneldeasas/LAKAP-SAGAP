@@ -1,7 +1,7 @@
-using LAKAPSAGAP.Services.Core.API;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using LAKAPSAGAP.Services;
+using LAKAPSAGAP.BlazorServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,48 +15,17 @@ builder.Services.AddAuthorization();
 builder.Services.AddAntiforgery();
 builder.Services.AddCascadingAuthenticationState();
 
-builder.Services.AddServices();
-//builder.Services.AddScoped<CustomAuthenticationStateProvider>();
+
+// Configure DbContext
 builder.Services.AddDbContext<MyDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddServices();
+//builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 
 #if DEBUG
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 #endif
-
-builder.Services.AddIdentity<UserAuth, IdentityRole>(options =>
-{
-	// Password settings.
-	options.Password.RequireDigit = false;
-	options.Password.RequireLowercase = false;
-	options.Password.RequireNonAlphanumeric = false;
-	options.Password.RequireUppercase = false;
-	options.Password.RequiredLength = 1;
-	options.Password.RequiredUniqueChars = 0;
-
-	// Lockout settings.
-	options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
-	options.Lockout.MaxFailedAccessAttempts = 5;
-	options.Lockout.AllowedForNewUsers = true;
-
-	// User settings.
-	options.User.AllowedUserNameCharacters =
-	"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-	options.User.RequireUniqueEmail = false;
-})
-.AddEntityFrameworkStores<MyDbContext>()
-.AddUserManager<UserManager<UserAuth>>()
-.AddDefaultTokenProviders();
-
-builder.Services.ConfigureApplicationCookie(options =>
-{
-	// Cookie settings
-	options.Cookie.HttpOnly = true;
-	options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-	options.LoginPath = "/login";
-	options.AccessDeniedPath = "/AccessDenied";
-	options.SlidingExpiration = true;
-});
 
 builder.Services.AddHttpClient("API", client =>
 {
@@ -81,32 +50,6 @@ app.UseRouting();
 app.UseAntiforgery();
 //app.UseAuthentication(); // Ensure authentication middleware is used
 //app.UseAuthorization();  // Ensure authorization middleware is used
-
-//using (var scope = app.Services.CreateScope())
-//{
-//	var services = scope.ServiceProvider;
-//	var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-//	var roles = new[] {
-//		new { Name = "Barangay Representative", NormalizedName = "BARANGAY_REPRESENTATIVE" },
-//		new { Name = "CSWD Office Head", NormalizedName = "CSWD_OFFICE_HEAD" },
-//		new { Name = "CSWD Administration Staff", NormalizedName = "CSWD_ADMINISTRATION_STAFF" }
-//	};
-
-//	foreach (var role in roles)
-//	{
-//		if (!await roleManager.RoleExistsAsync(role.NormalizedName)) // Check if the role exists
-//		{
-//			var identityRole = new IdentityRole
-//			{
-//				Name = role.Name,
-//				NormalizedName = role.NormalizedName
-//			};
-
-//			await roleManager.CreateAsync(identityRole); // Create the role if it doesn't exist
-//		}
-//	}
-//}
 
 app.MapRazorComponents<App>()
 	.AddInteractiveServerRenderMode();

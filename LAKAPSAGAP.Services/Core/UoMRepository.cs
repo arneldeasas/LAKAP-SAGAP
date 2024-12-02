@@ -51,6 +51,20 @@ public class UoMRepository(MyDbContext context) : IUoMRepository
 			return [];
 		}
 	}
+	
+	public async Task<List<UoM>> GetAllActiveUoM()
+	{
+		try
+		{
+			List<UoM> uomList = [];
+			uomList = await _context.GetAllActive<UoM>();
+			return uomList;
+		}
+		catch (Exception)
+		{
+			return [];
+		}
+	}
 
 	public async Task<UoM?> GetUoM(string uomId)
 	{

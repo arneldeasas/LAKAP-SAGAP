@@ -1,6 +1,4 @@
-﻿using LAKAPSAGAP.Models.ViewModel;
-
-namespace LAKAPSAGAP.Services.Repositories;
+﻿namespace LAKAPSAGAP.Services.Repositories;
 
 public interface IWarehouseRepository
 {

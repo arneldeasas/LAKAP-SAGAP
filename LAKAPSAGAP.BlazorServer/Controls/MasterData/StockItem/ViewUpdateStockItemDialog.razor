@@ -1,4 +1,6 @@
-﻿<RadzenTemplateForm Data="@_stockItem" TItem="StockItemViewModel" Submit="@Submit">
+﻿@using LAKAPSAGAP.BlazorServer.Controls.MasterData.Category
+@using LAKAPSAGAP.BlazorServer.Controls.MasterData.UoM
+<RadzenTemplateForm Data="@_stockItem" TItem="StockItemViewModel" Submit="@Submit">
 	<RadzenStack Gap="5px">
 		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" AlignItems="AlignItems.Center">
 			<RadzenLabel Text="Active" Component="switch" />
@@ -14,18 +16,38 @@
 			</Helper>
 		</RadzenFormField>
 
-		<RadzenFormField Text="Category">
+		<RadzenFormField Text="Category" MouseEnter="@(() => _categoryFldHovering = true)" MouseLeave="@(() => _categoryFldHovering = false)">
 			<ChildContent>
-				<RadzenDropDown TValue="string" Data="@_categoryList" ValueProperty="@nameof(CategoryViewModel.Id)" TextProperty="@nameof(CategoryViewModel.Name)" @bind-Value=@_stockItem.CategoryId Name="item-category" />
+				<RadzenStack Orientation="Orientation.Horizontal" class="rz-w-100" Gap="5px">
+					<RadzenDropDown TValue="string"
+									Data="@_categoryList"
+									ValueProperty="@nameof(CategoryViewModel.Id)"
+									TextProperty="@nameof(CategoryViewModel.Name)"
+									@bind-Value=@_stockItem.CategoryId
+									Name="item-category"
+									Disabled="@(!_isEditing)"
+									class="rz-w-100" />
+					<RadzenButton Visible="@(_categoryFldHovering && _isEditing)" Icon="add" Size="ButtonSize.Small" Click="@ShowCreateCategoryDialog" Style="width: 40px; height: auto;" />
+				</RadzenStack>
 			</ChildContent>
 			<Helper>
 				<RadzenRequiredValidator Component="item-category" Text="Required" />
 			</Helper>
 		</RadzenFormField>
 
-		<RadzenFormField Text="UoM">
+		<RadzenFormField Text="UoM" MouseEnter="@(() => _uomFldHovering = true)" MouseLeave="@(() => _uomFldHovering = false)">
 			<ChildContent>
-				<RadzenDropDown TValue="string" Data="@_uomList" ValueProperty="@nameof(UoMViewModel.Id)" TextProperty="@nameof(UoMViewModel.Name)" @bind-Value=@_stockItem.UoMId Name="item-uom" />
+				<RadzenStack Orientation="Orientation.Horizontal" class="rz-w-100" Gap="5px">
+					<RadzenDropDown TValue="string"
+									Data="@_uomList"
+									ValueProperty="@nameof(UoMViewModel.Id)"
+									TextProperty="@nameof(UoMViewModel.Name)"
+									@bind-Value=@_stockItem.UoMId
+									Name="item-uom"
+									Disabled="@(!_isEditing)"
+									class="rz-w-100" />
+					<RadzenButton Visible="@(_uomFldHovering && _isEditing)" Icon="add" Size="ButtonSize.Small" Click="@ShowCreateUomDialog" Style="width: 40px; height: auto;" />
+				</RadzenStack>
 			</ChildContent>
 			<Helper>
 				<RadzenRequiredValidator Component="item-uom" Text="Required" />
@@ -42,5 +64,25 @@
 </RadzenTemplateForm>
 
 @code {
+	async Task ShowCreateCategoryDialog()
+	{
+		string? newCategoryId = await _dialogService.OpenAsync<CreateCategoryDialog>("Create Category");
 
+		if (string.IsNullOrEmpty(newCategoryId)) return;
+
+		await LoadCategoryList();
+		_stockItem.CategoryId = newCategoryId;
+		StateHasChanged();
+	}
+
+	async Task ShowCreateUomDialog()
+	{
+		string? newUomId = await _dialogService.OpenAsync<CreateUoMDialog>("Create UoM");
+
+		if (string.IsNullOrEmpty(newUomId)) return;
+
+		await LoadUomList();
+		_stockItem.UoMId = newUomId;
+		StateHasChanged();
+	}
 }

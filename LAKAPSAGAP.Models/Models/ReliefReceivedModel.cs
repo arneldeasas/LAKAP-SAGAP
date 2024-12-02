@@ -2,6 +2,7 @@
 
 namespace LAKAPSAGAP.Models.Models;
 
+// GRPO => Relief Received (Batch)
 public class ReliefReceived : CommonModel
 {
     public AcquisitionTypes AcquisitionType { get; set; }

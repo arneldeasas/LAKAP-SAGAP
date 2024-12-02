@@ -1,26 +1,51 @@
-﻿<RadzenDataList WrapItems="true" AllowPaging="true" TItem="@Kit">
-	<Template Context="data">
-		<RadzenCard class="rz-w-50">
-			<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceEvenly">
-				<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
-					<RadzenText class="rz-m-0" TextStyle="TextStyle.H5" Text="Food Pack Name" />
-					<RadzenButton class="rz-m-0" Icon="edit" Text="Edit" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined" />
+﻿
+<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+	<RadzenButton Click="ShowKitTypeCreateDialog" Icon="add" Text="Add Kit Type" ButtonStyle="ButtonStyle.Success"
+				  class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
+</RadzenStack>
+
+<RadzenRow class="w-100 mt-3">
+	@foreach(var item in KitList)
+	{
+		<RadzenColumn Size="6">
+			<RadzenCard>
+				<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceEvenly">
+					<RadzenStack class="w-100" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+						<RadzenText class="rz-m-0" TextStyle="TextStyle.H5" Text="@item.Name" />
+						<RadzenButton class="rz-m-0" Icon="edit" Text="Edit" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined" />
+					</RadzenStack>
+					<hr />
+					<RadzenDataGrid TItem="@KitComponentViewModel" Data="item.KitComponentList">
+						<Columns>
+							
+							<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.ItemName))" Title="Name" />
+							<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.Quantity))" Title="Quantity" />
+							@* 						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.QuantityOnHand))" Title="Name" />
+						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.Status))" Title="Status" /> *@
+						</Columns>
+					</RadzenDataGrid>
 				</RadzenStack>
-				<hr />
-				<RadzenDataGrid TItem="@KitComponentViewModel">
-					<Columns>
-						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.Quantity))" Title="Name" />
-						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.ItemName))" Title="Name" />
-						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.QuantityOnHand))" Title="Name" />
-						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.Status))" Title="Status" />
-					</Columns>
-				</RadzenDataGrid>
-			</RadzenStack>
-		</RadzenCard>
-	</Template>
-	<EmptyTemplate>
-		<span>
-			No Kits Available.
-		</span>
-	</EmptyTemplate>
-</RadzenDataList>
+			</RadzenCard>
+		</RadzenColumn>
+	}
+</RadzenRow>
+
+@code{
+	[Inject] DialogService _dialogService { get; set; }
+	async Task ShowKitTypeCreateDialog()
+	{
+		var result = await _dialogService.OpenAsync("Create Kit", ds =>@<KitTypeCreateUpdate /> ,
+		new DialogOptions()
+			{
+				CssClass = "rz-w-fit-content",
+				ShowTitle = false,
+			});
+		if (result)
+			{
+			await LoadAllKits();
+		}
+	
+	}
+
+
+}

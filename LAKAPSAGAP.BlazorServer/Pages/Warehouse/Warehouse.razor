@@ -70,6 +70,9 @@ else
 
 @code
 {
+	
+
+
 	async Task ShowWarehouseManagementDialog(WarehouseViewModel? value)
 	{
 		var result = await _dialogService.OpenAsync("Receive Stock", ds => @<WarehouseCreateEdit dialogService="ds" whseModel="value" /> ,

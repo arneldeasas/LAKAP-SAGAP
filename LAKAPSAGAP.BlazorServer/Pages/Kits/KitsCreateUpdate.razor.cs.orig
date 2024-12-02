@@ -4,17 +4,24 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Kits;
 public partial class KitsCreateUpdate
 {
 
+<<<<<<< HEAD
     [Inject] DialogService _dialogService { get; set; }
     [Inject] protected IJSRuntime _jSRuntime { get; set; } = default!;
 
     List<KitViewModel> Kits { get; set; } = new();
     public KitViewModel Kit { get; set; } = new();
     public List<ReliefReceivedViewModel> Items { get; set; } = new();
+=======
+    bool Loading = true;
+
+    public KitViewModel Kit { get; set; }
+>>>>>>> c31e4d6f2d43061b65f2025fb21ee52d7ce7b1b1
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+<<<<<<< HEAD
         }
     }
 
@@ -22,5 +29,12 @@ public partial class KitsCreateUpdate
     {
         return Task.CompletedTask;
     }
+=======
+            Loading = false;
+            StateHasChanged();
+        }
+    }
+
+>>>>>>> c31e4d6f2d43061b65f2025fb21ee52d7ce7b1b1
 
 }

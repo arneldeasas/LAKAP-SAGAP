@@ -10,7 +10,7 @@
 				<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceEvenly">
 					<RadzenStack class="w-100" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
 						<RadzenText class="rz-m-0" TextStyle="TextStyle.H5" Text="@item.Name" />
-						<RadzenButton class="rz-m-0" Icon="edit" Text="Edit" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined" />
+						<RadzenButton class="rz-m-0" Icon="edit" Text="Edit" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined" Click="@(() => ShowKitTypeCreateDialog(item))" />
 					</RadzenStack>
 					<hr />
 					<RadzenDataGrid TItem="@KitComponentViewModel" Data="item.KitComponentList">
@@ -30,9 +30,9 @@
 
 @code{
 	[Inject] DialogService _dialogService { get; set; }
-	async Task ShowKitTypeCreateDialog()
+	async Task ShowKitTypeCreateDialog(KitViewModel kitVM)
 	{
-		var result = await _dialogService.OpenAsync("Create Kit", ds =>@<KitTypeCreateUpdate /> ,
+		var result = await _dialogService.OpenAsync("Create Kit", ds =>@<KitTypeCreateUpdate KitVM="@kitVM" /> ,
 		new DialogOptions()
 			{
 				CssClass = "rz-w-fit-content",

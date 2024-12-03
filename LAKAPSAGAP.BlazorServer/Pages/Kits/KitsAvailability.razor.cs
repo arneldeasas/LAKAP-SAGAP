@@ -9,8 +9,8 @@ public partial class KitsAvailability
 {
 	[Inject] IKittingRepository KittingRepo { get; set; }
 	[Inject] MyDbContext _context { get; set; }
-	List<KitViewModel> KitList { get; set; } = new List<KitViewModel>();
-	List<StockItem> stockItems = new List<StockItem>();
+	public List<KitViewModel> KitList { get; set; } = new List<KitViewModel>();
+	public List<StockItem> stockItems = new List<StockItem>();
 	private bool isLoading = false;
 	protected override async Task OnInitializedAsync()
 	{

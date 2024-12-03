@@ -397,7 +397,7 @@ public partial class ReceiveStockForm
 		public string UomId { get; set; }
 		public string UomName { get; set; }
 		public int Quantity { get; set; }
-		public DateTime? ExpiryDate { get; set; } = null;
+		public DateTime ExpiryDate { get; set; }
 		public string FloorId { get; set; }
 		public string FloorName { get; set; }
 		public string RackId { get; set; }

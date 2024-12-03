@@ -15,6 +15,7 @@ public static class ScopingExtension
 		services.AddScoped<IReliefReceivedRepository, ReliefReceivedRepository>();
 		services.AddScoped<IRackRepository, RackRepository>();
 		services.AddScoped<IStockItemRepository, StockItemRepository>();
+		services.AddScoped<IKittingRepository, KittingRepository>();
 
 		services.AddScoped<AuthRepository>();
 		services.AddScoped<UserAttachmentRepository>();

@@ -9,6 +9,7 @@ public partial class Warehouse
 	[Inject] NavigationManager? NavManager { get; set; }
 
 	[Parameter] public EventCallback<bool> OnValueChanged { get; set; }
+	[Parameter] public bool IsKits { get; set; } = false;
 
 	bool Loading { get; set; }
 
@@ -34,12 +35,15 @@ public partial class Warehouse
 
 			if (res is null)
 			{
-				res = await WarehouseRepo.PickWarehouse();
-				if (res is null) { NavManager.NavigateTo("/Warehouse"); return; }
-				NavManager.NavigateTo($@"/Warehouse/{res.Id}/Stocks");
-			}
+				var pickedWhse = await WarehouseRepo.PickWarehouse();
+				if (pickedWhse is null) { NavManager.NavigateTo("/Warehouse"); return; }
+				NavManager.NavigateTo($@"/Warehouse/{pickedWhse.Id}/{(IsKits ? "Kits" : "Stocks")}", true);
+				Loading = false;
+				StateHasChanged();
+				return;
+            }
 
-			model = new WarehouseViewModel
+            model = new WarehouseViewModel
 			{
 				Id = res.Id,
 				Name = res.Name,

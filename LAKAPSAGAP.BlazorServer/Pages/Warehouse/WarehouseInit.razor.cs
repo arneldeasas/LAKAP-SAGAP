@@ -25,8 +25,9 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Warehouse
 			Loading = true;
 			await Task.Delay(1000);
 			WarehouseList = await WarehouseRepo.GetAllWarehouses();
-			if (WarehouseList.Count() > 0) NavManager.NavigateTo($@"/Warehouse/{WarehouseList.First().Id}", true);
+			if (WarehouseList.Count() > 0) NavManager.NavigateTo($@"/Warehouse/{WarehouseList.First().Id}/Stocks", true);
 			Loading = false;
+			StateHasChanged();
         }
 
 		public async Task AddFloor()

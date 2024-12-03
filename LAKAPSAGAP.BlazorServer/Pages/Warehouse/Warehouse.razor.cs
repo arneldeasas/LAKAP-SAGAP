@@ -35,7 +35,7 @@ public partial class Warehouse
 			if (res is null)
 			{
 				res = await WarehouseRepo.PickWarehouse();
-				if (res is null) NavManager.NavigateTo("/Warehouse");
+				if (res is null) { NavManager.NavigateTo("/Warehouse"); return; }
 				NavManager.NavigateTo($@"/Warehouse/{res.Id}/Stocks");
 			}
 

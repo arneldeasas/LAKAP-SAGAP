@@ -383,6 +383,7 @@ public partial class ReceiveStockForm
 		// Delivery Details
 		public string PlateNo { get; set; }
 		public string DriverName { get; set; }
+		public string? ReceivedFrom { get; set; }
 		public DateTime ReceivedDate { get; set; } = DateTime.Now;
 		public List<StockDetailVM> StockDetailList { get; set; } = [];
 	}

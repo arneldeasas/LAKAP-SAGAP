@@ -1,4 +1,5 @@
 ﻿using LAKAPSAGAP.Models.Enums;
+using Mapster;
 
 namespace LAKAPSAGAP.BlazorServer.Pages.Stocks;
 
@@ -35,7 +36,7 @@ public partial class ReceiveStockForm
 
 	protected override void OnInitialized()
 	{
-		_newReceivedRelief ??= new();
+		_newReceivedRelief ??= new() { WarehouseId = WarehouseId };
 		_stockItems ??= [];
 		_itemCategories ??= [];
 		_uomList ??= [];
@@ -365,7 +366,18 @@ public partial class ReceiveStockForm
 	{
 		if(!(await _jSRuntime.InvokeAsync<bool>("Confirmation"))) return;
 
+		_newReceivedRelief.StockDetailList.Remove(_newReceivedRelief.StockDetailList[0]);
+		ReliefReceived newReliefReceived = _newReceivedRelief.Adapt<ReliefReceived>();
+		newReliefReceived = await _reliefReceivedRepository.CreateReliefReceived(newReliefReceived);
 
+		if (newReliefReceived is null)
+		{
+			await _jSRuntime.InvokeVoidAsync("Toast", "error", "Failed to create stock details");
+			return;
+		}
+
+		await _jSRuntime.InvokeVoidAsync("Toast", "success", "Relief received recorded successfully");
+		_dialogService.Close(true);
 	}
 
 	public void changeTab(string tab)
@@ -376,7 +388,6 @@ public partial class ReceiveStockForm
 	// Classes
 	class ReceiveReliefVM
 	{
-		public string BatchNo { get; set; }
 		public AcquisitionTypes AcquisitionType { get; set; }
 		public string ReceivedBy { get; set; }
 
@@ -386,6 +397,8 @@ public partial class ReceiveStockForm
 		public string? ReceivedFrom { get; set; }
 		public DateTime ReceivedDate { get; set; } = DateTime.Now;
 		public List<StockDetailVM> StockDetailList { get; set; } = [];
+
+		public string WarehouseId { get; set; }
 	}
 
 	class StockDetailVM

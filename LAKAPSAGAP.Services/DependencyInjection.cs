@@ -10,6 +10,7 @@ public static class DependencyInjection
 			.AddHostedService<DatabaseMigrationService>()
 			.AddCustomIdentity()
 			.AddAppScopes()
-			.AddCookie();
+			.AddCookie()
+			.AddMapsterService();
 	}
 }

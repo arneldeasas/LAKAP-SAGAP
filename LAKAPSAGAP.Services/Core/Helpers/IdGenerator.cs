@@ -13,7 +13,7 @@ public class IdGenerator
     public static string PFX_FLOOR { get; set; } = "FLR_";
     public static string PFX_RACK { get; set; } = "RCK_";
     public static string PFX_KIT { get; set; } = "KIT_";
-    public static string PFX_KITCOMPONENT { get; set; } = "KIT_";
+    public static string PFX_KITCOMPONENT { get; set; } = "KITCT_";
 
     public static string GenerateId(string prefix, int count)
     {

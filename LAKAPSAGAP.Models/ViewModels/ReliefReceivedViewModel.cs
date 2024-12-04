@@ -1,4 +1,5 @@
 ﻿
+using LAKAPSAGAP.Models.Enums;
 using LAKAPSAGAP.Models.Models;
 
 namespace LAKAPSAGAP.Models.ViewModel
@@ -8,7 +9,7 @@ namespace LAKAPSAGAP.Models.ViewModel
 		public string Id { get; set; }
 		public string WarehouseId { get; set; }
         public Warehouse Warehouse { get; set; } = new();
-		public string ReliefType { get; set; }
+		public AcquisitionTypes AcquisitionType { get; set; }
 		public string ReceivedBy { get; set; }
 		public string ReceivedFrom { get; set; }
 		public string? TruckPlateNumber { get; set; }

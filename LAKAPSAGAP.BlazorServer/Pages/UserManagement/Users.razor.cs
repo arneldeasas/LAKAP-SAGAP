@@ -4,7 +4,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.UserManagement
 {
 	public partial class Users
 	{
-	
+
 		[Inject] DialogService _dialogService { get; set; }
 		[Inject] IUserRepository _userRepo { get; set; }
 		[Inject] protected IJSRuntime _jSRuntime { get; set; } = default!;
@@ -28,7 +28,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.UserManagement
 			tableData = _userInfoList;
 		}
 
-        private void SearchUsers(string value)
+		private void SearchUsers(string value)
 		{
 			if (value != string.Empty)
 			{

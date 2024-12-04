@@ -4,8 +4,8 @@ namespace LAKAPSAGAP.Services.Repositories;
 
 public interface IReliefReceivedRepository
 {
-	Task<ReliefReceived> CreateReliefReceived(ReliefReceivedViewModel warehouseViewModel);
-	Task<bool> UpdateReliefReceived(ReliefReceivedViewModel warehouseViewModel);
+	Task<ReliefReceived> CreateReliefReceived(ReliefReceived warehouseViewModel);
+	Task<bool> UpdateReliefReceived(ReliefReceived warehouseViewModel);
 	Task<ReliefReceived> DeleteReliefReceived(string Id);
 	Task<ReliefReceived> ArchiveReliefReceived(string Id);
 	Task<List<ReliefReceived>> GetAllReliefReceived();

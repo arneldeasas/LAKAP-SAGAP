@@ -263,7 +263,7 @@ namespace LAKAPSAGAP.Services.Core
 			try
 			{
 
-				kits = await _context.Kits.WhereIsNotArchivedAndDeleted().Include(x=>x.KitComponentList).ToListAsync();
+				kits = await _context.Kits.WhereIsNotArchivedAndDeleted().Include(x=>x.KitComponentList).ThenInclude(x=>x.StockItem).ToListAsync();
 				return kits;
 			}
 			catch (Exception)

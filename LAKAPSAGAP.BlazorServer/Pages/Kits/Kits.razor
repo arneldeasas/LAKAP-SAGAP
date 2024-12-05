@@ -49,7 +49,7 @@
 						<RadzenTabsItem Text="Kits Availability">
 							@if(isDataInitialized)
 							{
-								<KitsAvailability />
+								<KitsAvailability KitList="KitList"/>
 							}
 						</RadzenTabsItem>
 						<RadzenTabsItem Text="Kits Management">
@@ -70,12 +70,17 @@
 
 	async Task ShowKitTypeCreateDialog()
 	{
-		var result = await _dialogService.OpenAsync("Create Kit", ds => @<KitTypeCreateUpdate /> ,
+		var id = await _dialogService.OpenAsync("Create Kit", ds => @<KitTypeCreateUpdate /> ,
 	new DialogOptions()
 			{
 				CssClass = "rz-w-fit-content",
 				ShowTitle = false,
 			});
+
+		if (string.IsNullOrEmpty(id)) return;
+
+		await LoadAllKits();
+		StateHasChanged();
 	}
 	
 	async Task ShowKitsCreateDialog()

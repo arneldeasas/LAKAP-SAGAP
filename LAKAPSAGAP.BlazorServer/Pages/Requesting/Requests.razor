@@ -1,0 +1,39 @@
+﻿@page "/requests"
+
+<RadzenCard class="m-5">
+	<RadzenStack>
+		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween">
+			<RadzenText TextStyle="TextStyle.DisplayH5" Text="Pending/Ongoing Request"></RadzenText>
+			<RadzenButton Icon="add_circle" Text="Request" ButtonStyle="ButtonStyle.Primary" Click="GoToForm"></RadzenButton>
+		</RadzenStack>
+		<RadzenDataGrid TItem="ReliefRequestDetailViewModel" Data="@_requestListVM" IsLoading=@_isBusy>
+			<EmptyTemplate>
+				<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+			</EmptyTemplate>
+			<Columns>
+				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Id)" Title="Code" />
+				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.NumberOfRecipients)" Title="Number of Recipients" />
+				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.DateRequested)" Title="Active">
+					<Template Context="data">
+						@(data.DateRequested.ToString("MM-dd-yyyy"))
+					</Template>
+				</RadzenDataGridColumn>
+				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Status)" Title="Status">
+					<Template Context="data">
+						@data.Status.ToString()
+					</Template>
+				</RadzenDataGridColumn>
+				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Status)" Title="Action">
+					<Template Context="data">
+						<RadzenStack Orientation="Orientation.Horizontal">
+							<RadzenButton Icon="visibility" Text="View" ButtonStyle="ButtonStyle.Primary"></RadzenButton>
+							<RadzenButton Text="cancel" ButtonStyle="ButtonStyle.Danger"></RadzenButton>
+						</RadzenStack>
+
+					</Template>
+				</RadzenDataGridColumn>
+			</Columns>
+		</RadzenDataGrid>
+	</RadzenStack>
+</RadzenCard>
+

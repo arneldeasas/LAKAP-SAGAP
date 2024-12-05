@@ -67,22 +67,9 @@
 				</Columns>
 				</RadzenDataGrid> *@
 
-				<RadzenStack class="w-100">
-					@foreach (var item in KitsComponentList)
-					{
-						<RadzenStack class="w-100" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
-							<RadzenFormField Text="Item name">
-								<RadzenTextBox Value="@item.ItemName" ReadOnly />
-							</RadzenFormField>
-							<RadzenFormField Text="Quantity">
-								<RadzenTextBox Value="@item.Quantity.ToString()" ReadOnly />
-							</RadzenFormField>
-							<RadzenButton Icon="close" ButtonStyle="ButtonStyle.Danger" Click="@(() => RemoveComponent(KitsComponentList.IndexOf(item)))" />
-						</RadzenStack>
-					}
-				</RadzenStack>
-				<RadzenTemplateForm Context="ComponentForm"  Submit="AddComponent" TItem="KitComponentViewModel" Data="ToAdd" class="w-100">
-					<RadzenStack AlignItems="AlignItems.End" class="w-100">
+
+				<RadzenTemplateForm Context="ComponentForm" Submit="AddComponent" TItem="KitComponentViewModel" Data="ToAdd" class="w-100">
+					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.End" class="w-100">
 						<RadzenRow class="w-100" Style="flex-grow:1">
 							<RadzenColumn Size="6">
 								<RadzenStack>
@@ -100,18 +87,30 @@
 								</RadzenStack>
 							</RadzenColumn>
 						</RadzenRow>
-						<RadzenStack Orientation="Orientation.Horizontal">
-							<RadzenButton Text="Add" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Success" />
-							<RadzenButton Text="Reset" Click="ResetComponentForm" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Light" />
-						</RadzenStack>
+						<RadzenButton Text="Add" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Success" />
+						<RadzenButton Text="Reset" Click="ResetComponentForm" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Light" />
+					</RadzenStack>
+					<RadzenStack class="w-100">
+						@foreach (var item in KitsComponentList)
+						{
+							<RadzenStack class="w-100" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+								<RadzenFormField Text="Item name">
+									<RadzenTextBox Value="@item.ItemName" ReadOnly />
+								</RadzenFormField>
+								<RadzenFormField Text="Quantity">
+									<RadzenTextBox Value="@item.Quantity.ToString()" ReadOnly />
+								</RadzenFormField>
+								<RadzenButton Icon="close" ButtonStyle="ButtonStyle.Danger" Click="@(() => RemoveComponent(KitsComponentList.IndexOf(item)))" />
+							</RadzenStack>
+						}
 					</RadzenStack>
 				</RadzenTemplateForm>
 			</RadzenStack>
 			<RadzenStack class="mt-3" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="10px">
-				<RadzenButton Text="Cancel" Icon="close" ButtonStyle="ButtonStyle.Base" Size="ButtonSize.Small" Click="@(() => _dialogService.Close(true))" />
-				<RadzenButton ButtonType="ButtonType.Submit" Text="Save" Icon="done_outline" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Size="ButtonSize.Small" Click="@(() => SubmitKit())" />
+				<RadzenButton Text="Cancel" Icon="close" ButtonStyle="ButtonStyle.Base" Size="ButtonSize.Small" Click="@(() => _dialogService.Close())" />
+				<RadzenButton ButtonType="ButtonType.Submit" Text="Save" Icon="done_outline" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Size="ButtonSize.Small" />
 			</RadzenStack>
 		</RadzenStack>
 
-</RadzenTemplateForm>
+	</RadzenTemplateForm>
 </RadzenStack>

@@ -56,8 +56,7 @@ public class MyDbContext(
 		StockItemEFConfig.OnModelCreation(builder);
 		StockDetailsEFConfig.OnModelCreation(builder);
 		ReliefReceivingEFConfig.OnModelCreation(builder);
-
-        builder.Entity<Kit>().HasMany(x=>x.KitComponentList).WithOne(x => x.Kit).OnDelete(DeleteBehavior.NoAction);
+		KitEFConfig.OnModelCreation(builder);
 
 		/**
          * Author: Charles Maverick Herrera

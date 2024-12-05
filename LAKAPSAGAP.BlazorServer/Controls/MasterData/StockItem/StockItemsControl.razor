@@ -40,7 +40,7 @@
 @code {
 	async Task ShowCreateStockItemDialog()
 	{
-		string? newStockItemId = await _dialogService.OpenAsync<CreateStockItemDialog>("Create Stock Item");
+		string? newStockItemId = await _dialogService.OpenAsync<CreateStockItemDialog>("Create Stock Item", options: new() { CloseDialogOnEsc = false, CloseDialogOnOverlayClick = false });
 
 		if (string.IsNullOrEmpty(newStockItemId)) return;
 

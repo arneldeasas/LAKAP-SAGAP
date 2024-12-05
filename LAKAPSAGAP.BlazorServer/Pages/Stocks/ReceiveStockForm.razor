@@ -2,17 +2,11 @@
 @using static LAKAPSAGAP.Models.ViewModel.ReliefReceivedViewModel
 
 <RadzenTemplateForm TItem="ReceiveReliefVM" Data="@_newReceivedRelief" Submit="@Submit">
-	<RadzenStack Style="max-width: 80dvw; padding: 0.25rem;">
+	<RadzenStack Style="max-width: 90dvw; padding: 0.25rem;">
 		<RadzenText TextStyle="TextStyle.DisplayH4" Text="Receive Stock" class="fw-bold rz-color-success" />
 		
 		<RadzenStack class="rz-w-100 rz-px-2">
 			<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" class="rz-w-100">
-				<RadzenStack Gap="5px" class="rz-w-100">
-					<RadzenLabel Text="BATCH NO." Component="batch-no" class="fw-bold" />
-					<RadzenTextBox @bind-Value=@_newReceivedRelief.BatchNo ReadOnly Name="batch-no" class="rz-w-100" />
-					<RadzenRequiredValidator Component="batch-no" Text="Required" />
-				</RadzenStack>
-
 				<RadzenStack Gap="5px" class="rz-w-100">
 					<RadzenLabel Text="ACQUISITION TYPE" Component="acquisition-type" class="fw-bold" />
 					<RadzenDropDown Data="@_acquisitionTypes" @bind-Value=@_newReceivedRelief.AcquisitionType Name="acquisition-type" class="rz-w-100" />
@@ -20,8 +14,13 @@
 				</RadzenStack>
 
 				<RadzenStack Gap="5px" class="rz-w-100">
+					<RadzenLabel Text="RECEIVED FROM" Component="rcvd-from" class="fw-bold" />
+					<RadzenTextBox @bind-Value=@_newReceivedRelief.ReceivedFrom Name="rcvd-from" class="rz-w-100" />
+				</RadzenStack>
+
+				<RadzenStack Gap="5px" class="rz-w-100">
 					<RadzenLabel Text="RECEIVED BY" Component="truck-plate-no" class="fw-bold" />
-					<RadzenTextBox @bind-Value="_newReceivedRelief.ReceivedBy" Name="receive-by" class="rz-w-100" />
+					<RadzenTextBox @bind-Value="@_newReceivedRelief.ReceivedBy" Name="receive-by" class="rz-w-100" />
 					<RadzenRequiredValidator Component="receive-by" Text="Required" />
 				</RadzenStack>
 			</RadzenStack>
@@ -42,7 +41,7 @@
 
 				<RadzenStack Gap="5px" class="rz-w-100">
 					<RadzenLabel Text="RECEIVED DATE" Component="received-date" class="fw-bold" />
-					<RadzenDatePicker DateFormat="MMM dd, yyyy" @bind-Value="_newReceivedRelief.ReceivedBy" Name="received-date" class="rz-w-100" />
+					<RadzenDatePicker DateFormat="MMM dd, yyyy" @bind-Value="@_newReceivedRelief.ReceivedDate" Name="received-date" class="rz-w-100" />
 					<RadzenRequiredValidator Component="received-date" Text="Required" />
 				</RadzenStack>
 			</RadzenStack>
@@ -122,7 +121,7 @@
 					</RadzenDataGridColumn>
 					<RadzenDataGridColumn TItem="StockDetailVM" Property="@nameof(StockDetailVM.ExpiryDate)" Title="Expiry Date">
 						<Template Context="stockdetail">
-							@* <RadzenText Text="@($"{stockdetail.ExpiryDate.ToString("MMMM dd, yyyy")" class="rz-m-0 rz-p-0 rz-w-100" /> *@
+							@* <RadzenText Text="@string.Format("{0}", stockdetail.ExpiryDate.ToString())" class="rz-m-0 rz-p-0 rz-w-100" /> *@
 							<RadzenText Text="@($"{stockdetail.ExpiryDate}")" class="rz-m-0 rz-p-0 rz-w-100" />
 						</Template>
 						<EditTemplate Context="stockdetail">

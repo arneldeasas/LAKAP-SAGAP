@@ -59,6 +59,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Kits
                 ItemName = StockItemList.FirstOrDefault(x => x.Id == ToAdd.StockItemId).Name,
                 Quantity = ToAdd.Quantity,
             });
+           
             ToAdd = new KitComponentViewModel();
         }
         void ResetComponentForm()
@@ -75,36 +76,35 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Kits
 
             try
             {
-
-                if (KitsComponentList.Count == 0)
+				if (!await _jSRuntime.InvokeAsync<bool>("Confirmation")) return;
+				if (KitsComponentList.Count == 0)
                 {
                     throw new Exception("Please add at least one component to the kit.");
                 }
-                if (!await _jSRuntime.InvokeAsync<bool>("Confirmation")) return;
+                
 
                 KitVM.KitComponentList = KitsComponentList;
+
+                Kit kit;
                 if (!EditMode)
                 {
-                    await KittingRepo.CreateKit(KitVM);
+                    kit =await KittingRepo.CreateKit(KitVM);
 
                 }
                 else
                 {
-                    await KittingRepo.UpdateKit(KitVM);
+                   kit =  await KittingRepo.UpdateKit(KitVM);
 
                 }
                 await _jSRuntime.InvokeVoidAsync("Toast", "success", "Kit successfully created!");
-                _dialogService.Close(true);
+                _dialogService.Close(kit.Id);
             }
             catch (Exception e)
             {
                 await _jSRuntime.InvokeVoidAsync("Toast", "error", e.Message);
                 _dialogService.Close(false);
             }
-            finally
-            {
-                StateHasChanged();
-            }
+            
         }
 
         #region Datagrid Actions

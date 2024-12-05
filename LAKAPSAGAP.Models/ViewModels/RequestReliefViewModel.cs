@@ -8,6 +8,7 @@ namespace LAKAPSAGAP.Models.ViewModels
 		public string? Id { get; set; }
 		public string RequestedById { get; set; }
 		public RequestReason Reason { get; set; }
+		public RequestStatus Status { get; set; }
 		public string SpecificReason { get; set; }
 		public int NumberOfRecipients { get; set; }
 		public string Organization { get; set; } // barangay/organization
@@ -18,6 +19,7 @@ namespace LAKAPSAGAP.Models.ViewModels
 		public string ReceiverName { get; set; } //Name of the person who will receive the relief goods
 		public int ContactNumber { get; set; } //Contact number of the person who will receive the relief goods
 		public List<RequestAttachmentViewModel> AttachmentList { get; set; }
+		public DateTime DateRequested { get; set; }
 	}
 
 

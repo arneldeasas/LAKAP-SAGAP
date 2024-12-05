@@ -47,7 +47,7 @@ public partial class AuthLogin
 			await authRepository.Authenticate(loginViewModel);
 			NavigationManager.NavigateTo("/masterdata/users");
 		}
-		catch (Exception)
+		catch (Exception e)
 		{
 
 			throw;

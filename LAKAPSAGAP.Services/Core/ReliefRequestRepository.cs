@@ -40,7 +40,7 @@ namespace LAKAPSAGAP.Services.Core
 			List<Kit> kitList = new();
 			try
 			{
-				kitList = await _context.Kits.WhereIsNotArchivedAndDeleted().ToListAsync();
+				kitList = await _context.Kits.WhereIsNotArchivedAndDeleted().Include(x => x.KitComponentList).ThenInclude(x => x.StockItem).ToListAsync();
 				return kitList;
 			}
 			catch (Exception)

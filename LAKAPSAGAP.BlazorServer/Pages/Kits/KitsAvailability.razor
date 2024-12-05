@@ -38,9 +38,10 @@
 				CssClass = "rz-w-fit-content",
 				ShowTitle = false,
 			});
-		if (result)
+		if (result == true)
 			{
-			await LoadAllKits();
+			//await LoadAllKits();
+			StateHasChanged();
 		}
 	
 	}

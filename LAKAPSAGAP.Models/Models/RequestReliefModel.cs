@@ -10,6 +10,7 @@ namespace LAKAPSAGAP.Models.Models
 	{
 		public string RequestedById { get; set; }
 		public RequestReason Reason { get; set; }
+		public RequestStatus Status { get; set; }
 		public string SpecificReason { get; set; }
 		public int NumberOfRecipients { get; set; }
 		public string Organization { get; set; } // barangay/organization
@@ -27,7 +28,11 @@ namespace LAKAPSAGAP.Models.Models
 		Calamity = 0,
 		Noncalamity =1
 	}
-
+	public enum RequestStatus
+	{
+		pending = 0,
+		delivered = 0
+	}
 	public class Request:CommonModel
 	{
 		public string ReliefRequestId { get; set; }

@@ -36,8 +36,8 @@
 					<RadzenText Text="Received Stocks" TextStyle="TextStyle.H6" class="fw-bold rz-color-success rz-p-0 rz-m-0" />
 
 					<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center">
-						<RadzenText Text="1830" TextStyle="TextStyle.H3" class="fw-bold rz-color-success-dark rz-p-0 rz-m-0" />
-						<RadzenIcon Icon="package_2" IconColor="@Colors.SuccessDark" class="filled-icon" Style="font-size: 35pt;" />
+						<RadzenText Text="1083" TextStyle="TextStyle.H3" class="fw-bold rz-color-success-dark rz-p-0 rz-m-0" />
+						<RadzenIcon Icon="inventory_2" IconColor="@Colors.SuccessDark" class="filled-icon" Style="font-size: 35pt;" />
 					</RadzenStack>
 
 					<RadzenText Text="Other Data in here" TextStyle="TextStyle.Caption" class="rz-color-base-400" />
@@ -84,7 +84,34 @@
 		
 		<RadzenColumn SizeMD="12" SizeLG="4">
 			<RadzenCard class="rz-border-radius-6 cghi-success-shadow">
-				<RadzenText Text="col 2" />
+				<RadzenStack Gap="10px">
+					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" class="rz-w-100 rz-border-bottom rz-border-color-base-400 rz-pb-3" Style="--rz-border-width: 1px;">
+						<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" class="rz-w-100">
+							<RadzenIcon Icon="package_2" IconColor="@Colors.SuccessDark" class="filled-icon" />
+							<RadzenText Text="Released of Relief Goods" TextStyle="TextStyle.Body2" class="fw-bold rz-color-success rz-p-0 rz-m-0" />
+						</RadzenStack>
+
+						<RadzenFormField Text="Year">
+							<ChildContent>
+								<RadzenDropDown TValue="int" Data="@_releasedOfReliefGoodsPerMonth.DistinctBy(x => x.ReleasedDate.Year).Select(x => x.ReleasedDate.Year)" @bind-Value=@_selectedYear />
+							</ChildContent>
+						</RadzenFormField>
+					</RadzenStack>
+				
+					<RadzenChart>
+						<RadzenColumnSeries Fill="@Colors.Success" TItem="ReleasedOfReliefGoods" Data="@_releasedOfReliefGoodsPerMonth.Where(x => x.ReleasedDate.Year == _selectedYear)" CategoryProperty="@nameof(ReleasedOfReliefGoods.ReleasedDate)" ValueProperty="@nameof(ReleasedOfReliefGoods.Total)">
+							<TooltipTemplate Context="data">
+								 <RadzenStack Gap="0">
+									 <RadzenText Text="@data.ReleasedDate.ToString("MMM")" class="rz-p-0 rz-m-0" />
+									 <RadzenText Text="@data.Total.ToString()" class="rz-p-0 rz-m-0" />
+								 </RadzenStack>
+							</TooltipTemplate>
+						</RadzenColumnSeries>
+						<RadzenCategoryAxis Formatter="@FormatAsMonthsName" Padding="0" />
+						<RadzenColumnOptions Width="15" />
+						<RadzenLegend Visible="false" />
+					</RadzenChart>
+				</RadzenStack>
 			</RadzenCard>
 		</RadzenColumn>
 		

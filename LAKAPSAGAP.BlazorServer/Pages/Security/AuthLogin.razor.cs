@@ -45,7 +45,7 @@ public partial class AuthLogin
 		{
 			//Console.WriteLine(loginViewModel);
 			await authRepository.Authenticate(loginViewModel);
-			NavigationManager.NavigateTo("/masterdata/users");
+			NavigationManager.NavigateTo("/Dashboard");
 		}
 		catch (Exception)
 		{

@@ -9,6 +9,7 @@ namespace LAKAPSAGAP.Models.Models
 	public class ReliefRequestDetail:CommonModel
 	{
 		public string RequestedById { get; set; }
+		public UserInfo RequestedBy { get; set; }
 		public RequestReason Reason { get; set; }
 		public RequestStatus Status { get; set; }
 		public string SpecificReason { get; set; }
@@ -21,6 +22,7 @@ namespace LAKAPSAGAP.Models.Models
 		public string ReceiverName { get; set; } //Name of the person who will receive the relief goods
 		public int ContactNumber { get; set; } //Contact number of the person who will receive the relief goods
 		public List<RequestAttachment> AttachmentList { get; set; }
+
 	}
 
 	public enum RequestReason
@@ -67,4 +69,5 @@ namespace LAKAPSAGAP.Models.Models
 		public string IslandGroupCode { get; set; }
 		public string Psgc10DigitCode { get; set; }
 	}
+
 }

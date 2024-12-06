@@ -2,8 +2,10 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 {
 	public partial class RequestingForm
 	{
+		[Inject] IJSRuntime _jSRuntime { get; set; } = default!;
+		[Inject] DialogService _dialogService { get; set; }
 		[Inject] IReliefRequestRepository ReliefRequestRepository { get; set; }
-
+		[Inject] NavigationManager _navManager { get; set; }
 		//Form Initializations
 		List<string> BarangayList { get; set; } = new();
 		List<Kit> KitList { get; set; } = new();
@@ -11,8 +13,10 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 
 		//Form State
 		ReliefRequestDetailViewModel ReliefRequestVM { get; set; } = new();
-		UnitFormViewModel KitVM { get; set; } = new ();
-		UnitFormViewModel ItemVM { get; set; } = new ();
+		UnitFormViewModel KitVM { get; set; } = new();
+		UnitFormViewModel ItemVM { get; set; } = new();
+
+		bool _isBusy = false;
 		protected override async Task OnInitializedAsync()
 		{
 			Task<List<string>> BarangayListTask = ReliefRequestRepository.GetAllBarangayAsync();
@@ -47,6 +51,41 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 			unitVM.resetForm();
 		}
 
+		void HandleFileChange (UploadChangeEventArgs e)
+		{
+            Console.WriteLine(e);
+			ReliefRequestVM.FileList.AddRange(e.Files);
+	
+		}
+
+		async Task SubmitRequest()
+		{
+			_isBusy = true;
+			StateHasChanged();
+
+			if (!(await _jSRuntime.InvokeAsync<bool>("Confirmation"))) return;
+			try
+			{
+				string id = await ReliefRequestRepository.CreateRequestAsync(ReliefRequestVM);
+
+				if(string.IsNullOrEmpty(id))
+				{
+					await _jSRuntime.InvokeVoidAsync("Toast", "error", "An error occured. Something went wrong!");
+				}
+				else
+				{
+					await _jSRuntime.InvokeVoidAsync("Toast", "success", "Request submitted successfully!");
+					_navManager.NavigateTo("/requests");
+				}
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+			_isBusy = true;
+			StateHasChanged();
+		}
 	}
 
 	public class UnitFormViewModel

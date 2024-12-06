@@ -1,5 +1,6 @@
 ﻿
 using LAKAPSAGAP.Models.Models;
+using LAKAPSAGAP.Models.ViewModel;
 
 namespace LAKAPSAGAP.Models.ViewModels
 {
@@ -7,6 +8,7 @@ namespace LAKAPSAGAP.Models.ViewModels
 	{
 		public string? Id { get; set; }
 		public string RequestedById { get; set; }
+		public UserInfoViewModel RequestedBy { get; set; }
 		public RequestReason Reason { get; set; }
 		public RequestStatus Status { get; set; }
 		public string SpecificReason { get; set; }
@@ -17,8 +19,9 @@ namespace LAKAPSAGAP.Models.ViewModels
 		public string ReceiverAddress { get; set; } //Address of evacuation post
 		public string AdditionalNotes { get; set; } //for the statement of specific reason
 		public string ReceiverName { get; set; } //Name of the person who will receive the relief goods
-		public int ContactNumber { get; set; } //Contact number of the person who will receive the relief goods
+		public string ContactNumber { get; set; } //Contact number of the person who will receive the relief goods
 		public List<RequestAttachmentViewModel> AttachmentList { get; set; }
+		public List<IBrowserFile> FileList { get; set; } = new List<IBrowserFile>();
 		public DateTime DateRequested { get; set; }
 	}
 

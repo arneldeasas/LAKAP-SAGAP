@@ -20,8 +20,12 @@ public class UserInfo : CommonModel
 	public List<UserInfo> LasModifiedByList { get; set; }
 
 	public List<Attachment> UserAttachments { get; set; }
+    public List<ReliefRequestDetail> ReliefRequestDetailsList { get; set; }
+	
 	public List<Attachment> AddedAttachments { get; set; }
     public List<Category> CategoriesCreated { get; set; }
+    public List<ReliefRequestDetail> ReliefRequestDetailList { get; set; }
+    public List<RequestAttachment> RequestAttachmentList { get; set; }
 }
 
 public class Attachment : CommonModel

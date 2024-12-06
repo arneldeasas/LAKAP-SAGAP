@@ -196,4 +196,19 @@ public class ReliefReceivedRepository : IReliefReceivedRepository
 			throw;
 		}
 	}
+
+	public async Task<List<ReliefReceived>> GetAllBatches()
+	{
+		List<ReliefReceived> reliefReceivedList = [];
+		try
+		{
+			reliefReceivedList = await _context.ReliefReceiveds.WhereIsNotArchivedAndDeleted().Include(x=>x.StockDetailList).ThenInclude(x=>x.Item).ThenInclude(x=>x.UoM).ToListAsync();
+			return reliefReceivedList;	
+		}
+		catch (Exception)
+		{
+
+			return reliefReceivedList;
+		}
+	}
 }

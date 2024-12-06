@@ -13,4 +13,5 @@ public interface IReliefReceivedRepository
 	Task<List<Floor>> GetAllFloorsActive();
 	Task<List<Floor>> GetAllFloorsActiveBasedOnWarehouse(string whseId);
 	Task<List<Rack>> GetAllRacksBasedOnFloor(string floorId);
+	Task<List<ReliefReceived>> GetAllBatches();
 }

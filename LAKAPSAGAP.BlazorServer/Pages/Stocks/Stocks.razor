@@ -48,7 +48,7 @@
 							<StocksDataGrid />
 						</RadzenTabsItem>
 						<RadzenTabsItem Text="Received Stocks">
-							<ReceivedStocksDataGrid />
+							<ReceivedStocksDataGrid ReloadTable=@shouldReloadBatchesTable />
 						</RadzenTabsItem>
 						<RadzenTabsItem Text="Released Stocks">
 							<ReleasedStocksDataGrid />
@@ -64,11 +64,13 @@
 
 @code
 {
+	bool shouldReloadBatchesTable = false;
 	async Task ShowReceiveStockDialog()
 	{
 		bool hasChanges = await _dialogService.OpenAsync<ReceiveStockForm>("", new() { { "WarehouseId", id } } ,new() { CssClass = "rz-w-fit-content", ShowTitle = false, CloseDialogOnEsc=false, CloseDialogOnOverlayClick=false});
 		if(hasChanges)
 		{
+			shouldReloadBatchesTable = true;
 			// TODO: reload data for received reliefs
 		}
 	}

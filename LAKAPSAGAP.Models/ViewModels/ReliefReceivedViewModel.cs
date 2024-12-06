@@ -32,6 +32,7 @@ namespace LAKAPSAGAP.Models.ViewModel
 		public string BatchNumber { get; set; }
 		public string TypeId { get; set; }
 		public string ItemId { get; set; }
+		public StockItemViewModel Item { get; set; }
 		public string CategoryId { get; set; }
 		public int Quantity { get; set; }
 		public string UoMId { get; set; }

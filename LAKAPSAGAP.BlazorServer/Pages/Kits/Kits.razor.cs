@@ -16,8 +16,8 @@
 
 		protected override async Task OnInitializedAsync()
 		{
-			await LoadAllKits();
-			base.OnInitializedAsync();
+			//await LoadAllKits();
+			//base.OnInitializedAsync();
 		}
 		protected override void OnParametersSet()
 		{
@@ -29,32 +29,6 @@
 
 			Breadcrumbs.Add(new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Kits", Text = "Stocks" });
 		}
-		async Task LoadAllKits()
-		{
-			try
-			{
-			
-				List<Kit> kitList = await KittingRepo.GetAllKitsAsync();
-				KitList = kitList.Select(x => new KitViewModel
-				{
-					Id = x.Id,
-					Name = x.Name,
-					Description = x.Description,
-					KitType = x.KitType,
-					KitComponentList = x.KitComponentList.Select(y => new KitComponentViewModel
-					{
-						Id = y.Id,
-						ItemName = y.StockItem.Name,
-						Quantity = y.Quantity
-					}).ToList()
-				}).ToList();
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-			
-		}
+		
 	}
 }

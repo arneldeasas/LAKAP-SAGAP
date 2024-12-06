@@ -49,7 +49,7 @@
 						<RadzenTabsItem Text="Kits Availability">
 							@if(isDataInitialized)
 							{
-								<KitsAvailability KitList="KitList"/>
+								<KitsAvailability OnValueChanged="HandleValueChangeForKitAvailability" ReloadKitsTable="_reloadKitTable" />
 							}
 						</RadzenTabsItem>
 						<RadzenTabsItem Text="Kits Management">
@@ -67,7 +67,7 @@
 @code
 {
 	bool isDataInitialized = false;
-
+	bool _reloadKitTable { get; set; } = false;
 	async Task ShowKitTypeCreateDialog()
 	{
 		var id = await _dialogService.OpenAsync("Create Kit", ds => @<KitTypeCreateUpdate /> ,
@@ -79,8 +79,8 @@
 
 		if (string.IsNullOrEmpty(id)) return;
 
-		await LoadAllKits();
-		StateHasChanged();
+		_reloadKitTable = true; 
+
 	}
 	
 	async Task ShowKitsCreateDialog()
@@ -96,6 +96,11 @@
 	void HandleValueChange(bool initialized)
 	{
 		isDataInitialized = initialized;
+		StateHasChanged();
+	}
+	void HandleValueChangeForKitAvailability(bool reload)
+	{
+		_reloadKitTable = reload;
 		StateHasChanged();
 	}
 }

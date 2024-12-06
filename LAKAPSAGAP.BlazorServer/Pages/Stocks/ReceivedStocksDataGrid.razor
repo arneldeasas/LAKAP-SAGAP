@@ -40,8 +40,9 @@
 							</Template>
 
 						</RadzenDataGridColumn>
+
 						<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Quantity)" Title="Supplier"
-											  TextAlign="TextAlign.Left" Width="90px" />
+											  TextAlign="TextAlign.Left" Width="90px"></RadzenDataGridColumn>
 						<RadzenDataGridColumn Title="UoM"
 											  TextAlign="TextAlign.Left" Width="80px">
 							<Template Context="stockdetail">
@@ -50,7 +51,7 @@
 
 						</RadzenDataGridColumn>
 
-						
+
 					</Columns>
 					<EmptyTemplate>
 						<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>

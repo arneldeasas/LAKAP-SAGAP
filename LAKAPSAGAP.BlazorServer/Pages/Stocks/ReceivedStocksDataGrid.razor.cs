@@ -14,18 +14,23 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 		private List<ReliefReceivedViewModel> ReceivedStocks { get; set; } = new();
 		public List<ReliefReceivedViewModel> TableData { get; set; } = new();
 
-		[Parameter]public bool ReloadTable { get; set; }
+		[Parameter] public bool ReloadTable { get; set; }
+		[Parameter] public EventCallback<bool> OnValueChanged { get; set; }
 
-		protected override async Task OnInitializedAsync()
+		protected override async Task OnAfterRenderAsync(bool firstRender)
 		{
 
-			await LoadBatchesData(); // To be enhanced;
+			if (firstRender) {
+				await LoadBatchesData();
+				StateHasChanged();
+			}// To be enhanced;
 		}
 		protected override async Task OnParametersSetAsync()
 		{
 			if (ReloadTable)
 			{
 				await LoadBatchesData();
+				ChangeValue(false);
 				StateHasChanged();
 			}
 		}
@@ -71,6 +76,10 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 			{
 				TableData = ReceivedStocks;
 			}
+		}
+		void ChangeValue(bool ReloadTable)
+		{
+			OnValueChanged.InvokeAsync(ReloadTable);
 		}
 	}
 }

@@ -15,10 +15,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 
 		List<ReliefReceivedViewModel> BatchesTable = new();
 
-		protected override void OnParametersSet()
-		{
-			//Breadcrumbs.Add(new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Stocks", Text = "Stocks" });
-		}
+	
 		async Task LoadBatchesData()
 		{
 			List<ReliefReceived> _batches = await _reliefReceivedRepo.GetAllReliefReceived();

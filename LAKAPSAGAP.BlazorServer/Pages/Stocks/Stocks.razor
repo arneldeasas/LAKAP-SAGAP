@@ -42,13 +42,13 @@
 
 				@* Tabs *@
 
-				<RadzenTabs Style="border: 1px solid var(--rz-base-300); border-radius: var(--rz-border-radius-1); width: 100%; height: 100%;" TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Client">
+				<RadzenTabs Style="border: 1px solid var(--rz-base-300); border-radius: var(--rz-border-radius-1); width: 100%; height: 100%;" TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Server">
 					<Tabs>
 						<RadzenTabsItem Text="Stocks">
 							<StocksDataGrid />
 						</RadzenTabsItem>
 						<RadzenTabsItem Text="Received Stocks">
-							<ReceivedStocksDataGrid ReloadTable=@shouldReloadBatchesTable />
+							<ReceivedStocksDataGrid  ReloadTable=@shouldReloadBatchesTable OnValueChanged="HandleValueChangeForReceivedStocks"/>
 						</RadzenTabsItem>
 						<RadzenTabsItem Text="Released Stocks">
 							<ReleasedStocksDataGrid />
@@ -71,7 +71,14 @@
 		if(hasChanges)
 		{
 			shouldReloadBatchesTable = true;
+			StateHasChanged();
 			// TODO: reload data for received reliefs
 		}
+	}
+
+	void HandleValueChangeForReceivedStocks(bool value)
+	{
+		shouldReloadBatchesTable = value;
+		StateHasChanged();
 	}
 }

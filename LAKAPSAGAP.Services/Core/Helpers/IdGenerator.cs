@@ -14,8 +14,10 @@ public class IdGenerator
     public static string PFX_RACK { get; set; } = "RCK_";
     public static string PFX_KIT { get; set; } = "KIT_";
     public static string PFX_KITCOMPONENT { get; set; } = "KITCT_";
-
-    public static string GenerateId(string prefix, int count)
+    public static string PFX_REQUEST { get; set; } = "RQST_";
+    public static string PFX_REQUESTITEM { get; set; } = "RQSTITM_";
+    public static string PFX_REQUESTATTACHMENT { get; set; } = "RQSTATT_";
+	public static string GenerateId(string prefix, int count)
     {
         try
         {

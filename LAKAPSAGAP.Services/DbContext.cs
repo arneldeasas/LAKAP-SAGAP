@@ -28,7 +28,12 @@ public class MyDbContext(
     public DbSet<ReliefReceived> ReliefReceiveds { get; set; }
 
     public DbSet<Kit> Kits { get; set; }
-    public DbSet<KitComponent> KitComponents { get; set; }
+	public DbSet<KitComponent> KitComponents { get; set; }
+
+	public DbSet<ReliefRequestDetail> ReliefRequests { get; set; }
+	public DbSet<Request> RequestItems { get; set; }
+	public DbSet<RequestAttachment> RequestAttachments { get; set; }
+
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
@@ -57,7 +62,7 @@ public class MyDbContext(
 		StockDetailsEFConfig.OnModelCreation(builder);
 		ReliefReceivingEFConfig.OnModelCreation(builder);
 		KitEFConfig.OnModelCreation(builder);
-
+		ReliefRequestEFConfig.OnModelCreation(builder);
 		/**
          * Author: Charles Maverick Herrera
          * 

@@ -1,4 +1,4 @@
-﻿<RadzenStack class="rz-w-100 rz-px-12">
+﻿<RadzenStack class="rz-w-100 rz-pb-12 rz-px-12">
 	<RadzenRow class="rz-px-12">
 		<RadzenColumn SizeSM="12" SizeMD="6" SizeLG="4">
 			<RadzenCard class="rz-border-radius-6 cghi-danger-shadow">
@@ -125,13 +125,48 @@
 	<RadzenRow class="rz-px-12">
 		<RadzenColumn SizeMD="12" SizeLG="6">
 			<RadzenCard class="rz-border-radius-6 cghi-success-shadow">
-				<RadzenText Text="col 1" />
+				<RadzenStack Gap="10px">
+					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" class="rz-w-100 rz-border-bottom rz-border-color-base-400 rz-pb-3" Style="--rz-border-width: 1px;">
+						<RadzenIcon Icon="groups" IconColor="@Colors.SuccessDark" class="filled-icon" />
+						<RadzenText Text="Barangay/Shelter Total Received Donation" TextStyle="TextStyle.Body2" class="fw-bold rz-color-success-dark rz-p-0 rz-m-0" />
+					</RadzenStack>
+
+					<RadzenDataList id="received-donations-by-barangay-datalist" TItem="ReceivedDonationsByBarangay" Data="@_receivedDonationsByBarangayList" Density="Density.Compact" WrapItems Style="max-height: 350px !important;" class="rz-overflow-auto">
+						<EmptyTemplate>
+							<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+						</EmptyTemplate>
+						<Template>
+							<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" class="rz-w-100 rz-py-2 rz-background-color-base-300 rz-border-radius-2">
+								<RadzenText Text="@string.Format("Brgy. {0}", context.BarangayName)" class="rz-m-0 rz-p-0 rz-color-base-800" />
+								<RadzenText Text="@context.Total.ToString()" class="rz-m-0 rz-p-0 rz-color-base-800" />
+							</RadzenStack>
+						</Template>
+					</RadzenDataList>
+				</RadzenStack>
 			</RadzenCard>
 		</RadzenColumn>
 		
 		<RadzenColumn SizeMD="12" SizeLG="6">
 			<RadzenCard class="rz-border-radius-6 cghi-success-shadow">
-				<RadzenText Text="col 2" />
+				<RadzenStack Gap="10px">
+					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" class="rz-w-100 rz-border-bottom rz-border-color-base-400 rz-pb-3" Style="--rz-border-width: 1px;">
+						@* <RadzenIcon Icon="groups" IconColor="@Colors.SuccessDark" class="filled-icon" /> *@
+						<i class='bx bxs-shopping-bag-alt rz-color-success-dark' style="font-size: 1rem"></i>
+						<RadzenText Text="Kits Status" TextStyle="TextStyle.Body2" class="fw-bold rz-color-success-dark rz-p-0 rz-m-0" />
+					</RadzenStack>
+
+					<RadzenDataList TItem="ReceivedDonationsByBarangay" Data="@_receivedDonationsByBarangayList" Density="Density.Compact" WrapItems Style="max-height: 350px !important;" class="rz-overflow-auto">
+						<EmptyTemplate>
+							<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+						</EmptyTemplate>
+						<Template>
+							<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" class="rz-w-100 rz-py-2 rz-shadow-1 rz-border-radius-2 rz-border-left rz-border-color-success" Style="--rz-border-width: 10px;">
+								<RadzenText Text="@string.Format("Brgy. {0}", context.BarangayName)" class="rz-m-0 rz-p-0 rz-color-base-800" />
+								<RadzenText Text="@context.Total.ToString()" class="rz-m-0 rz-p-0 rz-color-base-800" />
+							</RadzenStack>
+						</Template>
+					</RadzenDataList>
+				</RadzenStack>
 			</RadzenCard>
 		</RadzenColumn>
 	</RadzenRow>

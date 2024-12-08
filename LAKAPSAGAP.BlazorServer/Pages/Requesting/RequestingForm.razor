@@ -30,7 +30,7 @@
 
 						</RadzenLabel>
 						<RadzenNumeric Placeholder="00" @bind-Value=@ReliefRequestVM.NumberOfRecipients Name="NumberOfRecipients"></RadzenNumeric>
-						<RadzenRequiredValidator Component="NumberOfRecipients"></RadzenRequiredValidator>
+						<RadzenNumericRangeValidator Text="Recipient should be more than 0." Min="1m" Component="NumberOfRecipients"></RadzenNumericRangeValidator>
 
 					</RadzenStack>
 
@@ -67,7 +67,7 @@
 										<RadzenFormField Text="Quantity">
 											<RadzenTextBox ReadOnly="true" Value="@item.Quantity.ToString()" />
 										</RadzenFormField>
-										<RadzenButton ButtonType="ButtonType.Button" Icon="close" ButtonStyle="ButtonStyle.Danger"></RadzenButton>
+										<RadzenButton Click="()=> ReliefRequestVM.RequestList.Remove(item)" ButtonType="ButtonType.Button" Icon="close" ButtonStyle="ButtonStyle.Danger"></RadzenButton>
 									</RadzenStack>
 								}
 							</RadzenStack>
@@ -96,9 +96,9 @@
 								</RadzenColumn>
 							</RadzenRow>
 							<RadzenStack class="mt-2" Gap="5px" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
-								<RadzenButton Click=@KitVM.resetForm Size="ButtonSize.Medium" Variant="Variant.Outlined" ButtonType="ButtonType.Button" Text="Reset"></RadzenButton>
+								<RadzenButton Click=@KitVM.resetForm Size="ButtonSize.Medium"  Variant="Variant.Outlined" ButtonType="ButtonType.Button" Text="Reset"></RadzenButton>
 
-								<RadzenButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Text="Add"></RadzenButton>
+								<RadzenButton Variant="Variant.Filled" ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Text="Add"></RadzenButton>
 							</RadzenStack>
 						</ChildContent>
 					</RadzenFieldset>
@@ -122,7 +122,7 @@
 											<RadzenTextBox ReadOnly="true" Value="@item.Quantity.ToString()" />
 										</RadzenFormField>
 
-										<RadzenButton ButtonType="ButtonType.Button" Icon="close" ButtonStyle="ButtonStyle.Danger"></RadzenButton>
+										<RadzenButton Click="()=> ReliefRequestVM.RequestList.Remove(item)" ButtonType="ButtonType.Button" Icon="close" ButtonStyle="ButtonStyle.Danger"></RadzenButton>
 
 									</RadzenStack>
 								}
@@ -174,7 +174,7 @@
 			</RadzenStack>
 			<RadzenStack>
 				<RadzenLabel Text="Additional Notes" />
-				<RadzenTextArea Style="width: 100%" aria-label="TextArea" @bind-Value="@ReliefRequestVM.SpecificReason" />
+				<RadzenTextArea Style="width: 100%" aria-label="TextArea" @bind-Value="@ReliefRequestVM.AdditionalNotes" />
 			</RadzenStack>
 			<RadzenRow>
 				<RadzenColumn Size="6">
@@ -195,8 +195,25 @@
 			</RadzenRow>
 			<RadzenStack>
 				<RadzenLabel Text="Upload your e-signature or other necessary documents here" />
-				<RadzenUpload  Auto="false" Multiple="true" Url="upload/multiple" Change=@(args => HandleFileChange(args)) 
-							   Style="width: 100%" />
+				<RadzenStack  Gap="2" class="w-100 file-upload-input" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center">
+					<RadzenButton Click="ClickUploadFile" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Primary" Text="Upload a file"></RadzenButton>
+					<p class="fs-7">PNG, JPG, or PDF up to 2MB</p>
+					<InputFile accept=".jpg,.png,.pdf" @ref=inputFileRef id="fileinput-ui" hidden 
+					OnChange="args => HandleFileChange(args)" multiple 
+					
+					/>
+				</RadzenStack>
+				<RadzenStack>
+					@foreach(var file in ReliefRequestVM.FileList)
+					{
+						<RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" AlignItems="AlignItems.Center">
+							<RadzenTextBox ReadOnly="true" Value="@file.Name" />
+							<RadzenButton Click="()=> ReliefRequestVM.FileList.Remove(file)" ButtonType="ButtonType.Button" Icon="close" ButtonStyle="ButtonStyle.Danger"></RadzenButton>
+						</RadzenStack>
+					}
+				</RadzenStack>
+				@* <RadzenUpload Auto="false" Multiple="true" Url="upload/multiple" Accept="image/*"  Change=@(args => HandleFileChange(args))
+							  Style="width: 100%" /> *@
 			
 			</RadzenStack>
 			<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
@@ -206,8 +223,15 @@
 		</RadzenStack>
 	</RadzenTemplateForm>
 </RadzenCard>
-@code {
 
-	
+@code {
+	InputFile inputFileRef;
+
+
+	async void ClickUploadFile(){
+		await _jSRuntime.InvokeVoidAsync("ClickFileInput",inputFileRef);
+	}
+
+
 }
 

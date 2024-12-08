@@ -30,10 +30,12 @@ namespace LAKAPSAGAP.Services.Core
 				int countRequest = await _context.GetCount<Request>();
 
 				string Id = IdGenerator.GenerateId(IdGenerator.PFX_REQUEST, count);
+
+				string userInfoId = _context.UserInfos.Where(x => x.UserAuthId == userId).FirstOrDefault().Id;
 				ReliefRequestDetail requestDetail = new ReliefRequestDetail
 				{
 					Id = Id,
-					RequestedById = userId ?? "",
+					RequestedById = userInfoId ?? "",
 					Reason = reliefRrequestVM.Reason,
 					Status = reliefRrequestVM.Status,
 					SpecificReason = reliefRrequestVM.SpecificReason,
@@ -43,67 +45,87 @@ namespace LAKAPSAGAP.Services.Core
 					TargetDateToReceive = reliefRrequestVM.TargetDateToReceive,
 					ReceiverAddress = reliefRrequestVM.ReceiverAddress,
 					ReceiverName = reliefRrequestVM.ReceiverName,
-					ContactNumber = int.Parse(reliefRrequestVM.ContactNumber),
+					ContactNumber = reliefRrequestVM.ContactNumber,
 
-					RequestList = reliefRrequestVM.RequestList.Select(x =>
-					{
-						countRequest++;
-						return new Request
-						{
-							Id = IdGenerator.GenerateId(IdGenerator.PFX_REQUEST, countRequest),
-							ReliefRequestId = Id,
-							UnitId = x.UnitId,
-							RequestType = x.RequestType,
-							Quantity = x.Quantity,
-
-						};
-					}).ToList(),
+					
 
 				};
 
-				_id = (await _context.Create<ReliefRequestDetail>(requestDetail)).Id;
+				await _context.Create<ReliefRequestDetail>(requestDetail);
 
 				await _context.SaveChangesAsync();
+				_id = requestDetail.Id;
+				requestDetail.RequestList = reliefRrequestVM.RequestList.Select(x =>
+				{
+					countRequest++;
+					return new Request
+					{
+						Id = IdGenerator.GenerateId(IdGenerator.PFX_REQUEST, countRequest-1),
+						ReliefRequestId = Id,
+						UnitId = x.UnitId,
+						UnitName = x.UnitName,
+						RequestType = x.RequestType,
+						Quantity = x.Quantity,
 
-				List<RequestFileMetadata> fileMetadataList = UploadAttachment(reliefRrequestVM.FileList);
+					};
+				}).ToList();
+
+				await _context.SaveChangesAsync();
+				List<RequestFileMetadata> fileMetadataList = await UploadAttachmentAsync(reliefRrequestVM.FileList);
 
 
 				int countAttachment = await _context.GetCount<RequestAttachment>();
-				List<RequestAttachment> requestAttachments = fileMetadataList.Select(x => new RequestAttachment
+				List<RequestAttachment> requestAttachments = fileMetadataList.Select(x =>
 				{
-					Id = IdGenerator.GenerateId(IdGenerator.PFX_REQUESTATTACHMENT, countAttachment),
-					ReliefRequestId = _id,
-					Url = x.FilePath,
+					countAttachment++;
+					return new RequestAttachment
+					{
+						Id = IdGenerator.GenerateId(IdGenerator.PFX_REQUESTATTACHMENT, countAttachment - 1),
+						ReliefRequestId = _id,
+						Url = x.FilePath,
 
+					};
 				}).ToList();
 
 				await _context.AddRangeAsync(requestAttachments);
 
 				await _context.SaveChangesAsync();
-
+				await transaction.CommitAsync();
 				return _id;
 			}
 			catch (Exception)
 			{
 				transaction.Rollback();
-				return _id;
+				return null;
 			}
 		}
 
-		 List<RequestFileMetadata> UploadAttachment(List<IBrowserFile> files)
+		async Task<List<RequestFileMetadata>> UploadAttachmentAsync(List<IBrowserFile> files)
 		{
 			List<RequestFileMetadata> fileMetadataList = new();
-			string path = Path.Combine("wwwroot","request_attachments");
+			string path = Path.Combine("wwwroot", "request_attachments");
+
 			if (!Directory.Exists(path))
 			{
 				Directory.CreateDirectory(path);
 			}
 
-			fileMetadataList = files.Select(x => new RequestFileMetadata
+			var fileMetadataArray = await Task.WhenAll(files.Select(async x =>
 			{
-				FilePath = Path.Combine(path, x.Name)
-			}).ToList();
-			return fileMetadataList;
+				string _path = Path.Combine(path, x.Name);
+				using var filestream = new FileStream(_path, FileMode.Create);
+
+				// Copy the content of the browser file to the stream
+				await x.OpenReadStream().CopyToAsync(filestream);
+
+				return new RequestFileMetadata
+				{
+					FilePath = _path
+				};
+			}));
+
+			// Convert the array to a list
+			return fileMetadataArray.ToList();
 		}
 
 		class RequestFileMetadata
@@ -162,6 +184,23 @@ namespace LAKAPSAGAP.Services.Core
 
 				return stockItemList;
 			}
+		}
+
+		public async Task<List<ReliefRequestDetail>> GetAllRequestsAsync()
+		{
+			List<ReliefRequestDetail> requestList = new();
+			try
+			{
+
+				requestList = await _context.ReliefRequests.WhereIsNotArchivedAndDeleted().Include(x => x.RequestList).ToListAsync();
+				return requestList;
+			}
+			catch (Exception)
+			{
+
+				return requestList;
+			}
+		
 		}
 	}
 }

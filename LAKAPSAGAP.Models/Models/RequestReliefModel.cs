@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,14 +21,16 @@ namespace LAKAPSAGAP.Models.Models
 		public string ReceiverAddress { get; set; } //Address of evacuation post
 		public string AdditionalNotes { get; set; } //for the statement of specific reason
 		public string ReceiverName { get; set; } //Name of the person who will receive the relief goods
-		public int ContactNumber { get; set; } //Contact number of the person who will receive the relief goods
+		public string ContactNumber { get; set; } //Contact number of the person who will receive the relief goods
 		public List<RequestAttachment> AttachmentList { get; set; }
 
 	}
 
 	public enum RequestReason
 	{
+		[Description("Calamity")]
 		Calamity = 0,
+		[Description("Non-calamity")]
 		Noncalamity =1
 	}
 	public enum RequestStatus
@@ -39,6 +42,7 @@ namespace LAKAPSAGAP.Models.Models
 	{
 		public string ReliefRequestId { get; set; }
 		public string UnitId { get; set; } // id of either kit or item
+		public string UnitName { get; set; } // name of either kit or item
 		public RequestType RequestType { get; set; }
 		public int Quantity { get; set; }	
 		public ReliefRequestDetail ReliefRequest { get; set; }

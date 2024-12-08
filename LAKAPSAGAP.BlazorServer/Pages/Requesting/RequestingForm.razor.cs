@@ -1,3 +1,5 @@
+using Mapster;
+
 namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 {
 	public partial class RequestingForm
@@ -51,15 +53,48 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 			unitVM.resetForm();
 		}
 
-		void HandleFileChange (UploadChangeEventArgs e)
+		async void HandleFileChange (InputFileChangeEventArgs e)
 		{
-            Console.WriteLine(e);
-			ReliefRequestVM.FileList.AddRange(e.Files);
-	
-		}
+			try
+			{
+				ValidateFiles(e.GetMultipleFiles().ToList());
 
+				ReliefRequestVM.FileList.AddRange(e.GetMultipleFiles());
+			}
+			catch (Exception x)
+			{
+
+				await _jSRuntime.InvokeVoidAsync("Toast", "error", x.Message);
+			}
+		
+			
+
+		}
+		void ValidateFiles(List<IBrowserFile> files)
+		{
+			int maxFileSize = 2097152;
+			string[] allowedExtensions = new string[] { ".jpg", ".jpeg", ".png", ".pdf" };
+			foreach (var file in files)
+			{
+				string extension = Path.GetExtension(file.Name)?.ToLowerInvariant();
+				if (!allowedExtensions.Contains(extension)) throw new Exception("Please upload only supported images or pdf files");
+				if(file.Size > maxFileSize) throw new Exception("File size is too large. Maximum file size is 2MB");
+			}
+		}
+		void ValidateForm()
+		{
+			if (ReliefRequestVM.RequestList.Count <= 0)
+			{
+				throw new Exception("Please add at least one item or kit to request");
+			}
+			if (ReliefRequestVM.FileList.Count <= 0)
+			{
+				throw new Exception("Please attach a required document.");
+			}
+		}
 		async Task SubmitRequest()
 		{
+			ValidateForm();
 			_isBusy = true;
 			StateHasChanged();
 
@@ -78,10 +113,10 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 					_navManager.NavigateTo("/requests");
 				}
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
 
-				throw;
+				await _jSRuntime.InvokeVoidAsync("Toast", "error", e.Message);
 			}
 			_isBusy = true;
 			StateHasChanged();

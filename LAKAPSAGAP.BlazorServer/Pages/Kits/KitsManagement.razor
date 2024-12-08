@@ -5,12 +5,11 @@
 	</RadzenStack>
 	<RadzenDataGrid TItem="KitViewModel" Data="@KitComponentList">
 		<Columns>
-			<RadzenDataGridColumn Property="@nameof(KitViewModel.ManufactureDate)" Title="Date Packed" FormatString="{0:MM/dd/yyyy}" Width="200px" />
+			<RadzenDataGridColumn Property="@nameof(KitViewModel.DatePacked)" Title="Date Packed" FormatString="{0:MM/dd/yyyy}" Width="200px" />
 			<RadzenDataGridColumn Property="@nameof(KitViewModel.Id)" Title="Kit Code" Width="80px" />
 			<RadzenDataGridColumn Property="@nameof(KitViewModel.KitType)" Title="Type" />
 			<RadzenDataGridColumn Property="@nameof(KitViewModel.Quantity)" Title="Quantity"  Width="120px"/>
 			<RadzenDataGridColumn Property="@nameof(KitViewModel.Location)" Title="Location" Width="250px" />
-			<RadzenDataGridColumn Property="@nameof(KitViewModel.ExpiryDate)" Title="Estimated Expiration" FormatString="{0:MM/dd/yyyy}" Width="200px" />
 			<RadzenDataGridColumn Title="Actions" Width="80px" >
 				<Template Context="data">
 

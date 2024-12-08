@@ -42,4 +42,5 @@ public class Floor : CommonModel
     public string WarehouseId { get; set; }
 	public Warehouse Warehouse { get; set; }
     public List<Rack> Racks { get; set; }
+    public List<PackedReliefKit> PackedReliefKitList { get; set; }
 }

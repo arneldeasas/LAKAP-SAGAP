@@ -29,6 +29,7 @@ public class MyDbContext(
 
     public DbSet<Kit> Kits { get; set; }
     public DbSet<KitComponent> KitComponents { get; set; }
+	public DbSet<PackedReliefKit> PackedReliefKits { get; set; }
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{

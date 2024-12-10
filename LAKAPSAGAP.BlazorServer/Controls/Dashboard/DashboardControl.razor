@@ -1,7 +1,7 @@
 ﻿<RadzenStack class="rz-w-100 rz-pb-12 rz-px-12">
 	<RadzenRow class="rz-px-12">
 		<RadzenColumn SizeSM="12" SizeMD="6" SizeLG="4">
-			<RadzenCard class="rz-border-radius-6 cghi-danger-shadow">
+			<RadzenCard class="rz-border-radius-6 cghi-danger-shadow minmax-h-150px">
 				<RadzenStack Gap="10px">
 					<RadzenText Text="Pending Request Relief" TextStyle="TextStyle.H6" class="fw-bold rz-color-danger rz-p-0 rz-m-0" />
 
@@ -16,7 +16,7 @@
 		</RadzenColumn>
 		
 		<RadzenColumn SizeSM="12" SizeMD="6" SizeLG="4">
-			<RadzenCard class="rz-border-radius-6 cghi-success-shadow">
+			<RadzenCard class="rz-border-radius-6 cghi-success-shadow minmax-h-150px">
 				<RadzenStack Gap="10px">
 					<RadzenText Text="Sent Relief" TextStyle="TextStyle.H6" class="fw-bold rz-color-success rz-p-0 rz-m-0" />
 
@@ -31,7 +31,7 @@
 		</RadzenColumn>
 		
 		<RadzenColumn SizeSM="12" SizeMD="12" SizeLG="4">
-			<RadzenCard class="rz-border-radius-6 cghi-success-shadow">
+			<RadzenCard class="rz-border-radius-6 cghi-success-shadow minmax-h-150px">
 				<RadzenStack Gap="10px">
 					<RadzenText Text="Received Stocks" TextStyle="TextStyle.H6" class="fw-bold rz-color-success rz-p-0 rz-m-0" />
 
@@ -48,7 +48,7 @@
 	
 	<RadzenRow class="rz-px-12">
 		<RadzenColumn SizeMD="12" SizeLG="4">
-			<RadzenCard class="rz-border-radius-6 cghi-danger-shadow">
+			<RadzenCard class="rz-border-radius-6 cghi-danger-shadow minmax-h-400px">
 				<RadzenStack Gap="10px">
 					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" class="rz-w-100 rz-border-bottom rz-border-color-base-400 rz-pb-3" Style="--rz-border-width: 1px;">
 						<RadzenIcon Icon="error" IconColor="@Colors.DangerDark" class="filled-icon" />
@@ -83,7 +83,7 @@
 		</RadzenColumn>
 		
 		<RadzenColumn SizeMD="12" SizeLG="4">
-			<RadzenCard class="rz-border-radius-6 cghi-success-shadow">
+			<RadzenCard class="rz-border-radius-6 cghi-success-shadow minmax-h-400px">
 				<RadzenStack Gap="10px">
 					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" class="rz-w-100 rz-border-bottom rz-border-color-base-400 rz-pb-3" Style="--rz-border-width: 1px;">
 						<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" class="rz-w-100">
@@ -116,8 +116,20 @@
 		</RadzenColumn>
 		
 		<RadzenColumn SizeMD="12" SizeLG="4">
-			<RadzenCard class="rz-border-radius-6 cghi-success-shadow">
-				<RadzenText Text="col 3" />
+			<RadzenCard class="rz-border-radius-6 cghi-success-shadow minmax-h-400px">
+				<RadzenStack Gap="10px">
+					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" class="rz-w-100">
+						<RadzenIcon Icon="warehouse" IconColor="@Colors.SuccessDark" class="filled-icon" />
+						<RadzenText Text="Stocks in Warehouses" TextStyle="TextStyle.Body2" class="fw-bold rz-color-success-dark rz-p-0 rz-m-0" />
+					</RadzenStack>
+
+					<RadzenChart>
+						<RadzenPieSeries Data="@_stocksInWarehouses" Title="Stocks" CategoryProperty="@nameof(StocksInWarehouseVM.WarehouseName)" ValueProperty="@nameof(StocksInWarehouseVM.Total)">
+							<RadzenLegend />
+							<RadzenSeriesDataLabels />
+						</RadzenPieSeries>
+					</RadzenChart>
+				</RadzenStack>
 			</RadzenCard>
 		</RadzenColumn>
 	</RadzenRow>
@@ -131,7 +143,7 @@
 						<RadzenText Text="Barangay/Shelter Total Received Donation" TextStyle="TextStyle.Body2" class="fw-bold rz-color-success-dark rz-p-0 rz-m-0" />
 					</RadzenStack>
 
-					<RadzenDataList id="received-donations-by-barangay-datalist" TItem="ReceivedDonationsByBarangay" Data="@_receivedDonationsByBarangayList" Density="Density.Compact" WrapItems Style="max-height: 350px !important;" class="rz-overflow-auto">
+					<RadzenDataList id="received-donations-by-barangay-datalist" TItem="ReceivedDonationsByBarangay" Data="@_receivedDonationsByBarangayList" Density="Density.Compact" WrapItems class="rz-overflow-auto minmax-h-400px">
 						<EmptyTemplate>
 							<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
 						</EmptyTemplate>
@@ -155,7 +167,7 @@
 						<RadzenText Text="Kits Status" TextStyle="TextStyle.Body2" class="fw-bold rz-color-success-dark rz-p-0 rz-m-0" />
 					</RadzenStack>
 
-					<RadzenDataList TItem="ReceivedDonationsByBarangay" Data="@_receivedDonationsByBarangayList" Density="Density.Compact" WrapItems Style="max-height: 350px !important;" class="rz-overflow-auto">
+					<RadzenDataList TItem="ReceivedDonationsByBarangay" Data="@_receivedDonationsByBarangayList" Density="Density.Compact" WrapItems class="rz-overflow-auto minmax-h-400px">
 						<EmptyTemplate>
 							<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
 						</EmptyTemplate>
@@ -187,6 +199,18 @@
 
 	.rz-g > div, .rz-datalist-data > li {
 		border: none;
+	}
+
+	.minmax-h-150px {
+		height: 150px !important;
+		min-height: 150px !important;
+		max-height: 150px !important;
+	}
+	
+	.minmax-h-400px {
+		height: 400px !important;
+		min-height: 400px !important;
+		max-height: 400px !important;
 	}
 </style>
 

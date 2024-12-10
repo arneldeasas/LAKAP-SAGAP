@@ -5,6 +5,7 @@ public partial class DashboardControl
 	List<PendingReliefRequest> _pendingReliefRequestsToday { get; set; }
 	List<ReleasedOfReliefGoods> _releasedOfReliefGoodsPerMonth { get; set; }
 	List<ReceivedDonationsByBarangay> _receivedDonationsByBarangayList { get; set; }
+	List<StocksInWarehouseVM> _stocksInWarehouses { get; set; }
 
 	int _selectedYear { get; set; }
 
@@ -144,6 +145,24 @@ public partial class DashboardControl
 				Total=21
 			}];
 
+		_stocksInWarehouses ??= [
+			new() {
+				WarehouseId = "WHS_001",
+				WarehouseName = "Alert",
+				Total = 120
+			},
+			new() {
+				WarehouseId = "WHS_002",
+				WarehouseName = "Malinta Barangay Hall",
+				Total = 560
+			},
+			new() {
+				WarehouseId = "WHS_003",
+				WarehouseName = "PLV Stock Room",
+				Total = 729
+			}
+			];
+
 		_selectedYear = _releasedOfReliefGoodsPerMonth.DistinctBy(x => x.ReleasedDate.Year).First().ReleasedDate.Year;
 		base.OnInitialized();
 	}
@@ -175,4 +194,11 @@ public partial class DashboardControl
 		public string BarangayName { get; set; }
 		public int Total { get; set; }
 	}
+
+	class StocksInWarehouseVM
+	{
+        public string WarehouseId { get; set; }
+        public string WarehouseName { get; set; }
+        public double Total { get; set; }
+    }
 }

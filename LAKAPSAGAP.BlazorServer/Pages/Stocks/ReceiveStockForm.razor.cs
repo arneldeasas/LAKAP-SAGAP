@@ -1,5 +1,7 @@
-﻿using LAKAPSAGAP.Models.Enums;
+﻿using LAKAPSAGAP.BlazorServer.QuestPDF;
+using LAKAPSAGAP.Models.Enums;
 using Mapster;
+using QuestPDF.Fluent;
 
 namespace LAKAPSAGAP.BlazorServer.Pages.Stocks;
 
@@ -377,7 +379,25 @@ public partial class ReceiveStockForm
 		}
 
 		await _jSRuntime.InvokeVoidAsync("Toast", "success", "Relief received recorded successfully");
-		_dialogService.Close(true);
+
+        if (await _jSRuntime.InvokeAsync<bool>("Confirmation", null, null, "Would you like to download the Receiving Summary?"))
+        {
+            try
+            {
+                var document = new ReceivingReceipt(_newReceivedRelief);
+                using var MemoryStream = new MemoryStream();
+                Document.Create(container => document.Compose(container)).GeneratePdf(MemoryStream);
+
+                var fileContent = Convert.ToBase64String(MemoryStream.ToArray());
+
+                await _jSRuntime.InvokeVoidAsync("FileDownload", $"RS{_newReceivedRelief.ReceivedDate.ToString("MMddyyyy")}{_newReceivedRelief.WarehouseId}", "application/pdf", fileContent);
+            }
+            catch (Exception ex)
+            {
+                await _jSRuntime.InvokeVoidAsync("Toast", "error", $"Something went wrong parsing your Receiving Summary: {ex.Message}");
+            }
+        }
+        _dialogService.Close(true);
 	}
 
 	public void changeTab(string tab)
@@ -386,7 +406,7 @@ public partial class ReceiveStockForm
 	}
 
 	// Classes
-	class ReceiveReliefVM
+	public class ReceiveReliefVM
 	{
 		public AcquisitionTypes AcquisitionType { get; set; }
 		public string ReceivedBy { get; set; }
@@ -401,7 +421,7 @@ public partial class ReceiveStockForm
 		public string WarehouseId { get; set; }
 	}
 
-	class StockDetailVM
+	public class StockDetailVM
 	{
 		public string StockItemId { get; set; }
 		public string StockItemName { get; set; }

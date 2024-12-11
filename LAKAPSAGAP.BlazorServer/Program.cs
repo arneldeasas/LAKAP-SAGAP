@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using LAKAPSAGAP.Services;
 using LAKAPSAGAP.BlazorServer;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddAntiforgery();
 builder.Services.AddCascadingAuthenticationState();
 
+QuestPDF.Settings.License = LicenseType.Community;
 
 // Configure DbContext
 builder.Services.AddDbContext<MyDbContext>(options =>

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using QuestPDF.Fluent;
+﻿using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using static LAKAPSAGAP.BlazorServer.Pages.Stocks.ReceiveStockForm;
 
@@ -87,7 +86,7 @@ public class ReceivingReceipt
                 });
 
                 // Add table rows dynamically
-                foreach (var item in _data.StockDetailList.Where(x => x.StockItemId is not null ).ToList())
+                foreach (var item in _data.StockDetailList.Where(x => x.StockItemId is not null).ToList())
                 {
                     table.Cell().Border(1).BorderColor(Color.FromHex("#4F4F50")).Element(CellContent => CellContent.Padding(3)).Text(item.StockItemId).FontSize(8);
                     table.Cell().Border(1).BorderColor(Color.FromHex("#4F4F50")).Element(CellContent => CellContent.Padding(3)).Text(item.StockItemName).FontSize(8);

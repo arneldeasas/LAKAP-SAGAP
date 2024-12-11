@@ -335,26 +335,26 @@ public partial class ReceiveStockForm
 			await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Quantity cannot be 0 or negative");
 			return false;
 		}
-		//if(string.IsNullOrEmpty(_newReceivedRelief.StockDetailList[0].FloorId))
-		//{
-		//    await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Floor Id cannot be empty or null");
-		//    return false;
-		//}
-		//if(string.IsNullOrEmpty(_newReceivedRelief.StockDetailList[0].FloorName))
-		//{
-		//    await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Floor Name cannot be empty or null");
-		//    return false;
-		//}
-		//if(string.IsNullOrEmpty(_newReceivedRelief.StockDetailList[0].RackId))
-		//{
-		//    await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Rack Id cannot be empty or null");
-		//    return false;
-		//}
-		//if(string.IsNullOrEmpty(_newReceivedRelief.StockDetailList[0].RackName))
-		//{
-		//    await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Rack Name cannot be empty or null");
-		//    return false;
-		//}
+		if (string.IsNullOrEmpty(_newReceivedRelief.StockDetailList[0].FloorId))
+		{
+			await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Floor Id cannot be empty or null");
+			return false;
+		}
+		if (string.IsNullOrEmpty(_newReceivedRelief.StockDetailList[0].FloorName))
+		{
+			await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Floor Name cannot be empty or null");
+			return false;
+		}
+		if (string.IsNullOrEmpty(_newReceivedRelief.StockDetailList[0].RackId))
+		{
+			await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Rack Id cannot be empty or null");
+			return false;
+		}
+		if (string.IsNullOrEmpty(_newReceivedRelief.StockDetailList[0].RackName))
+		{
+			await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Rack Name cannot be empty or null");
+			return false;
+		}
 		if (string.IsNullOrEmpty(_newReceivedRelief.StockDetailList[0].ExpiryDate.ToString()))
 		{
 			await _jSRuntime.InvokeVoidAsync("Toast", "warning", "Expiry Date cannot be empty or null");

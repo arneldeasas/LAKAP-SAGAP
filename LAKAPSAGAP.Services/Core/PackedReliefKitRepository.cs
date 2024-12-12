@@ -41,7 +41,7 @@ public class PackedReliefKitRepository(MyDbContext context) : IPackedReliefKitRe
             packedReliefKits = await _context.PackedReliefKits
                                         .Include(p => p.Rack)
                                         .ThenInclude(r => r.Floor)
-                                        .Where(x => !x.isArchived || !x.IsDeleted)
+                                        .Where(x => !x.isArchived)
                                         .ToListAsync();
             return packedReliefKits;
         }
@@ -102,6 +102,8 @@ public class PackedReliefKitRepository(MyDbContext context) : IPackedReliefKitRe
 
             existing.isArchived = true;
             existing.DateUpdated = DateTime.UtcNow;
+
+            _context.Entry(existing).State = EntityState.Modified;
 
             await _context.SaveChangesAsync();
 

@@ -33,18 +33,18 @@
 					</div>
 					<div>
 						<RadzenButton Visible="@(currentTab == 0)" Click="ShowKitTypeCreateDialog" Icon="add" Text="Add Kit Type" ButtonStyle="ButtonStyle.Success"
-									  class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
+						class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
 						<RadzenButton Visible="@(currentTab == 1)" Click="ShowKitsCreateDialog" Icon="add" Text="Add New Kit" ButtonStyle="ButtonStyle.Success"
-									  class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
+						class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
 						<RadzenButton Icon="send" Text="Send Relief" ButtonStyle="ButtonStyle.Success"
-									  class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
+						class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
 					</div>
 				</div>
 
 				@* Tabs *@
 
 				<RadzenTabs @bind-SelectedIndex="currentTab"
-							Style="border: 1px solid var(--rz-base-300); border-radius: var(--rz-border-radius-1); width: 100%; height: 100%;" TabPosition="TabPosition.Top">
+				Style="border: 1px solid var(--rz-base-300); border-radius: var(--rz-border-radius-1); width: 100%; height: 100%;" TabPosition="TabPosition.Top">
 					<Tabs>
 						<RadzenTabsItem Text="Kits Availability">
 							@if(isDataInitialized)
@@ -70,17 +70,18 @@
 	bool _reloadKitTable { get; set; } = false;
 	async Task ShowKitTypeCreateDialog()
 	{
-		var id = await _dialogService.OpenAsync("Create Kit", ds => @<KitTypeCreateUpdate /> ,
+		var response = await _dialogService.OpenAsync("Create Kit", ds => @<KitTypeCreateUpdate /> ,
 	new DialogOptions()
 			{
 				CssClass = "rz-w-fit-content",
 				ShowTitle = false,
 			});
 
-		if (string.IsNullOrEmpty(id)) return;
+		if (!response) return;
 
-		_reloadKitTable = true; 
+		_reloadKitTable = true;
 
+		StateHasChanged();
 	}
 	
 	async Task ShowKitsCreateDialog()

@@ -36,7 +36,10 @@ namespace LAKAPSAGAP.Models.Models
 	public enum RequestStatus
 	{
 		pending = 0,
-		delivered = 0
+        preparing = 1,
+        delivered = 2,
+		cancelled = 3,
+		rejected = 4
 	}
 	public class Request:CommonModel
 	{

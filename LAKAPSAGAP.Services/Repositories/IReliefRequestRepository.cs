@@ -13,5 +13,10 @@ namespace LAKAPSAGAP.Services.Repositories
 		Task<List<Kit>> GetAllKitAsync();
 		Task<string?> CreateRequestAsync(ReliefRequestDetailViewModel reliefRequestVM);
 		Task<List<ReliefRequestDetail>> GetAllRequestsAsync();
+		Task<List<ReliefRequestDetail>> GetOnGoingRequests();
+		Task<List<ReliefRequestDetail>> GetDoneRequests(); //history
+		Task<bool> CancelRequest(string requestId);
+		Task<bool> RejectRequest(string requestId);
+		Task<bool> ApproveRequest(string requestId);
 	}
 }

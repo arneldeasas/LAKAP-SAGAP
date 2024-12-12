@@ -4,9 +4,9 @@
     --rz-primary: #15803D !important;
     --rz-button-base-background-color: var(--rz-primary) !important;
 }
-/**{
+*{
     outline: red 1px dotted;
-}*/
+}
 p, h1, h2, h3, h4, h5, h6 {
     color: #374151
 }

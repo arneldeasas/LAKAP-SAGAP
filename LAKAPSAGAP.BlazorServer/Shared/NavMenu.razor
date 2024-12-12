@@ -21,12 +21,17 @@
         </div>
 
         @* Request *@
-        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Request") ? "link-active" : "link")}")"
-             @onclick="@(() =>_navManager.NavigateTo("Requests", true))">
+        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("admin/requests") ? "link-active" : "link")}")"
+             @onclick="@(() =>_navManager.NavigateTo("admin/requests", true))">
             <i class='bx bx-transfer-alt' style="font-size: 0.8rem"></i>
             <span class="fw-bold text-center" style="font-size: 0.75rem">Request</span>
         </div>
-
+        @* Request *@
+        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("barangay-rep/requests") ? "link-active" : "link")}")"
+             @onclick="@(() =>_navManager.NavigateTo("barangay-rep/requests", true))">
+            <i class='bx bx-transfer-alt' style="font-size: 0.8rem"></i>
+            <span class="fw-bold text-center" style="font-size: 0.75rem">Request</span>
+        </div>
         @* Master Data *@
         <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("MasterData") ? "link-active" : "link")}")"
              @ref="masterDataButton" @onclick="@(args => {masterDataPopup.ToggleAsync(masterDataButton); ToggleVisibility();})">

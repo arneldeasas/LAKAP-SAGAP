@@ -1,4 +1,4 @@
-﻿@page "/requests"
+﻿@page "/barangay-rep/requests"
 
 <RadzenCard class="m-5">
 	<RadzenStack>
@@ -27,8 +27,8 @@
 				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Status)" Title="Action">
 					<Template Context="data">
 						<RadzenStack Orientation="Orientation.Horizontal">
-							<RadzenButton Icon="visibility" Text="View" ButtonStyle="ButtonStyle.Primary"></RadzenButton>
-							<RadzenButton Text="cancel" ButtonStyle="ButtonStyle.Danger"></RadzenButton>
+							<RadzenButton Icon="visibility" Text="View" ButtonStyle="ButtonStyle.Primary" Click="()=>ViewRequest(data)"></RadzenButton>
+							<RadzenButton Text="cancel" ButtonStyle="ButtonStyle.Danger" Click="async()=> await CancelRequest(data.Id)"></RadzenButton>
 						</RadzenStack>
 
 					</Template>
@@ -38,3 +38,16 @@
 	</RadzenStack>
 </RadzenCard>
 
+@code{
+
+	async Task ViewRequest(ReliefRequestDetailViewModel request)
+	{
+		var result = await _dialogService.OpenAsync("Request Details", ds =>@<BarangayRepRequestViewDialog ReliefRequestVM="@request" />, new DialogOptions()
+																													   {
+																														   CssClass = "rz-w-fit-content",
+																														   ShowTitle = false,
+																													   });
+
+		
+	}
+}

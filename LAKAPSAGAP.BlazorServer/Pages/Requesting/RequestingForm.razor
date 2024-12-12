@@ -217,7 +217,7 @@
 			
 			</RadzenStack>
 			<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
-				<RadzenButton Text="Cancel" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Light" Variant="Variant.Outlined" />
+				<RadzenButton Click="Cancel" Text="Cancel" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Dark" Variant="Variant.Outlined" />
 				<RadzenButton Text="Submit" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" />
 			</RadzenStack>
 		</RadzenStack>
@@ -232,6 +232,8 @@
 		await _jSRuntime.InvokeVoidAsync("ClickFileInput",inputFileRef);
 	}
 
-
+	void Cancel(){
+		_navManager.NavigateTo("/barangay-rep/requests");
+	}
 }
 

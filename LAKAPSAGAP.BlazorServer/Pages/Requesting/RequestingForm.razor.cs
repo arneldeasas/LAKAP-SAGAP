@@ -110,7 +110,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 				else
 				{
 					await _jSRuntime.InvokeVoidAsync("Toast", "success", "Request submitted successfully!");
-					_navManager.NavigateTo("/requests");
+					_navManager.NavigateTo("/barangay-rep/requests");
 				}
 			}
 			catch (Exception e)

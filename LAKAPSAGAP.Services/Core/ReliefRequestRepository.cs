@@ -192,7 +192,7 @@ namespace LAKAPSAGAP.Services.Core
 			try
 			{
 
-				requestList = await _context.ReliefRequests.WhereIsNotArchivedAndDeleted().Include(x => x.RequestList).ToListAsync();
+				requestList = await _context.ReliefRequests.WhereIsNotArchivedAndDeleted().Include(x => x.RequestList).Include(x=>x.AttachmentList).OrderByDescending(x=>x.DateCreated).ToListAsync();
 				return requestList;
 			}
 			catch (Exception)
@@ -201,6 +201,96 @@ namespace LAKAPSAGAP.Services.Core
 				return requestList;
 			}
 		
+		}
+
+        public async Task<bool> CancelRequest(string requestId)
+        {
+			try
+			{
+                ReliefRequestDetail request = await _context.ReliefRequests.Where(x => x.Id == requestId).FirstOrDefaultAsync();
+				if (request == null) return false;
+
+				request.Status = RequestStatus.cancelled;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+			catch (Exception)
+			{
+
+				return false;
+			}
+        }
+
+		public async Task<List<ReliefRequestDetail>> GetOnGoingRequests()
+		{
+			List<ReliefRequestDetail> requestList = new();
+			try
+			{
+				requestList = await _context.ReliefRequests.Where(x => x.Status == RequestStatus.pending || x.Status == RequestStatus.preparing)
+					.Include(x => x.RequestList).Include(x => x.AttachmentList)
+					.OrderByDescending(x => x.DateCreated)
+					.ToListAsync();
+				return requestList;
+			}
+			catch (Exception)
+			{
+
+				return requestList;
+			}
+		}
+
+		public async Task<List<ReliefRequestDetail>> GetDoneRequests()
+		{
+			List<ReliefRequestDetail> requestList = new();
+			try
+			{
+				requestList = await _context.ReliefRequests.Where(x => x.Status == RequestStatus.delivered || x.Status == RequestStatus.rejected)
+					.Include(x => x.RequestList).Include(x => x.AttachmentList)
+					.OrderByDescending(x => x.DateCreated)
+					.ToListAsync();
+				return requestList;
+			}
+			catch (Exception)
+			{
+
+				return requestList;
+			}
+		}
+
+		public async Task<bool> RejectRequest(string requestId)
+		{
+			try
+			{
+				ReliefRequestDetail request = await _context.ReliefRequests.Where(x => x.Id == requestId).FirstOrDefaultAsync();
+				if(request == null) throw new Exception("Record not found.");
+
+				request.Status = RequestStatus.rejected;
+				await _context.SaveChangesAsync();
+				return true;
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+		}
+
+		public async Task<bool> ApproveRequest(string requestId)
+		{
+			try
+			{
+				ReliefRequestDetail request = await _context.ReliefRequests.Where(x => x.Id == requestId).FirstOrDefaultAsync();
+				if (request == null) throw new Exception("Record not found.");
+
+				request.Status = RequestStatus.preparing;
+				await _context.SaveChangesAsync();
+				return true;
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
 		}
 	}
 }

@@ -11,5 +11,7 @@ namespace LAKAPSAGAP.Services.Repositories
 		Task<List<string>> GetAllBarangayAsync();
 		Task<List<StockItem>> GetAllStockItemAsync();
 		Task<List<Kit>> GetAllKitAsync();
+		Task<string?> CreateRequestAsync(ReliefRequestDetailViewModel reliefRequestVM);
+		Task<List<ReliefRequestDetail>> GetAllRequestsAsync();
 	}
 }

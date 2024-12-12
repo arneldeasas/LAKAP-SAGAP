@@ -11,5 +11,7 @@ public static class UserInfoEFConfig
 		builder.Entity<UserInfo>().HasMany(x => x.UserAttachments).WithOne(x => x.User).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
 		builder.Entity<UserInfo>().HasMany(x => x.AddedAttachments).WithOne(x => x.AddedBy).HasForeignKey(x => x.AddedById).OnDelete(DeleteBehavior.Restrict);
 		builder.Entity<UserInfo>().HasMany(x => x.CategoriesCreated).WithOne(x => x.AddedBy).HasForeignKey(x => x.AddedById).OnDelete(DeleteBehavior.Restrict);
+		builder.Entity<UserInfo>().HasMany(x => x.ReliefRequestDetailList).WithOne(x => x.AddedBy).HasForeignKey(x => x.AddedById).OnDelete(DeleteBehavior.Restrict);
+		builder.Entity<UserInfo>().HasMany(x => x.RequestAttachmentList).WithOne(x => x.AddedBy).HasForeignKey(x => x.AddedById).OnDelete(DeleteBehavior.Restrict);
 	}
 }

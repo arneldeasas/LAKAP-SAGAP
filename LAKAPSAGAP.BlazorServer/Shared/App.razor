@@ -23,6 +23,12 @@
 	<script src="_framework/blazor.web.js"></script>
 	<script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
 	<script src="/scripts/index.bundle.js"></script>
+	<script>
+		function ClickFileInput() {
+			const FileUploadUI = document.getElementById("fileinput-ui")
+			FileUploadUI.click();
+		}
+	</script>
 </body>
 
 </html>

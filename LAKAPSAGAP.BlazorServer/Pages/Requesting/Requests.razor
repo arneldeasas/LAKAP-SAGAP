@@ -12,8 +12,9 @@
 			</EmptyTemplate>
 			<Columns>
 				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Id)" Title="Code" />
+				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Reason)" Title="Reason" />
 				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.NumberOfRecipients)" Title="Number of Recipients" />
-				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.DateRequested)" Title="Active">
+				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.DateRequested)" Title="Date Requested">
 					<Template Context="data">
 						@(data.DateRequested.ToString("MM-dd-yyyy"))
 					</Template>

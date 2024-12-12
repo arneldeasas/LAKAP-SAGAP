@@ -3,16 +3,23 @@
 		<RadzenText TextStyle="TextStyle.Subtitle1" Text="Search" />
 		<RadzenTextBox Style="width: 100%; max-width: 400px;" Placeholder="Search ... " />
 	</RadzenStack>
-	<RadzenDataGrid TItem="KitViewModel" Data="@KitComponentList">
+	<RadzenDataGrid @ref="PackedReliefListDG" PageSize="10" AllowPaging Density="Density.Compact" Data="@PackedReliefList">
 		<Columns>
-			<RadzenDataGridColumn Property="@nameof(KitViewModel.DatePacked)" Title="Date Packed" FormatString="{0:MM/dd/yyyy}" Width="200px" />
-			<RadzenDataGridColumn Property="@nameof(KitViewModel.Id)" Title="Kit Code" Width="80px" />
-			<RadzenDataGridColumn Property="@nameof(KitViewModel.KitType)" Title="Type" />
-			<RadzenDataGridColumn Property="@nameof(KitViewModel.Quantity)" Title="Quantity"  Width="120px"/>
-			<RadzenDataGridColumn Property="@nameof(KitViewModel.Location)" Title="Location" Width="250px" />
+			<RadzenDataGridColumn Property="@nameof(PackedReliefKitViewModel.DatePacked)" Title="Date Packed" FormatString="{0:MM/dd/yyyy}" Width="125px" />
+			<RadzenDataGridColumn Property="@nameof(PackedReliefKitViewModel.PackedBy)" Title="Packed By" />
+			<RadzenDataGridColumn Property="@nameof(PackedReliefKitViewModel.Id)" Title="Id" Width="175px" />
+			<RadzenDataGridColumn Property="@nameof(PackedReliefKitViewModel.KitType)" Title="Kit Id" Width="100px"/>
+			<RadzenDataGridColumn Property="@nameof(PackedReliefKitViewModel.KitName)" Title="Kit Name" />
+			<RadzenDataGridColumn Property="@nameof(PackedReliefKitViewModel.Quantity)" Title="Quantity" Width="120px" />
+			<RadzenDataGridColumn Property="@nameof(PackedReliefKitViewModel.FloorId)" Title="Location" Width="250px">
+				<Template Context="data">
+					@data.FloorName , @data.RackName
+				</Template>
+			</RadzenDataGridColumn>
 			<RadzenDataGridColumn Title="Actions" Width="80px" >
 				<Template Context="data">
-
+					<RadzenButton Size="ButtonSize.Small" Icon="edit" ButtonStyle="ButtonStyle.Primary" Click="@(() => ShowKitsCreateDialog(data))" />
+					<RadzenButton Size="ButtonSize.Small" Icon="delete" ButtonStyle="ButtonStyle.Danger" Click="@(() => Archive(data))" />
 				</Template>
 			</RadzenDataGridColumn>
 		</Columns>
@@ -21,3 +28,20 @@
 		</EmptyTemplate>
 	</RadzenDataGrid>
 </RadzenStack>
+
+@code{
+	async Task ShowKitsCreateDialog(PackedReliefKitViewModel kit)
+	{
+		var result = await _dialogService.OpenAsync("Create Kit", ds => @<KitsCreateUpdate PackedKit="@kit" /> ,
+	new DialogOptions()
+			{
+				CssClass = "rz-w-fit-content",
+				ShowTitle = false,
+			});
+
+		if(result)
+		{
+			await PackedReliefListDG.Reload();
+		}
+	}
+}

@@ -38,7 +38,11 @@ public class PackedReliefKitRepository(MyDbContext context) : IPackedReliefKitRe
         try
         {
             List<PackedReliefKit> packedReliefKits = [];
-            packedReliefKits = await _context.GetAll<PackedReliefKit>();
+            packedReliefKits = await _context.PackedReliefKits
+                                        .Include(p => p.Rack)
+                                        .ThenInclude(r => r.Floor)
+                                        .Where(x => !x.isArchived || !x.IsDeleted)
+                                        .ToListAsync();
             return packedReliefKits;
         }
         catch (Exception)
@@ -53,7 +57,7 @@ public class PackedReliefKitRepository(MyDbContext context) : IPackedReliefKitRe
         {
             PackedReliefKit content = await _context.GetById<PackedReliefKit>(id);
             if (content is null) throw new Exception("No Content found with that ID");
-            return content ;
+            return content;
         }
         catch (Exception)
         {
@@ -65,7 +69,44 @@ public class PackedReliefKitRepository(MyDbContext context) : IPackedReliefKitRe
     {
         try
         {
-            return await _context.UpdateItem<PackedReliefKit>(packedReliefKit);
+            var existing = await _context.PackedReliefKits.FirstOrDefaultAsync(x => x.Id == packedReliefKit.Id);
+                
+            if (existing == null) throw new KeyNotFoundException("Packed Relief Kit not found");
+            
+            existing.Quantity = packedReliefKit.Quantity;
+            existing.FloorId = packedReliefKit.FloorId;
+            existing.RackId = packedReliefKit.RackId;
+            existing.DatePacked = packedReliefKit.DatePacked;
+            existing.PackedBy = packedReliefKit.PackedBy;
+            existing.DateUpdated = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return existing;
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+
+    public async Task<PackedReliefKit> ArchivePackedReliefKitAsync(PackedReliefKit packedReliefKit)
+    {
+        try
+        {
+            var existing = await _context.PackedReliefKits.FirstOrDefaultAsync(x => x.Id == packedReliefKit.Id);
+
+            if (existing == null) throw new KeyNotFoundException("Packed Relief Kit not found");
+
+            existing.isArchived = true;
+            existing.DateUpdated = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return existing;
+
         }
         catch (Exception)
         {

@@ -3,65 +3,13 @@
 <RadzenComponents @rendermode="InteractiveServer" />
 
 <CascadingAuthenticationState>
-    <RadzenLayout>
+    <RadzenLayout Visible="@(user is not null)">
         <RadzenHeader class="shadow-sm" Style="box-shadow: var(--rz-shadow-0); background-color: var(--rz-white);">
-            @if (!_isBusy &&  user !=null )
-            {
-                <NavMenu user="user" />
-            }
+            <NavMenu user="user" />
         </RadzenHeader>
         <RadzenBody Style="background-color: var(--rz-base-200); padding: 0px">
-            @if (!_isBusy && user != null)
-            {
-                @Body
-            }
+            @Body
         </RadzenBody>
     </RadzenLayout>
 </CascadingAuthenticationState>
-
-@code{
-    [Inject] HttpContextAccessor _httpContext { get; set; }
-    [Inject] IAuthRepository _authRepo { get;set; }
-    bool _isBusy { get; set; } = false;
-    public UserInfoViewModel? user { get; set; }
-    public string _userId { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        if (string.IsNullOrEmpty(_userId))
-        {
-            _userId = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        }
-
-
-
-    }
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            if (user is null)
-            {
-                _isBusy = true;
-                StateHasChanged();
-                await LoadUserInfo();
-                _isBusy = false;
-                StateHasChanged();
-            }
-        }
-    }
-    async Task LoadUserInfo()
-    {
-   
-        if (_userId == null) return;
-        UserInfo _user = await _authRepo.GetUserInfoByUserAuthId(_userId);
-        user = new UserInfoViewModel
-            {
-                FirstName = _user.FirstName,
-                MiddleName = _user.MiddleName,
-                LastName = _user.LastName,
-                RoleName = _user.Role.Name,
-            };
-    }
-}
 

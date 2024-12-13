@@ -38,7 +38,7 @@ public partial class AuthLogin
 	//        throw;
 	//    }
 	//}
-	[IgnoreAntiforgeryToken]
+	//[IgnoreAntiforgeryToken]
 	async Task Login()
 	{
 

@@ -1,5 +1,6 @@
-﻿@page "/admin/requests"
-
+﻿@using Microsoft.AspNetCore.Authorization
+@page "/admin/requests"
+@attribute [Authorize(Policy = "officehead")]
 <RadzenCard class="m-5">
 	<RadzenStack>
 		<RadzenStack Orientation="Orientation.Horizontal">

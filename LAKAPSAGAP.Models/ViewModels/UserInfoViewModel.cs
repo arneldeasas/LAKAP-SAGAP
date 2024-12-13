@@ -16,6 +16,7 @@ namespace LAKAPSAGAP.Models.ViewModel
 		public string Barangay { get; set; }
 		public string Email { get; set; }
 		public string Phone { get; set; }
+        public string RoleName { get; set; }
 		public ICollection<Attachment> Attachments { get; set; }
 
 		public static List<string> UserRoles { get; set; } = new()
@@ -33,6 +34,6 @@ namespace LAKAPSAGAP.Models.ViewModel
         }
 
     }
-
+ 
     
 }

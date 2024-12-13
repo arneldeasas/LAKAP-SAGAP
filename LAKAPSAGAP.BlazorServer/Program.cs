@@ -11,7 +11,11 @@ builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents();
 
 builder.Services.AddRadzenComponents();
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+	options.AddPolicy("officehead", policy => policy.RequireRole("CSWD OFFICE HEAD"));
+	options.AddPolicy("barangayrep", policy => policy.RequireRole("BARANGAY REPRESENTATIVE"));
+});
 builder.Services.AddAntiforgery();
 builder.Services.AddCascadingAuthenticationState();
 
@@ -21,6 +25,7 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddServices();
+builder.Services.AddHttpContextAccessor();
 //builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 
 #if DEBUG
@@ -49,7 +54,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAntiforgery();
 //app.UseAuthentication(); // Ensure authentication middleware is used
-//app.UseAuthorization();  // Ensure authorization middleware is used
+app.UseAuthorization();  // Ensure authorization middleware is used
 
 app.MapRazorComponents<App>()
 	.AddInteractiveServerRenderMode();

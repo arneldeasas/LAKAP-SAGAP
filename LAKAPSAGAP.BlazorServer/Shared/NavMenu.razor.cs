@@ -4,8 +4,10 @@ namespace LAKAPSAGAP.BlazorServer.Shared;
 
 public partial class NavMenu
 {
+    
     [Inject] private NavigationManager _navManager { get; set; }
-
+    [Parameter]
+    public UserInfoViewModel user { get; set; }
     ElementReference masterDataButton { get; set; }
     ElementReference warehouseButton { get; set; }
 
@@ -15,6 +17,8 @@ public partial class NavMenu
     bool _isVisible { get; set; } = false;
 
     string uri { get; set; } = String.Empty;
+  
+    
 
     private bool ToggleVisibility()
     {

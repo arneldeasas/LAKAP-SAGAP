@@ -12,6 +12,7 @@ namespace LAKAPSAGAP.Services.Repositories
        // public Task<ClaimsPrincipal?> MakeNewAuthenticatedUser(LoginViewModel login);
 		Task<UserAuth> GetAuthUserByUsername(string username);
 		Task<UserAuth> GetAuthUserByUserAuthId(string UserAuthId);
+        Task<UserInfo> GetUserInfoByUserAuthId(string userAuthId);
 		//public UserInfo GetAuthenticatedUser();
 	}
 }

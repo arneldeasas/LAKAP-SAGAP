@@ -20,18 +20,23 @@
             <span class="text fw-bold text-center" style="font-size: 0.75rem">Dashboard</span>
         </div>
 
-        @* Request *@
-        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("admin/requests") ? "link-active" : "link")}")"
-             @onclick="@(() =>_navManager.NavigateTo("admin/requests", true))">
-            <i class='bx bx-transfer-alt' style="font-size: 0.8rem"></i>
-            <span class="fw-bold text-center" style="font-size: 0.75rem">Request</span>
-        </div>
-        @* Request *@
-        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("barangay-rep/requests") ? "link-active" : "link")}")"
-             @onclick="@(() =>_navManager.NavigateTo("barangay-rep/requests", true))">
-            <i class='bx bx-transfer-alt' style="font-size: 0.8rem"></i>
-            <span class="fw-bold text-center" style="font-size: 0.75rem">Request</span>
-        </div>
+        @* Request aadmin *@
+        <AuthorizeView Policy="officehead">
+            <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("admin/requests") ? "link-active" : "link")}")"
+                 @onclick="@(() =>_navManager.NavigateTo("admin/requests", true))">
+                <i class='bx bx-transfer-alt' style="font-size: 0.8rem"></i>
+                <span class="fw-bold text-center" style="font-size: 0.75rem">Request</span>
+            </div>
+        </AuthorizeView>
+       
+        @* Request barangay rep *@
+      <AuthorizeView Policy="barangayrep">
+            <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("barangay-rep/requests") ? "link-active" : "link")}")"
+                 @onclick="@(() =>_navManager.NavigateTo("barangay-rep/requests", true))">
+                <i class='bx bx-transfer-alt' style="font-size: 0.8rem"></i>
+                <span class="fw-bold text-center" style="font-size: 0.75rem">Request</span>
+            </div>
+      </AuthorizeView>
         @* Master Data *@
         <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("MasterData") ? "link-active" : "link")}")"
              @ref="masterDataButton" @onclick="@(args => {masterDataPopup.ToggleAsync(masterDataButton); ToggleVisibility();})">
@@ -67,7 +72,14 @@
     <RadzenStack Style="width: 18rem;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
                  JustifyContent="JustifyContent.End" Wrap="FlexWrap.NoWrap" Gap="4rem">
         <RadzenButton Icon="notifications" ButtonStyle="ButtonStyle.Base" Style="border-radius: var(--rz-border-radius-6);" />
-        <RadzenButton Icon="account_circle" ButtonStyle="ButtonStyle.Base" Style="border-radius: var(--rz-border-radius-6);" />
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" AlignItems="AlignItems.Center">
+            <RadzenStack style="width:300px" Orientation="Orientation.Vertical" AlignItems="AlignItems.End" Gap="0" class="w-fit" JustifyContent="JustifyContent.Center">
+                <p class="nav-name">@($"{user.FirstName} {user.MiddleName} {user.LastName}")</p>
+                <p class="nav-role">@user.RoleName</p>
+            </RadzenStack>
+            <RadzenButton Size="ButtonSize.Large" Icon="account_circle" ButtonStyle="ButtonStyle.Base" Style="border-radius: var(--rz-border-radius-6);" />
+        </RadzenStack>
+        
     </RadzenStack>
 
 </RadzenStack>

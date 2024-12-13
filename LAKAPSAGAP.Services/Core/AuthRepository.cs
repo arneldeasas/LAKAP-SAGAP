@@ -128,6 +128,12 @@ namespace LAKAPSAGAP.Services.Core
 
             return user;
         }
-		
+
+        public async Task<UserInfo> GetUserInfoByUserAuthId(string userAuthId)
+        {
+            var user = await _context.UserInfos.Where(x => x.UserAuthId == userAuthId).Include(x=>x.Role).FirstOrDefaultAsync();
+
+            return user;
+        }
     }
 }

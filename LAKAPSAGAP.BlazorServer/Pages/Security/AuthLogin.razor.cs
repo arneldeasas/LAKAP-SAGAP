@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LAKAPSAGAP.BlazorServer.Pages.Security;
 
@@ -37,7 +38,7 @@ public partial class AuthLogin
 	//        throw;
 	//    }
 	//}
-
+	[IgnoreAntiforgeryToken]
 	async Task Login()
 	{
 

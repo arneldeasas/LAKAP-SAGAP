@@ -41,18 +41,18 @@ namespace LAKAPSAGAP.Services.Core
 				{
 					throw new Exception("Invalid credentials.");
 				}
-                //string? roleId = _context.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault().RoleId;
-                //if(roleId == null)
-                //{
-                //    throw new Exception("Invalid credentials.");
-                //}
+                string? roleId = _context.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault().RoleId;
+                if (roleId == null)
+                {
+                    throw new Exception("Invalid credentials.");
+                }
 
-                //string? roleName = _context.Roles.Where(x => x.Id == roleId).FirstOrDefault().Name;
+                string? roleName = _context.Roles.Where(x => x.Id == roleId).FirstOrDefault().Name;
 
-                //if (roleName == null)
-                //{
-                //    throw new Exception("Invalid credentials.");
-                //}
+                if (roleName == null)
+                {
+                    throw new Exception("Invalid credentials.");
+                }
 
                 var passwordValid = await _userManager.CheckPasswordAsync(user, login.Password);
                 if (!passwordValid)

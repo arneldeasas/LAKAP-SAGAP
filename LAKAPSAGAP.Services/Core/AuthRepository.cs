@@ -27,7 +27,7 @@ namespace LAKAPSAGAP.Services.Core
             _contextAccessor = httpContextAccessor;
         }
 
-        public async Task<bool> Authenticate(LoginViewModel login)
+        public async Task<string> Authenticate(LoginViewModel login)
         {
 
             //    UserAuth userAuth = await GetAuthUser(login.Username);
@@ -35,12 +35,31 @@ namespace LAKAPSAGAP.Services.Core
             try
             {
 				var user = await _userManager.FindByNameAsync(login.Username);
+                
 				//var userRoles = await _userManager.GetRolesAsync(user);
 				if (user == null)
 				{
-					throw new Exception("User not found.");
+					throw new Exception("Invalid credentials.");
 				}
-				var result = await _signInManager.PasswordSignInAsync(login.Username, login.Password, true, false);
+                string? roleId = _context.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault().RoleId;
+                if(roleId == null)
+                {
+                    throw new Exception("Invalid credentials.");
+                }
+
+                string? roleName = _context.Roles.Where(x => x.Id == roleId).FirstOrDefault().Name;
+
+                if (roleName == null)
+                {
+                    throw new Exception("Invalid credentials.");
+                }
+
+                var passwordValid = await _userManager.CheckPasswordAsync(user, login.Password);
+                if (!passwordValid)
+                {
+                    throw new Exception("Invalid credentials.");
+                }
+                var result = await _signInManager.PasswordSignInAsync(login.Username, login.Password, true, false);
                 
                 // Notify the AuthenticationStateProvider that the user is authenticated
    
@@ -48,7 +67,7 @@ namespace LAKAPSAGAP.Services.Core
                 var name = _contextAccessor.HttpContext.User;
 
                 Console.WriteLine(result);
-                return result.Succeeded;
+                return result.Succeeded ? roleName : "";
 
 			}
 			catch (Exception e)

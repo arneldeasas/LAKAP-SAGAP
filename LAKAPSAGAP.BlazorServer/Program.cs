@@ -14,8 +14,9 @@ builder.Services.AddRazorComponents()
 builder.Services.AddRadzenComponents();
 builder.Services.AddAuthorization(options =>
 {
-	options.AddPolicy("officehead", policy => policy.RequireRole("CSWD OFFICE HEAD"));
-	options.AddPolicy("barangayrep", policy => policy.RequireRole("BARANGAY REPRESENTATIVE"));
+	options.AddPolicy("officehead", policy => policy.RequireRole(["CSWD OFFICE HEAD", "CSWD Office Head"]));
+    options.AddPolicy("officehead/admin", policy => policy.RequireRole(["CSWD OFFICE HEAD","CSWD ADMINISTRATION STAFF"]));
+    options.AddPolicy("barangayrep", policy => policy.RequireRole("BARANGAY REPRESENTATIVE"));
 });
 builder.Services.AddAntiforgery();
 builder.Services.AddCascadingAuthenticationState();

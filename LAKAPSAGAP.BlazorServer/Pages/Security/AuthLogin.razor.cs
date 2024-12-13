@@ -10,9 +10,10 @@ public partial class AuthLogin
 	[Inject] NavigationManager NavigationManager { get; set; }
 	[Inject] IAuthRepository authRepository { get; set; }
 	[Inject] IAntiforgery Antiforgery { get; set; }
+	[Inject] IJSRuntime JSRuntime { get; set; }
 
-	[SupplyParameterFromForm] LoginViewModel loginViewModel { get; set; } = new();
-
+    [SupplyParameterFromForm] LoginViewModel loginViewModel { get; set; } = new();
+	string _errorMessage { get; set; } = string.Empty;
 	//async Task Login()
 	//{
 	//    try
@@ -45,14 +46,28 @@ public partial class AuthLogin
 		try
 		{
 			//Console.WriteLine(loginViewModel);
-			await authRepository.Authenticate(loginViewModel);
-			NavigationManager.NavigateTo("/Dashboard");
+			string roleName = await authRepository.Authenticate(loginViewModel);
+
+			string[] admins = ["CSWD ADMINISTRATION STAFF", "CSWD OFFICE HEAD"];
+			if(admins.Contains(roleName.ToUpper()))
+			{
+                NavigationManager.NavigateTo("/Dashboard");
+            }else
+			{
+                NavigationManager.NavigateTo("/barangay-rep/requests");
+
+            }
+
+        }
+		catch (NavigationException)
+		{
+			throw;
 		}
 		catch (Exception e)
 		{
-
-			throw;
-		}
+			_errorMessage = e.Message;
+			
+        }
 
 	}
 }

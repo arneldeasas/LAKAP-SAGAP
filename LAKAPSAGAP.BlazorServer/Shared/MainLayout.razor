@@ -5,11 +5,17 @@
 <CascadingAuthenticationState>
     <RadzenLayout Visible="@(user is not null)">
         <RadzenHeader class="shadow-sm" Style="box-shadow: var(--rz-shadow-0); background-color: var(--rz-white);">
-            <NavMenu user="user" />
+            @if(user is not null)
+			{
+                <NavMenu user="user" />
+			}
         </RadzenHeader>
-        <RadzenBody Style="background-color: var(--rz-base-200); padding: 0px">
-            @Body
-        </RadzenBody>
+        @if(user is not null)
+        {
+            <RadzenBody Style="background-color: var(--rz-base-200); padding: 0px">
+                @Body
+            </RadzenBody>
+        }
     </RadzenLayout>
 </CascadingAuthenticationState>
 

@@ -20,7 +20,7 @@ public partial class MainLayout
 
     protected override async Task OnInitializedAsync()
     {
-        if (!string.IsNullOrEmpty(_userId))
+        if (user is null)
         {
             // _isBusy = true;
             // StateHasChanged();

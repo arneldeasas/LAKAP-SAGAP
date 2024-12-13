@@ -15,7 +15,7 @@
             <DataAnnotationsValidator />
             @* <ValidationSummary /> *@
             @* Add the antiforgery token *@
-            <input type="hidden" name="@Antiforgery.GetTokens(HttpContext).RequestToken" />
+        
             <div class="card mx-4 my-4" style="width: 100%; max-width: 480px; height: fit-content;">
                 <div class="d-flex flex-column align-items-center justify-content-start mx-4 my-4 gap-1rem">
                     <img src="/images/long.png" style="width: 20rem;" alt="logo image" />
@@ -29,7 +29,11 @@
                         <InputText class="input" type="password" placeholder="Password" id="password" @bind-Value="loginViewModel.Password" />
                         <ValidationMessage For="@(() => loginViewModel.Password)" />
                     </div>
-                    <button type="submit" style="margin-top: 3rem; width: 100%; background-color: #4388FB; padding: 0.65rem 0; text-transform: capitalize; font-weight: 700; border-radius: var(--rz-border-radius-3);">
+                    @if (!string.IsNullOrEmpty(_errorMessage))
+                    {
+                        <p class="text-danger my-2">@_errorMessage</p>
+                    }
+                    <button type="submit" style="margin-top: 2rem; width: 100%; background-color: #4388FB; padding: 0.65rem 0; text-transform: capitalize; font-weight: 700; border-radius: var(--rz-border-radius-3);">
                         Login
                     </button>
                 </div>

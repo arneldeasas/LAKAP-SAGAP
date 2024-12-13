@@ -14,14 +14,17 @@
                  JustifyContent="JustifyContent.Center" Wrap="FlexWrap.NoWrap" Gap="1rem">
 
         @* Dashboard *@
-        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Dashboard") ? "link-active" : "link")}")"
-             @onclick="@(() =>_navManager.NavigateTo("Dashboard", true))">
-            <i class='bx bxs-home' style="font-size: 0.8rem"></i>
-            <span class="text fw-bold text-center" style="font-size: 0.75rem">Dashboard</span>
-        </div>
+        <AuthorizeView Policy="officehead/admin">
+            <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Dashboard") ? "link-active" : "link")}")"
+                 @onclick="@(() =>_navManager.NavigateTo("Dashboard", true))">
+                <i class='bx bxs-home' style="font-size: 0.8rem"></i>
+                <span class="text fw-bold text-center" style="font-size: 0.75rem">Dashboard</span>
+            </div>
+        </AuthorizeView>
+       
 
         @* Request aadmin *@
-        <AuthorizeView Policy="officehead">
+        <AuthorizeView Policy="officehead/admin">
             <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("admin/requests") ? "link-active" : "link")}")"
                  @onclick="@(() =>_navManager.NavigateTo("admin/requests", true))">
                 <i class='bx bx-transfer-alt' style="font-size: 0.8rem"></i>
@@ -38,34 +41,27 @@
             </div>
       </AuthorizeView>
         @* Master Data *@
-        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("MasterData") ? "link-active" : "link")}")"
-             @ref="masterDataButton" @onclick="@(args => {masterDataPopup.ToggleAsync(masterDataButton); ToggleVisibility();})">
-            <i class='bx bxs-data' style="font-size: 0.8rem"></i>
-            <span class="fw-bold text-center" style="font-size: 0.75rem">Master Data</span>
-            <i class="@($"bx {(_isVisible ? "bx-caret-up" : "bx-caret-down")} ms-1")"></i>
-        </div>
-        
+     
+        <AuthorizeView Policy="officehead">
+            <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("MasterData") ? "link-active" : "link")}")"
+                 @ref="masterDataButton" @onclick="@(args => {masterDataPopup.ToggleAsync(masterDataButton); ToggleVisibility();})">
+                <i class='bx bxs-data' style="font-size: 0.8rem"></i>
+                <span class="fw-bold text-center" style="font-size: 0.75rem">Master Data</span>
+                <i class="@($"bx {(_isVisible ? "bx-caret-up" : "bx-caret-down")} ms-1")"></i>
+            </div>
+        </AuthorizeView>
+    
         @* Warehouse *@
-        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Warehouse") ? "link-active" : "link")}")"
-            @ref="warehouseButton" @onclick="@(args => {warehousePopup.ToggleAsync(warehouseButton); ToggleVisibility();})" >
-            <i class='bx bxs-business' style="font-size: 0.8rem"></i>
-            <span class="fw-bold text-center" style="font-size: 0.75rem">Warehouse</span>
-            <i class="@($"bx {(_isVisible ? "bx-caret-up" : "bx-caret-down")} ms-1")"></i>
-        </div>
+        <AuthorizeView Policy="officehead">
+            <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Warehouse") ? "link-active" : "link")}")"
+                 @ref="warehouseButton" @onclick="@(args => {warehousePopup.ToggleAsync(warehouseButton); ToggleVisibility();})">
+                <i class='bx bxs-business' style="font-size: 0.8rem"></i>
+                <span class="fw-bold text-center" style="font-size: 0.75rem">Warehouse</span>
+                <i class="@($"bx {(_isVisible ? "bx-caret-up" : "bx-caret-down")} ms-1")"></i>
+            </div>
+        </AuthorizeView>
 
-        @* Reports *@
-        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Reports") ? "link-active" : "link")}")"
-             @onclick="@(() =>_navManager.NavigateTo("Reports", true))">
-            <i class='bx bxs-report' style="font-size: 0.8rem"></i>
-            <span class="fw-bold text-center" style="font-size: 0.75rem">Reports</span>
-        </div>
-
-        @* History *@
-        <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("History") ? "link-active" : "link")}")"
-             @onclick="@(() =>_navManager.NavigateTo("History", true))">
-            <i class='bx bx-history' style="font-size: 0.8rem"></i>
-            <span class="fw-bold text-center" style="font-size: 0.75rem">History</span>
-        </div>
+      
     </RadzenStack>
 
     @* User *@

@@ -8,7 +8,7 @@ namespace LAKAPSAGAP.Services.Repositories
     public interface IAuthRepository
     {
        
-        public Task<bool> Authenticate(LoginViewModel login);
+        public Task<string> Authenticate(LoginViewModel login);
        // public Task<ClaimsPrincipal?> MakeNewAuthenticatedUser(LoginViewModel login);
 		Task<UserAuth> GetAuthUserByUsername(string username);
 		Task<UserAuth> GetAuthUserByUserAuthId(string UserAuthId);

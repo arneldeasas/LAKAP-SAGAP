@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using LAKAPSAGAP.Services;
 using LAKAPSAGAP.BlazorServer;
+using Blazored.LocalStorage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddAntiforgery();
 builder.Services.AddCascadingAuthenticationState();
 
+builder.Services.AddBlazoredLocalStorage();
 
 // Configure DbContext
 builder.Services.AddDbContext<MyDbContext>(options =>

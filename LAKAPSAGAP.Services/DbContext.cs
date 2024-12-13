@@ -29,7 +29,7 @@ public class MyDbContext(
 
     public DbSet<Kit> Kits { get; set; }
 	public DbSet<KitComponent> KitComponents { get; set; }
-
+	public DbSet<PackedReliefKit> PackedReliefKits { get; set; }
 	public DbSet<ReliefRequestDetail> ReliefRequests { get; set; }
 	public DbSet<Request> RequestItems { get; set; }
 	public DbSet<RequestAttachment> RequestAttachments { get; set; }

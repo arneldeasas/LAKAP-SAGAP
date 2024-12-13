@@ -2,7 +2,7 @@
 
 <RadzenStack Style="width:50vw" Orientation="Orientation.Vertical" AlignItems="AlignItems.Start" JustifyContent="JustifyContent.Start" Gap="1rem">
 	<RadzenTemplateForm class="w-100" Context="HeaderForm" Submit="SubmitKit" TItem="KitViewModel" Data="KitVM">
-		<RadzenText TextStyle="TextStyle.DisplayH5" Text="Create New Kit" class="fw-bold rz-color-primary" />
+		<RadzenText TextStyle="TextStyle.DisplayH5" Text="@(EditMode ? "Edit Kit" : "Create New Kit")" class="fw-bold rz-color-primary" />
 
 		<RadzenStack class="w-100" Orientation="Orientation.Vertical" AlignItems="AlignItems.Normal" JustifyContent="JustifyContent.Normal" Gap="1rem">
 			<RadzenRow>
@@ -107,7 +107,7 @@
 				</RadzenTemplateForm>
 			</RadzenStack>
 			<RadzenStack class="mt-3" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="10px">
-				<RadzenButton Text="Cancel" Icon="close" ButtonStyle="ButtonStyle.Base" Size="ButtonSize.Small" Click="@(() => _dialogService.Close(""))" />
+				<RadzenButton Text="Cancel" Icon="close" ButtonStyle="ButtonStyle.Base" Size="ButtonSize.Small" Click="@(() => _dialogService.Close(false))" />
 				<RadzenButton ButtonType="ButtonType.Submit" Text="Save" Icon="done_outline" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Size="ButtonSize.Small" />
 			</RadzenStack>
 		</RadzenStack>

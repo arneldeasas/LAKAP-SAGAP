@@ -6,8 +6,13 @@ public class Kit : CommonModel
 {
     public string Name { get; set; }
     public string? Description { get; set; }
+    public string? PersonAssigned { get; set; }
+    public int Quantity { get; set; }
     public KitType KitType { get; set; }
+    public DateTime DatePacked {  get; set; }
+    public Rack Location { get; set; }
     public List<KitComponent> KitComponentList { get; set; }
+    public List<PackedReliefKit> PackedReliefKitList { get; set; }
 }
 
 // component of a Kit

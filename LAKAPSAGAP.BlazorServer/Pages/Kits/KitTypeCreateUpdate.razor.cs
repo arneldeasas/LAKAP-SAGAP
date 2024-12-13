@@ -97,7 +97,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Kits
 
                 }
                 await _jSRuntime.InvokeVoidAsync("Toast", "success", "Kit successfully created!");
-                _dialogService.Close(kit.Id);
+                _dialogService.Close(true);
             }
             catch (Exception e)
             {

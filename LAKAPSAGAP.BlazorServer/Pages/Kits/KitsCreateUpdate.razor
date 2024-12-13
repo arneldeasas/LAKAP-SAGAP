@@ -1,47 +1,56 @@
-<RadzenStack class="rz-w-auto" Orientation="Orientation.Vertical" AlignItems="AlignItems.Start" JustifyContent="JustifyContent.Start" Gap="1rem">
-	<RadzenText TextStyle="TextStyle.DisplayH5" Text="Create New Kit" class="fw-bold rz-color-primary" />
+<RadzenStack class="rz-w-100" Orientation="Orientation.Vertical" AlignItems="AlignItems.Start" JustifyContent="JustifyContent.Start" Gap="1rem">
+	<RadzenText TextStyle="TextStyle.DisplayH5" Text="@(editMode ? "Update Kit" : "Create New Kit")" class="fw-bold rz-color-primary" />
 	<RadzenTemplateForm TItem="KitViewModel">
 		<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Normal" JustifyContent="JustifyContent.Normal" Gap="1rem">
 			<RadzenRow>
 				<RadzenColumn>
 					<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Normal" JustifyContent="JustifyContent.Normal" Gap="10px">
 						<span class="fw-bold text-uppercase">Person Assigned</span>
-						<RadzenAutoComplete @bind-Value="@Kit.Name" Data="@Kits" TextProperty="@nameof(KitViewModel.Name)" />
+						<RadzenTextBox Name="PersonAssigned" Placeholder="Packers Name" @bind-Value="PackedKit.PackedBy" />
 					</RadzenStack>
 				</RadzenColumn>
 				<RadzenColumn>
 					<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Normal" JustifyContent="JustifyContent.Normal" Gap="10px">
 						<span class="fw-bold text-uppercase">Date Packed</span>
-						<RadzenDatePicker TValue="DateOnly" DateFormat="MM/dd/yyyy" Name="DatePacked" />
+						<RadzenDatePicker DateFormat="MM/dd/yyyy" Name="DatePacked" Placeholder="Packing Date" @bind-Value="PackedKit.DatePacked" />
 					</RadzenStack>
 				</RadzenColumn>
 			</RadzenRow>
 			<RadzenRow>
 				<RadzenColumn>
 					<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Normal" JustifyContent="JustifyContent.Normal" Gap="10px">
-						<span class="fw-bold text-uppercase">Kit Code</span>
-						<RadzenTextBox @bind-Value="@Kit.Name" Data="@Kits" TextProperty="@nameof(KitViewModel.Name)" />
-					</RadzenStack>
-				</RadzenColumn>
-				<RadzenColumn>
-					<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Normal" JustifyContent="JustifyContent.Normal" Gap="10px">
 						<span class="fw-bold text-uppercase">Kit Type</span>
-						<RadzenDropDown Placeholder="Select Kit" TValue="KitType" />
+						<RadzenTextBox Visible="editMode" Placeholder="Packers Name" Value="@PackedKit.KitName" />
+						<RadzenDropDown Visible="!editMode" ReadOnly="editMode" Placeholder="Select Kit" TValue="KitViewModel" Value="@PackedKit.KitType" Data="@Kits" TextProperty="Name" ValueProperty="Id" Change="@((EventArgs) => {PackedKit.KitType = EventArgs.ToString();})" />
 					</RadzenStack>
 				</RadzenColumn>
 				<RadzenColumn>
 					<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Normal" JustifyContent="JustifyContent.Normal" Gap="10px">
 						<span class="fw-bold text-uppercase">Quantity</span>
-						<RadzenNumeric TValue="int" Min=0 Name="Quantity" />
+						<RadzenNumeric ReadOnly="editMode" ShowUpDown="!editMode" TValue="int" Min=0 Name="Quantity" @bind-Value="@PackedKit.Quantity" />
+					</RadzenStack>
+				</RadzenColumn>
+			</RadzenRow>
+			<RadzenRow>
+				<RadzenColumn>
+					<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Normal" JustifyContent="JustifyContent.Normal" Gap="10px">
+						<span class="fw-bold text-uppercase">Floor</span>
+						<RadzenDropDown Placeholder="Select Floor" @bind-Value="PackedKit.FloorId" Data="@Floors" TextProperty="Name" ValueProperty="Id" Change="@SetSelectedFloor" />
+					</RadzenStack>
+				</RadzenColumn>
+				<RadzenColumn>
+					<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Normal" JustifyContent="JustifyContent.Normal" Gap="10px">
+						<span class="fw-bold text-uppercase">Rack</span>
+						<RadzenDropDown Disabled="@(SelectedFloor is null)" Placeholder="Select Rack" TValue="RackViewModel" Value="@PackedKit.RackId" Data="@SelectedFloor.RackList" TextProperty="Name" ValueProperty="Id" Change="@(EventArgs => PackedKit.RackId = EventArgs.ToString())" />
 					</RadzenStack>
 				</RadzenColumn>
 			</RadzenRow>
 			<RadzenRow>
 				<RadzenColumn>
 					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="10px">
-				<RadzenButton Text="Cancel" Icon="close" ButtonStyle="ButtonStyle.Base" Size="ButtonSize.Small" Click="@(() => _dialogService.Close(false))" />
-				<RadzenButton Text="Save" Icon="done_outline" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Size="ButtonSize.Small" Click="@(() => SubmitKit())" />
-			</RadzenStack>
+						<RadzenButton Text="Cancel" Icon="close" ButtonStyle="ButtonStyle.Base" Size="ButtonSize.Small" Click="@(() => _dialogService.Close(false))" />
+						<RadzenButton Text="Save" Icon="done_outline" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Size="ButtonSize.Small" Click="@(() => SubmitKit())" />
+					</RadzenStack>
 				</RadzenColumn>
 			</RadzenRow>
 		</RadzenStack>

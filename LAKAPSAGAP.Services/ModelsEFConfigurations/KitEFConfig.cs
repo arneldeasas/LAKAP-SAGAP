@@ -5,5 +5,6 @@ public static class KitEFConfig
 	public static void OnModelCreation(ModelBuilder builder)
 	{
 		builder.Entity<Kit>().HasMany(x => x.KitComponentList).WithOne(x => x.Kit).OnDelete(DeleteBehavior.NoAction);
+		builder.Entity<Kit>().HasMany(x => x.PackedReliefKitList).WithOne(x => x.Kit).OnDelete(DeleteBehavior.NoAction);
 	}
 }

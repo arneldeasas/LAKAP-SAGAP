@@ -3,7 +3,7 @@
 </RadzenStack>
 
 <RadzenRow class="w-100 mt-3">
-	@foreach(var item in KitList)
+	@foreach (var item in KitList)
 	{
 		<RadzenColumn Size="6">
 			<RadzenCard>
@@ -15,7 +15,7 @@
 					<hr />
 					<RadzenDataGrid TItem="@KitComponentViewModel" Data="item.KitComponentList">
 						<Columns>
-							
+
 							<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.ItemName))" Title="Name" />
 							<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.Quantity))" Title="Quantity" />
 							@* 						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.QuantityOnHand))" Title="Name" />
@@ -26,24 +26,24 @@
 			</RadzenCard>
 		</RadzenColumn>
 	}
-</RadzenRow>
+	</RadzenRow>
 
-@code{
+	@code {
 	[Inject] DialogService _dialogService { get; set; }
 	async Task ShowKitTypeCreateDialog(KitViewModel kitVM)
 	{
 		var result = await _dialogService.OpenAsync("Create Kit", ds =>@<KitTypeCreateUpdate KitVM="@kitVM" /> ,
 		new DialogOptions()
-			{
-				CssClass = "rz-w-fit-content",
-				ShowTitle = false,
-			});
+		{
+			CssClass = "rz-w-fit-content",
+			ShowTitle = false,
+		});
 		if (result == true)
-			{
+		{
 			//await LoadAllKits();
-			StateHasChanged();
 		}
-	
+		StateHasChanged();
+
 	}
 
 

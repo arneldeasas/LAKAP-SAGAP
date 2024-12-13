@@ -41,18 +41,18 @@ namespace LAKAPSAGAP.Services.Core
 				{
 					throw new Exception("Invalid credentials.");
 				}
-                string? roleId = _context.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault().RoleId;
-                if(roleId == null)
-                {
-                    throw new Exception("Invalid credentials.");
-                }
+                //string? roleId = _context.UserRoles.Where(x => x.UserId == user.Id).FirstOrDefault().RoleId;
+                //if(roleId == null)
+                //{
+                //    throw new Exception("Invalid credentials.");
+                //}
 
-                string? roleName = _context.Roles.Where(x => x.Id == roleId).FirstOrDefault().Name;
+                //string? roleName = _context.Roles.Where(x => x.Id == roleId).FirstOrDefault().Name;
 
-                if (roleName == null)
-                {
-                    throw new Exception("Invalid credentials.");
-                }
+                //if (roleName == null)
+                //{
+                //    throw new Exception("Invalid credentials.");
+                //}
 
                 var passwordValid = await _userManager.CheckPasswordAsync(user, login.Password);
                 if (!passwordValid)
@@ -67,7 +67,7 @@ namespace LAKAPSAGAP.Services.Core
                 var name = _contextAccessor.HttpContext.User;
 
                 Console.WriteLine(result);
-                return result.Succeeded ? roleName : "";
+                return result.Succeeded ? "CSWD Office Head" : "";
 
 			}
 			catch (Exception e)
@@ -78,6 +78,19 @@ namespace LAKAPSAGAP.Services.Core
 
         }
 
+        public async Task<bool> Logout()
+        {
+            try
+            {
+				await _signInManager.SignOutAsync();
+				return true;
+			}
+            catch (Exception)
+            {
+
+                throw;
+            }
+		}
         //public async Task<ClaimsPrincipal> MakeNewAuthenticatedUser(LoginViewModel login)
         //{
         //    try

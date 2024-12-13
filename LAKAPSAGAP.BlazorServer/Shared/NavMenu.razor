@@ -73,7 +73,17 @@
                 <p class="nav-name">@($"{user.FirstName} {user.MiddleName} {user.LastName}")</p>
                 <p class="nav-role">@user.RoleName</p>
             </RadzenStack>
-            <RadzenButton Size="ButtonSize.Large" Icon="account_circle" ButtonStyle="ButtonStyle.Base" Style="border-radius: var(--rz-border-radius-6);" />
+            <RadzenProfileMenu Style="background:none;overflow:visible;padding:0">
+                <Template >
+                    <RadzenButton  Size="ButtonSize.Medium" Icon="account_circle" ButtonStyle="ButtonStyle.Base" Style="border-radius: var(--rz-border-radius-6);margin:5px" />
+                </Template>
+                <ChildContent>
+                    <RadzenButton Variant="Variant.Text" Icon="logout" Click="Logout" Text="Logout"></RadzenButton>
+                  
+    
+                </ChildContent>
+            </RadzenProfileMenu>
+           
         </RadzenStack>
         
     </RadzenStack>

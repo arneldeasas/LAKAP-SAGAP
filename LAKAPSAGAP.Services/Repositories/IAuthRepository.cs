@@ -13,6 +13,7 @@ namespace LAKAPSAGAP.Services.Repositories
 		Task<UserAuth> GetAuthUserByUsername(string username);
 		Task<UserAuth> GetAuthUserByUserAuthId(string UserAuthId);
         Task<UserInfo> GetUserInfoByUserAuthId(string userAuthId);
+        Task<bool> Logout();
 		//public UserInfo GetAuthenticatedUser();
 	}
 }

@@ -16,7 +16,7 @@
 			@* Side Content *@
 
 			<div class="card p-3 d-flex flex-column align-items-start just-items-start" style="width: 20%; height: 100%;">
-				<Warehouse Id="@(id)"/>
+				<Warehouse OnValueChanged="HandleValueChange" Id="@(id)" />
 			</div>
 
 			@* Center Contents *@
@@ -45,7 +45,10 @@
 				<RadzenTabs Style="border: 1px solid var(--rz-base-300); border-radius: var(--rz-border-radius-1); width: 100%; height: 100%;" TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Server">
 					<Tabs>
 						<RadzenTabsItem Text="Stocks">
-							<StocksDataGrid />
+							@if(isDataInitialized)
+							{
+								<StocksDataGrid />
+							}
 						</RadzenTabsItem>
 						<RadzenTabsItem Text="Received Stocks">
 							<ReceivedStocksDataGrid  ReloadTable=@shouldReloadBatchesTable OnValueChanged="HandleValueChangeForReceivedStocks"/>
@@ -64,6 +67,7 @@
 
 @code
 {
+	bool isDataInitialized = false;
 	bool shouldReloadBatchesTable = false;
 	async Task ShowReceiveStockDialog()
 	{
@@ -79,6 +83,12 @@
 	void HandleValueChangeForReceivedStocks(bool value)
 	{
 		shouldReloadBatchesTable = value;
+		StateHasChanged();
+	}
+
+	void HandleValueChange(bool initialized)
+	{
+		isDataInitialized = initialized;
 		StateHasChanged();
 	}
 }

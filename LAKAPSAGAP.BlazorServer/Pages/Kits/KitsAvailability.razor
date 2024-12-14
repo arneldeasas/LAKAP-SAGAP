@@ -2,22 +2,22 @@
 <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
 </RadzenStack>
 
-<RadzenRow class="w-100 mt-3">
+<RadzenRow class="w-100 mt-3" AlignItems="AlignItems.Stretch">
 	@foreach (var item in KitList)
 	{
-		<RadzenColumn Size="6">
+		<RadzenColumn Size="4" class="h-100">
 			<RadzenCard>
-				<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceEvenly">
+				<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceEvenly" Gap="15">
 					<RadzenStack class="w-100" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
-						<RadzenText class="rz-m-0" TextStyle="TextStyle.H5" Text="@item.Name" />
+						<RadzenText class="rz-m-0" TextStyle="TextStyle.H6" Text="@item.Name" />
 						<RadzenButton class="rz-m-0" Icon="edit" Text="Edit" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined" Click="@(() => ShowKitTypeCreateDialog(item))" />
 					</RadzenStack>
-					<hr />
+		
 					<RadzenDataGrid TItem="@KitComponentViewModel" Data="item.KitComponentList">
 						<Columns>
 
 							<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.ItemName))" Title="Name" />
-							<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.Quantity))" Title="Quantity" />
+							<RadzenDataGridColumn Width="150px" Property="@(nameof(KitComponentViewModel.Quantity))" Title="Quantity" />
 							@* 						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.QuantityOnHand))" Title="Name" />
 						<RadzenDataGridColumn Property="@(nameof(KitComponentViewModel.Status))" Title="Status" /> *@
 						</Columns>

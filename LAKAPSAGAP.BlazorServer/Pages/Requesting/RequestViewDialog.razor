@@ -116,8 +116,8 @@
 		</RadzenStack>
 		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
 			<RadzenButton Text="Close" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Dark" Variant="Variant.Text" Click="()=> _dialogService.Close()" />
-			<RadzenButton Text="Reject" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Dark" Variant="Variant.Outlined" Click="()=> RejectRequest()"/>
-			<RadzenButton Text="Approve" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" Click="async()=> await ApproveRequest(ReliefRequestVM.Id)" />
+			<RadzenButton Text="Reject" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Dark" Disabled="@(ReliefRequestVM.Status != RequestStatus.pending )" Variant="Variant.Outlined" Click="()=> RejectRequest()" />
+			<RadzenButton Text="Approve" Disabled="@(ReliefRequestVM.Status != RequestStatus.pending )" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" Click="async()=> await ApproveRequest(ReliefRequestVM.Id)" />
 		</RadzenStack>
 	</RadzenStack>
 </RadzenTemplateForm>

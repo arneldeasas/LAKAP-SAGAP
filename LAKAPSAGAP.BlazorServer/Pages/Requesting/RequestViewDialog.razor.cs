@@ -16,7 +16,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 				if(!(await _jsRuntime.InvokeAsync<bool>("Confirmation"))) return;
 				 if(await _requestRepo.RejectRequest(ReliefRequestVM.Id))
 				{
-					_dialogService.Close();
+					_dialogService.Close("reload");
 					await _jsRuntime.InvokeVoidAsync("ShowToast", "Request updated successfully.", "success");
 
 				}

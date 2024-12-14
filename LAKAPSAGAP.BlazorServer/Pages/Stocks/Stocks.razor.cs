@@ -14,7 +14,6 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 		};
 
 		List<ReliefReceivedViewModel> BatchesTable = new();
-
 	
 		async Task LoadBatchesData()
 		{

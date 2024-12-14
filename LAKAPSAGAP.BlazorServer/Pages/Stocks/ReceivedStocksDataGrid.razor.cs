@@ -59,6 +59,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
 				}).ToList()
 			}).ToList();
 		}
+
 		private void SearchStockDetails(string value)
 		{
 			if (value != string.Empty)

@@ -245,7 +245,7 @@ namespace LAKAPSAGAP.Services.Core
 			try
 			{
 				requestList = await _context.ReliefRequests.Where(x => x.Status == RequestStatus.delivered || x.Status == RequestStatus.rejected)
-					.Include(x => x.RequestList).Include(x => x.AttachmentList)
+					.Include(x => x.RequestList).Include(x => x.AttachmentList).Include(x => x.RequestedBy)
 					.OrderByDescending(x => x.DateCreated)
 					.ToListAsync();
 				return requestList;

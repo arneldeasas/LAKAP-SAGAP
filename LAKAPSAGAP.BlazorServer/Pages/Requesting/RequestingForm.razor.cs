@@ -95,12 +95,13 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 		async Task SubmitRequest()
 		{
 			ValidateForm();
-			_isBusy = true;
-			StateHasChanged();
+			
 
 			if (!(await _jSRuntime.InvokeAsync<bool>("Confirmation"))) return;
 			try
 			{
+				_isBusy = true;
+				StateHasChanged();
 				string id = await ReliefRequestRepository.CreateRequestAsync(ReliefRequestVM);
 
 				if(string.IsNullOrEmpty(id))
@@ -115,10 +116,10 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 			}
 			catch (Exception e)
 			{
-
+				_isBusy = false;
 				await _jSRuntime.InvokeVoidAsync("Toast", "error", e.Message);
 			}
-			_isBusy = true;
+		
 			StateHasChanged();
 		}
 	}

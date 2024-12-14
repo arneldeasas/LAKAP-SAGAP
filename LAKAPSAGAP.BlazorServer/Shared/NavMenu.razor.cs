@@ -43,7 +43,7 @@ public partial class NavMenu
 			var response = await HttpClient.PostAsync(new Uri("https://localhost:7224/api/account/logout"), null);
             if (response.IsSuccessStatusCode)
             {
-                _navManager.NavigateTo("/");
+                _navManager.NavigateTo("/",true);
 			}
 		}
         catch (Exception)

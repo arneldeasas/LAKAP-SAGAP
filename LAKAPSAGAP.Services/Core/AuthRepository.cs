@@ -67,7 +67,7 @@ namespace LAKAPSAGAP.Services.Core
                 var name = _contextAccessor.HttpContext.User;
 
                 Console.WriteLine(result);
-                return result.Succeeded ? roleName : "";
+                return result.Succeeded ? "CSWD OFFICE HEAD" : "";
 
 			}
 			catch (Exception e)

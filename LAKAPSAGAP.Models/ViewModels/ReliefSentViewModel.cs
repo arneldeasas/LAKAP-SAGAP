@@ -10,8 +10,8 @@ namespace LAKAPSAGAP.Models.ViewModels
     {
         public string ReliefRequestId { get; set; }
         public ReliefRequestDetailViewModel ReliefRequest { get; set; }
-        public List<ReliefSentKit> SentKitList { get; set; }
-        public List<ReliefSentItem> SentItemList { get; set; }
+        public List<ReliefSentKitViewModel> SentKitList { get; set; }
+        public List<ReliefSentItemViewModel> SentItemList { get; set; }
     }
 
     public class ReliefSentItemViewModel
@@ -22,7 +22,7 @@ namespace LAKAPSAGAP.Models.ViewModels
         public string StockItemId { get; set; }
         public StockItemViewModel StockItem { get; set; }
     }
-    public class ReliefSentKitModel
+    public class ReliefSentKitViewModel
     {
         public string ReliefSentId { get; set; }
         public ReliefSentViewModel ReliefSent { get; set; }

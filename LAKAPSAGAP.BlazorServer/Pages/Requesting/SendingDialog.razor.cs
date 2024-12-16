@@ -4,8 +4,11 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 	public partial class SendingDialog
 	{
 		[Inject] IJSRuntime _jSRuntime { get; set; }
-		[Inject] IReliefRequestRepository _requestRepo { get; set; }
+		[Inject] DialogService _dialogService { get; set; }
+        [Inject] IReliefRequestRepository _requestRepo { get; set; }
 		[Parameter]
+		public string RequestDetailsId { get; set; }
+        [Parameter]
 		public List<RequestViewModel> RequestItemsList { get; set; }
 
 		public List<RequestViewModel> SentItemList { get; set; } = new();
@@ -14,6 +17,8 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 		SentItemForm ItemForm { get; set; } = new();
 
 		RadzenDataGrid<RequestViewModel> sentItemListDG = new();
+
+		bool _isBusy { get; set; } = false;
 		protected override async Task OnAfterRenderAsync(bool firstRender)
 		{
 			if (firstRender)
@@ -72,7 +77,27 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 
 		public async Task Submit()
 		{
-
-		}
+            if (!(await _jSRuntime.InvokeAsync<bool>("Confirmation"))) return;
+			_isBusy = true;
+			StateHasChanged();
+            ReliefSentViewModel reliefSentVM = new ReliefSentViewModel
+            {
+                ReliefRequestId = RequestDetailsId,
+                SentKitList = KitListVM.Select(x => new ReliefSentKitViewModel
+                {
+                    KitId = x.Id,
+                    Quantity = 0
+                }).ToList(),
+                SentItemList = StockItemListVM.Select(x => new ReliefSentItemViewModel
+                {
+                    StockItemId = x.Id,
+                    Quantity = 0
+                }).ToList()
+            };
+			await _requestRepo.SendRelief(reliefSentVM);
+			_isBusy = false;
+            StateHasChanged();
+			_dialogService.Close("sent");
+        }
 	}
 }

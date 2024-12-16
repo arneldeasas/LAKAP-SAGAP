@@ -18,7 +18,10 @@ public class IdGenerator
     public static string PFX_REQUEST { get; set; } = "RQST_";
     public static string PFX_REQUESTITEM { get; set; } = "RQSTITM_";
     public static string PFX_REQUESTATTACHMENT { get; set; } = "RQSTATT_";
-	public static string GenerateId(string prefix, int count)
+    public static string PFX_RELIEFSENT { get; set; } = "SNT_";
+    public static string PFX_RELIEFSENTITEM { get; set; } = "SNTITM_";
+    public static string PFX_RELIEFSENTKIT { get; set; } = "SNTKIT_";
+    public static string GenerateId(string prefix, int count)
     {
         try
         {

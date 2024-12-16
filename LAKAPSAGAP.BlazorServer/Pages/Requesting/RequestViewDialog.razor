@@ -137,12 +137,17 @@
 
 	async Task OpenDeliveryDialog()
 	{
-		var result = await _dialogService.OpenAsync("Sent Items", ds =>@<SendingDialog RequestItemsList="@ReliefRequestVM.RequestList" /> ,
+		var result = await _dialogService.OpenAsync("Sent Items", ds =>@<SendingDialog RequestDetailsId="@ReliefRequestVM.Id" RequestItemsList="@ReliefRequestVM.RequestList" /> ,
 		new DialogOptions()
 		{
 			Style="width:50%;",
 			ShowTitle = false,
 		});
+
+		if (result == "sent")
+		{
+			_dialogService.Close();
+		}
 	}
 
 }

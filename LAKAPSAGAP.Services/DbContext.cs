@@ -33,9 +33,12 @@ public class MyDbContext(
 	public DbSet<ReliefRequestDetail> ReliefRequests { get; set; }
 	public DbSet<Request> RequestItems { get; set; }
 	public DbSet<RequestAttachment> RequestAttachments { get; set; }
+	public DbSet<ReliefSent> ReliefSents { get; set; }
 
+    public DbSet<ReliefSentItem> ReliefSentItems { get; set; }
+	public DbSet<ReliefSentKit> ReliefSentKits { get; set; }
 
-	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
 		var loggerFactory = LoggerFactory.Create(builder =>
 		{

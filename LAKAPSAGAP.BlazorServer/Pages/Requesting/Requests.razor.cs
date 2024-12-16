@@ -50,16 +50,16 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
                     AdditionalNotes = x.AdditionalNotes,
                     ReceiverName = x.ReceiverName,
                     ContactNumber = x.ContactNumber,
+                    RequestedBy = new UserInfoViewModel
+                    {
+                        FirstName = x.RequestedBy.FirstName,
+                        LastName = x.RequestedBy.LastName,
+                    },
                     AttachmentList = x.AttachmentList.Select(x => new RequestAttachmentViewModel
                     {
                         Url = x.Url,
                     }).ToList(),
                     DateRequested = x.DateCreated,
-                    RequestedBy = new UserInfoViewModel
-                    {
-                        FirstName = x.RequestedBy.FirstName,
-                        LastName = x.RequestedBy.LastName,
-                    }
                 }).ToList();
             }
 			_isBusy = false;

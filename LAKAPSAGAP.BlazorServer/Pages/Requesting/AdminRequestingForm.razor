@@ -1,4 +1,4 @@
-﻿@page "/requests/requestform"
+﻿@page "/admin/requestform"
 @layout MainLayout
 <RadzenCard class="m-5 form-card">
     <RadzenText TextStyle="TextStyle.DisplayH5" Text="Request Relief Form"></RadzenText>
@@ -249,7 +249,7 @@
 
     void Cancel()
     {
-        _navManager.NavigateTo("/barangay-rep/requests");
+        _navManager.NavigateTo("/admin/requests");
     }
 }
 

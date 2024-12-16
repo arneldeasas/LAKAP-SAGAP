@@ -15,6 +15,11 @@
                 <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Id)" Title="Code" />
                 <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Reason)" Title="Reason" />
                 <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.NumberOfRecipients)" Title="Number of Recipients" />
+                <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.RequestedBy)" Title="Requestor">
+                    <Template Context="data">
+                        @($"{data.RequestedBy.FirstName} {data.RequestedBy.LastName}")
+                    </Template>
+                </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.DateRequested)" Title="Date Requested">
                     <Template Context="data">
                         @(data.DateRequested.ToString("MM-dd-yyyy"))
@@ -53,6 +58,11 @@
                 <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Id)" Title="Code" />
                 <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Reason)" Title="Reason" />
                 <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.NumberOfRecipients)" Title="Number of Recipients" />
+                <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.RequestedBy)" Title="Requestor">
+                    <Template Context="data">
+                        @($"{data.RequestedBy.FirstName} {data.RequestedBy.LastName}")
+                    </Template>
+                </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.DateRequested)" Title="Date Requested">
                     <Template Context="data">
                         @(data.DateRequested.ToString("MM-dd-yyyy"))
@@ -85,7 +95,7 @@
 
     void GoToForm()
     {
-        _navManager.NavigateTo("/requests/requestform");
+        _navManager.NavigateTo("/admin/requestform");
     }
 
     async Task ViewRequest(ReliefRequestDetailViewModel request)

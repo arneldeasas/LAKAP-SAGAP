@@ -192,7 +192,7 @@ namespace LAKAPSAGAP.Services.Core
 			try
 			{
 
-				requestList = await _context.ReliefRequests.WhereIsNotArchivedAndDeleted().Include(x => x.RequestList).Include(x=>x.AttachmentList).OrderByDescending(x=>x.DateCreated).ToListAsync();
+				requestList = await _context.ReliefRequests.WhereIsNotArchivedAndDeleted().Include(x => x.RequestList).Include(x=>x.AttachmentList).Include(x => x.RequestedBy).OrderByDescending(x=>x.DateCreated).ToListAsync();
 				return requestList;
 			}
 			catch (Exception)
@@ -227,7 +227,7 @@ namespace LAKAPSAGAP.Services.Core
 			try
 			{
 				requestList = await _context.ReliefRequests.Where(x => x.Status == RequestStatus.pending || x.Status == RequestStatus.preparing)
-					.Include(x => x.RequestList).Include(x => x.AttachmentList)
+					.Include(x => x.RequestList).Include(x => x.AttachmentList).Include(x => x.RequestedBy)
 					.OrderByDescending(x => x.DateCreated)
 					.ToListAsync();
 				return requestList;

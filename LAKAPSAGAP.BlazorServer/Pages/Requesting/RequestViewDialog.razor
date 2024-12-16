@@ -1,0 +1,153 @@
+﻿<RadzenText TextStyle="TextStyle.DisplayH5" Text="Request Details"></RadzenText>
+<RadzenTemplateForm TItem="ReliefRequestDetailViewModel" Data="ReliefRequestVM">
+	<RadzenStack>
+		<RadzenRow>
+			<RadzenColumn Size="3">
+				<RadzenStack Gap="0">
+					<RadzenLabel Text="REASON FOR REQUEST">
+
+					</RadzenLabel>
+					<RadzenTextBox ReadOnly Placeholder="Select reason" Value="@ReliefRequestVM.Reason.ToString()" Name="RequestReason"></RadzenTextBox>
+
+				</RadzenStack>
+			</RadzenColumn>
+			<RadzenColumn Size="3">
+				<RadzenStack Gap="0">
+					<RadzenLabel Text="SPECIFIC REASON">
+
+					</RadzenLabel>
+					<RadzenTextBox ReadOnly Placeholder="ex. Fire Incident" Value="@ReliefRequestVM.SpecificReason" Name="SpecificReason"></RadzenTextBox>
+
+				</RadzenStack>
+
+			</RadzenColumn>
+			<RadzenColumn Size="3">
+				<RadzenStack Gap="0">
+					<RadzenLabel Text="NUMBER OF RECIPIENTS">
+
+					</RadzenLabel>
+					<RadzenTextBox ReadOnly Value=@ReliefRequestVM.NumberOfRecipients.ToString() Name="NumberOfRecipients"></RadzenTextBox>
+
+
+				</RadzenStack>
+
+			</RadzenColumn>
+			<RadzenColumn Size="3">
+				<RadzenStack Gap="0">
+					<RadzenLabel Text="BARANGAY/ORGANIZATION">
+
+					</RadzenLabel>
+					<RadzenTextBox ReadOnly Value=@ReliefRequestVM.Organization></RadzenTextBox>
+
+
+				</RadzenStack>
+
+			</RadzenColumn>
+		</RadzenRow>
+		<RadzenStack>
+			<RadzenStack class="my-3">
+				<RadzenLabel Text="Requests"/>
+				@foreach (var item in ReliefRequestVM.RequestList.ToList())
+				{
+					<RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" AlignItems="AlignItems.Center">
+						<RadzenFormField Text="Item">
+							<RadzenTextBox ReadOnly="true" Value="@item.UnitName" />
+						</RadzenFormField>
+						<RadzenFormField Text="Quantity">
+							<RadzenTextBox ReadOnly="true" Value="@item.Quantity.ToString()" />
+						</RadzenFormField>
+			
+					</RadzenStack>
+				}
+			</RadzenStack>
+		
+
+		</RadzenStack>
+		<RadzenStack Orientation="Orientation.Horizontal" class="w-100">
+			<RadzenStack>
+				<RadzenLabel Text="Date to Receive" />
+				<RadzenTextBox ReadOnly Value="@ReliefRequestVM.TargetDateToReceive.ToString("MMMM-dd-yyyy")" Name="DateToReceive" />
+
+			</RadzenStack>
+			<RadzenStack class="flex-grow-1">
+				<RadzenLabel Text="Receiver Address">
+
+				</RadzenLabel>
+				<RadzenTextBox ReadOnly Value="@ReliefRequestVM.ReceiverAddress" Name="ReceiverAddress" />
+
+			</RadzenStack>
+		</RadzenStack>
+		<RadzenStack>
+			<RadzenLabel Text="Additional Notes" />
+			<RadzenTextArea ReadOnly Style="width: 100%" aria-label="TextArea" Value="@ReliefRequestVM.AdditionalNotes" />
+		</RadzenStack>
+		<RadzenRow>
+			<RadzenColumn Size="6">
+				<RadzenStack>
+					<RadzenLabel Text="Will Receive By" />
+					<RadzenTextBox ReadOnly Value="@ReliefRequestVM.ReceiverName" Name="ReceiverName" />
+
+				</RadzenStack>
+			</RadzenColumn>
+			<RadzenColumn Size="6">
+				<RadzenStack>
+					<RadzenLabel Text="Phone Number" />
+					<RadzenTextBox ReadOnly Value="@ReliefRequestVM.ContactNumber"
+								   Style="width: 100%;" aria-label="Phone" />
+
+				</RadzenStack>
+			</RadzenColumn>
+		</RadzenRow>
+		<RadzenStack>
+			<RadzenLabel Text="Attachments" />
+
+			<RadzenStack>
+				@foreach (var file in ReliefRequestVM.FileList)
+				{
+					<RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" AlignItems="AlignItems.Center">
+						<RadzenTextBox ReadOnly="true" Value="@file.Name" />
+						<RadzenButton Click="()=> ReliefRequestVM.FileList.Remove(file)" ButtonType="ButtonType.Button" Icon="close" ButtonStyle="ButtonStyle.Danger"></RadzenButton>
+					</RadzenStack>
+				}
+			</RadzenStack>
+			@* <RadzenUpload Auto="false" Multiple="true" Url="upload/multiple" Accept="image/*"  Change=@(args => HandleFileChange(args))
+			Style="width: 100%" /> *@
+
+		</RadzenStack>
+		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+			<RadzenButton Text="Close" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Dark" Variant="Variant.Text" Click="()=> _dialogService.Close()" />
+			<RadzenButton Text="Reject" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Dark" Disabled="@(ReliefRequestVM.Status != RequestStatus.pending )" Variant="Variant.Outlined" Click="()=> RejectRequest()" />
+			@switch (ReliefRequestVM.Status)
+			{
+				case RequestStatus.pending:
+					<RadzenButton Text="Approve" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Primary" Variant="Variant.Filled" Click="()=> ApproveRequest(ReliefRequestVM.Id)" />
+					break;
+				case RequestStatus.preparing:
+					<RadzenButton Text="Delivered" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Primary" Variant="Variant.Filled" Click="()=> OpenDeliveryDialog()" />
+						break;
+				case RequestStatus.delivered:
+				<RadzenButton Text="Delivered" Disabled ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Success" Variant="Variant.Text"  />
+					break;
+			}
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+
+@code{
+
+	async Task OpenDeliveryDialog()
+	{
+		var result = await _dialogService.OpenAsync("Sent Items", ds =>@<SendingDialog RequestDetailsId="@ReliefRequestVM.Id" RequestItemsList="@ReliefRequestVM.RequestList" /> ,
+		new DialogOptions()
+		{
+			Style="width:50%;",
+			ShowTitle = false,
+		});
+
+		if (result == "sent")
+		{
+			_dialogService.Close();
+		}
+	}
+
+}

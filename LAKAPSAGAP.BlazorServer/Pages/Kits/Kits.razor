@@ -1,0 +1,114 @@
+﻿@using LAKAPSAGAP.BlazorServer.Pages.Requesting
+@using LAKAPSAGAP.BlazorServer.Pages.Warehouse
+
+@page "/Warehouse/{id}/Kits"
+@layout MainLayout
+@inherits LayoutComponentBase
+<PageTitle>Kits</PageTitle>
+
+<MacroBody>
+	<MacroContainer>
+
+		<div class="d-flex justify-content-between align-items-center ms-4">
+			<MacroBreadcrumbs Breadcrumbs="Breadcrumbs" />
+		</div>
+
+		<div class="w-100 h-100 d-flex flex-row align-items-center just-items-center" style="gap: 1rem;">
+
+			@* Side Content *@
+
+			<div class="card p-3 d-flex flex-column align-items-start just-items-start" style="width: 20%; height: 100%;">
+				<Warehouse OnValueChanged="HandleValueChange"  Id="@(id)" IsKits="true" />
+			</div>
+
+			@* Center Contents *@
+
+			<div class="card p-3 d-flex flex-column align-items-start just-items-start gap-3" style="width: 80%; height: 100%;">
+
+				@* Headers *@
+
+				<div class="w-100 d-flex flex-row gap-4 justify-content-between align-items-end text-success">
+					<div>
+						<span class="fw-bold rz-color-base-800 fs-4 me-2">Kits Management</span>
+						@* <span class="fw-bold rz-background-color-success-lighter rz-border-radius-2 rz-color-success fs-6 px-2 py-1">1000 available</span> *@
+					</div>
+					<div>
+						<RadzenButton Visible="@(currentTab == 0)" Click="ShowKitTypeCreateDialog" Icon="add" Text="Add Kit Type" ButtonStyle="ButtonStyle.Success"
+						class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
+						<RadzenButton Visible="@(currentTab == 1)" Click="ShowKitsCreateDialog" Icon="add" Text="Add New Kit" ButtonStyle="ButtonStyle.Success"
+						class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
+						<RadzenButton Icon="send" Text="Send Relief" ButtonStyle="ButtonStyle.Success" Click="ShowSendReliefDialog"
+						class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
+					</div>
+				</div>
+
+				@* Tabs *@
+
+				<RadzenTabs @bind-SelectedIndex="currentTab"
+				Style="border: 1px solid var(--rz-base-300); border-radius: var(--rz-border-radius-1); width: 100%; height: 100%;" TabPosition="TabPosition.Top">
+					<Tabs>
+						<RadzenTabsItem Text="Kits Availability">
+							@if(isDataInitialized)
+							{
+								<KitsAvailability OnValueChanged="HandleValueChangeForKitAvailability" ReloadKitsTable="_reloadKitTable" />
+							}
+						</RadzenTabsItem>
+						<RadzenTabsItem Text="Kits Management">
+							<KitsManagement />
+						</RadzenTabsItem>
+					</Tabs>
+				</RadzenTabs>
+
+			</div>
+		</div>
+
+	</MacroContainer>
+</MacroBody>
+
+@code
+{
+	bool isDataInitialized = false;
+	bool _reloadKitTable { get; set; } = false;
+
+	async Task ShowSendReliefDialog()
+	{
+		var res = await _dialogService.OpenAsync<SendingDialog>("", options: new() { ShowTitle = false, CloseDialogOnEsc = false, CloseDialogOnOverlayClick = false });
+	}
+
+	async Task ShowKitTypeCreateDialog()
+	{
+		var response = await _dialogService.OpenAsync("Create Kit", ds => @<KitTypeCreateUpdate /> ,
+	new DialogOptions()
+			{
+				CssClass = "rz-w-fit-content",
+				ShowTitle = false,
+			});
+
+		if (!response) return;
+
+		_reloadKitTable = true;
+
+		StateHasChanged();
+	}
+	
+	async Task ShowKitsCreateDialog()
+	{
+		var result = await _dialogService.OpenAsync("Create Kit", ds => @<KitsCreateUpdate /> ,
+	new DialogOptions()
+			{
+				CssClass = "rz-w-fit-content",
+				ShowTitle = false,
+			});
+	}
+
+	void HandleValueChange(bool initialized)
+	{
+		isDataInitialized = initialized;
+		StateHasChanged();
+	}
+	void HandleValueChangeForKitAvailability(bool reload)
+	{
+		_reloadKitTable = reload;
+		StateHasChanged();
+	}
+}

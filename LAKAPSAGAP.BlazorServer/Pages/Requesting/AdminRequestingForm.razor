@@ -1,0 +1,255 @@
+﻿@page "/admin/requestform"
+@layout MainLayout
+<RadzenCard class="m-5 form-card">
+    <RadzenText TextStyle="TextStyle.DisplayH5" Text="Request Relief Form"></RadzenText>
+    <RadzenTemplateForm TItem="ReliefRequestDetailViewModel" Data="ReliefRequestVM" Submit="SubmitRequest" Context="OuterContext">
+        <RadzenStack>
+            <RadzenRow>
+                <RadzenColumn Size="3">
+                    <RadzenStack Gap="0">
+                        <RadzenLabel Text="REASON FOR REQUEST">
+
+                        </RadzenLabel>
+                        <RadzenDropDown Placeholder="Select reason" @bind-Value=@ReliefRequestVM.Reason Data="@(Enum.GetValues(typeof(RequestReason)).Cast<RequestReason>())" Name="RequestReason"></RadzenDropDown>
+                        <RadzenRequiredValidator Component="RequestReason"></RadzenRequiredValidator>
+                    </RadzenStack>
+                </RadzenColumn>
+                <RadzenColumn Size="3">
+                    <RadzenStack Gap="0">
+                        <RadzenLabel Text="SPECIFIC REASON">
+
+                        </RadzenLabel>
+                        <RadzenTextBox Placeholder="ex. Fire Incident" @bind-Value=@ReliefRequestVM.SpecificReason Name="SpecificReason"></RadzenTextBox>
+                        <RadzenRequiredValidator Component="SpecificReason"></RadzenRequiredValidator>
+                    </RadzenStack>
+
+                </RadzenColumn>
+                <RadzenColumn Size="3">
+                    <RadzenStack Gap="0">
+                        <RadzenLabel Text="NUMBER OF RECIPIENTS">
+
+                        </RadzenLabel>
+                        <RadzenNumeric Placeholder="00" @bind-Value=@ReliefRequestVM.NumberOfRecipients Name="NumberOfRecipients"></RadzenNumeric>
+                        <RadzenNumericRangeValidator Text="Recipient should be more than 0." Min="1m" Component="NumberOfRecipients"></RadzenNumericRangeValidator>
+
+                    </RadzenStack>
+
+                </RadzenColumn>
+                <RadzenColumn Size="3">
+                    <RadzenStack Gap="0">
+                        <RadzenLabel Text="BARANGAY/ORGANIZATION">
+
+                        </RadzenLabel>
+                        <RadzenDropDown Placeholder="Select Barangay" Data="BarangayList" @bind-Value=@ReliefRequestVM.Organization Name="Organization"></RadzenDropDown>
+                        <RadzenRequiredValidator Component="Organization"></RadzenRequiredValidator>
+
+                    </RadzenStack>
+
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenStack>
+
+                <RadzenTemplateForm Data="KitVM" Submit="()=> AddKit(KitVM)" TItem="UnitFormViewModel" Context="KitFormContext">
+                    <RadzenFieldset AllowCollapse="false">
+                        <HeaderTemplate>
+                            <RadzenStack Orientation="Orientation.Horizontal" Gap="0.25rem">
+                                <RadzenLabel Text="ADD KIT" style="margin-bottom:0"></RadzenLabel>
+                            </RadzenStack>
+                        </HeaderTemplate>
+                        <ChildContent>
+                            <RadzenStack>
+                                @foreach (var item in ReliefRequestVM.RequestList.Where(x => x.RequestType == RequestType.Kit).ToList())
+                                {
+                                    <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" AlignItems="AlignItems.Center">
+                                        <RadzenFormField Text="Item">
+                                            <RadzenTextBox ReadOnly="true" Value="@item.UnitName" />
+                                        </RadzenFormField>
+                                        <RadzenFormField Text="Quantity">
+                                            <RadzenTextBox ReadOnly="true" Value="@item.Quantity.ToString()" />
+                                        </RadzenFormField>
+                                        <RadzenButton Click="()=> ReliefRequestVM.RequestList.Remove(item)" ButtonType="ButtonType.Button" Icon="close" ButtonStyle="ButtonStyle.Danger"></RadzenButton>
+                                    </RadzenStack>
+                                }
+                            </RadzenStack>
+                            <RadzenRow Gap="1rem" class="mt-2">
+                                <RadzenColumn Size="6">
+                                    <RadzenStack Gap="0">
+                                        <RadzenLabel Text="SELECT KIT">
+
+                                        </RadzenLabel>
+                                        <RadzenDropDown AllowFiltering="true" @bind-SearchText=@KitVM.SearchString FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" Placeholder="Select Kit" Data="KitList" TextProperty="Name" ValueProperty="Id" @bind-Value=@KitVM.UnitId Name="SelectedKit"></RadzenDropDown>
+                                        <RadzenRequiredValidator Component="SelectedKit" Text="Item is required"></RadzenRequiredValidator>
+
+                                    </RadzenStack>
+
+                                </RadzenColumn>
+                                <RadzenColumn Size="6">
+                                    <RadzenStack Gap="0">
+                                        <RadzenLabel Text="Quantity">
+
+                                        </RadzenLabel>
+                                        <RadzenNumeric Placeholder="00" @bind-Value=@KitVM.Quantity Name="KitQuantity"></RadzenNumeric>
+                                        <RadzenNumericRangeValidator Text="Quantity should be greater than 0" Min="1m" Component="KitQuantity"></RadzenNumericRangeValidator>
+
+
+                                    </RadzenStack>
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenStack class="mt-2" Gap="5px" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                                <RadzenButton Click=@KitVM.resetForm Size="ButtonSize.Medium" Variant="Variant.Outlined" ButtonType="ButtonType.Button" Text="Reset"></RadzenButton>
+
+                                <RadzenButton Variant="Variant.Filled" ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Text="Add"></RadzenButton>
+                            </RadzenStack>
+                        </ChildContent>
+                    </RadzenFieldset>
+                </RadzenTemplateForm>
+                <RadzenTemplateForm Data="ItemVM" Submit="()=> AddItem(ItemVM)" TItem="UnitFormViewModel" Context="ItemFormContext">
+                    <RadzenFieldset AllowCollapse="false">
+                        <HeaderTemplate>
+                            <RadzenStack Orientation="Orientation.Horizontal" Gap="0.25rem">
+                                <RadzenLabel Text="ADD ITEMS" style="margin-bottom:0"></RadzenLabel>
+                            </RadzenStack>
+                        </HeaderTemplate>
+                        <ChildContent>
+                            <RadzenStack>
+                                @foreach (var item in ReliefRequestVM.RequestList.Where(x => x.RequestType == RequestType.Item).ToList())
+                                {
+                                    <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" AlignItems="AlignItems.Center">
+                                        <RadzenFormField Text="Item">
+                                            <RadzenTextBox ReadOnly="true" Value="@item.UnitName" />
+                                        </RadzenFormField>
+                                        <RadzenFormField Text="Quantity">
+                                            <RadzenTextBox ReadOnly="true" Value="@item.Quantity.ToString()" />
+                                        </RadzenFormField>
+
+                                        <RadzenButton Click="()=> ReliefRequestVM.RequestList.Remove(item)" ButtonType="ButtonType.Button" Icon="close" ButtonStyle="ButtonStyle.Danger"></RadzenButton>
+
+                                    </RadzenStack>
+                                }
+                            </RadzenStack>
+                            <RadzenRow Gap="1rem" class="mt-2">
+                                <RadzenColumn Size="6">
+                                    <RadzenStack Gap="0">
+                                        <RadzenLabel Text="SELECT ITEM">
+
+                                        </RadzenLabel>
+                                        <RadzenDropDown AllowFiltering="true" Placeholder="Select Item" Data="StockItemList" TextProperty="Name" ValueProperty="Id" @bind-Value=@ItemVM.UnitId @bind-SearchText=@ItemVM.SearchString FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" Name="SelectedItem"></RadzenDropDown>
+                                        <RadzenRequiredValidator Component="SelectedItem" Text="Item is required"></RadzenRequiredValidator>
+
+                                    </RadzenStack>
+
+                                </RadzenColumn>
+                                <RadzenColumn Size="6">
+                                    <RadzenStack Gap="0">
+                                        <RadzenLabel Text="Quantity">
+
+                                        </RadzenLabel>
+                                        <RadzenNumeric Placeholder="00" @bind-Value=@ItemVM.Quantity Name="ItemQuantity"></RadzenNumeric>
+
+                                        <RadzenNumericRangeValidator Text="Quantity should be greater than 0" Min="1m" Component="ItemQuantity"></RadzenNumericRangeValidator>
+                                    </RadzenStack>
+
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenStack class="mt-2" Gap="5px" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                                <RadzenButton Click=@ItemVM.resetForm Size="ButtonSize.Medium" Variant="Variant.Outlined" ButtonType="ButtonType.Button" Text="Reset"></RadzenButton>
+
+                                <RadzenButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Text="Add"></RadzenButton>
+                            </RadzenStack>
+                        </ChildContent>
+                    </RadzenFieldset>
+                </RadzenTemplateForm>
+            </RadzenStack>
+            <RadzenStack>
+                <RadzenLabel Text="Date to Receive" />
+                <RadzenDatePicker @bind-Value=@ReliefRequestVM.TargetDateToReceive ShowTime="false" HourFormat="12" DateFormat="MM/dd/yyyy" Name="DateToReceive">
+                    <FooterTemplate>
+                        <RadzenStack class="rz-m-2" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center">
+                            <RadzenNumeric @bind-Value="@Hour"
+                                           Min="1"
+                                           Max="12"
+                                           TValue="int"
+                                           Change="CalculateDateTime"
+                                           Style="width: 100px" />
+                            <RadzenDropDown @bind-Value="@Period"
+                                            Data="@(new List<string> { "AM", "PM" })"
+                                            TValue="string"
+                                            Change="CalculateDateTime"
+                                            Style="width: 100px" />
+                        </RadzenStack>
+                    </FooterTemplate>
+                </RadzenDatePicker>
+                <RadzenRequiredValidator Component="DateToReceive" />
+            </RadzenStack>
+            <RadzenStack>
+                <RadzenLabel Text="Receiver Address">
+
+                </RadzenLabel>
+                <RadzenTextBox @bind-Value=@ReliefRequestVM.ReceiverAddress Name="ReceiverAddress" />
+                <RadzenRequiredValidator Component="ReceiverAddress" />
+            </RadzenStack>
+            <RadzenStack>
+                <RadzenLabel Text="Additional Notes" />
+                <RadzenTextArea Style="width: 100%" aria-label="TextArea" @bind-Value="@ReliefRequestVM.AdditionalNotes" />
+            </RadzenStack>
+            <RadzenRow>
+                <RadzenColumn Size="6">
+                    <RadzenStack>
+                        <RadzenLabel Text="Will Receive By" />
+                        <RadzenTextBox @bind-Value="@ReliefRequestVM.ReceiverName" Name="ReceiverName" />
+                        <RadzenRequiredValidator Component="ReceiverName" />
+                    </RadzenStack>
+                </RadzenColumn>
+                <RadzenColumn Size="6">
+                    <RadzenStack>
+                        <RadzenLabel Text="Phone Number" />
+                        <RadzenMask Mask="09*********" CharacterPattern="[0-9]" Placeholder="09XX XXX XXXX" Name="ContactNumber" @bind-Value="@ReliefRequestVM.ContactNumber"
+                                    Style="width: 100%;" aria-label="Phone" />
+                        <RadzenRequiredValidator Component="ContactNumber" />
+                    </RadzenStack>
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenStack>
+                <RadzenLabel Text="Upload Request Letter" />
+                <RadzenStack Gap="2" class="w-100 file-upload-input" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center">
+                    <RadzenButton Click="ClickUploadFile" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Primary" Text="Upload a file"></RadzenButton>
+                    <p class="fs-7">PNG, JPG, or PDF up to 2MB</p>
+                    <InputFile accept=".jpg,.png,.pdf" @ref=inputFileRef id="fileinput-ui" hidden
+                               OnChange="args => HandleFileChange(args)" multiple />
+                </RadzenStack>
+                <RadzenStack>
+                    @foreach (var file in ReliefRequestVM.FileList)
+                    {
+                        <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" AlignItems="AlignItems.Center">
+                            <RadzenTextBox ReadOnly="true" Value="@file.Name" />
+                            <RadzenButton Click="()=> ReliefRequestVM.FileList.Remove(file)" ButtonType="ButtonType.Button" Icon="close" ButtonStyle="ButtonStyle.Danger"></RadzenButton>
+                        </RadzenStack>
+                    }
+                </RadzenStack>
+                @* <RadzenUpload Auto="false" Multiple="true" Url="upload/multiple" Accept="image/*"  Change=@(args => HandleFileChange(args))
+                Style="width: 100%" /> *@
+
+            </RadzenStack>
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenButton Click="Cancel" Text="Cancel" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Dark" Variant="Variant.Outlined" />
+                <RadzenButton Text="Submit" IsBusy="_isBusy" BusyText="Submitting" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" />
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenTemplateForm>
+</RadzenCard>
+
+@code {
+    InputFile inputFileRef;
+
+
+    async void ClickUploadFile()
+    {
+        await _jSRuntime.InvokeVoidAsync("ClickFileInput", inputFileRef);
+    }
+
+    void Cancel()
+    {
+        _navManager.NavigateTo("/admin/requests");
+    }
+}
+

@@ -1,0 +1,99 @@
+﻿@using LAKAPSAGAP.Models.ViewModel
+
+@page "/MasterData/Users"
+@layout MainLayout
+
+<PageTitle>Users</PageTitle>
+
+<MacroContainer>
+
+
+	<div style="width: 100%;" class="d-flex justify-content-between align-items-center">
+		<MacroBreadcrumbs Breadcrumbs="Breadcrumbs" />
+		<div class="btn-group">
+			<RadzenButton Style="border-radius: var(--rz-border-radius-3); text-transform:capitalize;"
+						  Icon="add" Text="Add User" ButtonStyle="ButtonStyle.Primary"
+						  Click="@ShowUsersCreateDialog" />
+		</div>
+	</div>
+
+	<div class="card p-3 d-flex flex-column align-items-start justify-items-end gap-3" style="width: 100%; height: 100%;">
+		<MacroSearch OnInput="(EventArgs) => SearchUsers(EventArgs.Value.ToString())" />
+
+		<RadzenDataGrid @ref="UsersDG" AllowFiltering="false" AllowColumnResize="false" AllowAlternatingRows="false" FilterMode="FilterMode.Simple"
+						AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
+						ShowPagingSummary="true" Data=@tableData TItem="UserInfo" LogicalFilterOperator="LogicalFilterOperator.Or"
+						Style="border-radius: var(--rz-border-radius-3);">
+			<EmptyTemplate>
+				<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+			</EmptyTemplate>
+			<Columns>
+				<RadzenDataGridColumn TItem="UserInfo" Property="Id" Title="Id" Width="80px" />
+				<RadzenDataGridColumn TItem="UserInfo" Property="Role" Title="Role" Width="150px">
+					<Template Context="data">
+						@(string.Join(" ", data.Role.Name.ToLower().Split('_').Select(word => char.ToUpper(word[0]) + word.Substring(1))))
+					</Template>
+				</RadzenDataGridColumn>
+				<RadzenDataGridColumn TItem="UserInfo" Title="Full Name" Width="250px">
+					<Template Context="data">
+						@($"{data.FirstName} {data.MiddleName} {data.LastName}")
+					</Template>
+				</RadzenDataGridColumn>
+				<RadzenDataGridColumn TItem="UserInfo" Property="Barangay" Title="Barangay" Width="250px" />
+				<RadzenDataGridColumn TItem="UserInfo" Property="Email" Title="Email" Width="160px" />
+				<RadzenDataGridColumn TItem="UserInfo" Property="Phone" Title="Phone Number" Width="150px" />
+				<RadzenDataGridColumn TItem="UserInfo" Property="@(nameof(UserInfo.DateCreated))" FormatString="{0:d}" Title="Date Created" Width="100px" />
+				<RadzenDataGridColumn TItem="UserInfo" Property="@(nameof(UserInfo.DateUpdated))" FormatString="{0:d}" Title="Last Updated" Width="100px" />
+				<RadzenDataGridColumn TItem="UserInfo" Title="Actions" Width="100px">
+					<Template Context="data">
+						<RadzenButton Style="border-radius: var(--rz-border-radius-3);"
+									  Icon="visibility" Shade="Shade.Light" ButtonStyle="ButtonStyle.Primary"
+									  Click="() => ShowUserInfoDialog(data)" />
+						<RadzenButton Style="border-radius: var(--rz-border-radius-3);"
+									  Icon="edit" Shade="Shade.Light" ButtonStyle="ButtonStyle.Success"
+									  Click="() => ShowUsersUpdateDialog(data)" />
+						<RadzenButton Style="border-radius: var(--rz-border-radius-3);"
+									  Icon="delete" ButtonStyle="ButtonStyle.Danger"
+									  Click="() => ArchiveUser(data.Id)"/>
+					</Template>
+				</RadzenDataGridColumn>
+			</Columns>
+		</RadzenDataGrid>
+	</div>
+
+
+</MacroContainer>
+
+@code {
+
+	async Task ShowUsersCreateDialog()
+	{
+		var result = await _dialogService.OpenAsync("Add User", ds => @<UsersCreateUpdate dialogService="ds" datagrid="UsersDG" datalist="_userInfoList" />,
+	new DialogOptions()
+			{
+				CssClass = "rz-w-fit-content",
+				ShowTitle = false,
+			});
+	}
+
+	async Task ShowUsersUpdateDialog(UserInfo data)
+	{
+		var result = await _dialogService.OpenAsync("Edit User", ds => @<UsersCreateUpdate dialogService="ds" datagrid="UsersDG" datalist="_userInfoList" userData="data" />,
+	new DialogOptions()
+	{
+		CssClass = "rz-w-fit-content",
+		ShowTitle = false,
+	});
+	}
+
+	async Task ShowUserInfoDialog(UserInfo data)
+	{
+		var result = await _dialogService.OpenAsync("Edit User", ds => @<UsersView dialogService="ds" datagrid="UsersDG" datalist="_userInfoList" userData="data" />,
+	new DialogOptions()
+	{
+		CssClass = "rz-w-fit-content",
+		ShowTitle = false,
+	});
+	}
+
+}

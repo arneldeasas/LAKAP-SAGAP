@@ -1,0 +1,48 @@
+﻿<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" class="rz-w-100">
+	<MacroBreadcrumbs Breadcrumbs="Breadcrumbs" />
+	<RadzenButton Icon="add" Text="Add Category" ButtonStyle="ButtonStyle.Primary" Click="@ShowCreateCategoryDialog" class="rz-border-radius-3 text-capitalize" />
+</RadzenStack>
+
+<RadzenStack class="rz-w-100 rz-h-100 rz-p-3 card">
+	<RadzenDataGrid @ref=@_categoriesGrid TItem="CategoryViewModel" Data="@_filteredCategories" IsLoading=@_isBusy>
+		<EmptyTemplate>
+			<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+		</EmptyTemplate>
+		<Columns>
+			<RadzenDataGridColumn TItem="CategoryViewModel" Property="@nameof(CategoryViewModel.Code)" Title="Code" />
+			<RadzenDataGridColumn TItem="CategoryViewModel" Property="@nameof(CategoryViewModel.Name)" Title="Name" />
+			<RadzenDataGridColumn TItem="CategoryViewModel" Property="@nameof(CategoryViewModel.isArchived)" Title="Active">
+				<Template Context="category">
+					<RadzenBadge Text="@($"{(category.isArchived ? "Inactive" : "Active")}")" BadgeStyle="@(category.isArchived ? BadgeStyle.Danger : BadgeStyle.Success)" Shade="Shade.Light" IsPill />
+				</Template>
+			</RadzenDataGridColumn>
+			<RadzenDataGridColumn TItem="CategoryViewModel">
+				<Template Context="category">
+					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+						<RadzenButton Icon="visibility" Shade="Shade.Light" ButtonStyle="ButtonStyle.Primary" class="rz-border-radius-3" Click="@(async () => await ShowViewUpdateCategoryDialog(category.Id))" />
+					</RadzenStack>
+				</Template>
+			</RadzenDataGridColumn>
+		</Columns>
+	</RadzenDataGrid>
+</RadzenStack>
+
+@code {
+	async Task ShowCreateCategoryDialog()
+	{
+		string? newUomId = await _dialogService.OpenAsync<CreateCategoryDialog>("Create Category");
+
+		if (string.IsNullOrEmpty(newUomId)) return;
+
+		await LoadCategoryList();
+		await RerenderTable();
+	}
+
+	async Task ShowViewUpdateCategoryDialog(string Id)
+	{
+		await _dialogService.OpenAsync<ViewUpdateCategoryDialog>("Category Details", new() { { "Id", Id } });
+
+		await LoadCategoryList();
+		await RerenderTable();
+	}
+}

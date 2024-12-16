@@ -1,0 +1,66 @@
+﻿@using LAKAPSAGAP.Models.ViewModel
+@using static LAKAPSAGAP.Models.ViewModel.ReliefReceivedViewModel
+
+<div class="w-100 d-flex flex-column gap-2 justify-content-between align-items-end text-success">
+	<MacroSearch Placeholder="Search Received Stocks ... " />
+	<div class="d-flex justify-items-start align-items-center gap-2 mt-2">
+		<RadzenDataGrid AllowColumnResize="false" AllowPaging="true" AllowSorting="true" AllowFiltering="false" ShowPagingSummary="true"
+						Data="@TableData" PageSize="10"
+						Style="border-radius: var(--rz-border-radius-2);">
+			<Columns>
+				<RadzenDataGridColumn Property="@nameof(ReliefReceivedViewModel.Id)" Title="Batch ID"
+									  TextAlign="TextAlign.Left" Width="60px" />
+				@* <RadzenDataGridColumn Property="@nameof(ReliefReceivedViewModel.ReliefType)" Title="Receive Type"
+				TextAlign="TextAlign.Left" Width="80px" /> *@
+				<RadzenDataGridColumn Property="@nameof(ReliefReceivedViewModel.ReceivedFrom)" Title="Supplier"
+									  TextAlign="TextAlign.Left" Width="90px" />
+				<RadzenDataGridColumn Property="@nameof(ReliefReceivedViewModel.ReceivedDate)" Title="Date Received"
+									  TextAlign="TextAlign.Left" Width="90px" />
+				<RadzenDataGridColumn Property="@nameof(ReliefReceivedViewModel.Warehouse)" Title="Location"
+									  TextAlign="TextAlign.Left" Width="90px" />
+				<RadzenDataGridColumn Title="Actions" TextAlign="TextAlign.Left" Width="60px">
+					<Template Context="data">
+						<RadzenButton Size=ButtonSize.Small ButtonStyle="ButtonStyle.Primary" Icon="visibility" Style="border-radius: var(--rz-border-radius-2)" />
+						<RadzenButton Size=ButtonSize.Small ButtonStyle="ButtonStyle.Primary" Icon="edit" Style="border-radius: var(--rz-border-radius-2)" />
+						<RadzenButton Size=ButtonSize.Small ButtonStyle="ButtonStyle.Danger" Text="Return" Style="border-radius: var(--rz-border-radius-2)" />
+					</Template>
+				</RadzenDataGridColumn>
+			</Columns>
+			<Template Context="data">
+				<RadzenDataGrid AllowColumnResize="false" AllowPaging="true" AllowSorting="true" AllowFiltering="false" ShowPagingSummary="true"
+								Data="@data.StockDetailViewList" PageSize="10"
+								Style="border-radius: var(--rz-border-radius-2);">
+					<Columns>
+						<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.BatchNumber)" Title="Batch ID"
+											  TextAlign="TextAlign.Left" Width="60px" />
+						<RadzenDataGridColumn Title="Item Name"
+											  TextAlign="TextAlign.Left" Width="80px">
+							<Template Context="stockdetail">
+								@stockdetail.Item.Name
+							</Template>
+
+						</RadzenDataGridColumn>
+
+						<RadzenDataGridColumn Property="@nameof(StockDetailViewModel.Quantity)" Title="Supplier"
+											  TextAlign="TextAlign.Left" Width="90px"></RadzenDataGridColumn>
+						<RadzenDataGridColumn Title="UoM"
+											  TextAlign="TextAlign.Left" Width="80px">
+							<Template Context="stockdetail">
+								@stockdetail.Item.UoMName
+							</Template>
+
+						</RadzenDataGridColumn>
+
+
+					</Columns>
+					<EmptyTemplate>
+						<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+					</EmptyTemplate>
+				</RadzenDataGrid>
+			</Template>
+			<EmptyTemplate>
+				<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+			</EmptyTemplate>
+		</RadzenDataGrid>
+	</div>
+</div>

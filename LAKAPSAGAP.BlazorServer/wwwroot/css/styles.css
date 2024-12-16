@@ -1,0 +1,50 @@
+﻿:root, [data-bs-theme=light] {
+    --rz-text-title-color: #374151 !important;
+    --rz-border-radius: 4px !important;
+    --rz-primary: #15803D !important;
+    --rz-button-base-background-color: var(--rz-primary) !important;
+}
+/**{
+    outline: red 1px dotted;
+}*/
+p, h1, h2, h3, h4, h5, h6 {
+    color: #374151
+}
+.rz-text-display-h5{
+    font-weight: bold !important;
+    margin-bottom: .75rem !important;
+}
+
+.form-card {
+    border-top: 8px #15803d solid
+}
+.rz-form-field{
+    width:100% !important;
+}
+.rz-label {
+    font-weight: bold;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem ;
+}
+
+.file-upload-input {
+    height: 190px !important;
+    outline: 1px dashed #DAD9D9 !important;
+    border-radius : var(--rz-border-radius);
+}
+.file-upload-input:hover {
+    cursor: pointer;
+}
+.fs-7{
+    font-size:.75rem !important;
+}
+.nav-name{
+    font-weight:bold !important;
+    text-transform:uppercase !important;
+    margin: 0px 0 !important;
+}
+.nav-role {
+    font-size: .9rem !important;
+    opacity: .8 !important;
+    margin: 0px 0 !important;
+}

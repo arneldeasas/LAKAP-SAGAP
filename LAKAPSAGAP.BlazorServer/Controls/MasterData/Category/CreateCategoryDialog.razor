@@ -1,0 +1,34 @@
+﻿<RadzenTemplateForm Data="@_newCategory" TItem="CategoryViewModel" Submit="@Submit">
+	<RadzenStack Gap="5px">
+		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" AlignItems="AlignItems.Center">
+			<RadzenLabel Text="Active" Component="switch" />
+			<RadzenSwitch @bind-Value=@_isActive Name="switch" />
+		</RadzenStack>
+
+		<RadzenFormField Text="Code">
+			<ChildContent>
+				<RadzenTextBox @bind-Value=@_newCategory.Code Name="category-code" />
+			</ChildContent>
+			<Helper>
+				<RadzenRequiredValidator Component="category-code" Text="Required" />
+			</Helper>
+		</RadzenFormField>
+
+		<RadzenFormField Text="Name">
+			<ChildContent>
+				<RadzenTextBox @bind-Value=@_newCategory.Name Name="category-name" />
+			</ChildContent>
+			<Helper>
+				<RadzenRequiredValidator Component="category-name" Text="Required" />
+			</Helper>
+		</RadzenFormField>
+		
+		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" AlignItems="AlignItems.Center" class="rz-mt-5">
+			<RadzenButton Text="Add" ButtonType="ButtonType.Submit" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Primary" />
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+
+}

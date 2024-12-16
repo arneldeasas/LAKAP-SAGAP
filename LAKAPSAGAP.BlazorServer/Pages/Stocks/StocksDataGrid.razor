@@ -1,0 +1,42 @@
+﻿@using static LAKAPSAGAP.Models.ViewModel.ReliefReceivedViewModel
+
+<div class="w-100 d-flex flex-column gap-2 justify-content-between align-items-end text-success">
+    @* <MacroSearch Placeholder="Search Stocks ... " /> *@
+    <div class="d-flex justify-items-start align-items-center gap-2 mt-2">
+        <RadzenDataGrid AllowColumnResize="false" AllowPaging="true" AllowSorting="true" AllowFiltering="false" ShowPagingSummary="true"
+                        Data="@_tableData" PageSize="10"
+                        Style="border-radius: var(--rz-border-radius-2);">
+            <Columns>
+                <RadzenDataGridColumn Property="@nameof(StockItem.Id)" Title="Item Code"
+                                      TextAlign="TextAlign.Left" Width="80px" />
+                <RadzenDataGridColumn Property="@nameof(StockItem.Name)" Title="Item"
+                                      TextAlign="TextAlign.Left" Width="150px">
+                    <Template Context="data">
+                        @data.Name
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn Property="Category.Name" Title="Category"
+                                      TextAlign="TextAlign.Left" Width="90px">
+                    <Template Context="data">
+                        @data.Category.Name
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn Property="Quantity" Title="Qty"
+                                      TextAlign="TextAlign.Left" Width="90px">
+                    <Template Context="data">
+                        @(data.StockDetailList.Sum(x => x.Quantity))
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn Property="@nameof(StockItem.UoM.Name)" Title="UoM"
+                                      TextAlign="TextAlign.Left" Width="90px">
+                    <Template Context="data">
+                        @data.UoM.Name
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+            <EmptyTemplate>
+                <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+            </EmptyTemplate>
+        </RadzenDataGrid>
+    </div>
+</div>

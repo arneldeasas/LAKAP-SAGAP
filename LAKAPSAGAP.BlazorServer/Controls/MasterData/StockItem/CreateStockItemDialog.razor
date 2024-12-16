@@ -1,0 +1,96 @@
+﻿@using LAKAPSAGAP.BlazorServer.Controls.MasterData.Category
+@using LAKAPSAGAP.BlazorServer.Controls.MasterData.UoM
+
+<RadzenTemplateForm Data="@_newStockItem" TItem="StockItemViewModel" Submit="@Submit">
+	<RadzenStack Gap="5px">
+		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" AlignItems="AlignItems.Center">
+			<RadzenLabel Text="Active" Component="switch" />
+			<RadzenSwitch @bind-Value=@_isActive Name="switch" />
+		</RadzenStack>
+
+		<RadzenFormField Text="Name" >
+			<ChildContent>
+				<RadzenTextBox @bind-Value=@_newStockItem.Name Name="item-name" />
+			</ChildContent>
+			<Helper>
+				<RadzenRequiredValidator Component="item-name" Text="Required" />
+			</Helper>
+		</RadzenFormField>
+		
+		<RadzenFormField Text="Category" MouseEnter="@(() => _categoryFldHovering = true)" MouseLeave="@(() => _categoryFldHovering = false)">
+			<ChildContent>
+				<RadzenStack Orientation="Orientation.Horizontal" class="rz-w-100" Gap="5px">
+					<RadzenDropDownDataGrid 
+						TValue="string" 
+						Data="@_categoryList" 
+						ValueProperty="@nameof(CategoryViewModel.Id)" 
+						TextProperty="@nameof(CategoryViewModel.Name)"
+						@bind-Value=@_newStockItem.CategoryId 
+						Name="item-category" 
+						class="rz-w-100">
+						<Columns>
+							<RadzenDropDownDataGridColumn Property="@nameof(CategoryViewModel.Code)" Title="Code" />
+							<RadzenDropDownDataGridColumn Property="@nameof(CategoryViewModel.Name)" Title="Name" />
+						</Columns>
+					</RadzenDropDownDataGrid>
+					<RadzenButton Visible="@_categoryFldHovering" Icon="add" Size="ButtonSize.Small" Click="@ShowCreateCategoryDialog" Style="width: 40px; height: auto;" />
+				</RadzenStack>
+			</ChildContent>
+			<Helper>
+				<RadzenRequiredValidator Component="item-category" Text="Required" />
+			</Helper>
+		</RadzenFormField>
+		
+		<RadzenFormField Text="UoM" MouseEnter="@(() => _uomFldHovering = true)" MouseLeave="@(() => _uomFldHovering = false)">
+			<ChildContent>
+				<RadzenStack Orientation="Orientation.Horizontal" class="rz-w-100" Gap="5px">
+					<RadzenDropDownDataGrid 
+						TValue="string"		
+						Data="@_uomList"
+						ValueProperty="@nameof(UoMViewModel.Id)" 
+						TextProperty="@nameof(UoMViewModel.Name)"
+						@bind-Value=@_newStockItem.UoMId 
+						Name="item-uom"
+						class="rz-w-100">
+						<Columns>
+							<RadzenDropDownDataGridColumn Property="@nameof(UoMViewModel.Symbol)" Title="Symbol" />
+							<RadzenDropDownDataGridColumn Property="@nameof(UoMViewModel.Name)" Title="Name" />
+						</Columns>
+					</RadzenDropDownDataGrid>
+					<RadzenButton Visible="@_uomFldHovering" Icon="add" Size="ButtonSize.Small" Click="@ShowCreateUomDialog" Style="width: 40px; height: auto;" />
+				</RadzenStack>
+			</ChildContent>
+			<Helper>
+				<RadzenRequiredValidator Component="item-uom" Text="Required" />
+			</Helper>
+		</RadzenFormField>
+		
+		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" AlignItems="AlignItems.Center" class="rz-mt-5">
+			<RadzenButton Text="Add" ButtonType="ButtonType.Submit" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Primary" />
+		</RadzenStack>
+	</RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+	async Task ShowCreateCategoryDialog()
+	{
+		string? newCategoryId = await _dialogService.OpenAsync<CreateCategoryDialog>("Create Category");
+
+		if (string.IsNullOrEmpty(newCategoryId)) return;
+
+		await LoadCategoryList();
+		_newStockItem.CategoryId = newCategoryId;
+		StateHasChanged();
+	}
+		
+	async Task ShowCreateUomDialog()
+	{
+		string? newUomId = await _dialogService.OpenAsync<CreateUoMDialog>("Create UoM");
+
+		if (string.IsNullOrEmpty(newUomId)) return;
+
+		await LoadUomList();
+		_newStockItem.UoMId = newUomId;
+		StateHasChanged();
+	}
+}

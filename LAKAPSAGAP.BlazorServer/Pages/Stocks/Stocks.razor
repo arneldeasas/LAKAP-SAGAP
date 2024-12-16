@@ -1,0 +1,101 @@
+﻿@using LAKAPSAGAP.BlazorServer.Pages.Requesting
+@using LAKAPSAGAP.BlazorServer.Pages.Warehouse
+
+@page "/Warehouse/{id}/Stocks"
+@layout MainLayout
+<PageTitle>Stocks</PageTitle>
+
+<MacroBody>
+	<MacroContainer>
+
+		<div class="d-flex justify-content-between align-items-center ms-4">
+			<MacroBreadcrumbs Breadcrumbs="Breadcrumbs" />
+		</div>
+
+		<div class="w-100 h-100 d-flex flex-row align-items-center just-items-center" style="gap: 1rem;">
+
+			@* Side Content *@
+
+			<div class="card p-3 d-flex flex-column align-items-start just-items-start" style="width: 20%; height: 100%;">
+				<Warehouse OnValueChanged="HandleValueChange" Id="@(id)" />
+			</div>
+
+			@* Center Contents *@
+
+			<div class="card p-3 d-flex flex-column align-items-start just-items-start gap-3" style="width: 80%; height: 100%;">
+
+				@* Headers *@
+
+				<div class="w-100 d-flex flex-row gap-4 justify-content-between align-items-end text-success">
+					<div>
+						<span class="fw-bold rz-color-base-800 fs-4 me-2">Stock Management</span>
+						@* <span class="fw-bold rz-background-color-success-lighter rz-border-radius-2 rz-color-success fs-6 px-2 py-1">1000 available</span> *@
+						@* <span class="fw-bold rz-background-color-warning-lighter rz-border-radius-2 rz-color-warning fs-6 px-2 py-1">1000 near expiration stocks</span> *@
+						@* <span class="fw-bold rz-background-color-danger-lighter rz-border-radius-2 rz-color-danger fs-6 px-2 py-1">1000 expired</span> *@
+					</div>
+					<div>
+						<RadzenButton Click="ShowReceiveStockDialog" Icon="add" Text="Receive" ButtonStyle="ButtonStyle.Success"
+									  class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
+						<RadzenButton Icon="send" Text="Send Relief" ButtonStyle="ButtonStyle.Success" Click="ShowSendReliefDialog"
+									  class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
+					</div>
+				</div>
+
+				@* Tabs *@
+
+				<RadzenTabs Style="border: 1px solid var(--rz-base-300); border-radius: var(--rz-border-radius-1); width: 100%; height: 100%;" TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Server">
+					<Tabs>
+						<RadzenTabsItem Text="Stocks">
+							@if(isDataInitialized)
+							{
+								<StocksDataGrid />
+							}
+						</RadzenTabsItem>
+						<RadzenTabsItem Text="Received Stocks">
+							<ReceivedStocksDataGrid  ReloadTable=@shouldReloadBatchesTable OnValueChanged="HandleValueChangeForReceivedStocks"/>
+						</RadzenTabsItem>
+						<RadzenTabsItem Text="Released Stocks">
+							<ReleasedStocksDataGrid />
+						</RadzenTabsItem>
+					</Tabs>
+				</RadzenTabs>
+
+			</div>
+		</div>
+
+	</MacroContainer>
+</MacroBody>
+
+@code
+{
+	bool isDataInitialized = false;
+	bool shouldReloadBatchesTable = false;
+
+	async Task ShowSendReliefDialog()
+	{
+		var res = await _dialogService.OpenAsync<SendingDialog>("", options: new() { ShowTitle = false, CloseDialogOnEsc = false, CloseDialogOnOverlayClick = false });
+	}
+
+	async Task ShowReceiveStockDialog()
+	{
+		bool hasChanges = await _dialogService.OpenAsync<ReceiveStockForm>("", new() { { "WarehouseId", id } } ,new() { CssClass = "rz-w-fit-content", ShowTitle = false, CloseDialogOnEsc=false, CloseDialogOnOverlayClick=false});
+		if(hasChanges)
+		{
+			shouldReloadBatchesTable = true;
+			StateHasChanged();
+			// TODO: reload data for received reliefs
+		}
+	}
+
+	void HandleValueChangeForReceivedStocks(bool value)
+	{
+		shouldReloadBatchesTable = value;
+		StateHasChanged();
+	}
+
+	void HandleValueChange(bool initialized)
+	{
+		isDataInitialized = initialized;
+		StateHasChanged();
+	}
+}

@@ -1,0 +1,33 @@
+﻿
+.custom-input {
+    outline: none;
+    border: 2px solid var(--rz-base-dark);
+    padding: 8px;
+    outline: none;
+    background: var(--rz-base-50);
+    transition: border-color 0.3s, outline 0.3s;
+}
+    .custom-input:focus {
+        outline: none;
+        border: 2px solid var(--rz-primary);
+    }
+
+    /* Hover state */
+    .custom-input:hover {
+        outline: none;
+        border: 2px solid var(--rz-primary);
+    }
+
+    /* Active state */
+    .custom-input:active {
+        outline: none;
+        border: 2px solid var(--rz-primary);
+    }
+
+    /* Disabled state */
+    .custom-input:disabled {
+        outline: none;
+        border: 2px solid var(--rz-primary);
+        cursor: not-allowed;
+        opacity: 0.6;
+    }

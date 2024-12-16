@@ -1,0 +1,54 @@
+﻿<div class="w-100 d-flex flex-column gap-2 justify-content-between align-items-end text-success">
+	<div class="d-flex justify-items-start align-items-center gap-2 mt-1">
+		<label class="rz-color-base-800 fw-bold">Search</label>
+		<input type="text" class="px-2 py-1 rz-border-radius-1 m-0 custom-input" style="width: 300px;" Placeholder="Search Released Stocks ..." />
+	</div>
+	<div class="d-flex justify-items-start align-items-center gap-2 mt-2">
+		<RadzenDataGrid AllowColumnResize="false" AllowPaging="true" AllowSorting="true" AllowFiltering="false" ShowPagingSummary="true"
+						Data="@TableData" PageSize="10"
+						Style="border-radius: var(--rz-border-radius-2);">
+			<Columns>
+				<RadzenDataGridColumn Property="@nameof(ReliefRequestDetailViewModel.Id)" Title="Request ID"
+									  TextAlign="TextAlign.Left" Width="60px" />
+				@* <RadzenDataGridColumn Property="@nameof(ReceiveStocks.ReliefType)" Title="Receive Type"
+				TextAlign="TextAlign.Left" Width="80px" /> *@
+				<RadzenDataGridColumn Property="@nameof(ReliefRequestDetailViewModel.RequestedBy)" Title="Requested By"
+									  TextAlign="TextAlign.Left" Width="90px">
+					<Template Context="data">
+						@($"{data.RequestedBy.FirstName} {data.RequestedBy.LastName}")
+					</Template>
+				</RadzenDataGridColumn>
+				<RadzenDataGridColumn Property="@nameof(ReliefRequestDetailViewModel.Reason)" Title="Reason"
+									  TextAlign="TextAlign.Left" Width="90px" />
+				<RadzenDataGridColumn Property="@nameof(ReliefRequestDetailViewModel.Reason)" Title="Reason"
+									  TextAlign="TextAlign.Left" Width="90px" />
+				<RadzenDataGridColumn Property="@nameof(ReliefRequestDetailViewModel.SpecificReason)" Title="Reason Remarks"
+									  TextAlign="TextAlign.Left" Width="90px" />
+				<RadzenDataGridColumn Property="@nameof(ReliefRequestDetailViewModel.NumberOfRecipients)" Title="No. of Recipients"
+									  TextAlign="TextAlign.Left" Width="90px" />
+				@* <RadzenDataGridColumn Property="@nameof(ReliefRequestDetailViewModel.TargetDateToReceive)" Title="Target Receive Date"
+									  TextAlign="TextAlign.Left" Width="90px" /> *@
+			</Columns>
+			<Template Context="data">
+				<RadzenDataGrid AllowColumnResize="false" AllowPaging="true" AllowSorting="true" AllowFiltering="false" ShowPagingSummary="true"
+								Data="@data.RequestList" PageSize="10"
+								Style="border-radius: var(--rz-border-radius-2);">
+					<Columns>
+						<RadzenDataGridColumn Property="@nameof(RequestViewModel.UnitId)" Title="Batch ID"
+											  TextAlign="TextAlign.Left" Width="60px" />
+						<RadzenDataGridColumn Property="@nameof(RequestViewModel.UnitName)" Title="Batch ID"
+											  TextAlign="TextAlign.Left" Width="60px" />
+						<RadzenDataGridColumn Property="@nameof(RequestViewModel.Quantity)" Title="Batch ID"
+											  TextAlign="TextAlign.Left" Width="60px" />
+					</Columns>
+					<EmptyTemplate>
+						<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+					</EmptyTemplate>
+				</RadzenDataGrid>
+			</Template>
+			<EmptyTemplate>
+				<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+			</EmptyTemplate>
+		</RadzenDataGrid>
+	</div>
+</div>

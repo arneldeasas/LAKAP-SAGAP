@@ -1,0 +1,84 @@
+﻿<MacroContainer Style="width: 100dvw; max-width: 900px; padding: 0.25rem">
+
+	<RadzenText class="fw-bold text-primary" TextStyle="TextStyle.DisplayH5" Text="@($"User {model.Id}")" />
+
+	<div style="width: 100%;" class="d-flex flex-column gap-1 align-items-center justify-content-start">
+		<div class="w-100 d-flex align-items-center justify-content-start gap-5">
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Designation</span>
+				<p>@model.UserRole</p>
+			</div>
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Barangay</span>
+				<p>@model.Barangay</p>
+			</div>
+		</div>
+		<div class="d-flex w-100 align-items-center justify-content-start gap-5">
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">First Name</span>
+				<p>@model.FirstName</p>
+			</div>
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Middle Name</span>
+				<p>@model.MiddleName</p>
+			</div>
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Last Name</span>
+				<p>@model.LastName</p>
+			</div>
+		</div>
+
+		<h5 class="row w-100 fs-6 text-danger fw-bold text-uppercase">User Account</h5>
+
+		<div class="d-flex w-100 align-items-center justify-content-start gap-5">
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Username</span>
+				<p>@model.Username</p>
+			</div>
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Email</span>
+				<p>@model.Email</p>
+			</div>
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Phone Number</span>
+				<p>@model.Phone</p>
+			</div>
+		</div>
+		<div class="d-flex w-100 align-items-center justify-content-start gap-5">
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Date Created</span>
+				<p>@userData.DateCreated</p>
+			</div>
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Dated Updated</span>
+				<p>@userData.DateUpdated</p>
+			</div>
+			<div class="d-flex flex-column align-items-start justify-content-start gap-1">
+				<span class="fw-bold text-uppercase">Last Modified By</span>
+				<p>@userData.LastModifiedBy</p>
+			</div>
+		</div>
+		@* <div class="row w-100 d-flex flex-column gap-2">
+
+			<p class="fw-bold text-uppercase mb-1">Valid ID/s</p>
+
+			@if (userFiles is not null)
+			{
+				<div class="d-flex flex-wrap justify-content-start align-items-center gap-3 mt-2">
+					@foreach (var file in userFiles)
+					{
+						<div class="card position-relative w-25" style="width: fit-content;">
+							<img class="card-img" src="@(file.Url.Replace(@"wwwroot\", ""))" style="max-width: 100%; max-height: 100%; object-fit: contain;" />
+						</div>
+					}
+				</div>
+			}
+
+
+		</div> *@
+		<div class="d-flex align-items-center justify-content-end mt-3 gap-2 w-100">
+			<RadzenButton Style="width: fit-content;" Text="Return" Click="() => dialogService.Close(false)" ButtonStyle="ButtonStyle.Base" />
+		</div>
+	</div>
+
+</MacroContainer>

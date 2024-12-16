@@ -1,0 +1,47 @@
+﻿<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" class="rz-w-100">
+	<MacroBreadcrumbs Breadcrumbs="Breadcrumbs" />
+	<RadzenButton Icon="add" Text="Add UoM" ButtonStyle="ButtonStyle.Primary" Click="@ShowCreateUomDialog" class="rz-border-radius-3 text-capitalize" />
+</RadzenStack>
+
+<RadzenStack class="rz-w-100 rz-h-100 rz-p-3 card">
+	<RadzenDataGrid @ref=@_uomGrid TItem="UoMViewModel" Data="@_uomListFiltered" IsLoading=@_isBusy>
+		<EmptyTemplate>
+			<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+		</EmptyTemplate>
+		<Columns>
+			<RadzenDataGridColumn TItem="UoMViewModel" Property="@nameof(UoMViewModel.Name)" Title="Name" />
+			<RadzenDataGridColumn TItem="UoMViewModel" Property="@nameof(UoMViewModel.Symbol)" Title="Symbol" />
+			<RadzenDataGridColumn TItem="UoMViewModel" Property="@nameof(UoMViewModel.isArchived)" Title="Active">
+				<Template Context="uom">
+					<RadzenBadge Text="@($"{(uom.isArchived ? "Inactive" : "Active")}")" BadgeStyle="@(uom.isArchived ? BadgeStyle.Danger : BadgeStyle.Success)" Shade="Shade.Light" IsPill />
+				</Template>
+			</RadzenDataGridColumn>
+			<RadzenDataGridColumn TItem="UoMViewModel">
+				<Template Context="uom">
+					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+						<RadzenButton Icon="visibility" Shade="Shade.Light" ButtonStyle="ButtonStyle.Primary" class="rz-border-radius-3" Click="@(async () => await ShowViewUpdateUomDialog(uom.Id))" />
+					</RadzenStack>
+				</Template>
+			</RadzenDataGridColumn>
+		</Columns>
+	</RadzenDataGrid>
+</RadzenStack>
+
+@code {
+	async Task ShowCreateUomDialog()
+	{
+		string? newUomId = await _dialogService.OpenAsync<CreateUoMDialog>("Create UoM");
+
+		if (string.IsNullOrEmpty(newUomId)) return;
+
+		await LoadUoMList();
+		await RerenderTable();
+	}
+
+	async Task ShowViewUpdateUomDialog(string Id){
+		await _dialogService.OpenAsync<ViewUpdateUoMDialog>("UoM Details", new(){{"Id", Id}});
+
+		await LoadUoMList();
+		await RerenderTable();
+	}
+}

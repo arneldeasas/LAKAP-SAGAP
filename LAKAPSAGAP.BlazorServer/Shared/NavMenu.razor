@@ -1,87 +1,148 @@
-﻿<RadzenStack Style="max-width: 1920px; margin-left: 4rem; margin-right: 4rem; " Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" 
-JustifyContent="JustifyContent.SpaceBetween" Wrap="FlexWrap.NoWrap" Gap="8rem">
-    
+﻿<RadzenStack Style="max-width: 1920px; margin-left: 1rem; margin-right: 1rem; " Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
+             JustifyContent="JustifyContent.SpaceBetween" Wrap="FlexWrap.NoWrap" Gap="8rem">
+
     @* Website Logo *@
-   
-    <a href="/Dashboard" Style="width: 18rem; ">
-        <RadzenImage Path="images/long.png" Style="width: 14rem; " AlternateText="LakapSagap"/>
-    </a>
-    
+
+    <div href="/Dashboard" Style="width: fit-content; "
+         @onclick="@(() =>_navManager.NavigateTo("Dashboard", true))">
+        <RadzenImage Path="images/long.png" Style="width: 14rem; " AlternateText="LakapSagap" />
+    </div>
+
     @* Navigation Links *@
 
-    <RadzenStack Style="" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" 
-             JustifyContent="JustifyContent.Center" Wrap="FlexWrap.NoWrap" Gap="1rem">
-        <a href="/Dashboard" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link-active rz-border-radius-6">
-            <i class='bx bxs-home fs-5'></i>
-            <span class="fs-7 fw-bold text-center">Dashboard</span>
-        </a>
-        <a href="/Request" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6">
-            <i class='bx bx-transfer-alt fs-5'></i>
-            <span class="fs-6 fw-bold text-center">Request</span>
-        </a>
-        <div @ref="warehouseButton" @onclick="@(args => {warehousePopup.ToggleAsync(warehouseButton); ToggleVisibility();})" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6">
-            <i class='bx bxs-business fs-5'></i>
-            <span class="fs-6 fw-bold text-center">Warehouse</span>
-            <i class="@($"bx {(_isVisible ? "bx-caret-up" : "bx-caret-down")} fs-6 ms-1")"></i>
-        </div>
-        @* <a href="/Warehouse" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6">
-            <i class='bx bxs-business fs-5'></i>
-            <span class="fs-6 fw-bold text-center">Warehouse</span>
-        </a> *@
-        <a href="/Users" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6">
-            <i class='bx bxs-user fs-5'></i>
-            <span class="fs-6 fw-bold text-center">Users</span>
-        </a>
-        <a href="/Reports" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6">
-            <i class='bx bxs-report fs-5' ></i>
-            <span class="fs-6 fw-bold text-center">Reports</span>
-        </a>
-        <a href="/History" class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link rz-border-radius-6">
-            <i class='bx bx-history fs-5' ></i>
-            <span class="fs-6 fw-bold text-center">History</span>
-        </a>
+    <RadzenStack Style="width: 100%; flex-grow:1;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
+                 JustifyContent="JustifyContent.Center" Wrap="FlexWrap.NoWrap" Gap="1rem">
+
+        @* Dashboard *@
+        <AuthorizeView Policy="officehead/admin">
+            <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Dashboard") ? "link-active" : "link")}")"
+                 @onclick="@(() =>_navManager.NavigateTo("Dashboard", true))">
+                <i class='bx bxs-home' style="font-size: 0.8rem"></i>
+                <span class="text fw-bold text-center" style="font-size: 0.75rem">Dashboard</span>
+            </div>
+        </AuthorizeView>
+       
+
+        @* Request aadmin *@
+        <AuthorizeView Policy="officehead/admin">
+            <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("admin/requests") ? "link-active" : "link")}")"
+                 @onclick="@(() =>_navManager.NavigateTo("admin/requests", true))">
+                <i class='bx bx-transfer-alt' style="font-size: 0.8rem"></i>
+                <span class="fw-bold text-center" style="font-size: 0.75rem">Request</span>
+            </div>
+        </AuthorizeView>
+       
+        @* Request barangay rep *@
+      <AuthorizeView Policy="barangayrep">
+            <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("barangay-rep/requests") ? "link-active" : "link")}")"
+                 @onclick="@(() =>_navManager.NavigateTo("barangay-rep/requests", true))">
+                <i class='bx bx-transfer-alt' style="font-size: 0.8rem"></i>
+                <span class="fw-bold text-center" style="font-size: 0.75rem">Request</span>
+            </div>
+      </AuthorizeView>
+        @* Master Data *@
+     
+        <AuthorizeView Policy="officehead">
+            <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("MasterData") ? "link-active" : "link")}")"
+                 @ref="masterDataButton" @onclick="@(args => {masterDataPopup.ToggleAsync(masterDataButton); ToggleVisibility();})">
+                <i class='bx bxs-data' style="font-size: 0.8rem"></i>
+                <span class="fw-bold text-center" style="font-size: 0.75rem">Master Data</span>
+                <i class="@($"bx {(_isVisible ? "bx-caret-up" : "bx-caret-down")} ms-1")"></i>
+            </div>
+        </AuthorizeView>
+    
+        @* Warehouse *@
+        <AuthorizeView Policy="officehead">
+            <div class="@($"d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center rz-border-radius-6 {(UriHas("Warehouse") ? "link-active" : "link")}")"
+                 @ref="warehouseButton" @onclick="@(args => {warehousePopup.ToggleAsync(warehouseButton); ToggleVisibility();})">
+                <i class='bx bxs-business' style="font-size: 0.8rem"></i>
+                <span class="fw-bold text-center" style="font-size: 0.75rem">Warehouse</span>
+                <i class="@($"bx {(_isVisible ? "bx-caret-up" : "bx-caret-down")} ms-1")"></i>
+            </div>
+        </AuthorizeView>
+
+      
     </RadzenStack>
 
     @* User *@
-
-    <RadzenStack Style="width: 18rem;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" 
-             JustifyContent="JustifyContent.End" Wrap="FlexWrap.NoWrap" Gap="4rem">
+    <RadzenStack Style="width: 18rem;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
+                 JustifyContent="JustifyContent.End" Wrap="FlexWrap.NoWrap" Gap="4rem">
         <RadzenButton Icon="notifications" ButtonStyle="ButtonStyle.Base" Style="border-radius: var(--rz-border-radius-6);" />
-        <div>
-
-        </div>
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" AlignItems="AlignItems.Center">
+            <RadzenStack style="width:300px" Orientation="Orientation.Vertical" AlignItems="AlignItems.End" Gap="0" class="w-fit" JustifyContent="JustifyContent.Center">
+                <p class="nav-name">@($"{user.FirstName} {user.MiddleName} {user.LastName}")</p>
+                <p class="nav-role">@user.RoleName</p>
+            </RadzenStack>
+            <RadzenProfileMenu Style="background:none;overflow:visible;padding:0">
+                <Template >
+                    <RadzenButton  Size="ButtonSize.Medium" Icon="account_circle" ButtonStyle="ButtonStyle.Base" Style="border-radius: var(--rz-border-radius-6);margin:5px" />
+                </Template>
+                <ChildContent>
+                    <RadzenButton Variant="Variant.Text" Icon="logout" Click="Logout" Text="Logout"></RadzenButton>
+                  
+    
+                </ChildContent>
+            </RadzenProfileMenu>
+           
+        </RadzenStack>
+        
     </RadzenStack>
 
 </RadzenStack>
 
-<Popup @ref=warehousePopup Lazy=true class="popup">
-    <RadzenStack Style="width: 8rem;" Orientation="Orientation.Vertical" AlignItems="AlignItems.Start" 
-             JustifyContent="JustifyContent.Start" Wrap="FlexWrap.NoWrap" Gap="0.25rem">
-        <a style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);" 
-             class="d-flex flex-row gap-2 px-4 py-2 justify-content-center align-items-center link"
-             href="/Stocks">
-            <i class='bx bxs-package fs-5' ></i>
-            <span class="fs-6 fw-bold text-center">Stocks</span>
-        </a>
-        <a style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"  
-           class="d-flex flex-row gap-2 px-4 py-2 justify-content-start align-items-center link"
-           href="/Kits">
-            <i class='bx bxs-shopping-bag-alt fs-5' ></i>
-            <span class="fs-6 fw-bold text-center">Kits</span>
-        </a>
+<Popup @ref=masterDataPopup Lazy class="popup">
+    <RadzenStack Wrap="FlexWrap.NoWrap" Gap="0.25rem">
+        <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
+             class="d-flex flex-row gap-2 px-4 py-2 align-items-center link"
+             @onclick="@(() =>_navManager.NavigateTo("MasterData/Users", true))">
+            <i class='bx bxs-user-account' style="font-size: 0.8rem"></i>
+            <span class="fs-6 fw-bold text-center">Users</span>
+        </div>
+        <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
+             class="d-flex flex-row gap-2 px-4 py-2 align-items-center link"
+             @onclick="@(() =>_navManager.NavigateTo("MasterData/UoM", true))">
+            <i class='bx bxs-shopping-bag-alt' style="font-size: 0.8rem"></i>
+            <span class="fs-6 fw-bold text-center">Unit Of Measurements</span>
+        </div>
+        <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
+             class="d-flex flex-row gap-2 px-4 py-2 align-items-center link"
+             @onclick="@(() =>_navManager.NavigateTo("MasterData/Categories", true))">
+            <i class='bx bxs-category' style="font-size: 0.8rem"></i>
+            <span class="fs-6 fw-bold text-center">Categories</span>
+        </div>
+        <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
+             class="d-flex flex-row gap-2 px-4 py-2 align-items-center link"
+             @onclick="@(() =>_navManager.NavigateTo("MasterData/Racks", true))">
+            <i class='bx bxs-checkbox' style="font-size: 0.8rem"></i>
+            <span class="fs-6 fw-bold text-center">Racks</span>
+        </div>
+        <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
+             class="d-flex flex-row gap-2 px-4 py-2 align-items-center link"
+             @onclick="@(() =>_navManager.NavigateTo("MasterData/StockItems", true))">
+            <i class='bx bxs-baguette' style="font-size: 0.8rem"></i>
+            <span class="fs-6 fw-bold text-center">Stock Items</span>
+        </div>
     </RadzenStack>
 </Popup>
 
-@code {
-    ElementReference warehouseButton;
-    Popup warehousePopup;
-    bool _isVisible = false;
+<Popup @ref=warehousePopup Lazy class="popup">
+    <RadzenStack Style="width: 8rem;" Wrap="FlexWrap.NoWrap" Gap="0.25rem">
+        <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
+             class="d-flex flex-row gap-2 px-4 py-2 align-items-center link"
+             @onclick="@(() =>_navManager.NavigateTo("Warehouse/warehouse/Stocks", true))">
+            <i class='bx bxs-package' style="font-size: 0.8rem"></i>
+            <span class="fs-6 fw-bold text-center">Stocks</span>
+        </div>
+        <div style="width: 100%; border: none; border-radius: var(--rz-border-radius-6);"
+             class="d-flex flex-row gap-2 px-4 py-2 justify-content-start align-items-center link"
+             @onclick="@(() =>_navManager.NavigateTo("Warehouse/warehouse/Kits", true))">
+            <i class='bx bxs-shopping-bag-alt' style="font-size: 0.8rem"></i>
+            <span class="fs-6 fw-bold text-center">Kits</span>
+        </div>
+    </RadzenStack>
+</Popup>
 
-    private bool ToggleVisibility()
-    {
-        return _isVisible = !_isVisible;
-    }
-}
+
 
 <style type="text/css">
     .popup {
@@ -96,4 +157,4 @@ JustifyContent="JustifyContent.SpaceBetween" Wrap="FlexWrap.NoWrap" Gap="8rem">
         box-shadow: var(--rz-panel-shadow);
         border-radius: var(--rz-border-radius)
     }
- </style>
+</style>

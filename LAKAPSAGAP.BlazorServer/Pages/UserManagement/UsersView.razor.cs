@@ -47,15 +47,15 @@ namespace LAKAPSAGAP.BlazorServer.Pages.UserManagement
 		public CreateAccountViewModel model { get; set; } = new();
 		string id;
 		public List<IdentityRole> userRoles { get; set; }
-		public List<(string Id, string Url)> userFiles { get; set; } = new();
-		public List<(string Id, string Url)> filesToDelete { get; set; } = new();
+		//public List<(string Id, string Url)> userFiles { get; set; } = new();
+		//public List<(string Id, string Url)> filesToDelete { get; set; } = new();
 		private UserAuth userAuth { get; set; } = new();
 
 
 		protected override async Task OnInitializedAsync()
 		{
 			userRoles = await UserRepo.GetUserRoles();
-			if (!String.IsNullOrEmpty(model.Id)) userFiles = await UserFileRepo.GetUserAttachments(model.Id);
+			//if (!String.IsNullOrEmpty(model.Id)) userFiles = await UserFileRepo.GetUserAttachments(model.Id);
 
 			if (!String.IsNullOrEmpty(model.Id))
 			{

@@ -39,7 +39,7 @@ namespace LAKAPSAGAP.Models.ViewModels
 		[StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters long.")]
 		public string Password { get; set; }
 
-		[Required(ErrorMessage = "At least one file is required.")]
+		//[Required(ErrorMessage = "At least one file is required.")]
 		public List<IBrowserFile> fileList { get; set; }
 		public IdentityRole UserRole { get; set; }
 		public string UserAuthId { get; set; }

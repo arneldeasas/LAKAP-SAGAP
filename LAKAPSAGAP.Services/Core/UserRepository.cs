@@ -57,7 +57,7 @@ public class UserRepository(
 				RoleId = account.RoleId
 			};
 			await _context.Create(userInfo);
-			await _userAttachmentRepository.UploadAttachments(account.fileList, userInfo.Id);
+			//await _userAttachmentRepository.UploadAttachments(account.fileList, userInfo.Id);
 
 			transaction.Commit();
 			return userInfo;

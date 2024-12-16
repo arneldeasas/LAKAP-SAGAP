@@ -133,5 +133,16 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
         }
 	}
 
+    public class UnitFormViewModel
+    {
+        public string UnitId { get; set; }
+        public string SearchString { get; set; }
+        public int Quantity { get; set; }
 
+        public void resetForm()
+        {
+            UnitId = "";
+            Quantity = 0;
+        }
+    }
 }

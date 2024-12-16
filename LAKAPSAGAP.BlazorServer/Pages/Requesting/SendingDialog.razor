@@ -78,7 +78,6 @@
 				<RadzenNumeric Placeholder="00" @bind-Value=@ItemForm.Quantity Name="Quantity"></RadzenNumeric>
 				<RadzenNumericRangeValidator Text="Quantity should be greater than 0" Min="1m" Component="Quantity"></RadzenNumericRangeValidator>
 
-
 			</RadzenStack>
 		</RadzenColumn>
 	</RadzenRow>
@@ -90,9 +89,7 @@
 </RadzenStack>
 
 <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
-	<RadzenButton ButtonType="ButtonType.Button" Variant=" Variant.Filled" ButtonStyle="ButtonStyle.Primary" Click="Submit">
-
-	</RadzenButton>
+	<RadzenButton ButtonType="ButtonType.Button" Variant=" Variant.Filled" ButtonStyle="ButtonStyle.Primary" Click="Submit" Text="Submit" />
 </RadzenStack>
 
 

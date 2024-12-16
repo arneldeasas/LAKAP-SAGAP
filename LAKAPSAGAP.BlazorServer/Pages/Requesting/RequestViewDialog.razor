@@ -117,7 +117,32 @@
 		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
 			<RadzenButton Text="Close" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Dark" Variant="Variant.Text" Click="()=> _dialogService.Close()" />
 			<RadzenButton Text="Reject" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Dark" Disabled="@(ReliefRequestVM.Status != RequestStatus.pending )" Variant="Variant.Outlined" Click="()=> RejectRequest()" />
-			<RadzenButton Text="Approve" Disabled="@(ReliefRequestVM.Status != RequestStatus.pending )" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary" Click="async()=> await ApproveRequest(ReliefRequestVM.Id)" />
+			@switch (ReliefRequestVM.Status)
+			{
+				case RequestStatus.pending:
+					<RadzenButton Text="Approve" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Primary" Variant="Variant.Filled" Click="()=> ApproveRequest(ReliefRequestVM.Id)" />
+					break;
+				case RequestStatus.preparing:
+					<RadzenButton Text="Delivered" ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Primary" Variant="Variant.Filled" Click="()=> OpenDeliveryDialog()" />
+						break;
+				case RequestStatus.delivered:
+				<RadzenButton Text="Delivered" Disabled ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Success" Variant="Variant.Text"  />
+					break;
+			}
 		</RadzenStack>
 	</RadzenStack>
 </RadzenTemplateForm>
+
+@code{
+
+	async Task OpenDeliveryDialog()
+	{
+		var result = await _dialogService.OpenAsync("Sent Items", ds =>@<SendingDialog RequestItemsList="@ReliefRequestVM.RequestList" /> ,
+		new DialogOptions()
+		{
+			Style="width:50%;",
+			ShowTitle = false,
+		});
+	}
+
+}

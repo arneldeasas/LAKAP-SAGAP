@@ -18,5 +18,6 @@ namespace LAKAPSAGAP.Services.Repositories
 		Task<bool> CancelRequest(string requestId);
 		Task<bool> RejectRequest(string requestId);
 		Task<bool> ApproveRequest(string requestId);
+		Task<bool> SendRelief(ReliefSentViewModel reliefSentVM);
 	}
 }

@@ -1,53 +1,58 @@
 ﻿@page "/barangay-rep/requests"
 
 <RadzenCard class="m-5">
-	<RadzenStack>
-		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween">
-			<RadzenText TextStyle="TextStyle.DisplayH5" Text="Pending/Ongoing Request"></RadzenText>
-			<RadzenButton Icon="add_circle" Text="Request" ButtonStyle="ButtonStyle.Primary" Click="GoToForm"></RadzenButton>
-		</RadzenStack>
-		<RadzenDataGrid TItem="ReliefRequestDetailViewModel" Data="@_requestListVM" IsLoading=@_isBusy>
-			<EmptyTemplate>
-				<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
-			</EmptyTemplate>
-			<Columns>
-				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Id)" Title="Code" />
-				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Reason)" Title="Reason" />
-				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.NumberOfRecipients)" Title="Number of Recipients" />
-				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.DateRequested)" Title="Date Requested">
-					<Template Context="data">
-						@(data.DateRequested.ToString("MM-dd-yyyy"))
-					</Template>
-				</RadzenDataGridColumn>
-				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Status)" Title="Status">
-					<Template Context="data">
-						@data.Status.ToString()
-					</Template>
-				</RadzenDataGridColumn>
-				<RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Status)" Title="Action">
-					<Template Context="data">
-						<RadzenStack Orientation="Orientation.Horizontal">
-							<RadzenButton Icon="visibility" Text="View" ButtonStyle="ButtonStyle.Primary" Click="()=>ViewRequest(data)"></RadzenButton>
-							<RadzenButton Text="cancel" ButtonStyle="ButtonStyle.Danger" Click="async()=> await CancelRequest(data.Id)"></RadzenButton>
-						</RadzenStack>
+    <RadzenStack>
+        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween">
+            <RadzenText TextStyle="TextStyle.DisplayH5" Text="Relief Request"></RadzenText>
+            <RadzenButton Icon="add_circle" Text="Request" ButtonStyle="ButtonStyle.Primary" Click="GoToForm"></RadzenButton>
+        </RadzenStack>
+        <RadzenDataGrid TItem="ReliefRequestDetailViewModel" Data="@_requestListVM" IsLoading=@_isBusy>
+            <EmptyTemplate>
+                <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+            </EmptyTemplate>
+            <Columns>
+                <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Id)" Title="Code" />
+                <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Reason)" Title="Reason" />
+                <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.NumberOfRecipients)" Title="Number of Recipients" />
+                <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.RequestedBy)" Title="Requestor">
+                    <Template Context="data">
+                        @($"{data.RequestedBy.FirstName} {data.RequestedBy.LastName}")
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.DateRequested)" Title="Date Requested">
+                    <Template Context="data">
+                        @(data.DateRequested.ToString("MM-dd-yyyy"))
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Status)" Title="Status">
+                    <Template Context="data">
+                        @data.Status.ToString()
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ReliefRequestDetailViewModel" Property="@nameof(ReliefRequestDetailViewModel.Status)" Title="Action">
+                    <Template Context="data">
+                        <RadzenStack Orientation="Orientation.Horizontal">
+                            <RadzenButton Icon="visibility" Text="View" ButtonStyle="ButtonStyle.Primary" Click="()=>ViewRequest(data)"></RadzenButton>
+                            <RadzenButton Text="cancel" ButtonStyle="ButtonStyle.Danger" Click="async()=> await CancelRequest(data.Id)"></RadzenButton>
+                        </RadzenStack>
 
-					</Template>
-				</RadzenDataGridColumn>
-			</Columns>
-		</RadzenDataGrid>
-	</RadzenStack>
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </RadzenStack>
 </RadzenCard>
 
-@code{
+@code {
 
-	async Task ViewRequest(ReliefRequestDetailViewModel request)
-	{
-		var result = await _dialogService.OpenAsync("Request Details", ds =>@<BarangayRepRequestViewDialog ReliefRequestVM="@request" />, new DialogOptions()
-																													   {
-																														   CssClass = "rz-w-fit-content",
-																														   ShowTitle = false,
-																													   });
+    async Task ViewRequest(ReliefRequestDetailViewModel request)
+    {
+        var result = await _dialogService.OpenAsync("Request Details", ds =>@<BarangayRepRequestViewDialog ReliefRequestVM="@request" />, new DialogOptions()
+                                                                                                                                  {
+                                                                                                                                      CssClass = "rz-w-fit-content",
+                                                                                                                                      ShowTitle = false,
+                                                                                                                                  });
 
-		
-	}
+
+    }
 }

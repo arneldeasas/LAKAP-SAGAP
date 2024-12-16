@@ -103,26 +103,24 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
                 StateHasChanged();
                 string id = await ReliefRequestRepository.CreateRequestAsync(ReliefRequestVM);
 
-				if(string.IsNullOrEmpty(id))
-				{
-					await _jSRuntime.InvokeVoidAsync("Toast", "error", "An error occured. Something went wrong!");
-				}
-				else
-				{
-					await _jSRuntime.InvokeVoidAsync("Toast", "success", "Request submitted successfully!");
-					_navManager.NavigateTo("/barangay-rep/requests");
-				}
-			}
-			catch (Exception e)
-			{
-				
-				await _jSRuntime.InvokeVoidAsync("Toast", "error", e.Message);
-                _isBusy = false;
-                StateHasChanged();
+                if (string.IsNullOrEmpty(id))
+                {
+                    await _jSRuntime.InvokeVoidAsync("Toast", "error", "An error occured. Something went wrong!");
+                }
+                else
+                {
+                    await _jSRuntime.InvokeVoidAsync("Toast", "success", "Request submitted successfully!");
+                    _navManager.NavigateTo("/barangay-rep/requests");
+                }
             }
-		
-		
-		}
+            catch (Exception e)
+            {
+                _isBusy = false;
+                await _jSRuntime.InvokeVoidAsync("Toast", "error", e.Message);
+            }
+
+            StateHasChanged();
+        }
 
         void CalculateDateTime()
         {
@@ -131,7 +129,20 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
             ReliefRequestVM.TargetDateToReceive = ReliefRequestVM.TargetDateToReceive.AddHours(hours).AddMinutes(0);
             StateHasChanged();
         }
-	}
+    }
+
+    public class UnitFormViewModel
+    {
+        public string UnitId { get; set; }
+        public string SearchString { get; set; }
+        public int Quantity { get; set; }
+
+        public void resetForm()
+        {
+            UnitId = "";
+            Quantity = 0;
+        }
+    }
 
 
 }

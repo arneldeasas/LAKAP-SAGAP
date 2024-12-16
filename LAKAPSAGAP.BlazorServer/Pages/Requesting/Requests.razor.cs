@@ -5,7 +5,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 	{
 		[Inject] NavigationManager _navManager { get; set; }
         [Inject] IJSRuntime _jsRuntime { get; set; }
-        [Inject] DialogService _dialogService { get; set; }
+        [Inject] DialogService _dialogService { get; set; } = default!;
 		[Inject] IReliefRequestRepository _reliefRequestRepo { get; set; }
 		List<ReliefRequestDetailViewModel> _requestListVM = new ();
 		bool _isBusy = false;
@@ -50,11 +50,16 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
                     AdditionalNotes = x.AdditionalNotes,
                     ReceiverName = x.ReceiverName,
                     ContactNumber = x.ContactNumber,
+                    RequestedBy = new UserInfoViewModel
+                    {
+                        FirstName = x.RequestedBy.FirstName,
+                        LastName = x.RequestedBy.LastName,
+                    },
                     AttachmentList = x.AttachmentList.Select(x => new RequestAttachmentViewModel
                     {
                         Url = x.Url,
                     }).ToList(),
-                    DateRequested = x.DateCreated
+                    DateRequested = x.DateCreated,
                 }).ToList();
             }
 			_isBusy = false;

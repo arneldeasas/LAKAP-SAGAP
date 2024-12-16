@@ -10,11 +10,10 @@ namespace LAKAPSAGAP.Services.ModelsEFConfigurations
 			builder.Entity<ReliefRequestDetail>().HasMany(x => x.AttachmentList).WithOne(x => x.ReliefRequest).HasForeignKey(x => x.ReliefRequestId).OnDelete(DeleteBehavior.NoAction);
 			builder.Entity<ReliefRequestDetail>().HasMany(x =>x.RequestList).WithOne(x=>x.ReliefRequest).HasForeignKey(x=>x.ReliefRequestId).OnDelete(DeleteBehavior.NoAction);
 			builder.Entity<ReliefRequestDetail>()
-		.HasOne(x => x.ReliefSent)
-		.WithOne(x => x.ReliefRequest)
-		.HasForeignKey<ReliefSent>(x => x.ReliefRequestId)
-		.OnDelete(DeleteBehavior.NoAction);
-
+				.HasOne(x => x.ReliefSent)
+				.WithOne(x => x.ReliefRequest)
+				.HasForeignKey<ReliefSent>(x => x.ReliefRequestId)
+				.OnDelete(DeleteBehavior.NoAction);
 			builder.Entity<ReliefSent>()
 				.HasOne(x => x.ReliefRequest)
 				.WithOne(x => x.ReliefSent)
@@ -22,7 +21,6 @@ namespace LAKAPSAGAP.Services.ModelsEFConfigurations
 				.OnDelete(DeleteBehavior.NoAction);
 			builder.Entity<ReliefSent>().HasMany(x=>x.SentKitList).WithOne(x => x.ReliefSent).HasForeignKey(x => x.ReliefSentId).OnDelete(DeleteBehavior.NoAction);
 			builder.Entity<ReliefSent>().HasMany(x => x.SentItemList).WithOne(x => x.ReliefSent).HasForeignKey(x => x.ReliefSentId).OnDelete(DeleteBehavior.NoAction);
-
 		}
 	}
 }

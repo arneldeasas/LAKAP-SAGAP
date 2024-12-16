@@ -1,3 +1,5 @@
+using Mapster;
+
 namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 {
 	
@@ -6,6 +8,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 		[Inject] DialogService _dialogService { get; set; }
 		[Inject] IJSRuntime _jsRuntime { get; set; }
 		[Inject] IReliefRequestRepository _requestRepo { get; set; }
+
 		private List<ReliefRequestDetailViewModel> _ongoingRequestListVM = new List<ReliefRequestDetailViewModel>();
 		private List<ReliefRequestDetailViewModel> _doneRequestListVM = new List<ReliefRequestDetailViewModel>();
 		private bool _isBusy = true;
@@ -25,7 +28,6 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 				_ongoingRequestListVM = ongoingReliefRequests.Select(x => new ReliefRequestDetailViewModel
 				{
 					Id = x.Id,
-
 					Reason = x.Reason,
 					Status = x.Status,
 					SpecificReason = x.SpecificReason,
@@ -41,7 +43,12 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 					TargetDateToReceive = x.TargetDateToReceive,
 					ReceiverAddress = x.ReceiverAddress,
 					AdditionalNotes = x.AdditionalNotes,
-					ReceiverName = x.ReceiverName,
+                    RequestedBy = new UserInfoViewModel
+                    {
+                        FirstName = x.RequestedBy.FirstName,
+                        LastName = x.RequestedBy.LastName,
+                    },
+                    ReceiverName = x.ReceiverName,
 					ContactNumber = x.ContactNumber,
 					AttachmentList = x.AttachmentList.Select(x => new RequestAttachmentViewModel
 					{
@@ -72,7 +79,12 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 					TargetDateToReceive = x.TargetDateToReceive,
 					ReceiverAddress = x.ReceiverAddress,
 					AdditionalNotes = x.AdditionalNotes,
-					ReceiverName = x.ReceiverName,
+                    RequestedBy = new UserInfoViewModel
+                    {
+                        FirstName = x.RequestedBy.FirstName,
+                        LastName = x.RequestedBy.LastName,
+                    },
+                    ReceiverName = x.ReceiverName,
 					ContactNumber = x.ContactNumber,
 					AttachmentList = x.AttachmentList.Select(x => new RequestAttachmentViewModel
 					{

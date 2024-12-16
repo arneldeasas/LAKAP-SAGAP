@@ -23,11 +23,11 @@
 		{
             if (id is null)
             {
-				Breadcrumbs.Add(new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Kits", Text = "Stocks" });
+				Breadcrumbs.Add(new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Kits", Text = "Kits" });
 
 			}
 
-			Breadcrumbs.Add(new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Kits", Text = "Stocks" });
+			Breadcrumbs.Add(new BreadcrumbViewModel { Path = $@"/Warehouse/{id}/Kits", Text = "Kits" });
 		}
 		
 	}

@@ -292,5 +292,73 @@ namespace LAKAPSAGAP.Services.Core
 				throw;
 			}
 		}
-	}
+
+        public async Task<bool> SendRelief(ReliefSentViewModel reliefSentVM)
+        {
+			using var transaction = _context.Database.BeginTransaction();
+            try
+			{
+				int count = await _context.GetCount<ReliefSent>();
+				string Id = IdGenerator.GenerateId(IdGenerator.PFX_RELIEFSENT, count);
+
+				ReliefSent reliefSent = new ReliefSent
+				{
+					Id = Id,
+					ReliefRequestId = reliefSentVM.ReliefRequestId,
+
+				};
+				await _context.ReliefSents.AddAsync(reliefSent);
+				await _context.SaveChangesAsync();
+
+				int countSentKit = await _context.GetCount<ReliefSentKit>();
+				List<ReliefSentKit> reliefSentKits = reliefSentVM.SentKitList.Select(x =>
+				{
+					countSentKit++;
+					return new ReliefSentKit
+					{
+						Id = IdGenerator.GenerateId(IdGenerator.PFX_RELIEFSENTKIT, countSentKit - 1),
+						ReliefSentId = reliefSent.Id,
+						KitId = x.KitId,
+						Quantity = x.Quantity,
+
+					};
+
+				}).ToList();
+
+				int countSentItem = await _context.GetCount<ReliefSentItem>();
+				List<ReliefSentItem> reliefSentStockItems = reliefSentVM.SentItemList.Select(x =>
+				{
+					countSentItem++;
+					return new ReliefSentItem
+					{
+                        Id = IdGenerator.GenerateId(IdGenerator.PFX_RELIEFSENTITEM, countSentItem - 1),
+                        ReliefSentId = reliefSent.Id,
+						StockItemId = x.StockItemId,
+						Quantity = x.Quantity,
+					};
+				}).ToList();
+
+				reliefSent.SentKitList = reliefSentKits;
+                reliefSent.SentItemList = reliefSentStockItems;
+
+				ReliefRequestDetail reliefRequest = await _context.ReliefRequests.Where(x => x.Id == reliefSentVM.ReliefRequestId).FirstOrDefaultAsync();
+                if (reliefRequest == null) throw new Exception("Record not found.");
+
+                reliefRequest.Status = RequestStatus.delivered;
+
+			
+                await _context.SaveChangesAsync();
+				await transaction.CommitAsync();
+                return true;
+            }
+
+			catch (Exception)
+			{
+				transaction.Rollback();
+                return false;
+				
+			}
+        
+        }
+    }
 }

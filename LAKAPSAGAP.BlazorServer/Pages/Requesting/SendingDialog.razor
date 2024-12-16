@@ -1,0 +1,98 @@
+﻿@using LAKAPSAGAP.Models.Models;
+@using System;
+
+
+<RadzenText TextStyle="TextStyle.DisplayH6" Text="Requested Items"></RadzenText>
+
+<RadzenDataGrid TItem="RequestViewModel" Data="RequestItemsList">
+	<Columns>
+		<RadzenDataGridColumn Property="@(nameof(RequestViewModel.UnitName))" Title="Name" />
+		<RadzenDataGridColumn Property="@(nameof(RequestViewModel.Quantity))" Title="Quantity" />
+		<RadzenDataGridColumn TItem="RequestViewModel" Title="Action">
+			<Template Context="data">
+				<RadzenButton Text="Add to Sent" ButtonStyle="ButtonStyle.Success" Shade="Shade.Light" Variant="Variant.Outlined" Click="@(async() => await AddToSent(data))"></RadzenButton>
+			</Template>
+		</RadzenDataGridColumn>
+	</Columns>
+</RadzenDataGrid>
+<br />
+<RadzenText class="mt-5" TextStyle="TextStyle.DisplayH6" Text="Actual Sent Items"></RadzenText>
+
+<RadzenDataGrid class="rz-mt-5" @ref=sentItemListDG TItem="RequestViewModel" Data="SentItemList">
+	<Columns>
+		<RadzenDataGridColumn Property="UnitName" Title="Name" />
+		<RadzenDataGridColumn Property="Quantity" Title="Quantity" />
+		<RadzenDataGridColumn TItem="RequestViewModel" Title="Action">
+			<Template Context="data">
+				<RadzenButton Icon="delete" Text="Remove" ButtonStyle="ButtonStyle.Danger" Shade="Shade.Light" Variant="Variant.Outlined" Click="@(() => SentItemList.Remove(data))"></RadzenButton>
+			</Template>
+		</RadzenDataGridColumn>
+	</Columns>
+</RadzenDataGrid>
+<RadzenTemplateForm TItem="SentItemForm" Data="ItemForm">
+	<RadzenRow Gap="1rem" class="mt-2">
+		<RadzenColumn Size="2">
+			<RadzenStack Gap="0">
+				<RadzenLabel Text="RELIEF TYPE">
+
+				</RadzenLabel>
+				<RadzenDropDown Placeholder="Select request type"
+								@bind-Value=@ItemForm.RequestType
+								Data="@(Enum.GetValues(typeof(RequestType)).Cast<RequestReason>())"
+								Name="RequestReason">
+				</RadzenDropDown>
+			</RadzenStack>
+		</RadzenColumn>
+		<RadzenColumn Size="5">
+			<RadzenStack Gap="0">
+				@if (ItemForm.RequestType == RequestType.Kit)
+				{
+					<RadzenLabel Text="SELECT KIT" />
+				}
+
+				else
+				{
+					<RadzenLabel Text="SELECT ITEM" />
+				}
+
+				<RadzenDropDown AllowFiltering="true" @bind-SearchText=@ItemForm.SearchString
+								FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+								FilterOperator="StringFilterOperator.Contains"
+								Placeholder="Select Kit"
+								Data="(ItemForm.RequestType == RequestType.Kit ? KitListVM : StockItemListVM)"
+								TextProperty="Name"
+								ValueProperty="Id"
+								@bind-Value=@ItemForm.UnitId
+								Name="SelectedKit">
+				</RadzenDropDown>
+				<RadzenRequiredValidator Component="SelectedKit" Text="Item is required"></RadzenRequiredValidator>
+
+			</RadzenStack>
+
+		</RadzenColumn>
+		<RadzenColumn Size="5">
+			<RadzenStack Gap="0">
+				<RadzenLabel Text="QUANTITY">
+
+				</RadzenLabel>
+				<RadzenNumeric Placeholder="00" @bind-Value=@ItemForm.Quantity Name="Quantity"></RadzenNumeric>
+				<RadzenNumericRangeValidator Text="Quantity should be greater than 0" Min="1m" Component="Quantity"></RadzenNumericRangeValidator>
+
+
+			</RadzenStack>
+		</RadzenColumn>
+	</RadzenRow>
+</RadzenTemplateForm>
+<RadzenStack class="mt-2" Gap="5px" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+
+
+	<RadzenButton Variant="Variant.Filled" ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Text="Add"></RadzenButton>
+</RadzenStack>
+
+<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+	<RadzenButton ButtonType="ButtonType.Button" Variant=" Variant.Filled" ButtonStyle="ButtonStyle.Primary" Click="Submit">
+
+	</RadzenButton>
+</RadzenStack>
+
+

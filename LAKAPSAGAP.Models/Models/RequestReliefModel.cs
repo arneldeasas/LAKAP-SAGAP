@@ -17,6 +17,8 @@ namespace LAKAPSAGAP.Models.Models
 		public int NumberOfRecipients { get; set; }
 		public string Organization { get; set; } // barangay/organization
 		public List<Request> RequestList { get; set; }
+		public string? ReliefSentId { get; set; }
+		public ReliefSent ReliefSent { get; set; }
 		public DateTime TargetDateToReceive { get; set; }
 		public string ReceiverAddress { get; set; } //Address of evacuation post
 		public string AdditionalNotes { get; set; } //for the statement of specific reason
@@ -52,8 +54,8 @@ namespace LAKAPSAGAP.Models.Models
 	}
 	public enum RequestType
 	{
-		Kit = 1,
-		Item = 2
+		Kit = 0,
+		Item = 1
 	}
 	public class RequestAttachment:CommonModel
 	{

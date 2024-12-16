@@ -116,11 +116,13 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 			}
 			catch (Exception e)
 			{
-				_isBusy = false;
+				
 				await _jSRuntime.InvokeVoidAsync("Toast", "error", e.Message);
-			}
+                _isBusy = false;
+                StateHasChanged();
+            }
 		
-			StateHasChanged();
+		
 		}
 	}
 

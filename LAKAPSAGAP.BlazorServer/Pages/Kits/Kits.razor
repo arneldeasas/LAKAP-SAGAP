@@ -1,4 +1,5 @@
-﻿@using LAKAPSAGAP.BlazorServer.Pages.Warehouse
+﻿@using LAKAPSAGAP.BlazorServer.Pages.Requesting
+@using LAKAPSAGAP.BlazorServer.Pages.Warehouse
 
 @page "/Warehouse/{id}/Kits"
 @layout MainLayout
@@ -36,7 +37,7 @@
 						class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
 						<RadzenButton Visible="@(currentTab == 1)" Click="ShowKitsCreateDialog" Icon="add" Text="Add New Kit" ButtonStyle="ButtonStyle.Success"
 						class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
-						<RadzenButton Icon="send" Text="Send Relief" ButtonStyle="ButtonStyle.Success"
+						<RadzenButton Icon="send" Text="Send Relief" ButtonStyle="ButtonStyle.Success" Click="ShowSendReliefDialog"
 						class="rz-border-radius-3 text-capitalize fw-bold" Style="letter-spacing: 0.25px;" />
 					</div>
 				</div>
@@ -68,6 +69,12 @@
 {
 	bool isDataInitialized = false;
 	bool _reloadKitTable { get; set; } = false;
+
+	async Task ShowSendReliefDialog()
+	{
+		var res = await _dialogService.OpenAsync<SendingDialog>("", options: new() { ShowTitle = false, CloseDialogOnEsc = false, CloseDialogOnOverlayClick = false });
+	}
+
 	async Task ShowKitTypeCreateDialog()
 	{
 		var response = await _dialogService.OpenAsync("Create Kit", ds => @<KitTypeCreateUpdate /> ,

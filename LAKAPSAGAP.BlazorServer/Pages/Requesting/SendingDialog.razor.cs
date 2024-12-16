@@ -66,13 +66,16 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Requesting
 
 		async Task AddToSentCustom(SentItemForm request)
 		{
+			var itemName = StockItemListVM.First(x => x.Id == request.UnitId).Name;
 			RequestViewModel item = new RequestViewModel
 			{
 				RequestType = request.RequestType,
+				UnitName = itemName,
 				UnitId = request.UnitId,
 				Quantity = request.Quantity,
 
 			};
+			await AddToSent(item);
 		}
 
 		public async Task Submit()

@@ -83,13 +83,12 @@
 	</RadzenRow>
 </RadzenTemplateForm>
 <RadzenStack class="mt-2" Gap="5px" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
-
-
-	<RadzenButton Variant="Variant.Filled" ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Text="Add"></RadzenButton>
+	<RadzenButton Variant="Variant.Filled" ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Text="Add" Click="@(() => AddToSentCustom(ItemForm))"></RadzenButton>
 </RadzenStack>
 
-<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
-	<RadzenButton ButtonType="ButtonType.Button" Variant=" Variant.Filled" ButtonStyle="ButtonStyle.Primary" Click="Submit" Text="Submit" />
+<RadzenStack class="rz-mt-4" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+	<RadzenButton ButtonType="ButtonType.Button" Variant=" Variant.Filled" ButtonStyle="ButtonStyle.Base" Click="@(() => _dialogService.Close(false))" Text="Cancel" />
+	<RadzenButton Visible="@(SentItemList.Count > 0)" ButtonType="ButtonType.Button" Variant=" Variant.Filled" ButtonStyle="ButtonStyle.Primary" Click="Submit" Text="Submit" />
 </RadzenStack>
 
 

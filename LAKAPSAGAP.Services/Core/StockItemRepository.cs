@@ -115,4 +115,23 @@ public class StockItemRepository(MyDbContext context) : IStockItemRepository
 			return [];
 		}
 	}
+
+	public async Task<List<StockItem>> GetStocks()
+	{
+		try
+		{
+			List<StockItem> stocks = [];
+			stocks = await _context.StockItems
+								.Include(x => x.StockDetailList)
+								.Include(x => x.Category)
+								.Include(x => x.UoM)
+								.Where(x => x.isArchived != true && x.IsDeleted != true && x.StockDetailList.Count > 0)
+								.ToListAsync();
+			return stocks;
+		}
+		catch (Exception)
+		{
+			throw;
+		}
+	}
 }

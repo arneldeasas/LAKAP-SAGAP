@@ -7,6 +7,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
     public partial class StocksDataGrid
     {
         [Inject] IStockDetailsRepository _stockDetailsRepo {get; set;}
+        [Inject] IStockItemRepository _stockItemRepo {get; set;}
         [Parameter] public EventCallback<bool> OnValueChanged { get; set; }
         [Parameter] public bool ReloadKitsTable { get; set; } = false;
 
@@ -22,26 +23,30 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
             }
         }
         private List<StockDetailViewModel> StockDetailList { get; set; } = new();
-        private List<StockDetailViewModel> _tableData { get; set; } = new();
+        private List<StockItem> _tableData { get; set; } = new();
         private List<StockItem> _stockItems { get; set; } = new();
 
         async Task LoadStocksData()
         {
-            List<StockDetail> _stocksDetails = await _stockDetailsRepo.GetAllStockDetailsActive();
-            _tableData = _stocksDetails.Select(x => new StockDetailViewModel
-            {
-                Id = x.Id,
-                BatchNumber = x.BatchNo,
-                Item = new StockItemViewModel
-                {
-                    Id = x.Item.Id,
-                    Name = x.Item.Name,
-                    CategoryName = x.Item.Category.Name,
-                    UoMName = x.Item.UoM.Name,
-                },
-                Quantity = x.Quantity,
-            }).ToList();
-        }
+            //List<StockDetail> _stocksDetails = await _stockDetailsRepo.GetAllStockDetailsActive();
+            //_tableData = _stocksDetails.Select(x => new StockDetailViewModel
+            //{
+            //    Id = x.Id,
+            //    BatchNumber = x.BatchNo,
+            //    Item = new StockItemViewModel
+            //    {
+            //        Id = x.Item.Id,
+            //        Name = x.Item.Name,
+            //        CategoryName = x.Item.Category.Name,
+            //        UoMName = x.Item.UoM.Name,
+            //    },
+            //    Quantity = x.Quantity,
+            //}).ToList();
+            _stockItems = await _stockItemRepo.GetStocks();
+            _tableData = _stockItems;
+            StateHasChanged();
+
+		}
 
         protected override async Task OnParametersSetAsync()
         {

@@ -3,7 +3,7 @@
 <RadzenCard class="m-5">
 	<RadzenStack>
 		<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween">
-			<RadzenText TextStyle="TextStyle.DisplayH5" Text="Pending/Ongoing Request"></RadzenText>
+			<RadzenText TextStyle="TextStyle.DisplayH5" Text="Relief Request"></RadzenText>
 			<RadzenButton Icon="add_circle" Text="Request" ButtonStyle="ButtonStyle.Primary" Click="GoToForm"></RadzenButton>
 		</RadzenStack>
 		<RadzenDataGrid TItem="ReliefRequestDetailViewModel" Data="@_requestListVM" IsLoading=@_isBusy>

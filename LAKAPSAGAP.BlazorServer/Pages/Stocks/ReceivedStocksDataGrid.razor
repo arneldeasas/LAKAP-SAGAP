@@ -17,14 +17,18 @@
 				<RadzenDataGridColumn Property="@nameof(ReliefReceivedViewModel.ReceivedDate)" Title="Date Received"
 									  TextAlign="TextAlign.Left" Width="90px" />
 				<RadzenDataGridColumn Property="@nameof(ReliefReceivedViewModel.Warehouse)" Title="Location"
-									  TextAlign="TextAlign.Left" Width="90px" />
-				<RadzenDataGridColumn Title="Actions" TextAlign="TextAlign.Left" Width="60px">
+									  TextAlign="TextAlign.Left" Width="90px">
+								  <Template Context="data">
+									  @($"{data.Warehouse.Name}")
+								  </Template>
+								  </RadzenDataGridColumn>
+				@* <RadzenDataGridColumn Title="Actions" TextAlign="TextAlign.Left" Width="60px">
 					<Template Context="data">
 						<RadzenButton Size=ButtonSize.Small ButtonStyle="ButtonStyle.Primary" Icon="visibility" Style="border-radius: var(--rz-border-radius-2)" />
 						<RadzenButton Size=ButtonSize.Small ButtonStyle="ButtonStyle.Primary" Icon="edit" Style="border-radius: var(--rz-border-radius-2)" />
 						<RadzenButton Size=ButtonSize.Small ButtonStyle="ButtonStyle.Danger" Text="Return" Style="border-radius: var(--rz-border-radius-2)" />
 					</Template>
-				</RadzenDataGridColumn>
+				</RadzenDataGridColumn> *@
 			</Columns>
 			<Template Context="data">
 				<RadzenDataGrid AllowColumnResize="false" AllowPaging="true" AllowSorting="true" AllowFiltering="false" ShowPagingSummary="true"

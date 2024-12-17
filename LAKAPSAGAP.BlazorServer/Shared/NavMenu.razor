@@ -67,7 +67,7 @@
     @* User *@
     <RadzenStack Style="width: 18rem;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
                  JustifyContent="JustifyContent.End" Wrap="FlexWrap.NoWrap" Gap="4rem">
-        <RadzenButton Icon="notifications" ButtonStyle="ButtonStyle.Base" Style="border-radius: var(--rz-border-radius-6);" />
+        @* <RadzenButton Icon="notifications" ButtonStyle="ButtonStyle.Base" Style="border-radius: var(--rz-border-radius-6);" /> *@
         <RadzenStack Orientation="Orientation.Horizontal" Gap="10px" AlignItems="AlignItems.Center">
             <RadzenStack style="width:300px" Orientation="Orientation.Vertical" AlignItems="AlignItems.End" Gap="0" class="w-fit" JustifyContent="JustifyContent.Center">
                 <p class="nav-name">@($"{user.FirstName} {user.MiddleName} {user.LastName}")</p>

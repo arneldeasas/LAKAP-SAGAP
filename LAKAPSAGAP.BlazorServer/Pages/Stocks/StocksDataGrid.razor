@@ -4,7 +4,7 @@
     @* <MacroSearch Placeholder="Search Stocks ... " /> *@
     <div class="d-flex justify-items-start align-items-center gap-2 mt-2">
         <RadzenDataGrid AllowColumnResize="false" AllowPaging="true" AllowSorting="true" AllowFiltering="false" ShowPagingSummary="true"
-                        Data="@_tableData" PageSize="10"
+                        Data="@_stockItemsVM" PageSize="10"
                         Style="border-radius: var(--rz-border-radius-2);">
             <Columns>
                 <RadzenDataGridColumn Property="@nameof(StockItem.Id)" Title="Item Code"
@@ -18,19 +18,31 @@
                 <RadzenDataGridColumn Property="Category.Name" Title="Category"
                                       TextAlign="TextAlign.Left" Width="90px">
                     <Template Context="data">
-                        @data.Category.Name
+                        @data.CategoryName
                     </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn Property="Quantity" Title="Qty"
+                <RadzenDataGridColumn Property="Quantity" Title="Total Received Qty"
                                       TextAlign="TextAlign.Left" Width="90px">
                     <Template Context="data">
-                        @(data.StockDetailList.Sum(x => x.Quantity))
+                        @(data.ReceivedQty)
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn Property="Quantity" Title="Current Stock Qty"
+                                      TextAlign="TextAlign.Left" Width="90px">
+                    <Template Context="data">
+                        @(data.StockQty)
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn Property="Quantity" Title="Total Sent Qty"
+                                      TextAlign="TextAlign.Left" Width="90px">
+                    <Template Context="data">
+                        @(data.SentQty)
                     </Template>
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn Property="@nameof(StockItem.UoM.Name)" Title="UoM"
                                       TextAlign="TextAlign.Left" Width="90px">
                     <Template Context="data">
-                        @data.UoM.Name
+                        @data.UoMName
                     </Template>
                 </RadzenDataGridColumn>
             </Columns>

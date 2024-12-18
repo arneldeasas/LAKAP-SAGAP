@@ -17,7 +17,7 @@ builder.Services.AddAuthorization(options =>
 	//options.AddPolicy("officehead", policy => policy.RequireRole(["CSWD OFFICE HEAD", "CSWD Office Head"]));
 	//options.AddPolicy("officehead/admin", policy => policy.RequireRole(["CSWD OFFICE HEAD","CSWD ADMINISTRATION STAFF"]));
 	options.AddPolicy("officehead", policy => policy.RequireRole(["CSWD ADMINISTRATION STAFF"]));
-	options.AddPolicy("officehead/admin", policy => policy.RequireRole(["CSWD OFFICE HEAD", "CSWD Office Head"]));
+	options.AddPolicy("officehead/admin", policy => policy.RequireRole(["CSWD OFFICE HEAD", "CSWD ADMINISTRATION STAFF", "CSWD Administration Staff"]));
 	options.AddPolicy("barangayrep", policy => policy.RequireRole("BARANGAY REPRESENTATIVE"));
 });
 builder.Services.AddAntiforgery();

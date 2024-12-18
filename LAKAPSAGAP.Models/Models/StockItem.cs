@@ -7,6 +7,6 @@ public class StockItem : CommonModel //record of all Relief Items
 	public Category Category { get; set; }
 	public string UoMId { get; set; }
 	public UoM UoM { get; set; }
-
-	public List<StockDetail> StockDetailList { get; set; }
+  
+    public List<StockDetail> StockDetailList { get; set; }
 }

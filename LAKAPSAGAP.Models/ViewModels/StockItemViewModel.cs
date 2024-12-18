@@ -13,4 +13,8 @@ public class StockItemViewModel
     public bool isArchived { get; set; }
     public int? Quantity { get; set; }
 
+    public int? ReceivedQty { get; set; } //lifetime total
+    public int? StockQty { get; set; } //current
+    public int? SentQty { get; set; }
+
 }

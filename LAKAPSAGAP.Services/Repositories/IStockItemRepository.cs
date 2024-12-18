@@ -8,5 +8,5 @@ public interface IStockItemRepository
 	Task<List<StockItem>> GetAllActiveStockItem();
 	Task<bool> UpdateStockItem(StockItemViewModel stockItemVM);
 	Task<bool> SoftDeleteStockItem(string stockItemId);
-	Task<List<StockItem>> GetStocks();
+	Task<List<StockItemViewModel>> GetStocks();
 }

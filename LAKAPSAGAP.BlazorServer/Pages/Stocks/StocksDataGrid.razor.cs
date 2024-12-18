@@ -25,7 +25,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
         private List<StockDetailViewModel> StockDetailList { get; set; } = new();
         private List<StockItem> _tableData { get; set; } = new();
         private List<StockItem> _stockItems { get; set; } = new();
-
+        List<StockItemViewModel> _stockItemsVM { get; set; } = new();
         async Task LoadStocksData()
         {
             //List<StockDetail> _stocksDetails = await _stockDetailsRepo.GetAllStockDetailsActive();
@@ -42,7 +42,7 @@ namespace LAKAPSAGAP.BlazorServer.Pages.Stocks
             //    },
             //    Quantity = x.Quantity,
             //}).ToList();
-            _stockItems = await _stockItemRepo.GetStocks();
+            _stockItemsVM = await _stockItemRepo.GetStocks();
             _tableData = _stockItems;
             StateHasChanged();
 

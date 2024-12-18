@@ -172,7 +172,25 @@ public class StockItemRepository(MyDbContext context) : IStockItemRepository
                     int QuantityOfStockItemInKit = reliefSentKit.Kit.KitComponentList.Where(x => x.StockItemId == stockItem.Id).Sum(x => x.Quantity);
                     totalSentQuantity += (QuantityOfStockItemInKit * multiplier);
                 }
-				int index = stocksVM.FindIndex(x => x.Id == stockItem.Id);
+
+				List<ReliefSentItem> reliefSentItemList = await _context.ReliefSentItems
+                    .Include(x => x.ReliefSent)
+                    .ThenInclude(x => x.ReliefRequest)
+                    .Where(x => x.StockItemId == stockItem.Id)
+                    .ToListAsync();
+
+                foreach (var reliefSentItem in reliefSentItemList)
+				{
+                    string reliefRequestId = reliefSentItem.ReliefSent.ReliefRequestId;
+                    ReliefRequestDetail reliefRequest = await _context.ReliefRequests.Where(x => x.Id == reliefRequestId).FirstOrDefaultAsync();
+
+                    int multiplier = reliefRequest.NumberOfRecipients;
+
+                    totalSentQuantity += (reliefSentItem.Quantity * multiplier);
+                }
+
+
+                    int index = stocksVM.FindIndex(x => x.Id == stockItem.Id);
                 stockItem.ReceivedQty = stocks[index].StockDetailList.Sum(x => x.Quantity);
                 stockItem.SentQty = totalSentQuantity;
 				stockItem.StockQty = stockItem.ReceivedQty - stockItem.SentQty;

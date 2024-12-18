@@ -6,7 +6,7 @@
 					<RadzenText Text="Pending Request Relief" TextStyle="TextStyle.H6" class="fw-bold rz-color-danger rz-p-0 rz-m-0" />
 
 					<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center">
-						<RadzenText Text="3" TextStyle="TextStyle.H3" class="fw-bold rz-color-danger-dark rz-p-0 rz-m-0" />
+						<RadzenText Text="@_pendingReliefRequestsAll.Count.ToString()" TextStyle="TextStyle.H3" class="fw-bold rz-color-danger-dark rz-p-0 rz-m-0" />
 						<RadzenIcon Icon="error" IconColor="@Colors.DangerDark" class="filled-icon" Style="font-size: 35pt;" />
 					</RadzenStack>
 
@@ -21,7 +21,7 @@
 					<RadzenText Text="Sent Relief" TextStyle="TextStyle.H6" class="fw-bold rz-color-success rz-p-0 rz-m-0" />
 
 					<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center">
-						<RadzenText Text="2300" TextStyle="TextStyle.H3" class="fw-bold rz-color-success-dark rz-p-0 rz-m-0" />
+						<RadzenText Text="@_receivedDonationsByBarangayList.Sum(d => d.Total).ToString()" TextStyle="TextStyle.H3" class="fw-bold rz-color-success-dark rz-p-0 rz-m-0" />
 						<RadzenIcon Icon="package_2" IconColor="@Colors.SuccessDark" class="filled-icon" Style="font-size: 35pt;" />
 					</RadzenStack>
 
@@ -36,7 +36,7 @@
 					<RadzenText Text="Received Stocks" TextStyle="TextStyle.H6" class="fw-bold rz-color-success rz-p-0 rz-m-0" />
 
 					<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center">
-						<RadzenText Text="1083" TextStyle="TextStyle.H3" class="fw-bold rz-color-success-dark rz-p-0 rz-m-0" />
+						<RadzenText Text="@_receivedStocksCount.ToString()" TextStyle="TextStyle.H3" class="fw-bold rz-color-success-dark rz-p-0 rz-m-0" />
 						<RadzenIcon Icon="inventory_2" IconColor="@Colors.SuccessDark" class="filled-icon" Style="font-size: 35pt;" />
 					</RadzenStack>
 
@@ -55,7 +55,7 @@
 						<RadzenText Text="Urgent Pending Relief Requests Today" TextStyle="TextStyle.Body2" class="fw-bold rz-color-danger rz-p-0 rz-m-0" />
 					</RadzenStack>
 
-					<RadzenDataList TItem="PendingReliefRequest" Data="@_pendingReliefRequestsToday" WrapItems>
+					<RadzenDataList TItem="PendingReliefRequestVM" Data="@_pendingReliefRequestsToday" WrapItems>
 						<Template Context="pendingRequest">
 							<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" class="rz-w-100">
 								<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
@@ -93,13 +93,13 @@
 
 						<RadzenFormField Text="Year">
 							<ChildContent>
-								<RadzenDropDown TValue="int" Data="@_releasedOfReliefGoodsPerMonth.DistinctBy(x => x.ReleasedDate.Year).Select(x => x.ReleasedDate.Year)" @bind-Value=@_selectedYear />
+								<RadzenDropDown TValue="int" Data="@_releasedOfReliefGoodsPerMonth.DistinctBy(x => x.ReleasedDate.Year).Select(x => x.ReleasedDate.Year)" @bind-Value=@_selectedYear Change="@LoadReleasedOfReliefGoodsWrapper" />
 							</ChildContent>
 						</RadzenFormField>
 					</RadzenStack>
 				
 					<RadzenChart>
-						<RadzenColumnSeries Fill="@Colors.Success" TItem="ReleasedOfReliefGoods" Data="@_releasedOfReliefGoodsPerMonth.Where(x => x.ReleasedDate.Year == _selectedYear)" CategoryProperty="@nameof(ReleasedOfReliefGoods.ReleasedDate)" ValueProperty="@nameof(ReleasedOfReliefGoods.Total)">
+						<RadzenColumnSeries Fill="@Colors.Success" TItem="ReleasedOfReliefGoodsVM" Data="@_releasedOfReliefGoodsPerMonth" CategoryProperty="@nameof(ReleasedOfReliefGoodsVM.ReleasedDate)" ValueProperty="@nameof(ReleasedOfReliefGoodsVM.Total)">
 							<TooltipTemplate Context="data">
 								 <RadzenStack Gap="0">
 									 <RadzenText Text="@data.ReleasedDate.ToString("MMM")" class="rz-p-0 rz-m-0" />
@@ -143,7 +143,7 @@
 						<RadzenText Text="Barangay/Shelter Total Received Donation" TextStyle="TextStyle.Body2" class="fw-bold rz-color-success-dark rz-p-0 rz-m-0" />
 					</RadzenStack>
 
-					<RadzenDataList id="received-donations-by-barangay-datalist" TItem="ReceivedDonationsByBarangay" Data="@_receivedDonationsByBarangayList" Density="Density.Compact" WrapItems class="rz-overflow-auto minmax-h-400px">
+					<RadzenDataList id="received-donations-by-barangay-datalist" TItem="ReceivedDonationsByBarangayVM" Data="@_receivedDonationsByBarangayList" Density="Density.Compact" WrapItems class="rz-overflow-auto minmax-h-400px">
 						<EmptyTemplate>
 							<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
 						</EmptyTemplate>
@@ -162,18 +162,17 @@
 			<RadzenCard class="rz-border-radius-6 cghi-success-shadow">
 				<RadzenStack Gap="10px">
 					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" class="rz-w-100 rz-border-bottom rz-border-color-base-400 rz-pb-3" Style="--rz-border-width: 1px;">
-						@* <RadzenIcon Icon="groups" IconColor="@Colors.SuccessDark" class="filled-icon" /> *@
 						<i class='bx bxs-shopping-bag-alt rz-color-success-dark' style="font-size: 1rem"></i>
 						<RadzenText Text="Kits Status" TextStyle="TextStyle.Body2" class="fw-bold rz-color-success-dark rz-p-0 rz-m-0" />
 					</RadzenStack>
 
-					<RadzenDataList TItem="ReceivedDonationsByBarangay" Data="@_receivedDonationsByBarangayList" Density="Density.Compact" WrapItems class="rz-overflow-auto minmax-h-400px">
+					<RadzenDataList TItem="KitStatusVM" Data="@_kitStatusList" Density="Density.Compact" WrapItems class="rz-overflow-auto minmax-h-400px">
 						<EmptyTemplate>
 							<p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
 						</EmptyTemplate>
 						<Template>
 							<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" class="rz-w-100 rz-py-2 rz-shadow-1 rz-border-radius-2 rz-border-left rz-border-color-success" Style="--rz-border-width: 10px;">
-								<RadzenText Text="@string.Format("Brgy. {0}", context.BarangayName)" class="rz-m-0 rz-p-0 rz-color-base-800" />
+								<RadzenText Text="@context.KitName" class="rz-m-0 rz-p-0 rz-color-base-800" />
 								<RadzenText Text="@context.Total.ToString()" class="rz-m-0 rz-p-0 rz-color-base-800" />
 							</RadzenStack>
 						</Template>

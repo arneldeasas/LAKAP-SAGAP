@@ -1,178 +1,119 @@
+
+using LAKAPSAGAP.Models.Models;
+using Mapster;
+
 namespace LAKAPSAGAP.BlazorServer.Controls.Dashboard;
 
 public partial class DashboardControl
 {
-	List<PendingReliefRequest> _pendingReliefRequestsToday { get; set; }
-	List<ReleasedOfReliefGoods> _releasedOfReliefGoodsPerMonth { get; set; }
-	List<ReceivedDonationsByBarangay> _receivedDonationsByBarangayList { get; set; }
+	[Inject] IDashboardRepository _dashboardRepo { get; set; }
+
+	List<PendingReliefRequestVM> _pendingReliefRequestsAll { get; set; }
+	List<PendingReliefRequestVM> _pendingReliefRequestsToday { get; set; }
+	List<ReleasedOfReliefGoodsVM> _releasedOfReliefGoodsPerMonth { get; set; }
+	List<ReceivedDonationsByBarangayVM> _receivedDonationsByBarangayList { get; set; }
+	List<KitStatusVM> _kitStatusList { get; set; }
 	List<StocksInWarehouseVM> _stocksInWarehouses { get; set; }
 
+	int _receivedStocksCount { get; set; }
 	int _selectedYear { get; set; }
 
 	protected override void OnInitialized()
 	{
-		_pendingReliefRequestsToday ??= [
-			new(){
-				RequestorName = "Kap. Eduardo Jr.",
-				RequestorEmail = "arneldeasas@gmail.com",
-				Barangay = "Karuhatan",
-				KitName = "Food Pack",
-				MainReason = "Fire Incident",
-				RequestDate = DateTime.Now,
-			},
-			new(){
-				RequestorName = "CSWD Admin Ernesto",
-				RequestorEmail = "naian@gmail.com",
-				Barangay = "Dalandanan",
-				KitName = "Family Kit",
-				MainReason = "Flood Incident",
-				RequestDate = DateTime.Now,
-			},
-			new(){
-				RequestorName = "CSWD Admin Soledad",
-				RequestorEmail = "charlesm.herrera0700@gmail.com",
-				Barangay = "Manotoc",
-				KitName = "Food Pack",
-				MainReason = "Bahay Kalinga",
-				RequestDate = DateTime.Now,
-			}];
+		_pendingReliefRequestsAll ??= [];
+		_pendingReliefRequestsToday ??= [];
+		_receivedDonationsByBarangayList ??= [];
+		_kitStatusList ??= [];
+		_stocksInWarehouses ??= [];
+		_selectedYear = DateTime.Today.Year;
 
-		_releasedOfReliefGoodsPerMonth ??= [
-			new(){
-				ReleasedDate = new DateTime(2023, 1, 1),
-				Total = 69,
-			},
-			new(){
-				ReleasedDate = new DateTime(2023, 2, 1),
-				Total = 32,
-			},
-			new(){
-				ReleasedDate = new DateTime(2023, 3, 1),
-				Total = 109,
-			},
-			new(){
-				ReleasedDate = new DateTime(2023, 4, 1),
-				Total = 37,
-			},
-			new(){
-				ReleasedDate = new DateTime(2023, 5, 1),
-				Total = 45,
-			},
-			new(){
-				ReleasedDate = new DateTime(2023, 6, 1),
-				Total = 91,
-			},
-			new(){
-				ReleasedDate = new DateTime(2023, 7, 1),
-				Total = 60,
-			},
-			new(){
-				ReleasedDate = new DateTime(2023, 8, 1),
-				Total = 116,
-			},
-			new(){
-				ReleasedDate = new DateTime(2023, 9, 1),
-				Total = 73,
-			},
-			new(){
-				ReleasedDate = new DateTime(2023, 10, 1),
-				Total = 67,
-			},
-			new(){
-				ReleasedDate = new DateTime(2023, 11, 1),
-				Total = 82,
-			},
-			new(){
-				ReleasedDate = new DateTime(2023, 12, 1),
-				Total = 62,
-			},
-			new(){
-				ReleasedDate = new DateTime(2024, 1, 1),
-				Total = 62,
-			}];
-
-		_receivedDonationsByBarangayList ??= [
-			new(){
-				BarangayName="Arkong Bato",
-				Total=17
-			},
-			new(){
-				BarangayName="Bagbaguin",
-				Total=42
-			},
-			new(){
-				BarangayName="Balangkas",
-				Total=21
-			},
-			new(){
-				BarangayName="Bignay",
-				Total=13
-			},
-			new(){
-				BarangayName="Bisig",
-				Total=27
-			},
-			new(){
-				BarangayName="Canumay East",
-				Total=37
-			},
-			new(){
-				BarangayName="Coloong",
-				Total=34
-			},
-			new(){
-				BarangayName="Dalandanan",
-				Total=22
-			},
-			new(){
-				BarangayName="Gen T. De Leon",
-				Total=10
-			},
-			new(){
-				BarangayName="Isla",
-				Total=6
-			},
-			new(){
-				BarangayName="Karuhatan",
-				Total=107
-			},
-			new(){
-				BarangayName="Lawang Bato",
-				Total=29
-			},
-			new(){
-				BarangayName="Malinta",
-				Total=21
-			}];
-
-		_stocksInWarehouses ??= [
-			new() {
-				WarehouseId = "WHS_001",
-				WarehouseName = "Alert",
-				Total = 120
-			},
-			new() {
-				WarehouseId = "WHS_002",
-				WarehouseName = "Malinta Barangay Hall",
-				Total = 560
-			},
-			new() {
-				WarehouseId = "WHS_003",
-				WarehouseName = "PLV Stock Room",
-				Total = 729
-			}
-			];
-
-		_selectedYear = _releasedOfReliefGoodsPerMonth.DistinctBy(x => x.ReleasedDate.Year).First().ReleasedDate.Year;
+		_releasedOfReliefGoodsPerMonth ??= Enumerable.Range(1, 12)
+			  .Select(month => new ReleasedOfReliefGoodsVM
+			  {
+				  ReleasedDate = new DateOnly(_selectedYear, month, 1),
+				  Total = 0
+			  }).ToList();
 		base.OnInitialized();
 	}
 
-	string FormatAsMonthsName(object value)
+	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		return ((DateTime)value).ToString("MMM");
+		if(firstRender)
+		{
+			await LoadStocksInWarehouses();
+			await LoadAllPendingReliefRequests();
+			await LoadKitStatuses();
+			await LoadAllReceivedDonationsByBarangay();
+			await LoadReceivedStocksCount();
+			await LoadReleasedOfReliefGoods();
+			StateHasChanged();
+		}
+		await base.OnAfterRenderAsync(firstRender);
 	}
 
-	class PendingReliefRequest
+	async Task LoadStocksInWarehouses()
+	{
+		IReadOnlyList<StocksInWarehouse> stocksInWhses = await _dashboardRepo.GetAllStocksInWarehouses();
+		_stocksInWarehouses = stocksInWhses.Adapt<List<StocksInWarehouseVM>>();
+	}
+
+	async Task LoadAllPendingReliefRequests()
+	{
+		IReadOnlyList<PendingReliefRequest> pendingReliefRequests = await _dashboardRepo.GetAllPendingReliefRequests();
+		_pendingReliefRequestsAll = pendingReliefRequests.Adapt<List<PendingReliefRequestVM>>();
+		LoadPendingReliefRequestsToday();
+	}
+
+	void LoadPendingReliefRequestsToday()
+	{
+		_pendingReliefRequestsToday = _pendingReliefRequestsAll.Where(x => DateOnly.FromDateTime(x.RequestDate) == DateOnly.FromDateTime(DateTime.Today)).ToList();
+	}
+
+	async Task LoadAllReceivedDonationsByBarangay()
+	{
+		IReadOnlyList<ReceivedDonationsByBarangay> rcvdDonationsByBarangays = await _dashboardRepo.GetAllReceivedDonationsByBarangays();
+		_receivedDonationsByBarangayList = rcvdDonationsByBarangays.Adapt<List<ReceivedDonationsByBarangayVM>>();
+	}
+
+	async Task LoadKitStatuses()
+	{
+		IReadOnlyList<KitStatus> kitStatuses = await _dashboardRepo.GetAllKitStatuses();
+		_kitStatusList = kitStatuses.Adapt<List<KitStatusVM>>();
+	}
+
+	async Task LoadReceivedStocksCount()
+	{
+		_receivedStocksCount = await _dashboardRepo.GetReceivedStocksCount();
+	}
+
+	async Task LoadReleasedOfReliefGoods()
+	{
+		IReadOnlyList<ReleasedOfReliefGoods> releasedOfReliefGoods = await _dashboardRepo.GetAllReleasedOfReliefGoods(_selectedYear);
+		if (releasedOfReliefGoods.Count > 0)
+			releasedOfReliefGoods
+				.GroupBy(x => x.ReleasedDate.Month)
+				.Select(group => new ReleasedOfReliefGoodsVM()
+				{
+					ReleasedDate = DateOnly.FromDateTime(new DateTime(_selectedYear, group.Key, 1)),
+					Total = group.Sum(rorg => rorg.Total)
+				})
+				.ToList()
+				.ForEach(rorg =>
+				{
+					_releasedOfReliefGoodsPerMonth.First(x => x.ReleasedDate == rorg.ReleasedDate).Total = rorg.Total;
+				});
+	}
+
+	async Task LoadReleasedOfReliefGoodsWrapper()
+	{
+		await LoadReleasedOfReliefGoods();
+		StateHasChanged();
+	}
+
+	string FormatAsMonthsName(object value) => value is not null ? ((DateOnly)value).ToString("MMM") : string.Empty;
+
+	#region Classes
+	class PendingReliefRequestVM
 	{
 		public string RequestorName { get; set; }
 		public string? RequestorEmail { get; set; }
@@ -183,15 +124,21 @@ public partial class DashboardControl
 		public DateTime RequestDate { get; set; }
 	}
 
-	class ReleasedOfReliefGoods
+	class ReleasedOfReliefGoodsVM
 	{
-		public DateTime ReleasedDate { get; set; }
+		public DateOnly ReleasedDate { get; set; }
 		public double Total { get; set; }
 	}
 
-	class ReceivedDonationsByBarangay
+	class ReceivedDonationsByBarangayVM
 	{
 		public string BarangayName { get; set; }
+		public int Total { get; set; }
+	}
+	
+	class KitStatusVM
+	{
+		public string KitName { get; set; }
 		public int Total { get; set; }
 	}
 
@@ -201,4 +148,5 @@ public partial class DashboardControl
         public string WarehouseName { get; set; }
         public double Total { get; set; }
     }
+	#endregion Classes
 }

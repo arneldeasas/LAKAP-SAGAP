@@ -130,7 +130,9 @@ namespace LAKAPSAGAP.Services.Core
 		{
 			try
 			{
-				return await _context.GetAll<Kit>();
+				return await _context.Kits
+					.Include(k => k.PackedReliefKitList)
+					.ToListAsync();
 			}
 			catch (Exception)
 			{

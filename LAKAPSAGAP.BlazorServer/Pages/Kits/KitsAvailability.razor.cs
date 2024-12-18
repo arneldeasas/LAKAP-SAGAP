@@ -1,9 +1,4 @@
-﻿using LAKAPSAGAP.Services;
-using LAKAPSAGAP.Services.Core;
-using Microsoft.EntityFrameworkCore;
-using static LAKAPSAGAP.Models.Models.Kit;
-
-namespace LAKAPSAGAP.BlazorServer.Pages.Kits;
+﻿namespace LAKAPSAGAP.BlazorServer.Pages.Kits;
 
 public partial class KitsAvailability
 {

@@ -39,6 +39,7 @@ public class PackedReliefKitRepository(MyDbContext context) : IPackedReliefKitRe
         {
             List<PackedReliefKit> packedReliefKits = [];
             packedReliefKits = await _context.PackedReliefKits
+                                        .Include(p => p.Kit)
                                         .Include(p => p.Rack)
                                         .ThenInclude(r => r.Floor)
                                         .Where(x => !x.isArchived)

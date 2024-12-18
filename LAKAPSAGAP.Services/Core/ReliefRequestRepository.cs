@@ -188,19 +188,24 @@ namespace LAKAPSAGAP.Services.Core
 
 		public async Task<List<ReliefRequestDetail>> GetAllRequestsAsync()
 		{
-			List<ReliefRequestDetail> requestList = new();
+			List<ReliefRequestDetail> requestList = [];
 			try
 			{
-
-				requestList = await _context.ReliefRequests.WhereIsNotArchivedAndDeleted().Include(x => x.RequestList).Include(x=>x.AttachmentList).Include(x => x.RequestedBy).OrderByDescending(x=>x.DateCreated).ToListAsync();
+				requestList = await _context.ReliefRequests
+					.WhereIsNotArchivedAndDeleted()
+					.Include(x => x.RequestList)
+					.Include(x => x.ReliefSent)
+					.Include(x=>x.AttachmentList)
+					.Include(x => x.RequestedBy)
+					.ThenInclude(requestor => requestor.UserAttachments)
+					.OrderByDescending(x=>x.DateCreated)
+					.ToListAsync();
 				return requestList;
 			}
 			catch (Exception)
 			{
-
 				return requestList;
 			}
-		
 		}
 
         public async Task<bool> CancelRequest(string requestId)

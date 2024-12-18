@@ -1,8 +1,14 @@
+
+using LAKAPSAGAP.Models.Models;
+using Mapster;
+
 namespace LAKAPSAGAP.BlazorServer.Controls.Dashboard;
 
 public partial class DashboardControl
 {
-	List<PendingReliefRequest> _pendingReliefRequestsToday { get; set; }
+	[Inject] IDashboardRepository _dashboardRepo { get; set; }
+
+	List<PendingReliefRequestVM> _pendingReliefRequestsToday { get; set; }
 	List<ReleasedOfReliefGoods> _releasedOfReliefGoodsPerMonth { get; set; }
 	List<ReceivedDonationsByBarangay> _receivedDonationsByBarangayList { get; set; }
 	List<StocksInWarehouseVM> _stocksInWarehouses { get; set; }
@@ -145,26 +151,21 @@ public partial class DashboardControl
 				Total=21
 			}];
 
-		_stocksInWarehouses ??= [
-			new() {
-				WarehouseId = "WHS_001",
-				WarehouseName = "Alert",
-				Total = 120
-			},
-			new() {
-				WarehouseId = "WHS_002",
-				WarehouseName = "Malinta Barangay Hall",
-				Total = 560
-			},
-			new() {
-				WarehouseId = "WHS_003",
-				WarehouseName = "PLV Stock Room",
-				Total = 729
-			}
-			];
+		_stocksInWarehouses ??= [];
 
 		_selectedYear = _releasedOfReliefGoodsPerMonth.DistinctBy(x => x.ReleasedDate.Year).First().ReleasedDate.Year;
 		base.OnInitialized();
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if(firstRender)
+		{
+			IReadOnlyList<StocksInWarehouse> stocksInWhses = await _dashboardRepo.GetAllStocksInWarehouses();
+			_stocksInWarehouses = stocksInWhses.Adapt<List<StocksInWarehouseVM>>();
+			StateHasChanged();
+		}
+		await base.OnAfterRenderAsync(firstRender);
 	}
 
 	string FormatAsMonthsName(object value)
@@ -172,7 +173,7 @@ public partial class DashboardControl
 		return ((DateTime)value).ToString("MMM");
 	}
 
-	class PendingReliefRequest
+	class PendingReliefRequestVM
 	{
 		public string RequestorName { get; set; }
 		public string? RequestorEmail { get; set; }

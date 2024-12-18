@@ -175,7 +175,12 @@ public class WarehouseRepository : IWarehouseRepository
 	{
 		try
 		{
-			List<Warehouse> warehouseList = await _context.GetAll<Warehouse>();
+			List<Warehouse> warehouseList = await _context.Warehouses
+				.Include(x => x.FloorList)
+				.ThenInclude(x => x.Racks)
+				.ThenInclude(x => x.StockDetailList)
+				.ToListAsync();
+			//List<Warehouse> warehouseList = await _context.GetAll<Warehouse>();
 
 			return warehouseList;
 		}
